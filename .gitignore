@@ -9,3 +9,4 @@
 !/concepts/site-layouts/
 /concepts/site-layouts/*.out
 /concepts/site-layouts/as-generated/
+/concepts/site-layouts/motion/*.out

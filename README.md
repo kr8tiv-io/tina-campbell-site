@@ -6,7 +6,7 @@
 ---
 
 ## The brief, in one breath
-Tina shoots gowns on rusty Fargo trucks, black satin on Legislature steps and runway looks under magenta light. Her old site made all of that sit politely in a grid. This one walks it down a catwalk.
+Tina shoots gowns on rusty Fargo trucks, black satin on Legislature steps and runway looks under magenta light. Most portfolio templates would sit all of that politely in a grid. This one walks it down a catwalk.
 
 ## Directed by the client, literally
 We showed Tina eight directions. She ticked five and wrote back:
@@ -84,4 +84,4 @@ concepts/site-layouts/
 ## Status
 Layouts and motion previews: in review with Matt. Code: next, built from the approved layouts. Nothing ships to Tina until Matt says go.
 
-<p align="center"><sub>Crafted in Edmonton light by KR8TIV.</sub></p>
+<p align="center"><sub>Crafted by KR8TIV.</sub></p>

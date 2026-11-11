@@ -24,3 +24,75 @@ Saved paths:
 /workspace/tina-campbell/concepts/site-layouts/14-motion-loader-signature.jpg
 /workspace/tina-campbell/concepts/site-layouts/15-motion-page-transition.jpg
 /workspace/tina-campbell/concepts/site-layouts/16-motion-hover-distortion.jpg
+
+=== Revision round v2 ===
+Date: 2026-11-11
+Batch 1: 01, 02, 03 via image_edit. Aspect 9:16 (720x1280). Refs: round-1 first, logo, up to 3 photos.
+
+01-home-desktop-v2.jpg
+Source: images/3.jpg
+Check: FAIL. Headings, nav, Book a shoot, and brush TCPhoto logo are present. Runway numbers are not clean 01–05: fake captions under the frames (Sultone Stear, Anqukies, Killen Anam, and similar). Contact sheet has timecode digits plus the six category words. The Red Gown credits are fake letter strings, not grey placeholder lines.
+Action: one sharper retry, save as 01-home-desktop-v2b.jpg.
+
+02-work-index-desktop-v2.jpg
+Source: images/2.jpg
+Check: FAIL. Title Work, filters, 148 frames, one View cursor on the truck tile, and brush logo are present. Several tiles stay full colour (bridge, magenta runway, couples, event) instead of black-and-white with only red garments crimson. Some tile captions still read No. plus numbers. Truck grille shows the fake word FALSO.
+Action: one sharper retry, save as 02-work-index-desktop-v2b.jpg.
+
+03-fashion-editorial-desktop-v2.jpg
+Source: images/1.jpg
+Check: PASS. Series index spelled exactly (01 The Red Gown, 02 Legislature in Black, 03 Red in Snow, 04 Runway Nights, 05 Blue Hour). Tagline, pull quote, and Collaborate line spelled correctly. No small side captions beside the photos. Brush TCPhoto logo in header and left panel. Nav and Book a shoot correct.
+
+Batch 1 retries + 04:
+01-home-desktop-v2b.jpg (images/6.jpg) BETTER than v2. Runway numbers are clean 01 02 03 04 05. Contact sheet labels only Fashion, Runway, Portraits, Bridal, Couples, Edmonton. Red Gown credits are grey bars. Headings spelled correctly. Brush logo kept. Dropped the small "The Runway" label and the "Fashion & Editorial, 01 to 12" line. Kept as the better file. v2 also kept.
+02-work-index-desktop-v2b.jpg (images/4.jpg) BETTER than v2. Grid is black and white with red garments crimson. One full-colour truck tile. One View cursor. Captions are grey bars. Residual fake word "FALSO" still on the truck grille. One retry already used. v2 also kept.
+04-series-story-desktop-v2.jpg (images/5.jpg) PASS. Heading "Legislature in Black". Meta "Series 02 / Edmonton / 2025". Credits are grey bars. Footer "Next series: The Red Gown" with thumbnail and crimson arrow. Nav words spelled correctly. Brush logo. Header nav is stacked rather than a single row.
+
+Batch 05, 06, 07:
+05-portraits-bridal-desktop-v2.jpg (images/8.jpg) PASS. Title "Portraits, Bridal and Couples". Ch. 01 close glam portrait, no gown. Ch. 02 bride by glass. Ch. 03 couple. Headings and three "See the gallery" links spelled correctly. Bodies are grey bars. Brush logo.
+06-runway-gallery-desktop-v2.jpg (images/7.jpg) PASS. Wide strip on a curve, centre frames larger, sprocket holes, no timecode. Title "Runway" and "Edmonton Fashion Week" spelled correctly. Brush logo. Crimson progress dot.
+07-about-desktop-v2.jpg (images/9.jpg) FAIL. Hero, headline, and location labels are correct (Alberta Legislature, Walterdale Bridge, High Level Bridge, River Valley). The story under the headline is fake words, not grey bars. Film strip frames are blank white. Extra photo grid sits under the button. One sharper retry as 07-about-desktop-v2b.jpg.
+
+Batch 07 retry, 08, 09:
+07-about-desktop-v2b.jpg (images/12.jpg) BETTER than v2. Story is grey bars. Location names spelled exactly. Extra photo grid removed. Hero and headline kept. Film-strip frames stayed blank white. One retry already used.
+08-services-desktop-v2.jpg (images/11.jpg) FAIL. Service titles, thumbnails, placeholder lines, FAQ plus icons, and "You bring the nerves. I bring the light." are correct. The How it works row repeats the word Shoot under Gallery. One sharper retry as 08-services-desktop-v2b.jpg.
+09-journal-desktop-v2.jpg (images/10.jpg) FAIL. Titles spelled exactly: "Minus 30 and a red gown", "How we got the Fargo truck", "Runway nights, backstage", "Golden hour on the Walterdale". Three rows only. Dates are still numerals (2023.11.15 and similar), not grey bars. One sharper retry as 09-journal-desktop-v2b.jpg.
+
+Batch 08 retry, 09 retry, 12:
+08-services-desktop-v2b.jpg (images/14.jpg) NOT better. The extra small "Shoot" under Gallery is still there. Preferred file remains 08-services-desktop-v2.jpg. Both kept. One retry used.
+09-journal-desktop-v2b.jpg (images/13.jpg) BETTER. Dates are grey bars. Titles stay exact: "Minus 30 and a red gown", "How we got the Fargo truck", "Runway nights, backstage", "Golden hour on the Walterdale". Three rows. Brush logo.
+12-series-mobile-v2.jpg (images/15.jpg) PASS. Three phones. Logo, menu icon, and "Book a shoot" on each. Heading "The Red Gown". Credits are grey bars. Crimson "Next series". No Jane Doe and no nav words. Truck badge reads FARGO.
+
+Batch 13, 16:
+13-about-mobile-v2.jpg (images/16.jpg) FAIL. Words are spelled correctly: TINA CAMPBELL, I shoot everything., Legislature, Walterdale Bridge, River Valley, Book a shoot. Screen 1 has the layered hero. Screen 2 has the portrait, headline, and grey bars. Screen 3 labels are right but the photos do not match: the Legislature card is not the domed legislature, and River Valley is a downtown skyline. One sharper retry as 13-about-mobile-v2b.jpg.
+16-motion-hover-distortion-v2.jpg (images/17.jpg) FAIL. The centre liquid ripple, RGB fringe, one View cursor, and brush logo are visible. Nav is spelled correctly. An extra caption "No. 014 Edmonton, AB" is present. Neighbouring frames are not clearly skewed. One sharper retry as 16-motion-hover-distortion-v2b.jpg.
+
+Batch 13 retry, 16 retry:
+13-about-mobile-v2b.jpg (images/19.jpg) BETTER. Screen 3 photos now match the labels: domed Legislature, white Walterdale arch, green river valley. Words stay exact. Screen 1 still shows a needle tower in the skyline. One retry used.
+16-motion-hover-distortion-v2b.jpg (images/18.jpg) BETTER. Caption "No. 014 Edmonton, AB" removed. Centre liquid ripple, RGB fringe, and one View cursor remain. Side-frame skew is still slight. Brush logo and nav spelling kept. One retry used.
+
+=== v2 round summary ===
+Tool: image_edit only. image_gen was not used. No rate-limit failures. No existing round-1 files overwritten or deleted.
+12 pages revised: 01, 02, 03, 04, 05, 06, 07, 08, 09, 12, 13, 16.
+
+Preferred file for each:
+01 /workspace/tina-campbell/concepts/site-layouts/01-home-desktop-v2b.jpg
+02 /workspace/tina-campbell/concepts/site-layouts/02-work-index-desktop-v2b.jpg (residual truck-grille word FALSO)
+03 /workspace/tina-campbell/concepts/site-layouts/03-fashion-editorial-desktop-v2.jpg
+04 /workspace/tina-campbell/concepts/site-layouts/04-series-story-desktop-v2.jpg
+05 /workspace/tina-campbell/concepts/site-layouts/05-portraits-bridal-desktop-v2.jpg
+06 /workspace/tina-campbell/concepts/site-layouts/06-runway-gallery-desktop-v2.jpg
+07 /workspace/tina-campbell/concepts/site-layouts/07-about-desktop-v2b.jpg (film-strip frames still blank)
+08 /workspace/tina-campbell/concepts/site-layouts/08-services-desktop-v2.jpg (stray small Shoot under Gallery survived the retry; v2b is not better)
+09 /workspace/tina-campbell/concepts/site-layouts/09-journal-desktop-v2b.jpg
+12 /workspace/tina-campbell/concepts/site-layouts/12-series-mobile-v2.jpg
+13 /workspace/tina-campbell/concepts/site-layouts/13-about-mobile-v2b.jpg
+16 /workspace/tina-campbell/concepts/site-layouts/16-motion-hover-distortion-v2b.jpg
+
+Failures that remain after the one allowed retry:
+- 02: fake word FALSO on the truck grille.
+- 07: behind-the-scenes film strip frames are blank white.
+- 08: an extra small "Shoot" still sits under Gallery. Retry did not fix it.
+- 13: screen 1 skyline includes a needle tower.
+- 16: neighbouring frames are only slightly skewed.
+No generation failed, and nothing was blocked.
