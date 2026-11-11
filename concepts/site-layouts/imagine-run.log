@@ -96,3 +96,28 @@ Failures that remain after the one allowed retry:
 - 13: screen 1 skyline includes a needle tower.
 - 16: neighbouring frames are only slightly skewed.
 No generation failed, and nothing was blocked.
+
+=== Revision round v3 ===
+Date: 2026-11-11
+Tool: image_edit only. image_gen was not used. No API failure and nothing was blocked. No existing file overwritten or deleted. One visual retry used where the first edit missed the fix.
+
+04-series-story-desktop-v3.jpg (session images/3.jpg) PASS. Header is one full-width bar: brush TCPhoto at the far left, one row "Work  Fashion & Editorial  About  Services  Journal", crimson "Book a shoot" at the far right. Sections run edge to edge. Kept "Legislature in Black", "Series 02 / Edmonton / 2025", grey placeholder bars, and "Next series: The Red Gown" with thumbnail and crimson arrow. Words spelled correctly.
+
+02-work-index-desktop-v3.jpg (session images/5.jpg) PASS. Truck grille chrome reads FARGO. One crimson "View". Title "Work", "148 frames", filters "All  Fashion & Editorial  Runway  Portraits  Bridal  Couples  Edmonton", header and "Book a shoot" spelled correctly. Rest of the grid unchanged.
+
+07-about-desktop-v3.jpg (session images/6.jpg, retry of images/1.jpg) PARTIAL. The five bars beside the headline are thin dark-grey lines. Words stay exact: "TINA CAMPBELL", "I shoot everything. Fashion is the one I'd do for free.", "Where I shoot", "Alberta Legislature", "Walterdale Bridge", "High Level Bridge", "River Valley", "Book a shoot". The four behind-the-scenes photos exist (photographer directing the red gown by the teal truck, makeup touch-up, lighting stands at the Legislature, laptop with thumbnails) but they sit in a new row UNDER the film strip. The four film-strip frames are still empty cream. "Where I shoot" became one row of four instead of the original two-by-two. First edit and the one retry both left the frames empty.
+
+13-about-mobile-v3.jpg (session images/8.jpg, retry of images/4.jpg) PASS. First edit still showed a needle tower. Retry skyline is downtown across the river valley at dusk: flat rectangular towers, white Walterdale arch, Tina from behind with a camera, name "TINA CAMPBELL". No needle tower and no Calgary Tower. Screens 2 and 3 kept: "I shoot everything.", "Legislature", "Walterdale Bridge", "River Valley", "Book a shoot". The name sits along the bottom of screen 1.
+
+16-motion-hover-distortion-v3.jpg (session images/7.jpg, retry of images/2.jpg) PARTIAL, better than the first edit. Five different frames: red gown on the teal truck (black and white, dress red, grille FARGO), black gown outdoors, red athletic set in snow at centre in colour, red gown on a lit runway, white Walterdale arch in black and white. One crimson "View". Header words spelled correctly. Centre ripple stays inside that frame's rectangle, with colour in the frame and a thin red-cyan fringe on its edges. The ripple is still a strong swirl rather than fine rings. The second frame is a black gown among trees, not the Legislature steps. Neighbouring frames are upright, not tilted about four degrees. The runway frame is not clearly magenta and is not black and white outside the dress.
+
+Saved paths:
+/workspace/tina-campbell/concepts/site-layouts/04-series-story-desktop-v3.jpg
+/workspace/tina-campbell/concepts/site-layouts/07-about-desktop-v3.jpg
+/workspace/tina-campbell/concepts/site-layouts/13-about-mobile-v3.jpg
+/workspace/tina-campbell/concepts/site-layouts/16-motion-hover-distortion-v3.jpg
+/workspace/tina-campbell/concepts/site-layouts/02-work-index-desktop-v3.jpg
+
+Failures that remain after the one allowed retry:
+- 07: the four film-strip frames are still empty; the behind-the-scenes photos are a separate row beneath them, and the location cards are one row of four.
+- 16: second frame is not the Legislature steps; neighbouring frames are not skewed about four degrees; the centre ripple is a strong swirl inside the frame rather than fine concentric rings.

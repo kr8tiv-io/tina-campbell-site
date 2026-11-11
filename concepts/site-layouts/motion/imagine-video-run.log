@@ -1,0 +1,52 @@
+Imagine reference_to_video run — 2026-11-11
+All clips: 16:9, 1280x720, h264, 24 fps, 6.04 s. No generator block, upgrade notice, or rate limit.
+
+Source note: 16-motion-hover-distortion-v3.jpg is not in the layouts folder. V3 last frame uses 16-motion-hover-distortion-v2b.jpg, as specified.
+
+Staged frames (motion/frames/)
+V1-first / V1-last — 16:9 viewport crops of 01-home-desktop-v2b.jpg. Hero is the top 720x405. Last frame keeps that header and places the Runway row (label, five photos, 01–05) under it. Pixel crops so the logo and type stay exact.
+V2-first — 06-runway-gallery-desktop-v2.jpg copied as-is (already 1280x720).
+V2-last — image_edit of V2-first: strip shifted, a different photo centred, progress dot moved toward the middle. Exact header pasted back from V2-first. The edit rebuilt the photographs rather than sliding the same frames.
+V3-last — 16-motion-hover-distortion-v2b.jpg copied as-is.
+V3-first — image_edit of that image: flat film, no ripple, no View cursor, centre frame black-and-white except the red dress. Exact header pasted back.
+V4-first / V4-last — editorial top of 03-fashion-editorial-desktop-v2.jpg (header through series index and photo column) fitted into 16:9 with black side extension. First frame is the same image with everything below the header covered in black.
+V5-first — 16:9 viewport crop of 02-work-index-desktop-v2b.jpg (header, Work, filters, top row).
+V5-last — image_edit full-bleed red gown on the teal truck, serif title “The Red Gown”. Exact header pasted from V5-first.
+V6-first — 16:9 viewport of the 07-about-desktop-v2b.jpg hero, extended with black under the name.
+V6-last — image_edit: Tina moved up so her head and camera leave the frame; bridge and skyline nearly held; name kept. Exact header pasted from V6-first. A first edit barely moved her; the second edit was kept.
+
+Videos
+01-lenis-scroll-home.mp4 — PASS. Start is the lamp-post hero and TINA CAMPBELL. Middle shows the hero leaving upward and The Runway row entering. End is the five photos, 01–05, header intact. Text and logo stayed readable.
+02-runway-pinned-horizontal.mp4 — PASS with a limit. Header, Runway, and Edmonton Fashion Week stay readable. The progress dot moves right and the centre photograph changes. The strip morphs into new models instead of sliding the original frames by two widths.
+03-webgl-hover-distortion.mp4 — PASS. Flat red-on-monochrome frames gain a centre ripple and a crimson View cursor; side frames stay put. Header and View stay readable.
+  First call failed before generation: “image reference not readable: .../frames/V3-first.jpg (No such file or directory)”. The frame was still being written. Retried once the file existed. Retry kept.
+04-editorial-split-reveal.mp4 — PASS on the second take. Headline, tagline, and index 01–05 reveal in order; photos unmask; end type is intact.
+  First take’s middle frame replaced the index with a magenta bar and a garbled 01. Retry kept (videos/5.mp4). First take not used.
+05-page-transition-flip.mp4 — PASS. Work grid tile of the red gown grows to the full-bleed cover. End title reads The Red Gown. Header stays readable. Middle frame is the expand, with a faint title ghost during the wipe.
+06-about-bridge-parallax.mp4 — PASS with a limit. Tina moves up and is partly out of frame by the end. TINA CAMPBELL and the header stay readable. The middle frame is a crossfade/double exposure rather than three clean layer speeds. Bridge shift is slight.
+
+Failures
+None of the six deliverable files failed. No Imagine safety block and no rate-limit wait.
+Dropped attempts (not saved under the deliverable names):
+- V3 first reference_to_video call, missing frame path (retried, succeeded).
+- V4 first clip, mid-frame index garble (retried, second clip kept).
+
+Saved
+motion/01-lenis-scroll-home.mp4
+motion/02-runway-pinned-horizontal.mp4
+motion/03-webgl-hover-distortion.mp4
+motion/04-editorial-split-reveal.mp4
+motion/05-page-transition-flip.mp4
+motion/06-about-bridge-parallax.mp4
+motion/frames/V1-first.jpg
+motion/frames/V1-last.jpg
+motion/frames/V2-first.jpg
+motion/frames/V2-last.jpg
+motion/frames/V3-first.jpg
+motion/frames/V3-last.jpg
+motion/frames/V4-first.jpg
+motion/frames/V4-last.jpg
+motion/frames/V5-first.jpg
+motion/frames/V5-last.jpg
+motion/frames/V6-first.jpg
+motion/frames/V6-last.jpg
