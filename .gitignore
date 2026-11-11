@@ -1,0 +1,11 @@
+/*
+!/.gitignore
+!/README.md
+!/FEEDBACK-MAP.md
+!/SPEC.md
+!/motion/
+!/concepts/
+/concepts/*
+!/concepts/site-layouts/
+/concepts/site-layouts/*.out
+/concepts/site-layouts/as-generated/
