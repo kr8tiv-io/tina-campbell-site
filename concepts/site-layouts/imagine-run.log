@@ -1,0 +1,26 @@
+Imagine layout mockup run
+Date: 2026-11-11
+Tool: image_edit only (references attached). image_gen was not used.
+Result: 16/16 saved. Nothing missing. No existing files overwritten. No -v2 names.
+
+Notes:
+- Imagine accepts at most 5 reference images. The optional white logo (brand/tcphoto-logo-white-transparent.png) was attached only when logo + listed photos stayed at 5 or fewer. On 01 and 02 that would have been 6, so the white PNG was omitted and the Facebook-cover logo plus the four listed photos were sent. Those two calls first returned HTTP 400: "This model supports at most 5 input image(s), but 6 were provided." They were retried at once with 5 images and succeeded.
+- One batch (12-series-mobile, 13-about-mobile, 14-motion-loader-signature) failed together before an image was returned: "Image edit API request failed: error sending request for url (https://api.x.ai/v1/images/edits)". Waited 90 seconds. Series mobile and About mobile succeeded on the next attempt. The loader succeeded on the following batch (second attempt). No image needed more than one retry after that wait.
+
+Saved paths:
+/workspace/tina-campbell/concepts/site-layouts/01-home-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/02-work-index-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/03-fashion-editorial-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/04-series-story-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/05-portraits-bridal-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/06-runway-gallery-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/07-about-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/08-services-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/09-journal-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/10-contact-book-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/11-home-mobile.jpg
+/workspace/tina-campbell/concepts/site-layouts/12-series-mobile.jpg
+/workspace/tina-campbell/concepts/site-layouts/13-about-mobile.jpg
+/workspace/tina-campbell/concepts/site-layouts/14-motion-loader-signature.jpg
+/workspace/tina-campbell/concepts/site-layouts/15-motion-page-transition.jpg
+/workspace/tina-campbell/concepts/site-layouts/16-motion-hover-distortion.jpg
