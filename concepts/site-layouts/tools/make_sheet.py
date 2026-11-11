@@ -32,7 +32,7 @@ used = []
 y = 190
 for i, (p, l) in enumerate(PICKS):
     f = best(p); used.append(f)
-    im = Image.open(f).convert('RGB').resize((tw, th), Image.LANCZOS)
+    im = Image.open(f).convert('RGB'); im.thumbnail((tw, th), Image.LANCZOS)
     x = pad + i * (tw + pad); sheet.paste(im, (x, y)); d.text((x, y + th + 10), l, font=font(22), fill=WHITE)
 y += th + lab + pad
 for i, (p, l) in enumerate(WIDE):
