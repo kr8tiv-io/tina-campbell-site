@@ -1,8 +1,13 @@
+import fs from 'node:fs';
 import { defineConfig } from '@playwright/test';
 
-const chromium =
-  process.env.PLAYWRIGHT_CHROMIUM_PATH ??
-  '/home/box/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome';
+const chromiumCandidates = [
+  process.env.PLAYWRIGHT_CHROMIUM_PATH,
+  '/home/box/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome',
+  '/home/box/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome',
+].filter((value): value is string => Boolean(value));
+
+const chromium = chromiumCandidates.find((candidate) => fs.existsSync(candidate)) ?? chromiumCandidates[0];
 
 const port = process.env.PLAYWRIGHT_PORT ?? '4321';
 const baseURL = `http://127.0.0.1:${port}`;

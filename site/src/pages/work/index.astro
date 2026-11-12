@@ -1,0 +1,117 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { sizesFor, workFilters, workTiles } from '../../data/work';
+import { defaultSiteUrl } from '../../data/site';
+import '../../styles/work.css';
+
+const tiles = workTiles();
+const count = tiles.length;
+const hero = tiles[0].photo;
+const og = await getImage({
+  src: hero.src,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
+const title = 'Work | Tina Campbell Photography, Edmonton';
+const description =
+  "Browse Tina Campbell's fashion, runway, portrait, bridal, couples and Edmonton city photography.";
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL('/work/', origin).href;
+
+const jsonLd = {
+  '@type': 'ImageGallery',
+  name: 'Work',
+  description,
+  url: pageUrl,
+};
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={hero.alt} jsonLd={jsonLd}>
+  <main id="content" class="work" data-page="work">
+    <script is:inline>
+      (function () {
+        var reduce = false;
+        var fine = false;
+        try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+        try { fine = matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
+        if (!reduce && fine && window.innerWidth > 800) {
+          document.documentElement.classList.add('work-intro');
+          setTimeout(function () {
+            document.documentElement.classList.remove('work-intro');
+          }, 2800);
+        }
+      })();
+    </script>
+    <header class="work-head">
+      <h1>Work</h1>
+      <p class="work-count" aria-live="polite"><span data-count>{count}</span> frames</p>
+    </header>
+    <nav class="work-filters" aria-label="Filter work">
+      {
+        workFilters.map((item) => (
+          <a href={item.href} data-filter-link={item.id} aria-current={item.id === 'all' ? 'true' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <ul class="work-grid" data-work-grid>
+      {
+        tiles.map((tile, index) => (
+          <li
+            class:list={['tile', `tile--${tile.role}`]}
+            data-filter={tile.filter}
+            data-id={tile.photo.id}
+            data-orient={tile.photo.orientation}
+            data-series={tile.photo.series ?? ''}
+          >
+            <a class="tile__link" href={tile.href} data-cursor="View" data-astro-prefetch="false">
+              <Photo
+                src={tile.photo.src}
+                alt={tile.photo.alt}
+                sizes={sizesFor(tile.role)}
+                widths={
+                  tile.role === 'hero' || tile.role === 'feature' || tile.role === 'tall'
+                    ? [480, 800, 1200, 1600]
+                    : [480, 800, 1200]
+                }
+                priority={index === 0}
+                flipId={tile.photo.id}
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="work-empty" data-empty hidden>Nothing here yet. Try another filter.</p>
+    <script is:inline>
+      (function () {
+        var known = { all: 1, fashion: 1, runway: 1, portraits: 1, bridal: 1, couples: 1, edmonton: 1 };
+        var q = 'all';
+        try {
+          var value = new URLSearchParams(location.search).get('filter') || 'all';
+          if (known[value]) q = value;
+        } catch (e) {}
+        if (q !== 'all') document.documentElement.setAttribute('data-work-filter', q);
+        var tiles = document.querySelectorAll('.tile');
+        var n = 0;
+        for (var i = 0; i < tiles.length; i++) {
+          if (q === 'all' || tiles[i].getAttribute('data-filter') === q) n++;
+        }
+        var count = document.querySelector('[data-count]');
+        if (count) count.textContent = String(n);
+        var links = document.querySelectorAll('[data-filter-link]');
+        for (var j = 0; j < links.length; j++) {
+          if (links[j].getAttribute('data-filter-link') === q) links[j].setAttribute('aria-current', 'true');
+          else links[j].removeAttribute('aria-current');
+        }
+        var empty = document.querySelector('[data-empty]');
+        if (empty) empty.hidden = n !== 0;
+      })();
+    </script>
+  </main>
+</BaseLayout>
