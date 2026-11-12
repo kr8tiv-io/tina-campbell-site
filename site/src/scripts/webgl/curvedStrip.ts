@@ -189,6 +189,20 @@ function pitchOf(): number {
   return STRIP.photoW + STRIP.gap;
 }
 
+/** Horizontal travel of the film, in screen pixels, for the full pin. */
+export function horizontalTravelPx(width: number, height: number): number {
+  const w = Math.max(width, 1);
+  const h = Math.max(height, 1);
+  const pitch = pitchOf();
+  const halfFov = (STRIP.fov * Math.PI) / 360;
+  const aspect = w / h;
+  const target = pitch * STRIP.viewFrames;
+  const distance = (target / (2 * Math.tan(halfFov) * aspect)) * 1.04;
+  const visible = 2 * Math.tan(halfFov) * distance * aspect;
+  const travelWorld = (STRIP.focusEnd - STRIP.focusStart) * pitch;
+  return Math.max(1, Math.round((travelWorld / visible) * w));
+}
+
 function drawCover(
   ctx: CanvasRenderingContext2D,
   img: CanvasImageSource & { width: number; height: number },

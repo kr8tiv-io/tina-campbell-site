@@ -6,11 +6,11 @@ import '../styles/home.css';
 
 const hero = getPhoto('fb_141_signature');
 const runway = [
-  { photo: getPhoto('fb_013_signature'), n: '01', href: '/series/the-red-gown/', pos: 'pos-truck' },
-  { photo: getPhoto('fb_009_fashion'), n: '02', href: '/series/red-in-snow/', pos: 'pos-snow' },
-  { photo: getPhoto('fb_037_runway'), n: '03', href: '/series/runway-nights/', pos: 'pos-gown' },
-  { photo: getPhoto('fb_064_runway'), n: '04', href: '/runway/', pos: 'pos-stage' },
-  { photo: getPhoto('fb_011_fashion'), n: '05', href: '/fashion-editorial/', pos: 'pos-leather' },
+  { photo: getPhoto('fb_013_signature'), n: '01', href: '/series/the-red-gown/', pos: 'pos-truck', location: 'Edmonton' },
+  { photo: getPhoto('fb_114_signature'), n: '02', href: '/series/the-red-gown/', pos: 'pos-ballgown', location: 'Edmonton' },
+  { photo: getPhoto('fb_037_runway'), n: '03', href: '/series/runway-nights/', pos: 'pos-gown', location: 'Edmonton' },
+  { photo: getPhoto('fb_012_runway'), n: '04', href: '/runway/', pos: 'pos-stage', location: 'Edmonton' },
+  { photo: getPhoto('fb_046_signature'), n: '05', href: '/fashion-editorial/', pos: 'pos-satin', location: 'Legislature' },
 ];
 const categories = [
   { label: 'Fashion', filter: 'fashion', photo: getPhoto('fb_114_signature'), n: '01', pos: 'cat-fashion' },
@@ -20,9 +20,8 @@ const categories = [
   { label: 'Couples', filter: 'couples', photo: getPhoto('fb_065_couples'), n: '05', pos: 'cat-couples' },
   { label: 'Edmonton', filter: 'edmonton', photo: getPhoto('fb_168_city'), n: '06', pos: 'cat-city' },
 ];
-const teaser = getPhoto('fb_116_signature');
-const skyline = getPhoto('fb_168_city');
-const arch = getPhoto('fb_066_city');
+const teaser = getPhoto('fb_016_signature');
+const skyline = getPhoto('fb_577057434409234');
 
 const title = 'Tina Campbell Photography | Fashion and Portrait Photographer in Edmonton';
 const description =
@@ -62,8 +61,8 @@ const description =
         <ol class="runway__track" data-runway-track>
           {
             runway.map((item) => (
-              <li class="runway__item">
-                <figure class="runway__frame" data-reveal="clip-up" data-skew>
+              <li class="runway__item" data-no={item.n} data-location={item.location}>
+                <figure class="runway__frame">
                   <a href={item.href} data-cursor="View">
                     <Photo
                       src={item.photo.src}
@@ -81,6 +80,10 @@ const description =
       </div>
       <div class="runway__progress" data-runway-progress>
         <span data-runway-bar></span>
+      </div>
+      <div class="runway__caption" data-runway-caption>
+        <p data-runway-no>No. 001</p>
+        <p data-runway-loc>Edmonton</p>
       </div>
       <div class="runway__foot">
         <div class="runway__rule" aria-hidden="true"></div>
@@ -152,11 +155,6 @@ const description =
             <Photo src={skyline.src} alt={skyline.alt} sizes="100vw" />
           </div>
         </div>
-        <div class="band__arch" data-band-arch>
-          <div class="band__layer">
-            <Photo src={arch.src} alt={arch.alt} sizes="70vw" />
-          </div>
-        </div>
       </div>
       <div class="band__shade" aria-hidden="true"></div>
       <div class="band__inner">
@@ -167,13 +165,6 @@ const description =
           </p>
           <a class="btn" href="/book/">Book a shoot</a>
         </div>
-        <img
-          class="band__mark"
-          src="/brand/tcphoto-logo-white.png"
-          alt=""
-          width="584"
-          height="415"
-        />
       </div>
     </section>
 

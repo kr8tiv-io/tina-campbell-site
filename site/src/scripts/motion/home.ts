@@ -14,16 +14,16 @@ function padMasks(split: SplitText): void {
 
 function initBookBar(signal: AbortSignal): () => void {
   const bar = document.querySelector<HTMLElement>('[data-book-bar]');
-  const band = document.querySelector<HTMLElement>('[data-band]');
-  if (!bar || !band) return () => {};
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (!bar || !hero) return () => {};
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (!entry) return;
-      bar.classList.toggle('is-hidden', entry.isIntersecting);
+      bar.classList.toggle('is-hidden', !entry.isIntersecting);
     },
-    { threshold: 0.2 },
+    { threshold: 0.28 },
   );
-  observer.observe(band);
+  observer.observe(hero);
   signal.addEventListener('abort', () => observer.disconnect());
   return () => observer.disconnect();
 }
@@ -32,10 +32,28 @@ function initRunwayProgress(signal: AbortSignal): () => void {
   const viewport = document.querySelector<HTMLElement>('[data-runway-viewport]');
   const bar = document.querySelector<HTMLElement>('[data-runway-bar]');
   if (!viewport || !bar) return () => {};
+  const no = document.querySelector<HTMLElement>('[data-runway-no]');
+  const loc = document.querySelector<HTMLElement>('[data-runway-loc]');
   const update = (): void => {
     const max = viewport.scrollWidth - viewport.clientWidth;
     const shown = max <= 1 ? 1 : Math.min(1, (viewport.scrollLeft + viewport.clientWidth) / viewport.scrollWidth);
-    bar.style.transform = `scaleX(${shown})`;
+    bar.style.transform = `scaleX(${Math.max(0.08, shown)})`;
+    const items = [...viewport.querySelectorAll<HTMLElement>('.runway__item')];
+    const mid = viewport.scrollLeft + viewport.clientWidth / 2;
+    let best: HTMLElement | undefined;
+    let bestDist = Number.POSITIVE_INFINITY;
+    items.forEach((item) => {
+      const center = item.offsetLeft + item.offsetWidth / 2;
+      const dist = Math.abs(center - mid);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = item;
+      }
+    });
+    if (!best) return;
+    const num = best.dataset.no ?? '01';
+    if (no) no.textContent = `No. ${num.padStart(3, '0')}`;
+    if (loc) loc.textContent = best.dataset.location ?? '';
   };
   viewport.addEventListener('scroll', update, { signal, passive: true });
   update();
@@ -57,34 +75,26 @@ function initHeaderSolid(signal: AbortSignal): () => void {
 
 function initHero(): () => void {
   const hero = document.querySelector<HTMLElement>('[data-hero]');
-  const zoom = document.querySelector<HTMLElement>('[data-hero-zoom]');
   const shift = document.querySelector<HTMLElement>('[data-hero-shift]');
-  const copy = document.querySelector<HTMLElement>('[data-hero-copy]');
   const title = document.querySelector<HTMLElement>('[data-hero-title]');
   const triggers: ScrollTrigger[] = [];
   const splits: SplitText[] = [];
 
   const compact = window.matchMedia('(max-width: 960px)').matches;
 
-  // Load Ken Burns: slow settle, then the scroll tween takes the scale.
-  if (zoom) {
-    gsap.fromTo(zoom, { scale: 1.08 }, { scale: 1, duration: 2.4, ease: 'power2.out' });
-  }
-
-  if (hero && shift && zoom && copy) {
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: hero,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
+  if (hero && shift && !compact) {
+    const trigger = ScrollTrigger.create({
+      trigger: hero,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+      onUpdate: (self) => {
+        const t = Math.min(1, self.progress / 0.5);
+        gsap.set(shift, { y: -hero.offsetHeight * 0.18 * t });
+        if (title) gsap.set(title, { scale: 1 + 0.15 * t, transformOrigin: 'center bottom' });
       },
     });
-    // Photo lags a little. The name stays with the frame, then both leave
-    // upward while The Runway rises into the centre (clip 01).
-    timeline.to(shift, { yPercent: compact ? 3 : 7, scale: compact ? 1.02 : 1.045, ease: 'none' }, 0);
-    timeline.to(copy, { yPercent: compact ? -6 : -10, ease: 'none' }, 0);
-    if (timeline.scrollTrigger) triggers.push(timeline.scrollTrigger);
+    triggers.push(trigger);
   }
 
   if (title) {
@@ -111,33 +121,29 @@ function initHero(): () => void {
   return () => {
     triggers.forEach((trigger) => trigger.kill());
     splits.forEach((split) => split.revert());
+    if (shift) gsap.set(shift, { clearProps: 'transform' });
+    if (title) gsap.set(title, { clearProps: 'transform' });
   };
 }
 
-function initRunwayPin(): () => void {
-  const pin = document.querySelector<HTMLElement>('[data-runway-pin]');
-  const viewport = document.querySelector<HTMLElement>('[data-runway-viewport]');
+function initRunwayRise(): () => void {
+  const section = document.querySelector<HTMLElement>('[data-runway-pin]');
   const track = document.querySelector<HTMLElement>('[data-runway-track]');
-  if (!pin || !viewport || !track) return () => {};
-
+  if (!section || !track) return () => {};
   const tween = gsap.fromTo(
     track,
-    { x: 0 },
+    { y: 96 },
     {
-      x: () => -Math.max(0, track.scrollWidth - viewport.clientWidth),
+      y: 0,
       ease: 'none',
       scrollTrigger: {
-        trigger: pin,
-        start: 'center center',
-        end: '+=78%',
-        pin: true,
+        trigger: section,
+        start: 'top 92%',
+        end: 'top 48%',
         scrub: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
       },
     },
   );
-
   return () => {
     tween.scrollTrigger?.kill();
     tween.kill();
@@ -209,19 +215,21 @@ function initStatement(): () => void {
 function initBand(): () => void {
   const band = document.querySelector<HTMLElement>('[data-band]');
   const sky = document.querySelector<HTMLElement>('[data-band-sky] .band__layer');
-  const arch = document.querySelector<HTMLElement>('[data-band-arch] .band__layer');
-  if (!band || !sky || !arch) return () => {};
-  // A light nod to clip 06: skyline slow, arch faster. Not the About hero.
-  const tween = gsap.timeline({
-    scrollTrigger: {
-      trigger: band,
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: true,
+  if (!band || !sky) return () => {};
+  const tween = gsap.fromTo(
+    sky,
+    { yPercent: 6 },
+    {
+      yPercent: -6,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: band,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+      },
     },
-  });
-  tween.fromTo(sky, { yPercent: 5 }, { yPercent: -7, ease: 'none' }, 0);
-  tween.fromTo(arch, { yPercent: 12 }, { yPercent: -18, ease: 'none' }, 0);
+  );
   return () => {
     tween.scrollTrigger?.kill();
     tween.kill();
@@ -263,7 +271,7 @@ export function initHome(reduced: boolean, fine: boolean, signal: AbortSignal): 
 
   if (!reduced) {
     releases.push(initHero());
-    if (motion) releases.push(initRunwayPin());
+    if (motion) releases.push(initRunwayRise());
     releases.push(initStatement());
     releases.push(initTeaser());
     releases.push(initBand());

@@ -1,0 +1,230 @@
+{
+  "errors": [],
+  "views": {
+    "desktop-1440": {
+      "heroMetrics": {
+        "overflow": true,
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "innerHeight": 900,
+        "titleWidth": 1142,
+        "titleShare": 0.793,
+        "titleLeft": 149,
+        "logoHeight": 64,
+        "trackWidth": 1325,
+        "trackClient": 1440,
+        "contentWidth": 1440,
+        "navGap": "35.2px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": [
+          "http://127.0.0.1:4321/_astro/fb_577057434409234.BPbcOqjC_1ob9mo.jpg"
+        ]
+      },
+      "after": {
+        "overflow": true,
+        "scrollWidth": 1440,
+        "innerWidth": 1440,
+        "innerHeight": 900,
+        "titleWidth": 1142,
+        "titleShare": 0.793,
+        "titleLeft": 149,
+        "logoHeight": 64,
+        "trackWidth": 1325,
+        "trackClient": 1440,
+        "contentWidth": 1440,
+        "navGap": "35.2px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": []
+      },
+      "errors": []
+    },
+    "desktop-1280": {
+      "heroMetrics": {
+        "overflow": true,
+        "scrollWidth": 1280,
+        "innerWidth": 1280,
+        "innerHeight": 720,
+        "titleWidth": 1015,
+        "titleShare": 0.793,
+        "titleLeft": 132,
+        "logoHeight": 64,
+        "trackWidth": 1178,
+        "trackClient": 1280,
+        "contentWidth": 1280,
+        "navGap": "31.36px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": [
+          "http://127.0.0.1:4321/_astro/fb_577057434409234.BPbcOqjC_1ob9mo.jpg"
+        ]
+      },
+      "after": {
+        "overflow": true,
+        "scrollWidth": 1280,
+        "innerWidth": 1280,
+        "innerHeight": 720,
+        "titleWidth": 1015,
+        "titleShare": 0.793,
+        "titleLeft": 132,
+        "logoHeight": 64,
+        "trackWidth": 1178,
+        "trackClient": 1280,
+        "contentWidth": 1280,
+        "navGap": "31.36px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": []
+      },
+      "errors": []
+    },
+    "mobile-390": {
+      "heroMetrics": {
+        "overflow": true,
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "titleWidth": 350,
+        "titleShare": 0.897,
+        "titleLeft": 20,
+        "logoHeight": 56,
+        "trackWidth": 1254,
+        "trackClient": 390,
+        "contentWidth": 390,
+        "navGap": "16px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": [
+          "http://127.0.0.1:4321/_astro/fb_046_signature.DQNF42fD_LIpHK.jpg",
+          "http://127.0.0.1:4321/_astro/fb_021_portrait.CVM_3cDc_ZknUgT.jpg",
+          "http://127.0.0.1:4321/_astro/fb_049_bridal.sQuGBQBR_Z24xRpP.jpg",
+          "http://127.0.0.1:4321/_astro/fb_065_couples.CcvA9heZ_1HSsWL.jpg",
+          "http://127.0.0.1:4321/_astro/fb_168_city.CptJoObF_Z2bRuza.jpg",
+          "http://127.0.0.1:4321/_astro/fb_016_signature.EwDUVZUg_WJiax.jpg",
+          "http://127.0.0.1:4321/_astro/fb_577057434409234.BPbcOqjC_1ob9mo.jpg"
+        ]
+      },
+      "after": {
+        "overflow": true,
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "titleWidth": 350,
+        "titleShare": 0.897,
+        "titleLeft": 20,
+        "logoHeight": 56,
+        "trackWidth": 1254,
+        "trackClient": 390,
+        "contentWidth": 390,
+        "navGap": "16px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": [
+          "http://127.0.0.1:4321/_astro/fb_046_signature.DQNF42fD_LIpHK.jpg"
+        ]
+      },
+      "errors": []
+    },
+    "small-360": {
+      "heroMetrics": {
+        "overflow": true,
+        "scrollWidth": 360,
+        "innerWidth": 360,
+        "innerHeight": 780,
+        "titleWidth": 320,
+        "titleShare": 0.889,
+        "titleLeft": 20,
+        "logoHeight": 56,
+        "trackWidth": 1161,
+        "trackClient": 360,
+        "contentWidth": 360,
+        "navGap": "16px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": [
+          "http://127.0.0.1:4321/_astro/fb_046_signature.DQNF42fD_LIpHK.jpg",
+          "http://127.0.0.1:4321/_astro/fb_049_bridal.sQuGBQBR_Z24xRpP.jpg",
+          "http://127.0.0.1:4321/_astro/fb_065_couples.CcvA9heZ_1HSsWL.jpg",
+          "http://127.0.0.1:4321/_astro/fb_168_city.CptJoObF_Z2bRuza.jpg",
+          "http://127.0.0.1:4321/_astro/fb_016_signature.EwDUVZUg_WJiax.jpg",
+          "http://127.0.0.1:4321/_astro/fb_577057434409234.BPbcOqjC_1ob9mo.jpg"
+        ]
+      },
+      "after": {
+        "overflow": true,
+        "scrollWidth": 360,
+        "innerWidth": 360,
+        "innerHeight": 780,
+        "titleWidth": 320,
+        "titleShare": 0.889,
+        "titleLeft": 20,
+        "logoHeight": 56,
+        "trackWidth": 1161,
+        "trackClient": 360,
+        "contentWidth": 360,
+        "navGap": "16px",
+        "navFont": "16px \"JetBrains Mono\", ui-monospace, monospace",
+        "broken": [
+          "http://127.0.0.1:4321/_astro/fb_046_signature.DQNF42fD_LIpHK.jpg"
+        ]
+      },
+      "errors": []
+    }
+  },
+  "reduced": {
+    "reduced": {
+      "hidden": 0,
+      "overflow": true,
+      "scrollWidth": 1440,
+      "frames": 5
+    },
+    "errors": []
+  },
+  "404-1440": {
+    "info": {
+      "h1": "Page not found",
+      "sub": "This page wandered off the runway.",
+      "button": "Back home",
+      "frameW": 920,
+      "frameH": 468,
+      "footerTop": 900,
+      "innerHeight": 900,
+      "overflow": true,
+      "broken": 0
+    },
+    "errors": []
+  },
+  "404-390": {
+    "info": {
+      "h1": "Page not found",
+      "sub": "This page wandered off the runway.",
+      "button": "Back home",
+      "frameW": 304,
+      "frameH": 388,
+      "footerTop": 844,
+      "innerHeight": 844,
+      "overflow": true,
+      "broken": 0
+    },
+    "errors": []
+  },
+  "runway1440": {
+    "runway": {
+      "pinEnd": 795,
+      "travel": "795",
+      "distance": "795",
+      "mode": "webgl"
+    },
+    "errors": []
+  },
+  "runway390": {
+    "info": {
+      "mode": "css",
+      "overflow": true,
+      "broken": 0
+    },
+    "errors": []
+  },
+  "homeMotion": {
+    "heroH": 624,
+    "motionState": {
+      "title": "matrix(1, 0, 0, 1, 0, 0)",
+      "shift": "matrix(1, 0, 0, 1, 0, 0)",
+      "motion": true
+    }
+  }
+}

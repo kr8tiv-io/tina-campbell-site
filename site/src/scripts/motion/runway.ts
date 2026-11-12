@@ -134,7 +134,7 @@ function mountEnhanced(
   const items = [...section.querySelectorAll<HTMLElement>('[data-texture]')];
   if (!canvas || !stage || items.length === 0) return mountFallback(section, signal);
 
-  const { STRIP, mountCurvedStrip } = mod;
+  const { STRIP, mountCurvedStrip, horizontalTravelPx } = mod;
   const span = STRIP.focusEnd - STRIP.focusStart;
   const frames = items.map((item) => ({
     url: item.dataset.texture || '',
@@ -171,7 +171,11 @@ function mountEnhanced(
     trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: () => `+=${Math.round(window.innerHeight * span * 0.92)}`,
+      end: () => {
+        const width = stage.clientWidth || window.innerWidth;
+        const height = stage.clientHeight || window.innerHeight;
+        return `+=${horizontalTravelPx(width, height)}`;
+      },
       pin: true,
       scrub: true,
       anticipatePin: 1,
@@ -191,8 +195,12 @@ function mountEnhanced(
 
   const writeMeta = (): void => {
     const range = Math.max(1, trigger.end - trigger.start);
+    const width = stage.clientWidth || window.innerWidth;
+    const height = stage.clientHeight || window.innerHeight;
     section.dataset.pinStart = String(Math.round(trigger.start));
     section.dataset.pinEnd = String(Math.round(trigger.end));
+    section.dataset.pinDistance = String(Math.round(range));
+    section.dataset.travelPx = String(horizontalTravelPx(width, height));
     section.dataset.frameScroll = String(Math.round(range / span));
   };
 

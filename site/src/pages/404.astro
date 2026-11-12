@@ -1,14 +1,31 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import { getPhoto } from '../data/photos';
 
+const frame = getPhoto('fb_016_signature');
 const title = 'Page not found | Tina Campbell Photography, Edmonton';
 const description = 'This page wandered off the runway.';
 ---
 
 <BaseLayout title={title} description={description}>
   <main id="content" class="lost">
-    <img class="lost__mark" src="/brand/tcphoto-logo-white.png" alt="" width="584" height="415" />
-    <h1>This page wandered off the runway.</h1>
-    <a class="btn" href="/">Home</a>
+    <div class="lost__stage">
+      <div class="lost__sprocket" aria-hidden="true"></div>
+      <figure class="lost__frame">
+        <Photo
+          src={frame.src}
+          alt=""
+          sizes="(max-width: 960px) 92vw, 72vw"
+          class="lost__photo"
+        />
+        <div class="lost__copy">
+          <h1>Page not found</h1>
+          <p>This page wandered off the runway.</p>
+          <a class="btn" href="/">Back home</a>
+        </div>
+      </figure>
+      <div class="lost__sprocket" aria-hidden="true"></div>
+    </div>
   </main>
 </BaseLayout>

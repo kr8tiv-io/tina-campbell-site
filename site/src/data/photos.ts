@@ -501,6 +501,13 @@ const records: PhotoRecord[] = [
     location: 'Edmonton',
   },
   {
+    file: 'fb_577057434409234.jpg',
+    category: 'edmonton',
+    series: null,
+    alt: 'Walterdale Bridge arch and the Edmonton skyline across the North Saskatchewan River.',
+    location: 'Edmonton, Alberta',
+  },
+  {
     file: 'fb_173_fashion.jpg',
     category: 'fashion-editorial',
     series: null,
