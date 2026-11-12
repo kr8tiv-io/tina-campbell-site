@@ -1,25 +1,40 @@
 #!/usr/bin/env bash
 # Feeds build-plan/prompts/*.md to Grok Build one at a time. Resumable via state file.
+# Re-scans the prompts directory each iteration so newly added prompts (e.g. 002b) are picked up after a restart.
 set -u
 ROOT=/workspace/tina-campbell; BP=$ROOT/build-plan; LOG=$BP/logs; STATE=$BP/state.json
 DEPLOY=/workspace/tina-campbell-deploy
 mkdir -p "$LOG"
 cd "$ROOT"
-PROMPTS=$(ls "$BP"/prompts/*.md | sort)
 done_list() { [ -f "$STATE" ] && python3 -c "import json;print(' '.join(json.load(open('$STATE')).get('done',[])))" || true; }
-save() { python3 - "$@" <<PY
+save() { python3 - "$@" <<ENDSAVE
 import json,sys,os,time
-p='$STATE'; s=json.load(open(p)) if os.path.exists(p) else {'done':[]}
+p=os.environ["TINA_STATE"]
+s=json.load(open(p)) if os.path.exists(p) else {"done":[]}
 k,v=sys.argv[1],sys.argv[2]
-if k=='done': s['done'].append(v)
-else: s[k]=v
-s['updated']=time.strftime('%Y-%m-%d %H:%M:%S %Z'); s['driver_pid']=os.getppid()
-json.dump(s,open(p,'w'),indent=1)
-PY
+if k=="done":
+    if v not in s.get("done",[]):
+        s.setdefault("done",[]).append(v)
+else:
+    s[k]=v
+s["updated"]=time.strftime("%Y-%m-%d %H:%M:%S %Z")
+s["driver_pid"]=os.getppid()
+json.dump(s,open(p,"w"),indent=1)
+ENDSAVE
 }
-for f in $PROMPTS; do
+export TINA_STATE="$STATE"
+next_prompt() {
+  local f id
+  for f in $(ls "$BP"/prompts/*.md | sort); do
+    id=$(basename "$f" .md)
+    case " $(done_list) " in *" $id "*) continue;; esac
+    echo "$f"
+    return 0
+  done
+  return 1
+}
+while f=$(next_prompt); do
   id=$(basename "$f" .md)
-  case " $(done_list) " in *" $id "*) continue;; esac
   if [ -f "$BP/STOP" ]; then save status "stopped-before-$id"; exit 0; fi
   save current "$id"; save status running
   echo "=== $(date) START $id" >> "$LOG/driver.log"

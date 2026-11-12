@@ -1,6 +1,8 @@
 # Build spec: tinacampbell site (Astro), built exactly from the approved layouts and motion clips
 Repo: kr8tiv-io/tina-campbell-site. Site source lives in `site/` (Astro project). Approved visuals: `concepts/site-layouts/` (best picks listed below) and motion clips `concepts/site-layouts/motion/01..06*.mp4` (watch them: extract frames with ffmpeg to understand timing). Feedback: `FEEDBACK-MAP.md`. Content map: `SECTIONS-INVENTORY.md`. All live text: `build-plan/COPY.md` (use it verbatim; never bake text into images/video).
 
+Visual truth: follow `build-plan/VISUAL-TRUTH.md`. Grok Imagine layouts in `concepts/site-layouts/` (01–19) and motion clips in `concepts/site-layouts/motion/01..06*.mp4` are the primary truth; the annotated branding PDF pages in `build-plan/context/` and `FEEDBACK-MAP.md` confirm Tina's direction (favourites: Runway and Editorial). Every build step must pass the visual side-by-side gate and the motion frame-by-frame gate in that file. Do not invent a layout or clip; generate a new Grok Imagine reference first if one is missing.
+
 ## Stack (no other frameworks)
 Astro 5 (static output, `astro:assets` for AVIF/WebP + responsive srcset, ClientRouter view transitions), TypeScript, plain CSS with custom properties (no Tailwind), GSAP 3.13+ (ScrollTrigger, SplitText, Flip, Observer; all free in the `gsap` npm package), Lenis, Three.js (lazy-loaded, only on pages that use WebGL, after a WebGL capability check). Node 24 available. Playwright browsers are cached in ~/.cache/ms-playwright (use @playwright/test matching chromium-1248 if possible; do not download new browsers unless necessary). Keep installs small (disk is tight).
 
