@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import { getPhoto } from '../data/photos';
+
+const photo = getPhoto('fb_141_signature');
+const title = 'Tina Campbell Photography | Fashion and Portrait Photographer in Edmonton';
+const description =
+  'Fashion, editorial, runway and portrait photography in Edmonton, Alberta by Tina Campbell. Bold, polished images shot around the city. Book a shoot.';
+---
+
+<BaseLayout title={title} description={description} imageAlt={photo.alt}>
+  <main id="content" class="intro">
+    <div class="intro__grid">
+      <div>
+        <p class="kicker" data-reveal="fade-up">No. 001 / Alberta Legislature, Edmonton</p>
+        <h1 data-reveal="lines">Tina Campbell</h1>
+      </div>
+      <figure class="intro__frame" data-reveal="clip-up" data-skew data-cursor="View">
+        <Photo
+          src={photo.src}
+          alt={photo.alt}
+          sizes="(min-width: 800px) 42vw, 100vw"
+          priority
+        />
+      </figure>
+    </div>
+  </main>
+</BaseLayout>

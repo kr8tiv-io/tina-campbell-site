@@ -1,0 +1,13 @@
+---
+import logoSvg from '../assets/brand/tcphoto.svg?raw';
+
+const markup = logoSvg.replace(/^\uFEFF?/, '');
+---
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__mark" id="loader-mark" set:html={markup} />
+  <div class="loader__rail">
+    <div class="loader__line" aria-hidden="true"><span></span></div>
+    <p class="loader__count" data-loader-count>000</p>
+  </div>
+</div>

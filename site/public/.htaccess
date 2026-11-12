@@ -1,0 +1,11 @@
+# Staging file. Remove the X-Robots-Tag block when PUBLIC_NOINDEX is turned off for launch.
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+  SetEnvIf Request_URI "^/_astro/" ASTRO_IMMUTABLE
+  Header set Cache-Control "public, max-age=31536000, immutable" env=ASTRO_IMMUTABLE
+</IfModule>

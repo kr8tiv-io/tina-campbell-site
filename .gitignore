@@ -21,3 +21,4 @@
 /build-plan/state.json
 !/SECTIONS-INVENTORY.md
 !/qa/
+/build-plan/driver.nohup

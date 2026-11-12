@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Page not found | Tina Campbell Photography, Edmonton';
+const description = 'This page wandered off the runway.';
+---
+
+<BaseLayout title={title} description={description}>
+  <main id="content" class="lost">
+    <img class="lost__mark" src="/brand/tcphoto-logo-white.png" alt="" width="584" height="415" />
+    <h1>This page wandered off the runway.</h1>
+    <a class="btn" href="/">Home</a>
+  </main>
+</BaseLayout>

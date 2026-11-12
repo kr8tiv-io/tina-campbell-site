@@ -1,0 +1,61 @@
+---
+import { bookHref, bookLabel, nav } from '../data/site';
+
+const path = Astro.url.pathname;
+const logo = '/brand/tcphoto-logo-white.png';
+---
+
+<header class="site-header" data-header>
+  <div class="site-header__inner">
+    <a class="logo" href="/" aria-label="Tina Campbell Photography, home">
+      <img id="site-logo" src={logo} alt="" width="584" height="415" />
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="btn site-header__cta" href={bookHref}>{bookLabel}</a>
+    <button
+      class="menu-button"
+      type="button"
+      data-menu-button
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="menu-button__bars" aria-hidden="true"></span>
+      <span class="sr-only">Menu</span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="mobile-menu" hidden>
+  <div class="menu__bar">
+    <a class="logo" href="/" aria-label="Tina Campbell Photography, home">
+      <img src={logo} alt="" width="584" height="415" />
+    </a>
+    <button class="menu__close" type="button" data-menu-close>
+      <span class="menu__close-icon" aria-hidden="true"></span>
+      <span class="sr-only">Close menu</span>
+    </button>
+  </div>
+  <nav class="menu__nav" aria-label="Mobile">
+    {
+      nav.map((item) => (
+        <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+  <div class="menu__foot">
+    <a class="btn" href={bookHref}>{bookLabel}</a>
+    <a class="menu__social" href="https://www.instagram.com/_tcphoto/" rel="noopener noreferrer" target="_blank">
+      Instagram
+    </a>
+  </div>
+</div>

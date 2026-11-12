@@ -1,0 +1,36 @@
+---
+import { bookHref, facebookUrl, footerTagline, instagramUrl, nav, siteName } from '../data/site';
+
+const path = Astro.url.pathname;
+const year = new Date().getFullYear();
+const logo = '/brand/tcphoto-logo-white.png';
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__top">
+      <a class="logo" href="/" aria-label="Tina Campbell Photography, home">
+        <img src={logo} alt="" width="584" height="415" />
+      </a>
+      <p class="site-footer__tag">{footerTagline}</p>
+    </div>
+    <nav class="site-footer__nav" aria-label="Footer">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+      <a href={bookHref}>Book a shoot</a>
+    </nav>
+    <div class="site-footer__social">
+      <a href={instagramUrl} rel="noopener noreferrer" target="_blank">Instagram</a>
+      <a href={facebookUrl} rel="noopener noreferrer" target="_blank">Facebook</a>
+    </div>
+    <div class="site-footer__legal">
+      <p>&copy; {year} {siteName}</p>
+      <p>Site by KR8TIV</p>
+    </div>
+  </div>
+</footer>
