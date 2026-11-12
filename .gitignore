@@ -10,3 +10,14 @@
 /concepts/site-layouts/*.out
 /concepts/site-layouts/as-generated/
 /concepts/site-layouts/motion/*.out
+!/site/
+/site/node_modules/
+/site/dist/
+/site/.astro/
+/site/test-results/
+/site/playwright-report/
+!/build-plan/
+/build-plan/logs/
+/build-plan/state.json
+!/SECTIONS-INVENTORY.md
+!/qa/
