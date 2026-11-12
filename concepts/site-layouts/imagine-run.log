@@ -121,3 +121,22 @@ Saved paths:
 Failures that remain after the one allowed retry:
 - 07: the four film-strip frames are still empty; the behind-the-scenes photos are a separate row beneath them, and the location cards are one row of four.
 - 16: second frame is not the Legislature steps; neighbouring frames are not skewed about four degrees; the centre ripple is a strong swirl inside the frame rather than fine concentric rings.
+
+=== Journal article and 404 ===
+Date: 2026-11-11
+Tool: image_edit only. image_gen was not used. No API failure and nothing was blocked. No existing file overwritten or deleted. One visual retry used on each page. Max 5 references per call.
+
+17-journal-article-desktop.jpg (session images/5.jpg, retry of images/3.jpg) PASS, better than the first edit. First edit spelled every required word and kept the brush logo and header, and it showed five film frames with the crimson mark as a horizontal rule in the column. Retry kept the words and moved a slim left rail of grey bars into place, with one bar crimson, and cut the film strip to three frames. Title over two lines: "The best photoshoot locations" / "in Edmonton". Subheadings "Alberta Legislature" and "Walterdale Bridge". "Keep reading" and both "Book a shoot" pills spelled exactly. Nav: Work, Fashion & Editorial, About, Services, Journal. Meta and body copy are grey bars. Wide Walterdale hero is about 2.25:1. The left rail sits beside the lower column. The inline bridge photo is a white arch in daylight.
+
+18-journal-article-mobile.jpg (session images/2.jpg) PASS on words, logo, and header. Retry (session images/4.jpg) left the screen 1 photo the same shape, about 0.83 tall, so the first edit was kept. Three flat iPhones. Each header is the brush TCPhoto logo, a menu icon, and "Book a shoot". Screen 1 title spells "The best photoshoot locations in Edmonton" over the Walterdale bridge photo. Screen 2 is grey bars with the subheading "Walterdale Bridge". Screen 3 has the bridge photo, a thin crimson rule, grey bars, "Keep reading", and a crimson "Book a shoot" bar. The screen 1 photo is a tall crop, so it is not a 2.39:1 letterbox. One retry already used.
+
+19-404-desktop.jpg (session images/6.jpg, retry of images/1.jpg) PASS on the page words. Header matches: brush TCPhoto, Work, Fashion & Editorial, About, Services, Journal, Book a shoot. Large serif "Page not found". Line "This page wandered off the runway." Crimson pill "Back home". One film frame holds the red gown on the teal truck, a little darker than the first edit. The truck grille still reads FARGO faintly. One retry already used.
+
+Saved paths:
+/workspace/tina-campbell/concepts/site-layouts/17-journal-article-desktop.jpg
+/workspace/tina-campbell/concepts/site-layouts/18-journal-article-mobile.jpg
+/workspace/tina-campbell/concepts/site-layouts/19-404-desktop.jpg
+
+What remains after the one allowed retry:
+- 18: the first phone's bridge photo is a tall crop, so the hero is not a 2.39:1 letterbox.
+- 19: FARGO is still faintly readable on the truck grille. The gown photo is only slightly soft.

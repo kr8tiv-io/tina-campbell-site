@@ -26,7 +26,8 @@ Real photos only from `images/` (see `images/MANIFEST.csv` for category + subjec
 | /services/ | 08-services-desktop-v2b.jpg | hover thumbnail follow, reveals |
 | /journal/ + /journal/[slug]/ | 09-journal-desktop-v2b.jpg | film-strip row reveals |
 | /book/ | 10-contact-book-desktop.jpg | reveals |
-| 404 | ink page, logo, link home | none |
+| 404 | 19-404-desktop.jpg (H1 "Page not found", line "This page wandered off the runway.", crimson pill "Back home") | none |
+| /journal/[slug]/ article | 17-journal-article-desktop.jpg, mobile 18-journal-article-mobile.jpg (sticky TOC on the left at desktop, not at the bottom) | title SplitText, letterbox hero |
 Global: signature loader (layout 14) first visit only (sessionStorage), film-strip page transition (layout 15 / clip 05), crimson dot cursor with "View" on photos (desktop, fine pointer only), header hide on scroll down / show on up, footer on every page (logo, nav, Instagram + Facebook, "Site by KR8TIV").
 
 ## Motion rules
