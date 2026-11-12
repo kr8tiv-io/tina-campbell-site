@@ -32,8 +32,12 @@
 
 .fe-mark {
   display: block;
-  width: auto;
-  height: 86px;
+  align-self: flex-start;
+  width: 200px;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: 584 / 415;
+  object-fit: contain;
   margin: 0 0 0.85rem;
 }
 
@@ -583,7 +587,9 @@ html.pbc-motion .chapter__shot:not(:first-child) {
   }
 
   .fe-mark {
+    width: auto;
     height: 64px;
+    max-width: none;
   }
 
   .fe-title {

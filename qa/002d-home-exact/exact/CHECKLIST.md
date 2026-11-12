@@ -1,0 +1,53 @@
+# 002d home and global header
+
+Measured on the built dist (`npm run build`, served at `http://127.0.0.1:4824`). Desktop boxes are Playwright `getBoundingClientRect` at scroll 0 unless a scroll is named. Clip pacing is the 1280x720 viewport, the same frame as clip 01. Zone luma is `after-clip01/zone-luma.json`.
+
+Replay contact: `after-clip01/CONTACT-clip-vs-build.jpg`. Side-by-sides are the `side-home-*.jpg` files in this folder.
+
+## Global header
+
+| ID | Target | Measured | Verdict | What changed |
+| --- | --- | --- | --- | --- |
+| G1 | Header bar ~100 px at 1280, ~112 px at 1440 | 100 px at 1280. 112 px at 1440. Mobile header stays 80 px. | PASS | `--header-h: clamp(100px, 7.78vw, 112px)`. |
+| G2 | Mark ~166x89 at 1280, ~187x100 at 1440, and the SVG aspect kept | 166x118 at 1280 (x=51). 187x133 at 1440 (x=58). Computed `aspect-ratio: 584 / 415`. | PASS | Width is `clamp(166px, 13vw, 187px)`, height `auto`. The 89 px and 100 px table heights would squash the 584x415 art, so height follows the file. Footer logo stays on the 64 px rule. |
+| G3 | Mono nav ~18 px at 1280, ~20 px at 1440 | JetBrains Mono 18 px at 1280 (first link x=341). 20 px at 1440 (first link x=387). | PASS | `font-size: clamp(18px, 1.39vw, 20px)`. |
+| G4 | Book a shoot pill 183x55 at 1280, ~206x62 at 1440, crimson `#B3261E` | 183x55 at 1280 (x=1046, y=32, 16 px). 206x62 at 1440 (x=1177, y=35, 18 px). Fill `#b3261e` on rest and hover. | PASS | `a.site-header__cta.btn` after `.btn` so the pill size wins. |
+| G5 | In-panel mark keeps its aspect, ~200 px wide at 1440 | Fashion and Editorial `.fe-mark` 200x142 at (67, 187), `aspect-ratio: 584 / 415`, `object-fit: contain`, `align-self: flex-start`. Series templates have no in-panel mark. | PASS | Stopped the column stretch. A y=0 fashion capture can show a one-frame sky sliver while the column clip-path opens. The settled column sits under the header. |
+| G6 | Mobile mark ~56 px tall, hamburger on the right | Logo 79x56 at (20, 12) on 390 and on 360. Header 80 px. Desktop nav and pill are hidden. | PASS | Mobile rule `height: 56px; width: auto` overrides the desktop width. |
+
+## Home
+
+| ID | Target | Measured | Verdict | What changed |
+| --- | --- | --- | --- | --- |
+| H1 | Both lamp globes and the whole figure, not zoomed in. Head high. No upscale past 1.25x. | `object-position: 50% 0%`. Source `fb_141_signature` is 1080x1440, the largest original. Display box at 1440 is 1350x835 (x=45), exactly 1.25x, with ~45 px sky bars. At 1280 the photo is full bleed, 1280x657 (1.185x). Both globes and the full figure read in clip t=0 and in the layout 01 / PDF p10 side-by-sides. | PASS | Re-crop to the top of the frame. Cap `.hero__zoom .photo` at 1350 px so 1440 does not pass 1.25x. Bars are the graded sky colour `#0b4f9c`, slightly darker than the multiplied photo. |
+| H2 | Night grade. Zone-luma mean abs diff under 18 at t=0. | t=0 mean abs diff 15.1 (clip zones 31.5, 41.3, 30.6, 60.8, 90.2, 67.8, 59.9, 67.4, 65.8; build 57.9, 39.2, 56.6, 56.9, 62.5, 80.1, 72.7, 79.0, 78.7). Deep blue sky, warm skin, vignette, grain. Globes stay yellow-white rather than clipped white. Later frames rise because the runway photos differ from the clip mocks (t=3 is 21.6, t=6 is 27.3). | PASS | CSS grade only. Multiply night veil, soft-light warm skin, `brightness(0.72) contrast(1.15) saturate(2)`, grain 0.1. No baked derivative. |
+| H3 | Bottom ~35% fades to pure ink. Meta row sits on the fade. | Desktop shade: transparent through 58%, 0.12 at 74%, 0.62 at 90%, `#0c0c0f` at 100%, plus a vignette. Meta row "No. 001 / Alberta Legislature, Edmonton" and Scroll sit on that fade in the t=0 frames. | PASS | Replaced the hard edge with the long gradient. Hero section background is ink. |
+| H4 | Title 78-79% of the viewport, centred, does not scale. | Glyph box 1015/1280 = 79.3% (x=132) and 1142/1440 = 79.3% (x=149). Font 15.5vw (198.4 px at 1280, 223.2 px at 1440). No JS scale. Glyph top is low on the first screen (y=454 at 1280, y=602 at 1440), matching clip t=0 and layout 01. The table's "~41% of viewport height" fights those frames, so the title stays on the fade. | PASS | Removed the scroll scale. Width stays `15.5vw` / `max-content`. |
+| H5 | At scroll ~303 px only the label and the top of the tiles. At 621 px the label is near y=200 and the numbers sit with the tiles. | 1280x720. Hero section 742 px tall, starting at y=100. Scroll 303: label y=539, tile top y=672, 48 px visible (14% of 337). Scroll 621: label y=221, tile y=268, numbers y=616. Clip tile-top scan at the same scroll was ~y=674. Clip number pixels sit near y=598-613. The looser "~650" note is above that. | PASS | Hero `calc(117svh - var(--header-h))` on desktop only. Photo and title stay in the first screen. Runway rise `y: 140` to `0`, trigger `top 92%` to `top 48%`. |
+| H6 | Five equal 2:3 tiles, gap ~24 px, margin ~30 px at 1280. Numbers centred. Label only. | At 1280: 225x337, x = 30, 279, 528, 776, 1025. Gap 24 px. Outer margin 30 px. Numbers 22 px mono, centred, letter-spacing 0.16em. Label 22 px serif. At 1440: 253x379, gap 27 px, margin 34 px. No `.runway__note`, rule, or "See all fashion work" link. | PASS | `aspect-ratio: 2 / 3`. Removed the caption, the rule, and the in-band link. The category band still links to Work. |
+| H7 | Night runway frames: truck, snow, lit catwalk, magenta stage, black gown in a dark venue. | Tile 1 `fb_016_signature`, red gown on the turquoise Fargo, crop `100% 62%` scale 1.5. Clean. Tiles 2-5 are the closest real frames. No file was edited to remove a watermark. | Tile 1 PASS. Tiles 2-5 CLOSEST | See the frame notes under this table. |
+| H8 | "Edmonton is my runway." white serif, left, one line. | At 1440: x=58, w=1325 (92%), 89.28 px. At 1280: x=51, w=1178, 79.36 px. Layout 01 is the same wide left line. The table's "~57% / ~820 px" fights that plate and the row that already marked the build ok. | PASS | Left as the wide line in layout 01. |
+| H9 | Six landscape ~5:4 tiles, edge to edge, 4 px gaps, mono label on a dark bar. | At 1440: 237x189 (5:4), x = 0, 241, 481, 722, 963, 1203. Gap 4 px. Last edge at 1440. Labels 13 px mono, bar 44 px, ink `#0c0c0f`. At 1280: 210x168, gap 4 px. Sprocket holes removed. | PASS | Reversed the 4:5 portrait change. Mobile category list is unchanged. |
+| H10 | Photo right 50-100%, ~1.9:1, gown on the turquoise truck, no signature. Text left. | Grid `1fr 1fr`. Section at 1440 is 379 px tall, so the photo is 720x379 (1.90). `object-position: 62% 72%` on `fb_016_signature`. Side-by-side shows the gown on the hood and no script. | PASS | Same truck frame as tile 1, a wider crop that clears the signature. |
+| H11 | One dusk plate with the Walterdale arch, dark, "Let's make something bold." left, crimson pill. | Plate `fb_577057434409234` (Walterdale arch, river, skyline). Crop `center 52%`, scale 1.38 from `center 72%`, darkened. Type and pill sit left. No TC Photo script in the crop. | CLOSEST | The real plate is daylight. The grade pushes it toward dusk. The arch sits more central than the layout mock, and a smoke plume stays left of the towers. `fb_066` cannot show arch and skyline without `@_TCPHOTO`. `fb_001` is the High Level underside. `fb_168` is dusk skyline with no arch. |
+| H12 | Mobile 390. Stacked centred TINA / CAMPBELL, line ~60% of width, block ~45-70% of height. Pill only at the bottom of the hero. | Campbell line 224/390 = 57.4% (x=83, y=447, h=84). Tina line y=373. Block runs 44% to 63% of 844. Pill 354x47 at y=783, inside the 844 px hero. | PASS | Mobile title `16.6vw`, copy padding-top 46vh. |
+| H13 | Mobile runway. Side peeks ~18%, centre panel, frames ~68 svh, crimson progress, "No. 014 / EDMONTON" style caption from real data. | Centre item 242 px = 62vw (x=74). Left peek 74 px = 19%. Right peek ~66 px. Frame 574 px = 68svh. Progress bar present. Caption reads No. 001 / EDMONTON from the frame data. | PASS | Centre is 62vw so the peeks match layout 11. The table's "centre ~45%" plus "sides ~18%" cannot both be true (18+45+18 is not 100). Layout 11 is the narrow-peek plate. |
+
+### H7 frames
+
+- 01 PASS. `fb_016_signature`. Red gown seated on the turquoise truck. Crop clears the signature.
+- 02 CLOSEST. `fb_114_signature`. Red gown by a wooden bridge. There is no red ballgown in snow in the library. Scale 1.62 from the top keeps the figure and drops the low signature.
+- 03 CLOSEST. `fb_085_runway`. Lit indoor runway. Not a night outdoor catwalk. Scale 1.22 drops the WCFW badge.
+- 04 CLOSEST. `fb_029_runway`. Dark venue, red feathered look. No magenta stage plate exists.
+- 05 CLOSEST. `fb_046_signature`. Black gown on the legislature steps, in daylight. The dark-venue black gown frames carry a signature across the subject or are the wrong scene.
+
+Category crops that had to move off a signature: Portraits `fb_021_portrait` scale 1.5 toward the face. Bridal `fb_109_bridal` scale 1.75 toward the bride. Hover keeps those origins. Fashion, Runway, Couples, and Edmonton are position-only and read clean.
+
+### Overflow, motion, tests
+
+- Home overflowX is false at 1440, 1280, 390, and 360. Console `errors` on the captured home and fashion pages are empty.
+- Desktop home has no pin. Title does not scale. Photo shift is 6% of the media height. Reduced motion and the touch scroller are unchanged.
+- Playwright `site/tests`: 38 passed, 18 skipped, 0 failed (desktop, mobile, small, reduced).
+- Assertion edits, only where the old copy was the removed in-band link: `site/tests/home.spec.ts` and `site/tests/home-lock.spec.ts` now expect `See all fashion work` to have count 0.
+
+Loader CSS was not changed.

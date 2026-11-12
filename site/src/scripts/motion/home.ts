@@ -90,8 +90,9 @@ function initHero(): () => void {
       scrub: true,
       onUpdate: (self) => {
         const t = Math.min(1, self.progress / 0.5);
-        gsap.set(shift, { y: -hero.offsetHeight * 0.18 * t });
-        if (title) gsap.set(title, { scale: 1 + 0.15 * t, transformOrigin: 'center bottom' });
+        const media = shift.parentElement;
+        const span = media?.offsetHeight || hero.offsetHeight;
+        gsap.set(shift, { y: -span * 0.06 * t });
       },
     });
     triggers.push(trigger);
@@ -132,7 +133,7 @@ function initRunwayRise(): () => void {
   if (!section || !track) return () => {};
   const tween = gsap.fromTo(
     track,
-    { y: 96 },
+    { y: 140 },
     {
       y: 0,
       ease: 'none',

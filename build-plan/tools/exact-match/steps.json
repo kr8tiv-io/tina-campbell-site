@@ -1,0 +1,100 @@
+{
+ "002d-home-exact": {
+  "clips": [
+   "clip01"
+  ],
+  "routes": "/",
+  "layouts": [
+   "01-home-desktop-v2b.jpg",
+   "11-home-mobile.jpg"
+  ],
+  "ids": "G1-G6, H1-H13"
+ },
+ "003b-runway-exact": {
+  "clips": [
+   "clip02"
+  ],
+  "routes": "/runway/",
+  "layouts": [
+   "06-runway-gallery-desktop-v2.jpg"
+  ],
+  "ids": "R1-R8"
+ },
+ "004b-work-exact": {
+  "clips": [
+   "clip03"
+  ],
+  "routes": "/work/",
+  "layouts": [
+   "02-work-index-desktop-v3.jpg",
+   "16-motion-hover-distortion-v3.jpg"
+  ],
+  "ids": "W1-W8"
+ },
+ "005b-editorial-exact": {
+  "clips": [
+   "clip04"
+  ],
+  "routes": "/fashion-editorial/,/series/the-red-gown/,/series/legislature-in-black/,/portraits-bridal-couples/",
+  "layouts": [
+   "03-fashion-editorial-desktop-v2.jpg",
+   "04-series-story-desktop-v3.jpg",
+   "05-portraits-bridal-desktop-v2.jpg",
+   "12-series-mobile-v2.jpg"
+  ],
+  "ids": "E1-E7, S1-S5, P1-P2, G5"
+ },
+ "006-about": {
+  "clips": [
+   "clip06"
+  ],
+  "routes": "/about/",
+  "layouts": [
+   "07-about-desktop-v3-clean.jpg",
+   "13-about-mobile-v3.jpg"
+  ],
+  "ids": "A1-A10"
+ },
+ "007-services-book": {
+  "clips": [],
+  "routes": "/services/,/book/",
+  "layouts": [
+   "08-services-desktop-v2b.jpg",
+   "10-contact-book-desktop.jpg"
+  ],
+  "ids": "V1-V5, B1-B4"
+ },
+ "008-journal-seo": {
+  "clips": [],
+  "routes": "/journal/",
+  "layouts": [
+   "09-journal-desktop-v2b.jpg",
+   "17-journal-article-desktop.jpg",
+   "18-journal-article-mobile.jpg"
+  ],
+  "ids": "J1-J5"
+ },
+ "009-transitions": {
+  "clips": [
+   "clip05"
+  ],
+  "routes": "/work/,/series/the-red-gown/",
+  "layouts": [
+   "15-motion-page-transition.jpg"
+  ],
+  "ids": "T1, T1b, T2, T3, T4"
+ },
+ "010-qa": {
+  "clips": [
+   "clip01",
+   "clip02",
+   "clip03",
+   "clip04",
+   "clip05",
+   "clip06"
+  ],
+  "routes": "/,/runway/,/work/,/fashion-editorial/,/series/the-red-gown/,/portraits-bridal-couples/,/about/,/services/,/book/,/journal/",
+  "layouts": [],
+  "ids": "all"
+ }
+}

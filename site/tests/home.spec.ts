@@ -48,10 +48,7 @@ test('home matches layout and motion', async ({ page }, info) => {
   await expect(page.locator('#statement-heading')).toContainText('Edmonton is my runway.');
   await expect(page.locator('#teaser-heading')).toHaveText('The Red Gown');
   await expect(page.locator('#band-heading')).toContainText("Let's make something bold.");
-  await expect(page.getByRole('link', { name: 'See all fashion work' })).toHaveAttribute(
-    'href',
-    '/fashion-editorial/',
-  );
+  await expect(page.getByRole('link', { name: 'See all fashion work' })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'View the series' })).toHaveAttribute(
     'href',
     '/series/the-red-gown/',

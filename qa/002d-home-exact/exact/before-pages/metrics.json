@@ -1,0 +1,364 @@
+{
+ "home-1440": {
+  "h1": {
+   "x": 149,
+   "y": 593,
+   "w": 1142,
+   "h": 304,
+   "fs": "223.2px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "center"
+  },
+  "h1glyph": {
+   "x": 149,
+   "w": 1142,
+   "y": 593,
+   "h": 304
+  },
+  "h1text": "TINA CAMPBELL",
+  "logo": {
+   "x": 58,
+   "y": 16,
+   "w": 90,
+   "h": 64,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 440,
+   "y": 36,
+   "w": 39,
+   "h": 24,
+   "fs": "16px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "hero",
+    "id": "",
+    "h": 804
+   },
+   {
+    "cls": "runway",
+    "id": "",
+    "h": 523
+   },
+   {
+    "cls": "statement",
+    "id": "",
+    "h": 192
+   },
+   {
+    "cls": "sheet",
+    "id": "",
+    "h": 381
+   },
+   {
+    "cls": "teaser",
+    "id": "",
+    "h": 617
+   },
+   {
+    "cls": "band",
+    "id": "",
+    "h": 504
+   }
+  ],
+  "scrollHeight": 3522,
+  "errors": []
+ },
+ "fashion-editorial-1440": {
+  "h1": {
+   "x": 67,
+   "y": 307,
+   "w": 602,
+   "h": 206,
+   "fs": "102.96px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 67,
+   "w": 602,
+   "y": 278,
+   "h": 264
+  },
+  "h1text": "Fashion\n& Editorial",
+  "logo": {
+   "x": 58,
+   "y": 16,
+   "w": 90,
+   "h": 64,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 440,
+   "y": 36,
+   "w": 39,
+   "h": 24,
+   "fs": "16px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "fe-split",
+    "id": "",
+    "h": 896
+   },
+   {
+    "cls": "fe-pull",
+    "id": "",
+    "h": 390
+   },
+   {
+    "cls": "fe-collab",
+    "id": "",
+    "h": 224
+   }
+  ],
+  "scrollHeight": 2973,
+  "errors": []
+ },
+ "series_the-red-gown-1440": {
+  "h1": {
+   "x": 58,
+   "y": 694,
+   "w": 720,
+   "h": 147,
+   "fs": "103.68px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 58,
+   "w": 720,
+   "y": 694,
+   "h": 147
+  },
+  "h1text": "The Red Gown",
+  "logo": {
+   "x": 58,
+   "y": 16,
+   "w": 90,
+   "h": 64,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 440,
+   "y": 36,
+   "w": 39,
+   "h": 24,
+   "fs": "16px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "cover",
+    "id": "",
+    "h": 804
+   },
+   {
+    "cls": "spread",
+    "id": "",
+    "h": 936
+   }
+  ],
+  "scrollHeight": 3506,
+  "errors": []
+ },
+ "home-390": {
+  "h1": {
+   "x": 20,
+   "y": 552,
+   "w": 350,
+   "h": 180,
+   "fs": "70.2px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "center"
+  },
+  "h1glyph": {
+   "x": 20,
+   "w": 350,
+   "y": 552,
+   "h": 180
+  },
+  "h1text": "TINA\nCAMPBELL",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "16px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "hero",
+    "id": "",
+    "h": 844
+   },
+   {
+    "cls": "runway",
+    "id": "",
+    "h": 844
+   },
+   {
+    "cls": "statement",
+    "id": "",
+    "h": 166
+   },
+   {
+    "cls": "sheet",
+    "id": "",
+    "h": 749
+   },
+   {
+    "cls": "teaser",
+    "id": "",
+    "h": 520
+   },
+   {
+    "cls": "band",
+    "id": "",
+    "h": 420
+   }
+  ],
+  "scrollHeight": 4050,
+  "errors": []
+ },
+ "fashion-editorial-390": {
+  "h1": {
+   "x": 28,
+   "y": 3047,
+   "w": 334,
+   "h": 94,
+   "fs": "54.6px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 28,
+   "w": 181,
+   "y": 3034,
+   "h": 118
+  },
+  "h1text": "Fashion\n& Editorial",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "16px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "fe-split",
+    "id": "",
+    "h": 3419
+   },
+   {
+    "cls": "fe-pull",
+    "id": "",
+    "h": 678
+   },
+   {
+    "cls": "fe-collab",
+    "id": "",
+    "h": 290
+   }
+  ],
+  "scrollHeight": 4894,
+  "errors": []
+ },
+ "series_the-red-gown-390": {
+  "h1": {
+   "x": 20,
+   "y": 711,
+   "w": 350,
+   "h": 83,
+   "fs": "58.5px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 20,
+   "w": 350,
+   "y": 711,
+   "h": 83
+  },
+  "h1text": "The Red Gown",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "16px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "cover",
+    "id": "",
+    "h": 776
+   },
+   {
+    "cls": "spread",
+    "id": "",
+    "h": 759
+   }
+  ],
+  "scrollHeight": 3064,
+  "errors": []
+ }
+}
