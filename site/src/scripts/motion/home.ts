@@ -66,14 +66,13 @@ function initHero(): () => void {
 
   const compact = window.matchMedia('(max-width: 960px)').matches;
 
+  // Load Ken Burns: slow settle, then the scroll tween takes the scale.
   if (zoom) {
-    gsap.fromTo(zoom, { scale: 1.08 }, { scale: 1, duration: 2.6, ease: 'power2.out' });
+    gsap.fromTo(zoom, { scale: 1.08 }, { scale: 1, duration: 2.4, ease: 'power2.out' });
   }
 
-  if (hero && shift) {
-    const tween = gsap.to(shift, {
-      yPercent: compact ? 2 : 3,
-      ease: 'none',
+  if (hero && shift && zoom && copy) {
+    const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: hero,
         start: 'top top',
@@ -81,21 +80,11 @@ function initHero(): () => void {
         scrub: true,
       },
     });
-    if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
-  }
-
-  if (hero && copy) {
-    const tween = gsap.to(copy, {
-      yPercent: compact ? -16 : -20,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: hero,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
-    if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
+    // Photo lags a little. The name stays with the frame, then both leave
+    // upward while The Runway rises into the centre (clip 01).
+    timeline.to(shift, { yPercent: compact ? 3 : 7, scale: compact ? 1.02 : 1.045, ease: 'none' }, 0);
+    timeline.to(copy, { yPercent: compact ? -6 : -10, ease: 'none' }, 0);
+    if (timeline.scrollTrigger) triggers.push(timeline.scrollTrigger);
   }
 
   if (title) {
@@ -112,7 +101,7 @@ function initHero(): () => void {
       gsap.fromTo(
         split.chars,
         { yPercent: 115 },
-        { yPercent: 0, duration: 1.05, stagger: 0.022, ease: 'power3.out' },
+        { yPercent: 0, duration: 0.7, stagger: 0.012, ease: 'power3.out' },
       );
     } catch {
       /* heading stays as written */
@@ -131,19 +120,23 @@ function initRunwayPin(): () => void {
   const track = document.querySelector<HTMLElement>('[data-runway-track]');
   if (!pin || !viewport || !track) return () => {};
 
-  const tween = gsap.to(track, {
-    x: () => -Math.max(0, track.scrollWidth - viewport.clientWidth),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: pin,
-      start: 'top 92px',
-      end: '+=48%',
-      pin: true,
-      scrub: 0.65,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
+  const tween = gsap.fromTo(
+    track,
+    { x: 0 },
+    {
+      x: () => -Math.max(0, track.scrollWidth - viewport.clientWidth),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: pin,
+        start: 'center center',
+        end: '+=78%',
+        pin: true,
+        scrub: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
     },
-  });
+  );
 
   return () => {
     tween.scrollTrigger?.kill();
@@ -176,8 +169,8 @@ function initStatement(): () => void {
           stagger: 0.12,
           scrollTrigger: {
             trigger: heading,
-            start: 'top 86%',
-            end: 'top 46%',
+            start: 'top 92%',
+            end: 'top 52%',
             scrub: true,
           },
         },
@@ -213,6 +206,28 @@ function initStatement(): () => void {
   };
 }
 
+function initBand(): () => void {
+  const band = document.querySelector<HTMLElement>('[data-band]');
+  const sky = document.querySelector<HTMLElement>('[data-band-sky] .band__layer');
+  const arch = document.querySelector<HTMLElement>('[data-band-arch] .band__layer');
+  if (!band || !sky || !arch) return () => {};
+  // A light nod to clip 06: skyline slow, arch faster. Not the About hero.
+  const tween = gsap.timeline({
+    scrollTrigger: {
+      trigger: band,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true,
+    },
+  });
+  tween.fromTo(sky, { yPercent: 5 }, { yPercent: -7, ease: 'none' }, 0);
+  tween.fromTo(arch, { yPercent: 12 }, { yPercent: -18, ease: 'none' }, 0);
+  return () => {
+    tween.scrollTrigger?.kill();
+    tween.kill();
+  };
+}
+
 function initTeaser(): () => void {
   const media = document.querySelector<HTMLElement>('[data-parallax-mask]');
   const photo = document.querySelector<HTMLElement>('[data-parallax-photo]');
@@ -242,19 +257,28 @@ export function initHome(reduced: boolean, fine: boolean, signal: AbortSignal): 
 
   const releases = [initBookBar(signal), initRunwayProgress(signal), initHeaderSolid(signal)];
 
+  const wide = window.matchMedia('(min-width: 961px)').matches;
+  const motion = !reduced && wide && fine;
+  if (motion) document.documentElement.classList.add('is-motion');
+
   if (!reduced) {
     releases.push(initHero());
-    const wide = window.matchMedia('(min-width: 961px)').matches;
-    if (wide && fine) releases.push(initRunwayPin());
+    if (motion) releases.push(initRunwayPin());
     releases.push(initStatement());
     releases.push(initTeaser());
+    releases.push(initBand());
   }
+
+  const releaseMotionClass = (): void => {
+    document.documentElement.classList.remove('is-motion');
+  };
 
   const refresh = (): void => ScrollTrigger.refresh();
   window.addEventListener('load', refresh, { once: true });
 
   return () => {
     window.removeEventListener('load', refresh);
+    releaseMotionClass();
     releases.forEach((release) => release());
   };
 }

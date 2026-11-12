@@ -7,18 +7,18 @@ import '../styles/home.css';
 const hero = getPhoto('fb_141_signature');
 const runway = [
   { photo: getPhoto('fb_013_signature'), n: '01', href: '/series/the-red-gown/', pos: 'pos-truck' },
-  { photo: getPhoto('fb_034_fashion'), n: '02', href: '/series/red-in-snow/', pos: 'pos-snow' },
+  { photo: getPhoto('fb_009_fashion'), n: '02', href: '/series/red-in-snow/', pos: 'pos-snow' },
   { photo: getPhoto('fb_037_runway'), n: '03', href: '/series/runway-nights/', pos: 'pos-gown' },
-  { photo: getPhoto('fb_012_runway'), n: '04', href: '/runway/', pos: 'pos-stage' },
+  { photo: getPhoto('fb_064_runway'), n: '04', href: '/runway/', pos: 'pos-stage' },
   { photo: getPhoto('fb_011_fashion'), n: '05', href: '/fashion-editorial/', pos: 'pos-leather' },
 ];
 const categories = [
-  { label: 'Fashion', filter: 'fashion', photo: getPhoto('fb_114_signature'), n: '01' },
-  { label: 'Runway', filter: 'runway', photo: getPhoto('fb_064_runway'), n: '02' },
-  { label: 'Portraits', filter: 'portraits', photo: getPhoto('fb_021_portrait'), n: '03' },
-  { label: 'Bridal', filter: 'bridal', photo: getPhoto('fb_049_bridal'), n: '04' },
-  { label: 'Couples', filter: 'couples', photo: getPhoto('fb_031_couples'), n: '05' },
-  { label: 'Edmonton', filter: 'edmonton', photo: getPhoto('fb_001_city'), n: '06' },
+  { label: 'Fashion', filter: 'fashion', photo: getPhoto('fb_114_signature'), n: '01', pos: 'cat-fashion' },
+  { label: 'Runway', filter: 'runway', photo: getPhoto('fb_064_runway'), n: '02', pos: 'cat-runway' },
+  { label: 'Portraits', filter: 'portraits', photo: getPhoto('fb_021_portrait'), n: '03', pos: 'cat-portrait' },
+  { label: 'Bridal', filter: 'bridal', photo: getPhoto('fb_049_bridal'), n: '04', pos: 'cat-bridal' },
+  { label: 'Couples', filter: 'couples', photo: getPhoto('fb_065_couples'), n: '05', pos: 'cat-couples' },
+  { label: 'Edmonton', filter: 'edmonton', photo: getPhoto('fb_168_city'), n: '06', pos: 'cat-city' },
 ];
 const teaser = getPhoto('fb_116_signature');
 const skyline = getPhoto('fb_168_city');
@@ -44,7 +44,7 @@ const description =
       </div>
       <div class="hero__shade" aria-hidden="true"></div>
       <div class="hero__copy" data-hero-copy>
-        <h1 class="hero__title" data-hero-title>Tina Campbell</h1>
+        <h1 class="hero__title" data-hero-title><span class="hero__first">Tina</span> <span class="hero__last">Campbell</span></h1>
         <div class="hero__meta">
           <p class="hero__caption">No. 001 / Alberta Legislature, Edmonton</p>
           <span class="hero__rule" aria-hidden="true"></span>
@@ -106,7 +106,8 @@ const description =
                   <Photo
                     src={item.photo.src}
                     alt={item.photo.alt}
-                    sizes="(max-width: 960px) 72px, 16vw"
+                    sizes="(max-width: 960px) 76px, 16vw"
+                    class={item.pos}
                   />
                 </span>
                 <span class="sheet__label">
@@ -137,6 +138,7 @@ const description =
               src={teaser.src}
               alt={teaser.alt}
               sizes="(max-width: 800px) 100vw, 56vw"
+              class="pos-teaser"
             />
           </a>
         </div>
@@ -145,11 +147,15 @@ const description =
 
     <section class="band" data-band aria-labelledby="band-heading">
       <div class="band__bg" aria-hidden="true">
-        <div class="band__sky">
-          <Photo src={skyline.src} alt={skyline.alt} sizes="100vw" />
+        <div class="band__sky" data-band-sky>
+          <div class="band__layer">
+            <Photo src={skyline.src} alt={skyline.alt} sizes="100vw" />
+          </div>
         </div>
-        <div class="band__arch">
-          <Photo src={arch.src} alt={arch.alt} sizes="60vw" />
+        <div class="band__arch" data-band-arch>
+          <div class="band__layer">
+            <Photo src={arch.src} alt={arch.alt} sizes="70vw" />
+          </div>
         </div>
       </div>
       <div class="band__shade" aria-hidden="true"></div>

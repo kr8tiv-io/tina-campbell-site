@@ -17,7 +17,9 @@
 .hero__shade {
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(12, 12, 15, 0.5) 0%, rgba(12, 12, 15, 0.08) 28%, transparent 46%);
+  background:
+    linear-gradient(to top, rgba(12, 12, 15, 0.78) 0%, rgba(12, 12, 15, 0.34) 18%, rgba(12, 12, 15, 0.04) 42%, transparent 58%),
+    linear-gradient(to bottom, rgba(12, 12, 15, 0.28) 0%, transparent 18%);
 }
 
 .hero__shift {
@@ -51,7 +53,7 @@
 }
 
 .hero__zoom .photo img {
-  object-position: center top;
+  object-position: center 4%;
 }
 
 .hero__copy {
@@ -67,9 +69,9 @@
   max-width: 100%;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(3.4rem, 22vw, 12rem);
+  font-size: clamp(3.15rem, 16.4vw, 7.4rem);
   line-height: 0.82;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
   overflow-wrap: normal;
   word-break: normal;
@@ -87,8 +89,8 @@
 .hero__scroll {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
   line-height: 1.3;
   color: var(--paper);
   white-space: nowrap;
@@ -153,16 +155,27 @@
 
 .runway__track {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.7rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  width: max-content;
+  width: auto;
 }
 
 .runway__item {
-  flex: 0 0 calc((100cqi - 3rem) / 4.65);
+  flex: 1 1 0;
   min-width: 0;
+}
+
+@media (min-width: 961px) {
+  html.is-motion .runway__track {
+    width: max-content;
+  }
+
+  html.is-motion .runway__item {
+    flex: 0 0 calc((100cqi - 2.8rem) / 4.42);
+    width: auto;
+  }
 }
 
 .runway__frame {
@@ -189,32 +202,32 @@
 }
 
 .runway__frame .photo img.pos-truck {
-  object-position: center 28%;
+  object-position: center 46%;
 }
 
 .runway__frame .photo img.pos-snow {
-  object-position: center 18%;
+  object-position: center 36%;
 }
 
 .runway__frame .photo img.pos-gown {
-  object-position: center 12%;
+  object-position: center 42%;
 }
 
 .runway__frame .photo img.pos-stage {
-  object-position: center 30%;
+  object-position: center 28%;
 }
 
 .runway__frame .photo img.pos-leather {
-  object-position: center 22%;
+  object-position: center 46%;
 }
 
 .runway__num {
-  margin: 0.7rem 0 0;
+  margin: 0.55rem 0 0;
   text-align: center;
   font-family: var(--mono);
-  font-size: clamp(1.35rem, 2vw, 2.15rem);
+  font-size: clamp(1.45rem, 2.15vw, 2.35rem);
   font-weight: 400;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   line-height: 1;
 }
 
@@ -260,16 +273,16 @@
 }
 
 .statement {
-  padding-top: clamp(2.2rem, 6vh, 4rem);
-  padding-bottom: clamp(1.4rem, 3vh, 2.2rem);
+  padding-top: clamp(1.8rem, 4.5vh, 3.2rem);
+  padding-bottom: clamp(1.2rem, 3vh, 2rem);
 }
 
 .statement h2 {
   margin: 0;
-  max-width: 16ch;
+  max-width: none;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(2.6rem, 5.5vw, 5.35rem);
+  font-size: clamp(2.5rem, 6.2vw, 6rem);
   line-height: 0.94;
   letter-spacing: -0.03em;
 }
@@ -312,7 +325,31 @@
 }
 
 .sheet__frame .photo img {
+  object-position: center 24%;
+}
+
+.sheet__frame .photo img.cat-fashion {
+  object-position: center 18%;
+}
+
+.sheet__frame .photo img.cat-runway {
   object-position: center 22%;
+}
+
+.sheet__frame .photo img.cat-portrait {
+  object-position: center 30%;
+}
+
+.sheet__frame .photo img.cat-bridal {
+  object-position: center 28%;
+}
+
+.sheet__frame .photo img.cat-couples {
+  object-position: center 32%;
+}
+
+.sheet__frame .photo img.cat-city {
+  object-position: center 42%;
 }
 
 .sheet__label {
@@ -329,11 +366,11 @@
 
 .teaser {
   display: grid;
-  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
-  gap: clamp(1.5rem, 4vw, 4rem);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: start;
-  padding-top: clamp(1rem, 3vh, 2rem);
-  padding-bottom: clamp(3rem, 8vh, 5.5rem);
+  padding-top: clamp(0.5rem, 2vh, 1.4rem);
+  padding-bottom: clamp(2.4rem, 6vh, 4.2rem);
 }
 
 .teaser__kicker {
@@ -365,7 +402,7 @@
 .teaser__media {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   background: var(--graphite);
 }
 
@@ -386,13 +423,13 @@
 }
 
 .teaser__shift .photo img {
-  object-position: center 46%;
+  object-position: center 58%;
 }
 
 .band {
   position: relative;
   display: flex;
-  min-height: clamp(440px, 58vh, 660px);
+  min-height: clamp(460px, 56vh, 680px);
   overflow: hidden;
   background: var(--ink);
 }
@@ -407,27 +444,41 @@
 .band__arch {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+}
+
+.band__layer {
+  position: absolute;
+  inset: -14% 0;
+}
+
+.band__layer .photo,
+.band__layer .photo img {
+  width: 100%;
+  height: 100%;
 }
 
 .band__sky .photo img {
-  object-position: 74% 36%;
-  filter: saturate(0.72) brightness(0.46);
+  object-position: 64% 44%;
+  filter: saturate(1.05) brightness(0.96);
+  transform: scale(1.08);
 }
 
 .band__arch {
-  left: 52%;
-  mask-image: linear-gradient(to right, transparent, #000 26%);
+  left: 54%;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.92) 26%);
 }
 
 .band__arch .photo img {
-  object-position: 22% 38%;
-  filter: saturate(0.7) brightness(0.4);
+  object-position: 34% 42%;
+  filter: saturate(0.8) brightness(0.9);
+  transform: scale(1.1);
 }
 
 .band__shade {
   background:
-    linear-gradient(90deg, rgba(12, 12, 15, 0.84) 0%, rgba(12, 12, 15, 0.62) 36%, rgba(12, 12, 15, 0.42) 68%, rgba(12, 12, 15, 0.5) 100%),
-    linear-gradient(to top, rgba(12, 12, 15, 0.5), transparent 48%);
+    linear-gradient(100deg, rgba(12, 12, 15, 0.78) 0%, rgba(12, 12, 15, 0.42) 24%, rgba(12, 12, 15, 0.08) 52%, rgba(12, 12, 15, 0.16) 100%),
+    linear-gradient(to top, rgba(12, 12, 15, 0.62) 0%, rgba(12, 12, 15, 0.08) 42%, transparent 68%);
 }
 
 .band__inner {
@@ -463,7 +514,7 @@
 .band__mark {
   flex: 0 0 auto;
   width: auto;
-  height: clamp(96px, 12vw, 156px);
+  height: clamp(88px, 10vw, 128px);
   max-width: none;
 }
 
@@ -474,8 +525,21 @@
 @media (min-width: 961px) {
   .hero__title {
     white-space: nowrap;
-    font-size: clamp(6.4rem, 16.2vw, 14.7rem);
-    line-height: 0.84;
+    font-size: clamp(5.8rem, 12.05vw, 11rem);
+    letter-spacing: -0.042em;
+    line-height: 0.8;
+  }
+
+  .statement h2 {
+    white-space: nowrap;
+  }
+}
+
+/* Clip 01 is 1280x720. Keep the name, caption and Scroll inside the hero. */
+@media (min-width: 961px) and (max-width: 1360px) {
+  .hero__title {
+    font-size: clamp(4.15rem, 8.7vw, 7.6rem);
+    letter-spacing: -0.046em;
   }
 }
 
@@ -498,11 +562,21 @@
   }
 
   .hero__zoom .photo img {
-    object-position: center top;
+    object-position: center 2%;
+  }
+
+  .hero__title {
+    font-size: clamp(3.2rem, 16.2vw, 5.1rem);
+    line-height: 0.84;
+  }
+
+  .hero__first,
+  .hero__last {
+    display: block;
   }
 
   .hero__copy {
-    padding-bottom: 6.4rem;
+    padding-bottom: 6.6rem;
   }
 
   .hero__scroll,
@@ -538,9 +612,13 @@
     display: none;
   }
 
+  .runway__track {
+    width: max-content;
+  }
+
   .runway__item {
-    flex-basis: 72%;
-    width: 72%;
+    flex: 0 0 72cqi;
+    width: 72cqi;
     scroll-snap-align: center;
   }
 
@@ -653,7 +731,7 @@
 
 @media (min-width: 961px) and (prefers-reduced-motion: reduce) {
   .runway__viewport {
-    overflow: visible;
+    overflow: hidden;
   }
 
   .runway__track {

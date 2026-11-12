@@ -9,6 +9,14 @@ import { initHome } from './home';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
+declare global {
+  interface Window {
+    __tcMotion?: { gsap: typeof gsap; ScrollTrigger: typeof ScrollTrigger };
+  }
+}
+
+window.__tcMotion = { gsap, ScrollTrigger };
+
 const REDUCED = '(prefers-reduced-motion: reduce)';
 const FINE = '(hover: hover) and (pointer: fine)';
 
@@ -92,11 +100,11 @@ function setupReveals(reduced: boolean): void {
       timeline.fromTo(
         el,
         { clipPath: 'inset(0 0 100% 0)' },
-        { clipPath: 'inset(0 0 0% 0)', duration: 1.05, ease: 'power3.out' },
+        { clipPath: 'inset(0 0 0% 0)', duration: 0.72, ease: 'power3.out' },
         0,
       );
       if (inner) {
-        timeline.fromTo(inner, { scale: 1.15 }, { scale: 1, duration: 1.15, ease: 'power3.out' }, 0);
+        timeline.fromTo(inner, { scale: 1.15 }, { scale: 1, duration: 0.85, ease: 'power3.out' }, 0);
       }
       return;
     }
