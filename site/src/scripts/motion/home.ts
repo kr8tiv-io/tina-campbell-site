@@ -34,10 +34,19 @@ function initRunwayProgress(signal: AbortSignal): () => void {
   if (!viewport || !bar) return () => {};
   const no = document.querySelector<HTMLElement>('[data-runway-no]');
   const loc = document.querySelector<HTMLElement>('[data-runway-loc]');
+  const centerTrio = (): void => {
+    const max = viewport.scrollWidth - viewport.clientWidth;
+    if (max <= 1) return;
+    const items = [...viewport.querySelectorAll<HTMLElement>('.runway__item')];
+    const item = items[1];
+    if (!item) return;
+    const left = item.offsetLeft - (viewport.clientWidth - item.offsetWidth) / 2;
+    if (viewport.scrollLeft < 2) viewport.scrollLeft = Math.max(0, left);
+  };
   const update = (): void => {
     const max = viewport.scrollWidth - viewport.clientWidth;
     const shown = max <= 1 ? 1 : Math.min(1, (viewport.scrollLeft + viewport.clientWidth) / viewport.scrollWidth);
-    bar.style.transform = `scaleX(${Math.max(0.08, shown)})`;
+    bar.style.transform = `scaleX(${Math.max(0.18, shown)})`;
     const items = [...viewport.querySelectorAll<HTMLElement>('.runway__item')];
     const mid = viewport.scrollLeft + viewport.clientWidth / 2;
     let best: HTMLElement | undefined;
@@ -56,8 +65,13 @@ function initRunwayProgress(signal: AbortSignal): () => void {
     if (loc) loc.textContent = best.dataset.location ?? '';
   };
   viewport.addEventListener('scroll', update, { signal, passive: true });
+  centerTrio();
   update();
-  return () => viewport.removeEventListener('scroll', update);
+  window.addEventListener('resize', centerTrio, { signal });
+  return () => {
+    viewport.removeEventListener('scroll', update);
+    window.removeEventListener('resize', centerTrio);
+  };
 }
 
 function initHeaderSolid(signal: AbortSignal): () => void {
@@ -98,6 +112,19 @@ function initHero(): () => void {
     triggers.push(trigger);
   }
 
+  if (title && !compact && window.matchMedia('(pointer: fine)').matches) {
+    /* Late lift only, so t=0 through t=2.25 stays 1:1. Clears the title by scroll 621. */
+    const lift = ScrollTrigger.create({
+      start: 380,
+      end: 621,
+      scrub: true,
+      onUpdate: (self) => {
+        gsap.set(title, { y: -58 * self.progress });
+      },
+    });
+    triggers.push(lift);
+  }
+
   if (title) {
     try {
       const split = SplitText.create(title, {
@@ -133,14 +160,14 @@ function initRunwayRise(): () => void {
   if (!section || !track) return () => {};
   const tween = gsap.fromTo(
     track,
-    { y: 140 },
+    { y: 30 },
     {
       y: 0,
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        start: 'top 92%',
-        end: 'top 48%',
+        start: 'top 78%',
+        end: 'top 30%',
         scrub: true,
       },
     },

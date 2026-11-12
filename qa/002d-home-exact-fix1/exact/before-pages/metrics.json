@@ -1,0 +1,146 @@
+{
+ "home-1440": {
+  "h1": {
+   "x": 149,
+   "y": 664,
+   "w": 1142,
+   "h": 179,
+   "fs": "223.2px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "center"
+  },
+  "h1glyph": {
+   "x": 149,
+   "w": 1142,
+   "y": 602,
+   "h": 304
+  },
+  "h1text": "TINA CAMPBELL",
+  "logo": {
+   "x": 58,
+   "y": 0,
+   "w": 187,
+   "h": 133,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 387,
+   "y": 51,
+   "w": 49,
+   "h": 30,
+   "fs": "20px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "hero",
+    "id": "",
+    "h": 941
+   },
+   {
+    "cls": "runway",
+    "id": "",
+    "h": 486
+   },
+   {
+    "cls": "statement",
+    "id": "",
+    "h": 192
+   },
+   {
+    "cls": "sheet",
+    "id": "",
+    "h": 288
+   },
+   {
+    "cls": "teaser",
+    "id": "",
+    "h": 379
+   },
+   {
+    "cls": "band",
+    "id": "",
+    "h": 504
+   }
+  ],
+  "scrollHeight": 3308,
+  "errors": []
+ },
+ "home-390": {
+  "h1": {
+   "x": 20,
+   "y": 388,
+   "w": 350,
+   "h": 129,
+   "fs": "64.74px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "center"
+  },
+  "h1glyph": {
+   "x": 20,
+   "w": 350,
+   "y": 370,
+   "h": 166
+  },
+  "h1text": "TINA\nCAMPBELL",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "18px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "hero",
+    "id": "",
+    "h": 844
+   },
+   {
+    "cls": "runway",
+    "id": "",
+    "h": 844
+   },
+   {
+    "cls": "statement",
+    "id": "",
+    "h": 166
+   },
+   {
+    "cls": "sheet",
+    "id": "",
+    "h": 749
+   },
+   {
+    "cls": "teaser",
+    "id": "",
+    "h": 452
+   },
+   {
+    "cls": "band",
+    "id": "",
+    "h": 420
+   }
+  ],
+  "scrollHeight": 3990,
+  "errors": []
+ }
+}

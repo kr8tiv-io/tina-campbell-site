@@ -103,7 +103,8 @@
 
 .hero__zoom .photo img {
   object-position: 50% 0%;
-  filter: brightness(0.72) contrast(1.15) saturate(2);
+  /* Night grade: deep blue sky, skin left warm. Veil does the side sky. */
+  filter: brightness(0.73) contrast(1.15) saturate(1.5);
 }
 
 .hero__copy {
@@ -270,9 +271,9 @@
 }
 
 .runway__frame .photo img.pos-truck {
-  object-position: 100% 62%;
-  transform: scale(1.5);
-  transform-origin: 94% 70%;
+  object-position: 48% 82%;
+  transform: scale(1.14);
+  transform-origin: 50% 78%;
 }
 
 .runway__frame .photo img.pos-snow {
@@ -282,9 +283,9 @@
 }
 
 .runway__frame .photo img.pos-catwalk {
-  object-position: center 18%;
-  transform: scale(1.22);
-  transform-origin: center 16%;
+  object-position: 0% 40%;
+  transform: scale(3.8);
+  transform-origin: 0% 40%;
 }
 
 .runway__frame .photo img.pos-stage {
@@ -351,7 +352,7 @@
   max-width: none;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(2.5rem, 6.2vw, 6rem);
+  font-size: clamp(2.5rem, 7.35vw, 7.5rem);
   line-height: 0.94;
   letter-spacing: -0.03em;
 }
@@ -588,8 +589,8 @@
 @media (min-width: 961px) {
   .hero {
     margin-top: var(--header-h);
-    /* Clip 01: label near y=220 at scroll 621, tile tops near y=670 at scroll 303. */
-    height: calc(117svh - var(--header-h));
+    /* Clip 01 at 1280x720: tile top ~y597 at scroll 303, ~y236 at scroll 621. */
+    height: calc(113.7svh - var(--header-h));
   }
 
   .hero__media,
@@ -601,6 +602,17 @@
     background:
       radial-gradient(ellipse at 50% 42%, transparent 42%, rgba(4, 8, 16, 0.42) 100%),
       linear-gradient(to bottom, transparent 58%, rgba(12, 12, 15, 0.12) 74%, rgba(12, 12, 15, 0.62) 90%, #0c0c0f 100%);
+  }
+
+  /* Navy on the upper sky and the open sky beside the figure. The face stays clear. */
+  .hero__night {
+    background:
+      radial-gradient(ellipse 48% 42% at 4% 20%, rgba(3, 12, 30, 0.82) 0%, rgba(4, 16, 40, 0.55) 42%, transparent 74%),
+      radial-gradient(ellipse 50% 46% at 96% 18%, rgba(3, 12, 30, 0.84) 0%, rgba(4, 16, 40, 0.58) 44%, transparent 76%),
+      radial-gradient(ellipse 42% 36% at 2% 60%, rgba(3, 14, 36, 0.8) 0%, rgba(5, 20, 48, 0.5) 48%, transparent 78%),
+      radial-gradient(ellipse 90% 26% at 108% 56%, rgba(2, 12, 32, 0.82) 0%, rgba(4, 18, 46, 0.55) 46%, rgba(6, 22, 52, 0.16) 72%, transparent 88%),
+      linear-gradient(to bottom, rgba(4, 14, 34, 0.5) 0%, rgba(5, 18, 42, 0.16) 16%, transparent 34%);
+    mix-blend-mode: multiply;
   }
 
   .hero__title {
@@ -701,7 +713,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: calc((100% - 62vw) / 2);
+    scroll-padding-inline: 0;
     padding-inline: 0;
     scrollbar-width: none;
   }
@@ -713,13 +725,13 @@
   .runway__track {
     display: flex;
     width: max-content;
-    gap: 8px;
-    padding-inline: calc((100vw - 62vw) / 2);
+    gap: 6px;
+    padding-inline: 0;
   }
 
   .runway__item {
-    flex: 0 0 62vw;
-    width: 62vw;
+    flex: 0 0 50vw;
+    width: 50vw;
     scroll-snap-align: center;
   }
 
@@ -734,9 +746,10 @@
 
   html.js .runway__progress {
     display: block;
-    width: calc(100% - (2 * var(--page-pad)));
+    width: min(72%, 280px);
     height: 2px;
-    margin: 0.9rem auto 0;
+    margin: 0.85rem var(--page-pad) 0;
+    background: rgba(240, 243, 244, 0.34);
   }
 
   .runway__caption {
@@ -758,7 +771,7 @@
   .runway__caption [data-runway-loc] {
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: var(--muted);
+    color: var(--paper);
   }
 
   .sheet {

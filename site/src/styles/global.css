@@ -221,7 +221,9 @@ html.lenis body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(1rem, 2.45vw, 2.2rem);
+  /* Five labels, centred, spanning about x=375–1000 at 1280. */
+  gap: clamp(10px, 0.85vw, 13px);
+  transform: translateX(clamp(28px, 3.6vw, 52px));
 }
 
 .site-nav a {
@@ -229,9 +231,11 @@ html.lenis body {
   color: var(--paper);
   text-decoration: none;
   font-family: var(--mono);
-  font-size: clamp(18px, 1.39vw, 20px);
+  /* Em size is larger than the white ink. ~22.8px at 1280 → ~18px glyphs, ~20px at 1440. */
+  font-size: clamp(22px, 1.78vw, 25.5px);
   font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.006em;
+  line-height: 1;
   white-space: nowrap;
 }
 
