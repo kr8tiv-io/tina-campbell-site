@@ -29,5 +29,12 @@ Visual gate: full-page screenshots at 1440x900, 390x844 and 360x780 into qa/<pro
 Motion gate: Playwright recordVideo at 1280x720 of the built section (same moves as the clip, including reverse scroll where required) into qa/<prompt-id>/motion/. Run `python3 /workspace/tina-campbell/build-plan/tools/compare-motion.py --clip <clip> --recording <file> --out-dir qa/<prompt-id>/motion-compare --frames 12`. Open every frame and the contact sheet. If timing, easing, direction or pin behaviour drifts, fix, re-record and compare again. Fill in MOTION-NOTES.md. No drift.
 Also: no overflow, no broken images, no console errors, reduced motion path works, all content visible without JS.
 
+## Fidelity check before finishing
+Added 2026-11-12 from build-plan/FIDELITY-AUDIT-2026-11-12.md. Scope unchanged; this is a check, not new work. Before you commit, put three things next to your final screenshots and record frames, and write the result into qa/<prompt-id>/compare/NOTES.md as a table (section, match / drift / missing, fix made):
+1. Layout: `02-work-index-desktop-v3.jpg` and `16-motion-hover-distortion-v3.jpg`. Compare section by section at 1440 and 390 using viewport screenshots taken at each section (full-page shots hide scroll reveals and pinned content, so they do not count on their own). Check type size and alignment, photo crop and colour grade (Runway look: dark, cinematic, photos glowing on black), tile proportions and spacing.
+2. Clip frames: clip 03 (ripple from cursor, colour flood, settle, reverse on leave). Extract frames with ffmpeg and view them next to your Playwright record frames. No dead pins: a pinned section must visibly move for the whole pin distance.
+3. Tina's input: Noir and Crimson tick (PDF p18): monochrome grid where only the red stays red; "I enjoy all types of different styles": every style she shoots has a filter; "fashion & editorial stand out most": Fashion and Editorial first and largest.
+Fix every drift you find before committing. If a gap cannot be closed with her real photos, say so in NOTES.md with the closest frame you used.
+
 ## Commit
 feat(work): noir-crimson WebGL grid with ripple hover and Flip filters
