@@ -8,6 +8,7 @@ import { endLoader, playLoader } from './loader';
 import { initHome } from './home';
 import { initRunway } from './runway';
 import { initWork } from './work';
+import { initEditorial } from './editorial';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -205,8 +206,10 @@ async function initMotion(): Promise<void> {
   const releaseHome = initHome(reduced, fine, abort.signal);
   const releaseRunway = initRunway(reduced, fine, abort.signal);
   const releaseWork = initWork(reduced, fine, abort.signal);
+  const releaseEditorial = initEditorial(reduced, fine, abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releaseEditorial();
     releaseWork();
     releaseRunway();
     releaseHome();

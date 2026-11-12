@@ -1,5 +1,5 @@
 ---
-import { bookHref, facebookUrl, footerTagline, instagramUrl, nav, siteName } from '../data/site';
+import { bookHref, facebookUrl, footerTagline, instagramUrl, isCurrent, nav, siteName } from '../data/site';
 
 const path = Astro.url.pathname;
 const year = new Date().getFullYear();
@@ -17,7 +17,7 @@ const logo = '/brand/tcphoto-logo-white.png';
     <nav class="site-footer__nav" aria-label="Footer">
       {
         nav.map((item) => (
-          <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+          <a href={item.href} aria-current={isCurrent(path, item.href) ? 'page' : undefined}>
             {item.label}
           </a>
         ))

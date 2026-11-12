@@ -1,0 +1,70 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { chapters } from '../../data/editorial';
+import { defaultSiteUrl } from '../../data/site';
+import '../../styles/editorial.css';
+
+const title = 'Portraits, Bridal and Couples | Tina Campbell Photography, Edmonton';
+const description =
+  'Glam portraits, bridal and couples photography in Edmonton and St. Albert by Tina Campbell.';
+const hero = chapters[0]?.frames[0]?.photo;
+if (!hero) throw new Error('Portrait chapter is empty');
+const og = await getImage({ src: hero.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL('/portraits-bridal-couples/', origin).href;
+const images = chapters.flatMap((chapter) =>
+  chapter.frames.map((frame) => new URL(frame.photo.src.src, origin).href),
+);
+
+const jsonLd = {
+  '@type': 'ImageGallery',
+  name: 'Portraits, Bridal and Couples',
+  description,
+  url: pageUrl,
+  image: images,
+};
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={hero.alt} jsonLd={jsonLd}>
+  <script is:inline slot="head">
+    (function () {
+      var reduce = false;
+      var fine = false;
+      try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      try { fine = matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
+      if (!reduce && fine && window.innerWidth > 960) document.documentElement.classList.add('pbc-motion');
+    })();
+  </script>
+  <main id="content" class="pbc" data-page="portraits">
+    <h1>Portraits, Bridal and Couples</h1>
+    {
+      chapters.map((chapter) => (
+        <article class="chapter" data-chapter aria-labelledby={`ch-${chapter.number}`}>
+          <div class="chapter__media">
+            <p class="chapter__kicker">Ch. {chapter.number}</p>
+            <div class="chapter__shots" data-shots>
+              {chapter.frames.map((frame, index) => (
+                <figure class="chapter__shot" style={`--pos: ${frame.position}`}>
+                  <Photo
+                    src={frame.photo.src}
+                    alt={index === 0 ? frame.photo.alt : ''}
+                    sizes="(max-width: 960px) 92vw, 48vw"
+                    widths={[480, 800, 1200, 1600]}
+                    priority={chapter.number === '01' && index === 0}
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
+          <div class="chapter__copy">
+            <h2 id={`ch-${chapter.number}`}>{chapter.title}</h2>
+            <p>{chapter.text}</p>
+            <a class="chapter__link" href={chapter.href}>See the gallery</a>
+          </div>
+        </article>
+      ))
+    }
+  </main>
+</BaseLayout>

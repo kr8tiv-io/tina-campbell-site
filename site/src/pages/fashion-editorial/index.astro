@@ -1,0 +1,128 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { fashionColumn, fashionStrip } from '../../data/editorial';
+import { seriesList } from '../../data/photos';
+import { defaultSiteUrl } from '../../data/site';
+import '../../styles/editorial.css';
+
+const title = 'Fashion & Editorial | Tina Campbell Photography, Edmonton';
+const description =
+  'Fashion and editorial photography in Edmonton: gowns, streets, landmarks and runway, shot by Tina Campbell.';
+const hero = fashionColumn[0]?.photo;
+if (!hero) throw new Error('Fashion column is empty');
+const og = await getImage({ src: hero.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL('/fashion-editorial/', origin).href;
+const logo = '/brand/tcphoto-logo-white.png';
+
+const jsonLd = {
+  '@type': 'ImageGallery',
+  name: 'Fashion & Editorial',
+  description,
+  url: pageUrl,
+  image: fashionColumn.map((frame) => new URL(frame.photo.src.src, origin).href),
+};
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={hero.alt} jsonLd={jsonLd}>
+  <script is:inline slot="head">
+    (function () {
+      var reduce = false;
+      var fine = false;
+      try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      try { fine = matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
+      if (!reduce && fine && window.innerWidth > 960) document.documentElement.classList.add('fe-intro');
+    })();
+  </script>
+  <main id="content" class="fe" data-page="fashion">
+    <section class="fe-split" data-fe-split aria-labelledby="fe-title">
+      <div class="fe-grid">
+        <div class="fe-left">
+          <img class="fe-mark" src={logo} alt="" width="584" height="415" data-fe-mark />
+          <h1 id="fe-title" class="fe-title" data-fe-title>
+            Fashion<br />&amp; Editorial
+          </h1>
+          <p class="fe-lead">
+            <span data-fe-lead>Gowns, grit and good light,</span>
+            <span data-fe-lead>shot all over Edmonton.</span>
+          </p>
+          <ol class="fe-index">
+            {
+              seriesList.map((series, index) => (
+                <li>
+                  <a
+                    href={`/series/${series.slug}/`}
+                    data-series-link={series.slug}
+                    class:list={{ 'is-active': index === 0 }}
+                  >
+                    <span class="fe-num">{series.number}</span>
+                    <span class="fe-name">{series.title}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <div class="fe-rule" data-fe-rule aria-hidden="true"></div>
+        <div class="fe-view" data-fe-view>
+          <div class="fe-track" data-fe-track>
+            {
+              fashionColumn.map((frame, index) => (
+                <a
+                  class="fe-shot"
+                  href={`/series/${frame.href}/`}
+                  data-series={frame.series}
+                  data-cursor="View"
+                  style={`--pos: ${frame.position}`}
+                >
+                  <Photo
+                    src={frame.photo.src}
+                    alt={frame.photo.alt}
+                    sizes="(max-width: 960px) 92vw, 38vw"
+                    widths={[480, 800, 1200, 1600]}
+                    priority={index === 0}
+                  />
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fe-pull" aria-label="Pull quote" data-fe-pull>
+      <blockquote>
+        <span class="fe-pull__mark" aria-hidden="true">“</span>
+        <p data-fe-quote>Confidence<br />looks good<br />on everyone.</p>
+      </blockquote>
+      <ul class="fe-strip">
+        {
+          fashionStrip.map((frame) => (
+            <li>
+              <a class="shot" href="/series/the-red-gown/" data-cursor="View" data-unmask style={`--pos: ${frame.position}`}>
+                <Photo
+                  src={frame.photo.src}
+                  alt={frame.photo.alt}
+                  sizes="(max-width: 960px) 46vw, 18vw"
+                  widths={[480, 800, 1200]}
+                />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="fe-collab" aria-labelledby="fe-collab">
+      <div class="fe-collab__row">
+        <h2 id="fe-collab">Designers, models, agencies: let's make something.</h2>
+        <a class="btn" href="/book/?type=fashion" data-magnet>Collaborate</a>
+      </div>
+      <p class="fe-collab__note">
+        I'm always up for a strong concept. Send me the idea, the mood board or just the outfit.
+      </p>
+    </section>
+  </main>
+</BaseLayout>

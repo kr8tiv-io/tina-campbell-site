@@ -26,3 +26,10 @@ export const areaServed = ['Edmonton', 'St. Albert', 'Fort Saskatchewan', 'Alber
 export function noindexEnabled(): boolean {
   return import.meta.env.PUBLIC_NOINDEX !== 'false';
 }
+
+/** Fashion & Editorial stays current on its series stories. */
+export function isCurrent(path: string, href: string): boolean {
+  if (path === href) return true;
+  if (href === '/fashion-editorial/' && path.startsWith('/series/')) return true;
+  return false;
+}

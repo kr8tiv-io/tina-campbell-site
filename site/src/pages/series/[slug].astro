@@ -1,0 +1,160 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { metaLine, spreadFor } from '../../data/editorial';
+import { seriesCredits, seriesList, type SeriesSlug } from '../../data/photos';
+import { defaultSiteUrl } from '../../data/site';
+import '../../styles/editorial.css';
+
+export function getStaticPaths() {
+  return seriesList.map((series) => ({ params: { slug: series.slug } }));
+}
+
+const slug = Astro.params.slug as SeriesSlug;
+const spread = spreadFor(slug);
+const { series, next } = spread;
+const credits = seriesCredits(series);
+const title = `${series.title} | Tina Campbell Photography, Edmonton`;
+const description = series.intro;
+const og = await getImage({
+  src: spread.cover.src,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL(`/series/${series.slug}/`, origin).href;
+const galleryPhotos = [spread.cover, spread.feature, spread.pair[0], spread.pair[1], spread.film];
+
+const jsonLd = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', origin).href },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Fashion & Editorial',
+        item: new URL('/fashion-editorial/', origin).href,
+      },
+      { '@type': 'ListItem', position: 3, name: series.title, item: pageUrl },
+    ],
+  },
+  {
+    '@type': 'ImageGallery',
+    name: series.title,
+    description,
+    url: pageUrl,
+    image: galleryPhotos.map((photo) => new URL(photo.src.src, origin).href),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={spread.cover.alt} jsonLd={jsonLd}>
+  <script is:inline slot="head">
+    (function () {
+      var reduce = false;
+      try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      if (!reduce) document.documentElement.classList.add('series-intro');
+    })();
+  </script>
+  <main id="content" class="series" data-page="series">
+    <section class="cover" data-cover aria-labelledby="series-title">
+      <div
+        class="cover__zoom"
+        data-cover-zoom
+        style={`--pos: ${spread.coverPosition}; --cover-scale: ${spread.coverScale}; --cover-origin: ${spread.coverOrigin}`}
+      >
+        <Photo
+          src={spread.cover.src}
+          alt={spread.cover.alt}
+          sizes="100vw"
+          widths={[800, 1200, 1600, 2000]}
+          priority
+          flipId={series.slug}
+        />
+      </div>
+      <div class="cover__shade" aria-hidden="true"></div>
+      <div class="cover__copy">
+        <h1 id="series-title" data-series-title>
+          {series.slug === 'legislature-in-black' ? 'Legislature' : series.title}
+          {series.slug === 'legislature-in-black' && <br />}
+          {series.slug === 'legislature-in-black' && 'in Black'}
+        </h1>
+        <p class="cover__meta">{metaLine(series)}</p>
+      </div>
+    </section>
+
+    <section class="spread" aria-label="Credits">
+      <div class="spread__copy">
+        {
+          credits.map((credit) => (
+            <dl class="credit" data-credit>
+              <dt>{credit.label}</dt>
+              <dd>{credit.value}</dd>
+            </dl>
+          ))
+        }
+        <p class="spread__intro" data-credit>{series.intro}</p>
+      </div>
+      <figure class="spread__photo" data-unmask style={`--pos: ${spread.featurePosition}`}>
+        <Photo
+          src={spread.feature.src}
+          alt={spread.feature.alt}
+          sizes="(max-width: 960px) 92vw, 48vw"
+          widths={[480, 800, 1200, 1600]}
+        />
+      </figure>
+    </section>
+
+    <ul class="pair">
+      {
+        spread.pair.map((photo, index) => (
+          <li>
+            <figure data-unmask data-unmask-dir={index === 0 ? 'left' : 'right'} style={`--pos: ${spread.pairPosition[index]}`}>
+              <Photo
+                src={photo.src}
+                alt={photo.alt}
+                sizes="(max-width: 960px) 92vw, 46vw"
+                widths={[480, 800, 1200, 1600]}
+              />
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+
+    <figure class="filmwide">
+      <div class="filmwide__frame" data-unmask style={`--pos: ${spread.filmPosition}`}>
+        <Photo
+          src={spread.film.src}
+          alt={spread.film.alt}
+          sizes="100vw"
+          widths={[800, 1200, 1600, 2000]}
+        />
+        <p class="filmwide__no">{series.number}</p>
+      </div>
+    </figure>
+
+    <a class="next" href={`/series/${next.slug}/`} data-cursor="View">
+      <h2>Next series:<br />{next.title}</h2>
+      <span class="next__thumb">
+        <Photo
+          src={spreadFor(next.slug).cover.src}
+          alt=""
+          sizes="150px"
+          widths={[320, 480]}
+          flipId={next.slug}
+        />
+      </span>
+      <span class="next__arrow" aria-hidden="true">
+        <svg viewBox="0 0 104 28" fill="none">
+          <path d="M0 14h96" stroke="currentColor" stroke-width="1.6"></path>
+          <path d="M82 4l16 10-16 10" stroke="currentColor" stroke-width="1.6"></path>
+        </svg>
+      </span>
+    </a>
+  </main>
+</BaseLayout>

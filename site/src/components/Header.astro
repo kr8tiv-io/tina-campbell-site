@@ -1,5 +1,5 @@
 ---
-import { bookHref, bookLabel, nav } from '../data/site';
+import { bookHref, bookLabel, isCurrent, nav } from '../data/site';
 
 const path = Astro.url.pathname;
 const logo = '/brand/tcphoto-logo-white.png';
@@ -13,7 +13,7 @@ const logo = '/brand/tcphoto-logo-white.png';
     <nav class="site-nav" aria-label="Primary">
       {
         nav.map((item) => (
-          <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+          <a href={item.href} aria-current={isCurrent(path, item.href) ? 'page' : undefined}>
             {item.label}
           </a>
         ))
@@ -46,7 +46,7 @@ const logo = '/brand/tcphoto-logo-white.png';
   <nav class="menu__nav" aria-label="Mobile">
     {
       nav.map((item) => (
-        <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+        <a href={item.href} aria-current={isCurrent(path, item.href) ? 'page' : undefined}>
           {item.label}
         </a>
       ))
