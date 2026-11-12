@@ -6,16 +6,31 @@ import { bindScrollLock, initHeader } from './header';
 import { initCursor } from './cursor';
 import { endLoader, playLoader } from './loader';
 import { initHome } from './home';
+import { initRunway } from './runway';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 declare global {
   interface Window {
-    __tcMotion?: { gsap: typeof gsap; ScrollTrigger: typeof ScrollTrigger };
+    __tcMotion?: {
+      gsap: typeof gsap;
+      ScrollTrigger: typeof ScrollTrigger;
+      scrollTo: (y: number) => void;
+    };
   }
 }
 
-window.__tcMotion = { gsap, ScrollTrigger };
+export function scrollToY(y: number, immediate = false): void {
+  if (lenis) lenis.scrollTo(y, { immediate, force: true });
+  else window.scrollTo(0, y);
+  ScrollTrigger.update();
+}
+
+window.__tcMotion = {
+  gsap,
+  ScrollTrigger,
+  scrollTo: (y: number) => scrollToY(y, true),
+};
 
 const REDUCED = '(prefers-reduced-motion: reduce)';
 const FINE = '(hover: hover) and (pointer: fine)';
@@ -187,8 +202,10 @@ async function initMotion(): Promise<void> {
   setupReveals(reduced);
   setupSkew(reduced);
   const releaseHome = initHome(reduced, fine, abort.signal);
+  const releaseRunway = initRunway(reduced, fine, abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releaseRunway();
     releaseHome();
     previous?.();
   };

@@ -66,11 +66,13 @@ export function initHeader(signal: AbortSignal): void {
     { signal },
   );
 
+  const keepHeader = Boolean(document.querySelector('[data-keep-header]'));
+
   ScrollTrigger.create({
     start: 0,
     end: 'max',
     onUpdate: (self) => {
-      if (open) {
+      if (open || keepHeader) {
         header.classList.remove('is-hidden');
         return;
       }

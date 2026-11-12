@@ -1,0 +1,108 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { getPhoto } from '../../data/photos';
+import { defaultSiteUrl } from '../../data/site';
+import '../../styles/runway.css';
+
+const order = [
+  'fb_012_runway',
+  'fb_029_runway',
+  'fb_105_runway',
+  'fb_064_runway',
+  'fb_037_runway',
+  'fb_158_runway',
+  'fb_060_runway',
+  'fb_085_runway',
+];
+
+const frames = order.map((id) => getPhoto(id));
+const textures = await Promise.all(
+  frames.map(async (photo) => {
+    const width = Math.min(1200, photo.width);
+    const image = await getImage({ src: photo.src, width, format: 'webp' });
+    return image.src;
+  }),
+);
+
+const hero = getPhoto('fb_064_runway');
+const og = await getImage({
+  src: hero.src,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
+
+const title = 'Runway | Tina Campbell Photography, Edmonton';
+const description = 'Runway and fashion show photography from Edmonton events by Tina Campbell.';
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL('/runway/', origin).href;
+
+const jsonLd = {
+  '@type': 'ImageGallery',
+  name: 'Runway',
+  description,
+  url: pageUrl,
+  image: textures.map((src) => new URL(src, origin).href),
+};
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={hero.alt} jsonLd={jsonLd}>
+  <main id="content" data-page="runway" data-keep-header>
+    <section class="catwalk" data-catwalk aria-labelledby="runway-heading">
+      <div class="catwalk__copy">
+        <h1 class="catwalk__title" id="runway-heading">Runway</h1>
+        <p class="catwalk__sub">Edmonton fashion shows</p>
+        <div
+          class="catwalk__rail"
+          data-rail
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          aria-label="Runway progress"
+        >
+          <span class="catwalk__rail-line" data-rail-line></span>
+          <span class="catwalk__dot" data-dot></span>
+        </div>
+      </div>
+      <div class="catwalk__stage" data-catwalk-stage data-cursor="Drag">
+        <canvas class="catwalk__canvas" data-catwalk-canvas aria-hidden="true"></canvas>
+        <div class="catwalk__scroller" data-catwalk-scroller tabindex="0" aria-label="Runway photographs">
+          <ol class="catwalk__track" data-catwalk-track>
+            {
+              frames.map((photo, index) => (
+                <li
+                  class="catwalk__item"
+                  data-index={index}
+                  data-texture={textures[index]}
+                  data-aspect={photo.width / photo.height}
+                >
+                  <article class="film">
+                    <div class="film__band" aria-hidden="true"></div>
+                    <a class="film__shot" href="/series/runway-nights/">
+                      <Photo
+                        src={photo.src}
+                        alt={photo.alt}
+                        sizes="(min-width: 961px) 22vw, 70vw"
+                        widths={[480, 800, 1200]}
+                        priority
+                      />
+                    </a>
+                    <div class="film__band" aria-hidden="true"></div>
+                  </article>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+      <p class="catwalk__hint">
+        <span class="catwalk__hint-scroll">Scroll to walk the runway</span>
+        <span class="catwalk__hint-swipe">Swipe to walk the runway</span>
+      </p>
+    </section>
+  </main>
+</BaseLayout>
