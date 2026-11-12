@@ -2,28 +2,175 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Photo from '../components/Photo.astro';
 import { getPhoto } from '../data/photos';
+import '../styles/home.css';
 
-const photo = getPhoto('fb_141_signature');
+const hero = getPhoto('fb_141_signature');
+const runway = [
+  { photo: getPhoto('fb_013_signature'), n: '01', href: '/series/the-red-gown/', pos: 'pos-truck' },
+  { photo: getPhoto('fb_034_fashion'), n: '02', href: '/series/red-in-snow/', pos: 'pos-snow' },
+  { photo: getPhoto('fb_037_runway'), n: '03', href: '/series/runway-nights/', pos: 'pos-gown' },
+  { photo: getPhoto('fb_012_runway'), n: '04', href: '/runway/', pos: 'pos-stage' },
+  { photo: getPhoto('fb_011_fashion'), n: '05', href: '/fashion-editorial/', pos: 'pos-leather' },
+];
+const categories = [
+  { label: 'Fashion', filter: 'fashion', photo: getPhoto('fb_114_signature'), n: '01' },
+  { label: 'Runway', filter: 'runway', photo: getPhoto('fb_064_runway'), n: '02' },
+  { label: 'Portraits', filter: 'portraits', photo: getPhoto('fb_021_portrait'), n: '03' },
+  { label: 'Bridal', filter: 'bridal', photo: getPhoto('fb_049_bridal'), n: '04' },
+  { label: 'Couples', filter: 'couples', photo: getPhoto('fb_031_couples'), n: '05' },
+  { label: 'Edmonton', filter: 'edmonton', photo: getPhoto('fb_001_city'), n: '06' },
+];
+const teaser = getPhoto('fb_116_signature');
+const skyline = getPhoto('fb_168_city');
+const arch = getPhoto('fb_066_city');
+
 const title = 'Tina Campbell Photography | Fashion and Portrait Photographer in Edmonton';
 const description =
   'Fashion, editorial, runway and portrait photography in Edmonton, Alberta by Tina Campbell. Bold, polished images shot around the city. Book a shoot.';
 ---
 
-<BaseLayout title={title} description={description} imageAlt={photo.alt}>
-  <main id="content" class="intro">
-    <div class="intro__grid">
-      <div>
-        <p class="kicker" data-reveal="fade-up">No. 001 / Alberta Legislature, Edmonton</p>
-        <h1 data-reveal="lines">Tina Campbell</h1>
+<BaseLayout title={title} description={description} imageAlt={hero.alt}>
+  <main id="content" data-page="home">
+    <section class="hero" data-hero>
+      <div class="hero__media" data-hero-shift>
+        <div class="hero__zoom" data-hero-zoom>
+          <Photo
+            src={hero.src}
+            alt={hero.alt}
+            sizes="100vw"
+            priority
+          />
+        </div>
       </div>
-      <figure class="intro__frame" data-reveal="clip-up" data-skew data-cursor="View">
-        <Photo
-          src={photo.src}
-          alt={photo.alt}
-          sizes="(min-width: 800px) 42vw, 100vw"
-          priority
+      <div class="hero__shade" aria-hidden="true"></div>
+      <div class="hero__copy" data-hero-copy>
+        <h1 class="hero__title" data-hero-title>Tina Campbell</h1>
+        <div class="hero__meta">
+          <p class="hero__caption">No. 001 / Alberta Legislature, Edmonton</p>
+          <span class="hero__rule" aria-hidden="true"></span>
+          <p class="hero__scroll">Scroll</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="runway" data-runway-pin aria-labelledby="runway-label">
+      <div class="runway__head">
+        <h2 class="runway__label" id="runway-label">The Runway</h2>
+        <p class="runway__note">Fashion &amp; Editorial, selected frames</p>
+      </div>
+      <div class="runway__viewport" data-runway-viewport>
+        <ol class="runway__track" data-runway-track>
+          {
+            runway.map((item) => (
+              <li class="runway__item">
+                <figure class="runway__frame" data-reveal="clip-up" data-skew>
+                  <a href={item.href} data-cursor="View">
+                    <Photo
+                      src={item.photo.src}
+                      alt={item.photo.alt}
+                      sizes="(max-width: 960px) 72vw, 22vw"
+                      class={item.pos}
+                    />
+                  </a>
+                </figure>
+                <p class="runway__num">{item.n}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="runway__progress" data-runway-progress>
+        <span data-runway-bar></span>
+      </div>
+      <div class="runway__foot">
+        <div class="runway__rule" aria-hidden="true"></div>
+        <a class="text-link" href="/fashion-editorial/">See all fashion work</a>
+      </div>
+    </section>
+
+    <section class="statement" aria-labelledby="statement-heading">
+      <h2 id="statement-heading" data-statement>Edmonton is my runway.</h2>
+      <p data-statement-sub>
+        Fashion, portraits, bridal and runway, shot on location around the city.
+      </p>
+    </section>
+
+    <section class="sheet" aria-label="Categories">
+      <div class="sheet__holes" aria-hidden="true"></div>
+      <ul class="sheet__row">
+        {
+          categories.map((item) => (
+            <li class="sheet__item">
+              <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View">
+                <span class="sheet__frame">
+                  <Photo
+                    src={item.photo.src}
+                    alt={item.photo.alt}
+                    sizes="(max-width: 960px) 72px, 16vw"
+                  />
+                </span>
+                <span class="sheet__label">
+                  {item.label}
+                  <span class="sheet__no">No. {item.n}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="sheet__holes" aria-hidden="true"></div>
+    </section>
+
+    <section class="teaser" aria-labelledby="teaser-heading">
+      <div class="teaser__copy">
+        <p class="teaser__kicker">Featured series</p>
+        <h3 id="teaser-heading">The Red Gown</h3>
+        <p class="teaser__text">
+          A crimson gown, a 1960s Fargo truck and a hard blue Alberta sky. One of the shoots that defines my work.
+        </p>
+        <a class="text-link" href="/series/the-red-gown/">View the series</a>
+      </div>
+      <div class="teaser__media" data-parallax-mask>
+        <div class="teaser__shift" data-parallax-photo>
+          <a href="/series/the-red-gown/" data-cursor="View">
+            <Photo
+              src={teaser.src}
+              alt={teaser.alt}
+              sizes="(max-width: 800px) 100vw, 56vw"
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" data-band aria-labelledby="band-heading">
+      <div class="band__bg" aria-hidden="true">
+        <div class="band__sky">
+          <Photo src={skyline.src} alt={skyline.alt} sizes="100vw" />
+        </div>
+        <div class="band__arch">
+          <Photo src={arch.src} alt={arch.alt} sizes="60vw" />
+        </div>
+      </div>
+      <div class="band__shade" aria-hidden="true"></div>
+      <div class="band__inner">
+        <div>
+          <h2 id="band-heading">Let's make something bold.</h2>
+          <p class="band__text">
+            Portraits, fashion, bridal and events in Edmonton, St. Albert and Fort Saskatchewan.
+          </p>
+          <a class="btn" href="/book/">Book a shoot</a>
+        </div>
+        <img
+          class="band__mark"
+          src="/brand/tcphoto-logo-white.png"
+          alt=""
+          width="584"
+          height="415"
         />
-      </figure>
-    </div>
+      </div>
+    </section>
+
+    <a class="book-bar" href="/book/" data-book-bar>Book a shoot</a>
   </main>
 </BaseLayout>

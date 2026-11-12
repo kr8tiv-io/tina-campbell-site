@@ -5,6 +5,7 @@ import Lenis from 'lenis';
 import { bindScrollLock, initHeader } from './header';
 import { initCursor } from './cursor';
 import { endLoader, playLoader } from './loader';
+import { initHome } from './home';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -162,17 +163,27 @@ async function initMotion(): Promise<void> {
   initHeader(abort.signal);
   initCursor(abort.signal, fine);
 
-  playLoader(reduced, () => {
-    if (abort.signal.aborted) return;
-    lenis?.start();
-    ScrollTrigger.refresh();
+  // Hold reveals until the signature loader finishes so the hero rise is seen.
+  const revealed = new Promise<void>((resolve) => {
+    playLoader(reduced, () => {
+      if (abort.signal.aborted) return;
+      lenis?.start();
+      resolve();
+    });
   });
 
+  await revealed;
   if (document.fonts?.ready) await document.fonts.ready;
   if (abort.signal.aborted) return;
 
   setupReveals(reduced);
   setupSkew(reduced);
+  const releaseHome = initHome(reduced, fine, abort.signal);
+  const previous = cleanup;
+  cleanup = () => {
+    releaseHome();
+    previous?.();
+  };
   ScrollTrigger.refresh();
 }
 

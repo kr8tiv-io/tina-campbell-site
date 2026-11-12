@@ -18,6 +18,14 @@ test('shell renders without overflow', async ({ page }, info) => {
   await page.waitForFunction(() => document.documentElement.classList.contains('loader-skip'), null, {
     timeout: 6000,
   });
+  await page.evaluate(async () => {
+    const images = [...document.images];
+    for (const img of images) {
+      img.scrollIntoView({ block: 'center', inline: 'nearest' });
+      await new Promise((resolve) => setTimeout(resolve, 20));
+    }
+    window.scrollTo(0, 0);
+  });
   await page.waitForFunction(() =>
     [...document.images].every((img) => img.complete && img.naturalWidth > 0),
   );
