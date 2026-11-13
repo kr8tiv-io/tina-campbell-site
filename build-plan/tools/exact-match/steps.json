@@ -96,5 +96,11 @@
   "routes": "/,/runway/,/work/,/fashion-editorial/,/series/the-red-gown/,/portraits-bridal-couples/,/about/,/services/,/book/,/journal/",
   "layouts": [],
   "ids": "all"
+ },
+ "011-locked-motion": {
+  "clips": [],
+  "routes": "/,/work/,/fashion-editorial/,/series/the-red-gown/,/portraits/,/about/",
+  "layouts": [],
+  "ids": "L1-L11, S01-S10, G-RM, G-GATE"
  }
 }

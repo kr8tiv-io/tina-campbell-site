@@ -189,3 +189,13 @@ Target IDs L1-L11 (scenes) and S01-S10 (seams). Verdicts are only PASS or FAIL. 
 | S10 | Seam 10A to 11B | B-band-lifts-chapter. Contact band lifts off; portraits chapter comes up |
 | G-RM | Reduced motion | Every locked scene and seam: no pin, no scrub, no SplitText staggers, no masks or floods. Incoming section visible, or a 200 ms crossfade. Content readable without JS |
 | G-GATE | Motion gate | `python3 build-plan/tools/motion-gate.py --base http://127.0.0.1:<port> --out qa/<prompt-id>/gate`. SSIM >= 0.92 and MAE <= 8.0 on every sampled frame; timeline end within 0.05 s; record hook required. Last line VERDICT: PASS or VERDICT: FAIL only |
+
+## Known gaps (accepted as CLOSEST before 13 Nov 2026; for Matt to fix later)
+
+From 13 Nov 2026 the verdicts are only PASS or FAIL. CLOSEST is no longer allowed; `verify-step.sh` forces FAIL unless every in-scope row is PASS. These three rows were accepted as CLOSEST in earlier steps. They stay recorded here as open gaps and the strict check does not reopen those finished steps:
+
+| ID | Step | Gap |
+|---|---|---|
+| H10 | 002d-home-exact | The Red Gown split photo: closest real frame (fb_016), not an exact match |
+| H11 | 002d-home-exact | Footer band: darkened plate, not a true dusk/blue-hour skyline |
+| R7 | 003b-runway-exact | Runway opening: her darkest real runway frames, not true dark-stage glow frames |

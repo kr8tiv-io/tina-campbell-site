@@ -32,3 +32,10 @@ Implement all 11 locked scene motions (L1-L11) and all 10 locked section-to-sect
 feat(motion): lock 11 scenes and 10 GSAP seams to the approved prototypes
 
 Do not push. Do not deploy. If the motion gate is FAIL, do not present the step as done.
+
+## Gate mechanics (tool update, 13 Nov 2026)
+- The gate captures frames under a paused Playwright fake clock (one frame every 0.2 s from `__START_RECORD__`), with every `<video>` frozen on frame 0, for both the locked prototype (gold, cached in `build-plan/tools/motion-gate-gold/`) and the site. So the site must drive its seams with GSAP on the page clock: no CSS keyframe animations or wall-clock timers inside a seam.
+- Expose `window.gsap` and `window.ScrollTrigger` on seam pages (the gate calls `ScrollTrigger.refresh()` and ticks `ScrollTrigger.update()` exactly as for the prototypes).
+- The gate opens each seam's route with `?seam=<pair>` (for example `/?seam=01A-02A`) and scrolls `[data-seam="<pair>"]` into view; on a page with several seams, `__PROTO_TL__` / `__START_RECORD__` must be that seam's.
+- Timeline length is checked against the prototype's own measured GSAP timeline (`motion-gate-gold/<pair>.json`, tolerance 0.05 s), not the `expected_tl_end` numbers in motion-gate-seams.json, and the child eases must equal the prototype's.
+- After every step the driver runs this gate first, in code. If it says FAIL, the review and the next fix prompt are written by code and no LLM review runs.

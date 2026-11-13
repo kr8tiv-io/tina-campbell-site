@@ -6,7 +6,11 @@ from PIL import Image, ImageDraw, ImageStat
 out = sys.argv[1]; d = json.load(open(os.path.join(out, 'frames.json')))
 W = 640; rows = []; zl = []
 for i, (t, c, b) in enumerate(zip(d['times'], d['clip'], d['build'])):
-    ci = Image.open(c).convert('RGB').resize((W, 360)); bi = Image.open(b).convert('RGB').resize((W, 360))
+    ci = Image.open(c).convert('RGB').resize((W, 360))
+    if os.path.exists(b) and i not in d.get('missing', []):
+        bi = Image.open(b).convert('RGB').resize((W, 360))
+    else:  # replay could not capture this frame (page not painted yet); never fake it as black
+        bi = Image.new('RGB', (W, 360), (128, 0, 128)); ImageDraw.Draw(bi).text((W // 2 - 60, 170), 'NO CAPTURE (not painted)', fill=(255, 255, 255))
     P = Image.new('RGB', (W * 2 + 8, 360 + 26), (12, 12, 15)); dr = ImageDraw.Draw(P)
     dr.text((8, 6), f't={t:.2f}s  LEFT approved clip   RIGHT local build', fill=(240, 243, 244))
     P.paste(ci, (0, 26)); P.paste(bi, (W + 8, 26)); P.save(os.path.join(out, f'pair-{i:03d}.jpg'), quality=85); rows.append(P)

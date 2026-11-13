@@ -16,7 +16,14 @@ await ctx.addInitScript(()=>{ try{ sessionStorage.setItem('tc-loader','1'); }cat
 const page = await ctx.newPage(); const errs=[]; page.on('pageerror',e=>errs.push(String(e))); page.on('console',m=>{ if(m.type()==='error') errs.push(m.text()); });
 const times = []; for(let t=0; t<=6.0001; t+=1/fps) times.push(+t.toFixed(3));
 const shots = [];
-const snap = async (i) => { const f = `${out}/build/b-${String(i).padStart(3,'0')}.jpg`; await page.screenshot({path:f, quality:85, type:'jpeg'}); shots.push(f); };
+// Screenshots can throw "Unable to capture screenshot" while a navigation is only committed (fromLoad
+// clips sample from navigation start, before first paint). Retry briefly; if the frame still cannot be
+// captured, record it as missing (pairs.py draws a labelled NO CAPTURE tile) instead of crashing the run.
+const missing = [];
+const snap = async (i) => { const f = `${out}/build/b-${String(i).padStart(3,'0')}.jpg`;
+  for (let k=0; k<5; k++) { try { await page.screenshot({path:f, quality:85, type:'jpeg', timeout:4000}); shots.push(f); return; }
+    catch(e) { if (k===4) errs.push(`screenshot ${i} failed: ${String(e.message||e).split('\n')[0]}`); await page.waitForTimeout(30); } }
+  missing.push(i); shots.push(f); };
 const goto = async (u) => { await page.goto(base+u,{waitUntil:'networkidle'}); };
 if (prof.fromLoad) {
   // record a load-in: navigate and sample from navigation start
@@ -52,7 +59,7 @@ if (prof.fromLoad) {
 // clip frames at the same timestamps
 const clipPath = '/workspace/tina-campbell/concepts/site-layouts/motion/'+prof.clip;
 const clipShots = times.map((t,i)=>{ const f=`${out}/clip/c-${String(i).padStart(3,'0')}.jpg`; execFileSync('ffmpeg',['-v','error','-y','-ss',String(Math.min(t,6.0)),'-i',clipPath,'-frames:v','1','-q:v','3',f]); return f; });
-fs.writeFileSync(out+'/frames.json', JSON.stringify({times, clip:clipShots, build:shots, errors:errs, timescale:ts}));
+fs.writeFileSync(out+'/frames.json', JSON.stringify({times, clip:clipShots, build:shots, missing, errors:errs, timescale:ts}));
 execFileSync('python3',[path.join(HERE,'pairs.py'), out]);
 await browser.close();
 console.log(out+'/CONTACT-clip-vs-build.jpg'); if(errs.length) console.log('console errors:', errs.slice(0,5));

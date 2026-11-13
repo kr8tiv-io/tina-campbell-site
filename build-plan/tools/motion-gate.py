@@ -44,9 +44,9 @@ def ssim_luma(a: np.ndarray, b: np.ndarray) -> float:
     kernel = np.ones((win, win), dtype=np.float64) / (win * win)
     # sliding means via cumulative sums
     def conv(img: np.ndarray) -> np.ndarray:
-        return (
-            np.lib.stride_tricks.sliding_window_view(img, (win, win)) * kernel
-        ).sum(axis=(-1, -2))
+        # box mean via integral image (same result as an 11x11 uniform window, ~50x faster)
+        ii = np.pad(img, ((1, 0), (1, 0))).cumsum(0).cumsum(1)
+        return (ii[win:, win:] - ii[:-win, win:] - ii[win:, :-win] + ii[:-win, :-win]) / (win * win)
 
     mu_x = conv(xp)
     mu_y = conv(yp)
@@ -68,11 +68,13 @@ def load_frame(path: Path) -> np.ndarray:
     return np.asarray(im, dtype=np.uint8)
 
 
-def extract_frames(video: Path, dest: Path, fps: float) -> list[Path]:
+def extract_frames(video: Path, dest: Path, fps: float, start: float = 0.0) -> list[Path]:
+    if dest.exists():
+        shutil.rmtree(dest)
     dest.mkdir(parents=True, exist_ok=True)
     pattern = dest / "f-%04d.png"
     cmd = [
-        "ffmpeg", "-y", "-i", str(video),
+        "ffmpeg", "-y", "-ss", f"{start:.3f}", "-i", str(video),
         "-vf", f"fps={fps}",
         "-start_number", "0",
         str(pattern),
@@ -136,6 +138,9 @@ def record_site_seam(page, rec: dict, out_webm: Path) -> dict:
           ));
         }"""
     )
+    # Looping scene videos (e.g. 01A living-gown) play from whenever the page loaded, so their phase is
+    # random per recording. Freeze every <video> on frame 0 in BOTH the gate gold and the site recording.
+    page.evaluate(FREEZE_MEDIA_JS)
     # Prefer the site hook (must match boot.js). If present, use it.
     hook = page.evaluate("typeof window.__START_RECORD__")
     measures = {"hook": hook, "tl_duration": None, "eases": [], "scroll_dur": None}
@@ -184,6 +189,28 @@ def record_site_seam(page, rec: dict, out_webm: Path) -> dict:
     return measures
 
 
+FREEZE_INIT_JS = """(() => {
+  const P = HTMLMediaElement.prototype; P.play = function () { try { this.pause(); } catch (e) {} return Promise.resolve(); };
+  document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('video').forEach(v => { v.autoplay = false; v.pause(); }));
+})();"""
+
+FREEZE_MEDIA_JS = """async () => {
+  const vids = [...document.querySelectorAll('video')];
+  await Promise.all(vids.map(v => new Promise(res => {
+    try {
+      v.autoplay = false; v.pause();
+      const done = () => res(true); const t = setTimeout(done, 3000);
+      const seek = () => { if (v.currentTime === 0 && v.readyState >= 2) { clearTimeout(t); done(); return; }
+        v.addEventListener('seeked', () => { clearTimeout(t); done(); }, { once: true }); v.currentTime = 0; };
+      if (v.readyState >= 1) seek(); else v.addEventListener('loadedmetadata', seek, { once: true });
+    } catch (e) { res(false); }
+  })));
+  return vids.length;
+}"""
+
+GOLD_DIR = ROOT / "build-plan/tools/motion-gate-gold"
+
+
 def transcode(webm: Path, dest: Path) -> None:
     subprocess.check_call(
         [
@@ -196,10 +223,43 @@ def transcode(webm: Path, dest: Path) -> None:
     )
 
 
+def _small_luma_seq(video: Path, fps: float, width: int = 240) -> np.ndarray:
+    """Decode a video to a (n, h, w) float luma stack at low res, for start-offset search only."""
+    proc = subprocess.run(
+        ["ffmpeg", "-v", "error", "-i", str(video), "-vf", f"fps={fps},scale={width}:-2,format=gray",
+         "-f", "rawvideo", "-"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if proc.returncode != 0:
+        raise RuntimeError(f"ffmpeg decode failed on {video}: {proc.stderr[-300:]!r}")
+    h = int(round(width * 810 / 1440 / 2) * 2)
+    n = len(proc.stdout) // (width * h)
+    return np.frombuffer(proc.stdout[: n * width * h], dtype=np.uint8).reshape(n, h, width).astype(np.float32)
+
+
+def find_start_offset(gold: Path, site: Path, max_shift_s: float = 2.0, fps: float = 25.0) -> float:
+    """Playwright's recording starts when the browser context opens, not at __START_RECORD__, so page
+    load time shifts the whole clip by a constant. Find that one constant (seconds the site recording
+    lags the gold) by minimising mean abs luma diff over the overlap. Only a single global shift is
+    removed; every frame is then still compared at the same relative time, so timing, easing and
+    duration differences still fail."""
+    g, s = _small_luma_seq(gold, fps), _small_luma_seq(site, fps)
+    best, best_k = None, 0
+    kmax = int(max_shift_s * fps)
+    for k in range(-kmax, kmax + 1):
+        gs, ss = (g[: len(g) - k], s[k:]) if k >= 0 else (g[-k:], s[: len(s) + k])
+        n = min(len(gs), len(ss))
+        if n < fps * 3:
+            continue
+        err = float(np.mean(np.abs(gs[:n] - ss[:n])))
+        if best is None or err < best:
+            best, best_k = err, k
+    return best_k / fps
+
+
 def compare_videos(gold: Path, site: Path, work: Path, rec: dict, thr: dict) -> dict:
     fps = 1.0 / float(thr["sample_every_s"])
-    gold_frames = extract_frames(gold, work / "gold", fps)
-    site_frames = extract_frames(site, work / "site", fps)
+    shift = find_start_offset(gold, site)
+    gold_frames = extract_frames(gold, work / "gold", fps, start=max(0.0, -shift))
+    site_frames = extract_frames(site, work / "site", fps, start=max(0.0, shift))
     n = min(len(gold_frames), len(site_frames))
     if n < 5:
         return {
@@ -227,6 +287,9 @@ def compare_videos(gold: Path, site: Path, work: Path, rec: dict, thr: dict) -> 
         passed = sv >= thr["ssim_min"] and mae <= thr["mae_max"]
         rows.append({"i": i, "t": t, "ssim": sv, "mae": mae, "pass": passed, "gold": gold_frames[i], "site": site_frames[i]})
     failed = [r for r in rows if not r["pass"]]
+    need = int((rec["hold"] + rec["dur"]) * fps)
+    if n < need:
+        failed = failed or [{"i": -1, "t": -1, "ssim": 0.0, "mae": 999.0, "pass": False}]
     worst = sorted(rows, key=lambda r: (r["ssim"], -r["mae"]))[:3]
     return {
         "ok": len(failed) == 0,
@@ -237,7 +300,124 @@ def compare_videos(gold: Path, site: Path, work: Path, rec: dict, thr: dict) -> 
         "gold_duration": probe_duration(gold),
         "site_duration": probe_duration(site),
         "n": n,
+        "start_shift_s": shift,
     }
+
+
+def capture_frames(browser, url: str, seam_sel, rec: dict, thr: dict, dest: Path) -> dict:
+    """Deterministic capture: Playwright's fake clock is paused, so GSAP, ScrollTrigger scrub and the
+    boot.js record scroll only advance when we step the clock. Every frame lands at an exact time
+    (0, sample, 2*sample ...) from __START_RECORD__, identically for the gold prototype and the site.
+    Wall-clock video recording was not usable as a gate: the prototype failed against its own clip
+    (looping video phase, load offset, 1-2 frame jitter)."""
+    if dest.exists():
+        shutil.rmtree(dest)
+    dest.mkdir(parents=True)
+    m = {"hook": "missing", "tl_duration": None, "eases": None, "notes": [], "frames": 0}
+    ctx = browser.new_context(viewport={"width": rec["width"], "height": rec["height"]},
+                              device_scale_factor=rec["device_scale_factor"], reduced_motion="no-preference")
+    ctx.add_init_script(FREEZE_INIT_JS)
+    page = ctx.new_page()
+    try:
+        page.clock.install(time=0)
+        page.clock.pause_at(1000)  # page time never flows on its own; load timing cannot shift any timeline
+        page.goto(url, wait_until="networkidle", timeout=30000)
+        if seam_sel and not page.query_selector(seam_sel):
+            # Fail fast (seconds, not minutes) when the seam is not on the page at all.
+            m["notes"].append(f"missing {seam_sel} on page")
+            m["hook"] = page.evaluate("typeof window.__START_RECORD__")
+            return m
+        ready = False
+        for _ in range(150):  # up to 15 s of page time
+            page.clock.run_for(100)
+            if page.evaluate("window.__PROTO_READY__ === true"):
+                ready = True
+                break
+        if not ready:
+            m["notes"].append("window.__PROTO_READY__ never became true")
+        page.evaluate("""async () => {
+          if (document.fonts && document.fonts.ready) await document.fonts.ready;
+          await Promise.all([...document.images].map((img) => (img.complete) ? null :
+            new Promise((res) => { img.addEventListener('load', res, {once:true}); img.addEventListener('error', res, {once:true}); })));
+        }""")
+        page.evaluate("document.querySelectorAll('video').forEach(v => { try { v.autoplay = false; v.pause(); v.currentTime = 0; } catch (e) {} })")
+        page.wait_for_timeout(400)  # real time for video seek / image decode only; page clock stays paused
+        if seam_sel:
+            el = page.query_selector(seam_sel)
+            if not el:
+                m["notes"].append(f"missing {seam_sel}")
+            else:
+                el.scroll_into_view_if_needed()
+        m["hook"] = page.evaluate("typeof window.__START_RECORD__")
+        tl = page.evaluate("""() => { const tl = window.__PROTO_TL__; if (!tl || typeof tl.duration !== 'function') return null;
+          const kids = typeof tl.getChildren === 'function' ? tl.getChildren() : [];
+          return { duration: tl.duration(), eases: kids.map((t) => (t.vars && t.vars.ease) ? String(t.vars.ease) : null).filter(Boolean) }; }""")
+        if tl:
+            m["tl_duration"], m["eases"] = tl["duration"], tl["eases"]
+        # ScrollTrigger hears scroll events on the real event loop; update it on every (fake) tick instead,
+        # and re-measure once now that fonts and images are in (pin spacing must not depend on load order).
+        page.evaluate("(window.gsap && window.ScrollTrigger) ? (ScrollTrigger.refresh(), gsap.ticker.add(() => ScrollTrigger.update()), 1) : 0")
+        page.clock.run_for(500)
+        if m["hook"] != "function":
+            m["notes"].append("window.__START_RECORD__ missing (required)")
+            return m
+        page.clock.run_for(250)
+        page.evaluate("Promise.resolve(window.__START_RECORD__()).then(() => { window.__GATE_DONE__ = true; }); 1")
+        step = float(thr["sample_every_s"])
+        n = int(round((rec["hold"] + rec["dur"] + rec["tail"]) / step)) + 1
+        for i in range(n):
+            page.screenshot(path=str(dest / f"f-{i:04d}.jpg"), type="jpeg", quality=92, timeout=20000)
+            page.clock.run_for(int(round(step * 1000)))
+        m["frames"] = n
+        page.clock.run_for(500)
+        if not page.evaluate("window.__GATE_DONE__ === true"):
+            m["notes"].append("__PROTO_DONE__ did not resolve within hold+dur+tail")
+    except Exception as e:
+        m["notes"].append(f"record error: {str(e).splitlines()[0]}")
+    finally:
+        try:
+            ctx.close()
+        except Exception:
+            pass
+    return m
+
+
+def capture_gold(browser, gold_base: str, seam: dict, rec: dict, thr: dict):
+    sid = seam["id"]
+    url = gold_base.rstrip("/") + "/" + seam["prototype"] + "?record=1"
+    tmp = GOLD_DIR / f".{sid}.tmp"
+    m = capture_frames(browser, url, None, rec, thr, tmp)
+    if m["hook"] != "function" or m["tl_duration"] is None or m["notes"] or not m["frames"]:
+        shutil.rmtree(tmp, ignore_errors=True)
+        return False, m["notes"] or ["prototype hooks missing"], m
+    final = GOLD_DIR / sid
+    if final.exists():
+        shutil.rmtree(final)
+    tmp.rename(final)
+    (GOLD_DIR / f"{sid}.json").write_text(json.dumps({
+        "seam": sid, "option": seam["option"], "prototype": seam["prototype"], "locked_clip": seam["clip"],
+        "tl_duration": m["tl_duration"], "eases": m["eases"], "frames": m["frames"],
+        "sample_every_s": thr["sample_every_s"], "media": "all <video> frozen on frame 0", "record": rec}, indent=2))
+    return True, [], m
+
+
+def compare_frames(gold_frames: list, site_frames: list, thr: dict) -> dict:
+    n = min(len(gold_frames), len(site_frames))
+    rows = []
+    for i in range(n):
+        g = load_frame(gold_frames[i])
+        s = resize_to(load_frame(site_frames[i]), (g.shape[1], g.shape[0]))
+        sv, mae = ssim_luma(g, s), mae_rgb(g, s)
+        rows.append({"i": i, "t": i * float(thr["sample_every_s"]), "ssim": sv, "mae": mae,
+                     "pass": sv >= thr["ssim_min"] and mae <= thr["mae_max"], "gold": gold_frames[i], "site": site_frames[i]})
+    failed = [r for r in rows if not r["pass"]]
+    reason = ""
+    if len(site_frames) != len(gold_frames):
+        reason = f"frame count {len(site_frames)} vs gold {len(gold_frames)}; "
+    if failed:
+        reason += f"{len(failed)}/{n} frames below SSIM {thr['ssim_min']} / MAE {thr['mae_max']}"
+    return {"ok": not failed and n > 0 and len(site_frames) == len(gold_frames), "reason": reason.strip("; "),
+            "frames": rows, "failed": failed, "worst": sorted(rows, key=lambda r: (r["ssim"], -r["mae"]))[:3], "n": n}
 
 
 def write_report(out: Path, results: list[dict], overall: str) -> None:
@@ -260,45 +440,60 @@ def write_report(out: Path, results: list[dict], overall: str) -> None:
     (out / "verdict.txt").write_text(f"VERDICT: {overall}\n")
 
 
+import http.server as _hs
+
+
+class _QuietHandler(_hs.SimpleHTTPRequestHandler):
+    def log_message(self, fmt, *a):
+        pass
+
+
 def run(args: argparse.Namespace) -> int:
     manifest = json.loads(Path(args.manifest).read_text())
     rec, thr = manifest["record"], manifest["thresholds"]
     seams = manifest["seams"]
-    if args.seam:
-        seams = [s for s in seams if s["id"] == args.seam]
+    if args.regen_gold:
+        args.self_test = True
+    wanted = [x for x in ((args.seam or "") + "," + (args.seams or "")).split(",") if x.strip()]
+    if wanted:
+        seams = [s for s in seams if s["id"] in wanted]
         if not seams:
-            print(f"unknown seam {args.seam}", file=sys.stderr)
+            print(f"unknown seam(s) {wanted}", file=sys.stderr)
+            print("VERDICT: FAIL")
             return 2
+    # The locked prototypes (gold) are always served from the repo root.
+    import socketserver, threading, functools
+    httpd = socketserver.ThreadingTCPServer(("127.0.0.1", 0), functools.partial(_QuietHandler, directory=str(ROOT)))
+    httpd.daemon_threads = True
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    gold_base = f"http://127.0.0.1:{httpd.server_address[1]}"
+    if args.self_test:
+        # Self-test: capture the locked prototypes themselves and compare them to the cached gold (must PASS).
+        args.base = gold_base
+        seams = [dict(s, site_route="/" + s["prototype"] + "?record=1", site_seam=None) for s in seams]
     out = Path(args.out)
     if out.exists() and args.clean_out:
         shutil.rmtree(out)
     out.mkdir(parents=True, exist_ok=True)
     results = []
-    overall_pass = True
+    overall_pass = bool(args.base)
+    regen_ok, regen_bad = [], []
 
-    # Playwright only if we have a base URL to record
-    browser = context = None
-    if args.base:
-        from playwright.sync_api import sync_playwright
-
-        pw = sync_playwright().start()
-        launch_kwargs = {
-            "headless": True,
-            "args": ["--autoplay-policy=no-user-gesture-required", "--disable-dev-shm-usage", "--no-sandbox"],
-        }
-        if Path(CHROME).exists():
-            launch_kwargs["executable_path"] = CHROME
-        browser = pw.chromium.launch(**launch_kwargs)
-    else:
-        pw = None
-        overall_pass = False
+    from playwright.sync_api import sync_playwright
+    pw = sync_playwright().start()
+    launch_kwargs = {"headless": True,
+                     "args": ["--autoplay-policy=no-user-gesture-required", "--disable-dev-shm-usage", "--no-sandbox"]}
+    if Path(CHROME).exists():
+        launch_kwargs["executable_path"] = CHROME
+    browser = pw.chromium.launch(**launch_kwargs)
 
     try:
         for seam in seams:
             sid = seam["id"]
             work = out / sid
             work.mkdir(parents=True, exist_ok=True)
-            gold = ROOT / seam["clip"]
+            gold_dir = GOLD_DIR / sid
+            gm = GOLD_DIR / f"{sid}.json"
             notes = []
             hook = "missing"
             tl_ok = False
@@ -308,78 +503,48 @@ def run(args: argparse.Namespace) -> int:
             verdict = "FAIL"
             measures = {}
 
-            if not gold.is_file():
-                notes.append(f"gold clip missing: {gold}")
-                overall_pass = False
-                results.append({
-                    "id": sid, "option": seam["option"], "frame_check": "FAIL",
-                    "timeline_check": "FAIL", "hook": hook, "verdict": "FAIL",
-                    "worst_ssim": worst_ssim, "worst_mae": worst_mae,
-                    "notes": "; ".join(notes),
-                })
-                print(f"FAIL {sid}: gold clip missing", flush=True)
+            # Deterministic gold: the locked prototype itself, captured with the same frozen clock.
+            if not args.regen_gold and not (gm.is_file() and gold_dir.is_dir()):
+                print(f"gold for {sid} not cached; capturing it from the locked prototype", flush=True)
+                g_ok, g_notes, _ = capture_gold(browser, gold_base, seam, rec, thr)
+                if not g_ok:
+                    notes.append("gold capture failed: " + "; ".join(g_notes))
+            gold_meta = json.loads(gm.read_text()) if gm.is_file() else {}
+
+            if args.regen_gold:
+                g_ok, g_notes, m = capture_gold(browser, gold_base, seam, rec, thr)
+                if g_ok:
+                    regen_ok.append(sid); print(f"GOLD {sid} tl={m.get('tl_duration'):.3f}s frames={m.get('frames')}", flush=True)
+                else:
+                    regen_bad.append(sid); print(f"GOLD-FAILED {sid}: {'; '.join(g_notes)}", flush=True)
                 continue
 
-            site_mp4 = work / "site.mp4"
+            site_dir = work / "site-frames"
             if not args.base:
                 notes.append("no --base URL; site could not be recorded")
-                overall_pass = False
-            else:
-                tmp = work / "_rec"
-                if tmp.exists():
-                    shutil.rmtree(tmp)
-                tmp.mkdir()
-                context = browser.new_context(
-                    viewport={"width": rec["width"], "height": rec["height"]},
-                    device_scale_factor=rec["device_scale_factor"],
-                    record_video_dir=str(tmp),
-                    record_video_size={"width": rec["width"], "height": rec["height"]},
-                    reduced_motion="no-preference",
-                )
-                page = context.new_page()
-                url = args.base.rstrip("/") + seam["site_route"]
-                try:
-                    page.goto(url, wait_until="networkidle", timeout=30000)
-                    el = page.query_selector(seam["site_seam"])
-                    if not el:
-                        notes.append(f"missing {seam['site_seam']} on {seam['site_route']}")
-                    else:
-                        el.scroll_into_view_if_needed()
-                    measures = record_site_seam(page, rec, tmp)
-                    hook = measures.get("hook") or "missing"
-                    if hook != "function":
-                        notes.append("window.__START_RECORD__ missing (required)")
-                    expected = float(seam["expected_tl_end"])
-                    got = measures.get("tl_duration")
-                    if got is None:
-                        notes.append("window.__PROTO_TL__ duration missing")
-                        tl_ok = False
-                    elif abs(float(got) - expected) <= thr["timeline_end_tolerance_s"]:
-                        tl_ok = True
-                    else:
-                        notes.append(f"tl duration {got:.3f}s vs expected {expected:.3f}s")
-                        tl_ok = False
-                    # scroll wall-clock includes hold + dur + tail (~6.65s)
-                    expected_wall = rec["hold"] + rec["dur"] + rec["tail"]
-                    wall = measures.get("scroll_dur")
-                    if wall is not None and abs(float(wall) - expected_wall) > 0.5:
-                        notes.append(f"record wall {wall:.2f}s vs expected ~{expected_wall:.2f}s")
-                except Exception as e:
-                    notes.append(f"record error: {e}")
-                finally:
-                    try:
-                        context.close()
-                    except Exception:
-                        pass
-                webms = list(tmp.glob("*.webm"))
-                if webms:
-                    transcode(webms[0], site_mp4)
-                    shutil.rmtree(tmp, ignore_errors=True)
+            elif gold_meta:
+                route = seam["site_route"]
+                # ?seam=<id> tells a page with several seams which one __START_RECORD__ must play.
+                url = args.base.rstrip("/") + route + ("&" if "?" in route else "?") + "seam=" + sid
+                measures = capture_frames(browser, url, seam.get("site_seam"), rec, thr, site_dir)
+                notes += measures.get("notes", [])
+                hook = measures.get("hook") or "missing"
+                expected = float(gold_meta["tl_duration"])
+                got = measures.get("tl_duration")
+                if got is None:
+                    notes.append("window.__PROTO_TL__ duration missing")
+                elif abs(float(got) - expected) <= thr["timeline_end_tolerance_s"]:
+                    tl_ok = True
                 else:
-                    notes.append("no webm recorded from Playwright")
+                    notes.append(f"tl duration {got:.3f}s vs locked {expected:.3f}s")
+                if gold_meta.get("eases") and measures.get("eases") is not None and measures.get("eases") != gold_meta["eases"]:
+                    notes.append(f"eases {measures.get('eases')} vs locked {gold_meta['eases']}")
+                    tl_ok = False
 
-            if site_mp4.is_file() and gold.is_file():
-                cmp = compare_videos(gold, site_mp4, work / "frames", rec, thr)
+            site_frames = sorted(site_dir.glob("f-*.jpg")) if site_dir.is_dir() else []
+            gold_frames = sorted(gold_dir.glob("f-*.jpg")) if gold_dir.is_dir() else []
+            if site_frames and gold_frames:
+                cmp = compare_frames(gold_frames, site_frames, thr)
                 frame_ok = bool(cmp["ok"])
                 if cmp["worst"]:
                     worst_ssim = f"{cmp['worst'][0]['ssim']:.4f}"
@@ -389,29 +554,14 @@ def run(args: argparse.Namespace) -> int:
                 for r in cmp.get("worst", []):
                     g = load_frame(r["gold"])
                     s = resize_to(load_frame(r["site"]), (g.shape[1], g.shape[0]))
-                    side_by_side(
-                        g, s,
-                        work / "diffs" / f"worst-t{r['t']:.1f}s-ssim{r['ssim']:.3f}.jpg",
-                        f"{sid} t={r['t']:.1f}s",
-                        r["ssim"], r["mae"],
-                    )
-                (work / "frame-scores.json").write_text(
-                    json.dumps(
-                        {
-                            "gold_duration": cmp.get("gold_duration"),
-                            "site_duration": cmp.get("site_duration"),
-                            "n": cmp.get("n"),
-                            "frames": [
-                                {"t": r["t"], "ssim": r["ssim"], "mae": r["mae"], "pass": r["pass"]}
-                                for r in cmp.get("frames", [])
-                            ],
-                        },
-                        indent=2,
-                    )
-                )
-            else:
-                notes.append("site recording missing; cannot compare frames")
-
+                    side_by_side(g, s, work / "diffs" / f"worst-t{r['t']:.1f}s-ssim{r['ssim']:.3f}.jpg",
+                                 f"{sid} t={r['t']:.1f}s", r["ssim"], r["mae"])
+                (work / "frame-scores.json").write_text(json.dumps({
+                    "n": cmp.get("n"), "gold_frames": len(gold_frames), "site_frames": len(site_frames),
+                    "frames": [{"t": r["t"], "ssim": r["ssim"], "mae": r["mae"], "pass": r["pass"]} for r in cmp.get("frames", [])],
+                }, indent=2))
+            elif args.base:
+                notes.append("no frames to compare (site capture or gold missing)")
             hook_ok = hook == "function"
             if frame_ok and tl_ok and hook_ok:
                 verdict = "PASS"
@@ -435,7 +585,12 @@ def run(args: argparse.Namespace) -> int:
             browser.close()
         if pw:
             pw.stop()
+        if httpd:
+            httpd.shutdown()
 
+    if args.regen_gold:
+        print(f"gate gold written for {len(regen_ok)} seam(s) in {GOLD_DIR}; failed: {regen_bad or 'none'}")
+        return 0 if not regen_bad else 1
     overall = "PASS" if overall_pass and results and all(r["verdict"] == "PASS" for r in results) else "FAIL"
     if not args.base:
         overall = "FAIL"
@@ -451,6 +606,10 @@ def main() -> int:
     p.add_argument("--out", default=str(ROOT / "qa/motion-gate"), help="Output directory")
     p.add_argument("--manifest", default=str(DEFAULT_MANIFEST))
     p.add_argument("--seam", help="Run a single seam id, e.g. 01A-02A")
+    p.add_argument("--seams", help="Comma list of seam ids to run (default: all)")
+    p.add_argument("--self-test", action="store_true", help="Record the locked prototypes themselves (must PASS)")
+    p.add_argument("--regen-gold", action="store_true",
+                   help="Re-record the locked prototypes with media frozen into build-plan/tools/motion-gate-gold/ (deterministic gate gold)")
     p.add_argument("--clean-out", action="store_true")
     args = p.parse_args()
     return run(args)

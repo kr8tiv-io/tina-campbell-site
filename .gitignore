@@ -26,3 +26,9 @@
 !/docs/**
 !/motion-reference/
 !/motion-reference/**
+# motion gate: scratch tool tests, cached deterministic gold (regenerated from motion-reference on demand), raw frames
+/qa/tools-selftest/
+/build-plan/tools/motion-gate-gold/
+/qa/**/motion-gate/*/site-frames/
+/qa/**/gate/*/site-frames/
+/build-plan/WATCH-ALERT.txt
