@@ -313,12 +313,5 @@ html.work-intro .tile {
   }
 }
 
-@media (hover: none), (pointer: coarse) {
-  .work-canvas {
-    display: none;
-  }
-
-  html.work-gl .tile.is-gl .tile__link img {
-    opacity: 1;
-  }
-}
+/* Coarse pointers and narrow layouts still show the graded still.
+   Hover ripple stays off; see work.ts. Reduced motion hides the canvas above. */

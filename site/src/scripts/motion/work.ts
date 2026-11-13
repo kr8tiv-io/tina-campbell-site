@@ -136,10 +136,14 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
   intro();
 
   const desktopQuery = window.matchMedia('(min-width: 801px)');
-  const useGl = fine && !reduced && desktopQuery.matches && canWebGL();
+  // Same noir grade at 390 and on a coarse pointer. Ripple stays fine and wide.
+  const useGl = !reduced && canWebGL();
+  const allowRipple = (): boolean => fine && desktopQuery.matches;
+
+  const frameOf = (tile: HTMLElement): HTMLElement => tile.querySelector<HTMLElement>('.tile__link') ?? tile;
 
   const pointerPx = (tile: HTMLElement, event: PointerEvent): { x: number; y: number } => {
-    const rect = tile.getBoundingClientRect();
+    const rect = frameOf(tile).getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     return {
@@ -181,7 +185,7 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
     if (!activeId || !gridApi) return;
     const tile = grid.querySelector<HTMLElement>(`[data-id="${activeId}"]`);
     if (!tile || tile.classList.contains('is-filtered')) return;
-    const rect = tile.getBoundingClientRect();
+    const rect = frameOf(tile).getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
@@ -201,22 +205,38 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
   };
 
   let removeHover = (): void => {};
+  let hoverBound = false;
 
   const bindHover = (): void => {
+    if (hoverBound) return;
     tiles.forEach((tile) => {
       tile.addEventListener('pointerenter', onEnter);
       tile.addEventListener('pointermove', onMove);
       tile.addEventListener('pointerleave', onLeave);
     });
     window.addEventListener('pointermove', onWindowMove);
+    hoverBound = true;
     removeHover = () => {
+      if (!hoverBound) return;
       tiles.forEach((tile) => {
         tile.removeEventListener('pointerenter', onEnter);
         tile.removeEventListener('pointermove', onMove);
         tile.removeEventListener('pointerleave', onLeave);
       });
       window.removeEventListener('pointermove', onWindowMove);
+      hoverBound = false;
     };
+  };
+
+  const syncRipple = (): void => {
+    if (allowRipple() && gridApi) {
+      bindHover();
+      return;
+    }
+    if (activeId && gridApi) gridApi.play(activeId, 0);
+    tiles.forEach((tile) => tile.classList.remove('is-hot'));
+    activeId = null;
+    removeHover();
   };
 
   const readyTimer = window.setTimeout(() => {
@@ -230,7 +250,7 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
       .then((mod) => {
         if (disposed || signal.aborted) return;
         gridApi = mod.mountNoirGrid(grid, signal);
-        bindHover();
+        syncRipple();
         document.documentElement.dataset.workReady = 'gl';
       })
       .catch(() => {
@@ -240,21 +260,16 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
     document.documentElement.dataset.workReady = 'color';
   }
 
-  const stopMedia = (): void => {
-    if (!desktopQuery.matches && gridApi) {
-      gridApi.destroy();
-      gridApi = null;
-      document.documentElement.dataset.workReady = 'color';
-      removeHover();
-    }
+  const onLayout = (): void => {
+    syncRipple();
   };
-  desktopQuery.addEventListener('change', stopMedia);
+  desktopQuery.addEventListener('change', onLayout);
 
   return () => {
     disposed = true;
     links.forEach((link) => link.removeEventListener('click', onClick));
     window.removeEventListener('popstate', onPop);
-    desktopQuery.removeEventListener('change', stopMedia);
+    desktopQuery.removeEventListener('change', onLayout);
     removeHover();
     window.clearTimeout(readyTimer);
     gridApi?.destroy();

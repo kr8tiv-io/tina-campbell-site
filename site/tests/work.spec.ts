@@ -150,6 +150,7 @@ test('work index noir grid, filters and hover', async ({ page }, info) => {
   const errors = await quiet(page);
   const project = info.project.name;
   const gl = project === 'desktop';
+  const graded = project !== 'reduced';
   await openWork(page);
 
   await expect(page.locator('h1')).toHaveText('Work');
@@ -212,9 +213,12 @@ test('work index noir grid, filters and hover', async ({ page }, info) => {
       });
       await expect(hero).not.toHaveClass(/is-hot/);
     }
-  } else {
+  } else if (!graded) {
     await expect(page.locator('html')).not.toHaveClass(/work-gl/);
     await expect(page.locator('.tile--hero img').first()).toBeVisible();
+  } else {
+    await page.waitForSelector('html.work-gl .tile.is-gl', { timeout: 15_000 });
+    await expect(page.locator('.work-canvas')).toBeVisible();
   }
 
   const portraits = await page.locator('.tile[data-filter="portraits"]').count();
@@ -240,7 +244,7 @@ test('work index noir grid, filters and hover', async ({ page }, info) => {
   await expect(page.locator('.work-filters a[aria-current="true"]')).toHaveText('Bridal');
 
   await openWork(page, '/work/');
-  if (gl) await page.waitForSelector('.tile.is-gl', { timeout: 15_000 });
+  if (graded) await page.waitForSelector('.tile.is-gl', { timeout: 15_000 });
   await loadImages(page);
   const metrics = await page.evaluate(() => {
     const root = document.scrollingElement;
@@ -255,13 +259,15 @@ test('work index noir grid, filters and hover', async ({ page }, info) => {
   expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.innerWidth + 1);
 
   await scrollTo(page, 0);
-  if (gl) await waitVisibleGl(page);
-  else {
+  if (graded) await waitVisibleGl(page);
+  if (!gl && !graded) {
     await page.waitForFunction(() => {
       const tiles = [...document.querySelectorAll<HTMLElement>('.tile')].slice(0, 6);
       return tiles.length > 0 && tiles.every((tile) => Number(getComputedStyle(tile).opacity) > 0.98);
     });
-    const shot = project === 'mobile' ? 'mobile-390-viewport.png' : project === 'small' ? 'small-360-viewport.png' : 'reduced-viewport.png';
+    await page.screenshot({ path: path.join(outDir, 'reduced-viewport.png') });
+  } else if (project === 'mobile' || project === 'small') {
+    const shot = project === 'mobile' ? 'mobile-390-viewport.png' : 'small-360-viewport.png';
     await page.screenshot({ path: path.join(outDir, shot) });
   }
 

@@ -14,9 +14,10 @@ import {
 } from 'three';
 
 /**
- * Shared noir canvas. Ripple is concentric rings in tile pixels, centred on the
- * pointer. Site pace is ripple 0-1s then colour 1-1.6s. When the replay slows
- * GSAP, durations stretch by the same factor so clip time and the rings line up.
+ * Shared noir canvas. The grade runs at every width. Ripple is concentric rings
+ * in tile pixels, centred on the pointer, and is only driven for a fine pointer
+ * on a wide layout. Site pace is ripple 0-1s then colour 1-1.6s. When the replay
+ * slows GSAP, durations stretch by the same factor so clip time and the rings line up.
  */
 
 const vert = /* glsl */ `
@@ -36,7 +37,6 @@ uniform vec2 uPointer;
 uniform vec2 uImage;
 uniform vec2 uTile;
 uniform float uSpill;
-uniform float uTime;
 uniform float uRipple;
 uniform float uWave;
 uniform float uColour;
@@ -112,33 +112,45 @@ void main() {
   float dist = length(delta);
   vec2 dir = dist > 0.8 ? delta / dist : vec2(0.0);
   float scale = max(uPxScale, 0.5);
+  // Radius curve and 18px spacing are measured. Do not grow them to fake strength.
   float radius = 210.0 * scale * pow(max(ripple, 0.0001), 0.72);
   float spacing = max(8.0, 18.0 * scale);
   float behind = max(radius - dist, 0.0);
+  // Same falloff as the measured radius curve. Crest locked to the front so a
+  // scrolling phase cannot hide the outer ring one spacing inside.
   float front = smoothstep(radius + 14.0 * scale, radius - 1.0 * scale, dist);
-  float fill = exp(-behind / (120.0 * scale));
-  float center = smoothstep(0.0, 42.0 * scale, dist);
+  float fill = 0.78 + 0.22 * exp(-behind / (260.0 * scale));
+  float center = smoothstep(8.0 * scale, 36.0 * scale, dist);
   float live = smoothstep(0.0, 0.04, wave) * smoothstep(0.0, 0.015, ripple);
-  float bands = sin((radius - dist) / spacing * 6.2831853 - uTime * 2.2);
-  float reach = radius > 1.0 ? dist / radius : 0.0;
-  float lensEnv = smoothstep(0.42, 0.92, reach) * front * center;
-  float lens = 28.0 * scale * lensEnv * live * smoothstep(0.12, 0.62, ripple);
-  float fine = 2.2 * scale * bands * front * fill * center * live;
-  float amp = lens + fine;
+  float phase = (radius - dist) / spacing * 6.2831853 + 1.5707963;
+  float bands = sin(phase);
+  float edge = abs(cos(phase));
+  // In-ring refraction. ~11px bows a straight slat. Not an outer-only lens bubble.
+  float amp = 11.0 * scale * bands * front * fill * center * live;
+  float lip = smoothstep(radius - 6.0 * scale, radius + 1.0 * scale, dist)
+            * smoothstep(radius + 16.0 * scale, radius + 2.0 * scale, dist);
+  amp += 8.0 * scale * lip * fill * center * live;
   if (wave < 0.001 || ripple < 0.001) amp = 0.0;
 
   vec2 src = tilePx - dir * amp;
   bool srcIn = insideTile(src);
-  float shift = 2.4 * scale * abs(bands) * front * fill * live;
-  vec3 baseSample = sampleAt(src);
+  float shift = 4.6 * scale * edge * front * fill * center * live;
+  float feather = 3.4 * scale * edge * front * fill * center * live;
+  vec3 tap = sampleAt(src);
+  vec3 sideA = sampleAt(src + dir * feather);
+  vec3 sideB = sampleAt(src - dir * feather);
+  tap = mix(tap, (tap + sideA + sideB) / 3.0, smoothstep(0.2, 1.2, feather));
   vec3 splitR = sampleAt(src + dir * shift);
   vec3 splitB = sampleAt(src - dir * shift);
-  float chroma = front * fill * live * (0.35 + 0.45 * abs(bands));
-  vec3 raw = mix(baseSample, vec3(splitR.r, baseSample.g, splitB.b), chroma);
-
-  vec3 graded = gradeNoir(raw);
-  vec3 tone = mix(graded, raw, colourMix);
-  tone *= 1.0 + 0.2 * bands * front * fill * center * live;
+  // Fringe after the grade, or the noir curve turns the red/cyan edge back to grey.
+  float chroma = edge * front * fill * center * live * 0.5;
+  vec3 graded = gradeNoir(tap);
+  vec3 gradedR = gradeNoir(splitR);
+  vec3 gradedB = gradeNoir(splitB);
+  vec3 noir = mix(graded, vec3(gradedR.r, graded.g, gradedB.b), chroma);
+  vec3 rawCol = mix(tap, vec3(splitR.r, tap.g, splitB.b), chroma);
+  vec3 tone = mix(noir, rawCol, colourMix);
+  tone *= 1.0 + 0.04 * bands * front * fill * center * live;
 
   float alpha = 0.0;
   if (fragIn) {
@@ -163,7 +175,6 @@ interface TileUniforms {
   uTile: { value: Vector2 };
   uMesh: { value: Vector2 };
   uSpill: { value: number };
-  uTime: { value: number };
   uRipple: { value: number };
   uWave: { value: number };
   uColour: { value: number };
@@ -175,6 +186,7 @@ interface TileUniforms {
 interface TileRecord {
   id: string;
   el: HTMLElement;
+  frame: HTMLElement;
   mesh: Mesh;
   uniforms: TileUniforms;
   texture: Texture | null;
@@ -238,7 +250,6 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
   const camera = new OrthographicCamera(-1, 1, 1, -1, -10, 10);
   camera.position.z = 5;
   const geometry = new PlaneGeometry(1, 1);
-  const clock = { value: 0 };
   const records = new Map<string, TileRecord>();
   const pxScale = (): number => Math.max(0.7, window.innerWidth / 1280);
 
@@ -254,7 +265,6 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
       uTile: { value: new Vector2(1, 1) },
       uMesh: { value: new Vector2(1, 1) },
       uSpill: { value: 0 },
-      uTime: clock,
       uRipple: { value: 0 },
       uWave: { value: 0 },
       uColour: { value: 0 },
@@ -280,6 +290,7 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
     records.set(id, {
       id,
       el,
+      frame: el.querySelector<HTMLElement>('.tile__link') ?? el,
       mesh,
       uniforms,
       texture: null,
@@ -289,7 +300,6 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
   });
 
   let running = true;
-  let last = 0;
   let revealed = false;
 
   const resize = (): void => {
@@ -366,7 +376,7 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
     const spillBase = 240 * scale;
     records.forEach((record) => {
       const filtered = record.el.classList.contains('is-filtered');
-      const rect = record.el.getBoundingClientRect();
+      const rect = record.frame.getBoundingClientRect();
       const onScreen = rect.bottom > -margin && rect.top < height + margin && rect.width > 2 && rect.height > 2;
       if (filtered || !onScreen) {
         record.mesh.visible = false;
@@ -396,13 +406,8 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
     });
   };
 
-  const tick = (time: number): void => {
+  const tick = (): void => {
     if (!running || signal.aborted) return;
-    const seconds = time;
-    const delta = last === 0 ? 0.016 : Math.min(0.05, seconds - last);
-    last = seconds;
-    const motion = gsap.globalTimeline.timeScale();
-    clock.value += delta * (motion > 0 ? motion : 1);
     sync();
     const drawing = [...records.values()].some((record) => record.mesh.visible);
     if (drawing) renderer.render(scene, camera);
