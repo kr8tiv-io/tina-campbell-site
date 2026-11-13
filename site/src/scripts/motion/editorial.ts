@@ -28,9 +28,25 @@ function unmask(el: HTMLElement, reduced: boolean, mobile: boolean): void {
       trigger: el,
       start: 'top 86%',
       toggleActions: 'play none none reverse',
+      onLeaveBack: () => el.classList.remove('is-unmasked'),
     },
   });
-  tl.fromTo(el, { clipPath: from }, { clipPath: 'inset(0 0 0% 0)', duration: mobile ? 0.55 : 0.9, ease: 'power3.out' }, 0);
+  tl.fromTo(
+    el,
+    { clipPath: from },
+    {
+      clipPath: 'inset(0 0 0% 0)',
+      duration: mobile ? 0.55 : 0.9,
+      ease: 'power3.out',
+      /* A finished inset(0) still clips box-shadow, so the portrait glow never paints. */
+      onComplete: () => {
+        gsap.set(el, { clearProps: 'clipPath' });
+        el.classList.add('is-unmasked');
+      },
+      onReverseComplete: () => el.classList.remove('is-unmasked'),
+    },
+    0,
+  );
   /* Scale the picture box, not the img. The img transform is the crop. */
   const photo = el.querySelector<HTMLElement>('.photo');
   if (photo) {

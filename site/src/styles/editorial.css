@@ -65,14 +65,18 @@
 .fe-index {
   display: flex;
   flex-direction: column;
-  gap: 0.28rem;
+  gap: 0;
   margin: 0.7rem 0 0;
   padding: 0;
   list-style: none;
 }
 
+.fe-index li {
+  display: flex;
+}
+
 .fe-index a {
-  display: inline-flex;
+  display: flex;
   align-items: baseline;
   gap: 2ch;
   width: max-content;
@@ -83,7 +87,8 @@
   font-size: clamp(1rem, 2.222vw, 32px);
   font-weight: 400;
   letter-spacing: 0;
-  line-height: 1.05;
+  /* 32 px face at a 30 px step. Line width stays on the font-size, not the leading. */
+  line-height: 0.9375;
 }
 
 .fe-index a:hover .fe-name {
@@ -388,7 +393,12 @@ html.series-intro [data-series-title] {
   aspect-ratio: 3 / 4.35;
   box-shadow:
     0 0 0 1px rgba(240, 243, 244, 0.14),
-    0 0 70px 16px rgba(226, 214, 200, 0.28);
+    0 0 70px 16px rgba(210, 170, 120, 0.42);
+}
+
+/* Wins over the unmask inline clip so the warm edge can paint outside the frame. */
+.spread__photo.is-unmasked {
+  clip-path: none !important;
 }
 
 .pair {
@@ -624,8 +634,8 @@ html.pbc-motion .chapter__shot:not(:first-child) {
   }
 
   .fe-index {
-    margin-top: 0.55rem;
-    gap: 0.08rem;
+    margin-top: 0.35rem;
+    gap: 0;
   }
 }
 
