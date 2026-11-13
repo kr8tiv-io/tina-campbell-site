@@ -63,6 +63,19 @@ export function barrelScale(nx: number): number {
   return MathUtils.clamp(1 - 0.48 * x2 + 0.08 * x2 * x, 0.48, 1);
 }
 
+/**
+ * Width falloff. dx/d(frame) = centrePitch / (1 + WIDTH_FALLOFF * nx^2).
+ * Steeper than the height barrel so a 1280 screen holds about 7 frames:
+ * centre pitch stays ~260 px, frames nearest the edges land near 130 to 165 px.
+ */
+export const WIDTH_FALLOFF = 1.42;
+
+/** Instantaneous width scale at view x / half-width. 1 at the centre. */
+export function widthScale(nx: number): number {
+  const x = Math.min(Math.abs(nx), 1.6);
+  return 1 / (1 + WIDTH_FALLOFF * x * x);
+}
+
 /** nx is view x / half the visible width. 0 is the centre of the screen. */
 export function frameLook(nx: number, velocity = 0): FrameLook {
   const ad = Math.min(Math.abs(nx), 1.25);
@@ -70,7 +83,7 @@ export function frameLook(nx: number, velocity = 0): FrameLook {
   const speed = Math.min(Math.abs(velocity), 1);
   return {
     scale: barrelScale(nx),
-    scaleX: 1,
+    scaleX: widthScale(nx),
     dim: MathUtils.lerp(1, 0.57, t),
     blur: t * (0.42 + speed * 0.5),
     z: 0,
@@ -143,13 +156,28 @@ varying vec2 vUv;
 varying float vLocalX;
 varying float vNx;
 
+// Inverse of I(n) = n + (a/3) n^3, with a = WIDTH_FALLOFF.
+// I(n) = |frame units| * centrePitch / halfWidth, so dx/d(frame) = centrePitch / (1 + a n^2).
+float foreshortenX(float xi) {
+  float a = 1.42;
+  float u = abs(xi) * uPitch / max(uHalfW, 0.001);
+  float n = u < 0.8 ? u : pow(max(u * 3.0 / a, 1e-6), 0.3333333);
+  for (int i = 0; i < 6; i++) {
+    float n2 = n * n;
+    float f = n + (a / 3.0) * n2 * n - u;
+    float df = 1.0 + a * n2;
+    n = max(n - f / df, 0.0);
+  }
+  return sign(xi) * n * uHalfW;
+}
+
 void main() {
   vec4 world = modelMatrix * vec4(position.x, 0.0, 0.0, 1.0);
-  float xPx = world.x * uPitch;
+  float xPx = foreshortenX(world.x);
   float nx = xPx / max(uHalfW, 0.001);
   float x = min(abs(nx), 1.25);
   float x2 = x * x;
-  // Symmetric barrel about the midline. Top rises at the centre, bottom drops.
+  // Height barrel is unchanged. Top rises at the centre, bottom drops.
   float scale = clamp(1.0 - 0.48 * x2 + 0.08 * x2 * x, 0.48, 1.0);
   float y = uMidY + position.y * uHalfH * scale;
   gl_Position = projectionMatrix * viewMatrix * vec4(xPx, y, 0.0, 1.0);
@@ -213,9 +241,10 @@ void main() {
   float within = frame - idx;
   if (edge < uBand) {
     float v = edge / max(uBand, 0.001);
+    // ~36 px pitch and ~16 px dark width at the 1280 centre; ~22 px tall in the 0.09 band.
     float u = fract(vLocalX / uHole);
-    float inU = smoothstep(0.38, 0.44, u) * smoothstep(0.62, 0.56, u);
-    float inV = smoothstep(0.34, 0.42, v) * smoothstep(0.66, 0.58, v);
+    float inU = smoothstep(0.24, 0.30, u) * smoothstep(0.76, 0.70, u);
+    float inV = smoothstep(0.16, 0.22, v) * smoothstep(0.84, 0.78, v);
     gl_FragColor = vec4(mix(band, hole, inU * inV), 1.0);
     #include <colorspace_fragment>
     return;
@@ -362,7 +391,7 @@ export function mountCurvedStrip(
       uMidY: { value: 0 },
       uGutter: { value: gutterFrac },
       uBand: { value: STRIP.band },
-      uHole: { value: 0.22 },
+      uHole: { value: 36 / 265.5 },
       uCols: { value: cols },
       uRows: { value: rows },
       uCount: { value: count },
@@ -403,6 +432,8 @@ export function mountCurvedStrip(
     camera.bottom = -height / 2;
     camera.updateProjectionMatrix();
     material.uniforms.uPitch.value = metrics.pitchPx;
+    // Centre sprocket pitch stays ~36 px. Width foreshortening tightens it toward the edges.
+    material.uniforms.uHole.value = 36 / Math.max(metrics.pitchPx, 1);
     material.uniforms.uHalfW.value = width / 2;
     material.uniforms.uHalfH.value = metrics.frameH / 2;
     const padPx = Math.min(10, height * 0.02);
