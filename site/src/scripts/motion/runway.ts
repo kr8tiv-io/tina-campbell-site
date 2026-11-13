@@ -134,12 +134,17 @@ function mountEnhanced(
   const items = [...section.querySelectorAll<HTMLElement>('[data-texture]')];
   if (!canvas || !stage || items.length === 0) return mountFallback(section, signal);
 
-  const { STRIP, mountCurvedStrip, horizontalTravelPx } = mod;
-  const span = STRIP.focusEnd - STRIP.focusStart;
+  const { STRIP, mountCurvedStrip, stripMetrics } = mod;
   const frames = items.map((item) => ({
     url: item.dataset.texture || '',
-    aspect: Number(item.dataset.aspect) || STRIP.photoW / STRIP.photoH,
+    aspect: Number(item.dataset.aspect) || STRIP.photoAspect,
   }));
+  const metricsFor = (): ReturnType<typeof stripMetrics> => {
+    const width = stage.clientWidth || window.innerWidth;
+    const viewH = window.innerHeight;
+    const canvasH = stage.clientHeight || viewH;
+    return stripMetrics(width, viewH, canvasH, items.length);
+  };
 
   section.classList.add('is-webgl');
   section.dataset.catwalkMode = 'webgl';
@@ -155,6 +160,7 @@ function mountEnhanced(
 
   const mirror = (value: number): void => {
     const track = section.querySelector<HTMLElement>('[data-catwalk-track]');
+    const span = metricsFor().span;
     if (track) track.style.transform = `translate3d(${(-value * span * 180).toFixed(2)}px, 0, 0)`;
   };
 
@@ -171,20 +177,28 @@ function mountEnhanced(
     trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: () => {
-        const width = stage.clientWidth || window.innerWidth;
-        const height = stage.clientHeight || window.innerHeight;
-        return `+=${horizontalTravelPx(width, height)}`;
-      },
+      end: () => `+=${metricsFor().travelPx}`,
       pin: true,
+      // Boolean scrub locks the strip to scroll. The clip curve is already the
+      // 0.5 s ramp and 3 s ease-out; a 1 s expo scrub would lag it past 20%.
+      // Lenis eases a real wheel gesture. Snap eases onto a frame only at rest.
       scrub: true,
+      snap: {
+        snapTo: (value: number) => {
+          const steps = metricsFor().span;
+          return Math.round(value * steps) / steps;
+        },
+        duration: { min: 0.25, max: 0.7 },
+        delay: 0.14,
+        ease: 'power3.out',
+      },
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         const now = performance.now();
         const dt = Math.max(16, now - lastTime);
         lastTime = now;
-        const velocity = (Math.abs(self.getVelocity()) / window.innerHeight) * (dt / 1000);
+        const velocity = gsap.utils.clamp(0, 1, Math.abs(self.getVelocity()) / 900) * (dt / 16);
         apply(self.progress, velocity);
       },
     });
@@ -195,13 +209,12 @@ function mountEnhanced(
 
   const writeMeta = (): void => {
     const range = Math.max(1, trigger.end - trigger.start);
-    const width = stage.clientWidth || window.innerWidth;
-    const height = stage.clientHeight || window.innerHeight;
+    const metrics = metricsFor();
     section.dataset.pinStart = String(Math.round(trigger.start));
     section.dataset.pinEnd = String(Math.round(trigger.end));
     section.dataset.pinDistance = String(Math.round(range));
-    section.dataset.travelPx = String(horizontalTravelPx(width, height));
-    section.dataset.frameScroll = String(Math.round(range / span));
+    section.dataset.travelPx = String(metrics.travelPx);
+    section.dataset.frameScroll = String(Math.round(range / metrics.span));
   };
 
   strip = mountCurvedStrip(canvas, frames, {
@@ -219,9 +232,10 @@ function mountEnhanced(
     dragMinimum: 4,
     preventDefault: true,
     onDrag: (self) => {
+      const metrics = metricsFor();
       const range = trigger.end - trigger.start;
-      const pxPerFrame = Math.max(1, stage.clientWidth / STRIP.viewFrames);
-      const scrollPerFrame = range / span;
+      const scrollPerFrame = range / metrics.span;
+      const pxPerFrame = Math.max(1, metrics.pitchPx);
       const next = gsap.utils.clamp(
         trigger.start,
         trigger.end,
@@ -233,7 +247,7 @@ function mountEnhanced(
 
   const onKey = (event: KeyboardEvent): void => {
     const range = trigger.end - trigger.start;
-    const step = range / span;
+    const step = range / metricsFor().span;
     let next = trigger.scroll();
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next += step;
     else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next -= step;

@@ -1,1 +1,2 @@
 - 002d-home-exact-fix2: still not PASS after 3 fix rounds (Thu Nov 12 19:01:02 CST 2026); see build-plan/reviews/002d-home-exact-fix2.md. 010-qa must close it.
+- 002d-home-exact: CLOSED by fix3, VERDICT: PASS (Thu Nov 12 19:33 CST 2026; reviews/002d-home-exact-fix3.md). The fix2 line above was logged early, before fix3 ran.

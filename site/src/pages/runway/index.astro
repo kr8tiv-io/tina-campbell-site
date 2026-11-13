@@ -6,15 +6,33 @@ import { getPhoto } from '../../data/photos';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/runway.css';
 
+// Dark stage plates (fb_012 magenta, fb_029 black venue) hold the opening view
+// and the centre through the clip gesture. Mall daylight starts after that.
 const order = [
   'fb_012_runway',
   'fb_029_runway',
-  'fb_105_runway',
-  'fb_064_runway',
+  'fb_012_runway',
+  'fb_029_runway',
+  'fb_012_runway',
+  'fb_029_runway',
+  'fb_012_runway',
+  'fb_029_runway',
+  'fb_012_runway',
+  'fb_029_runway',
+  'fb_012_runway',
+  'fb_029_runway',
+  'fb_012_runway',
+  'fb_029_runway',
   'fb_037_runway',
   'fb_158_runway',
-  'fb_060_runway',
+  'fb_064_runway',
   'fb_085_runway',
+  'fb_060_runway',
+  'fb_105_runway',
+  'fb_029_runway',
+  'fb_012_runway',
+  'fb_037_runway',
+  'fb_158_runway',
 ];
 
 const frames = order.map((id) => getPhoto(id));
@@ -26,7 +44,7 @@ const textures = await Promise.all(
   }),
 );
 
-const hero = getPhoto('fb_064_runway');
+const hero = getPhoto('fb_029_runway');
 const og = await getImage({
   src: hero.src,
   width: 1200,

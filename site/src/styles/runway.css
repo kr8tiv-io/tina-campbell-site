@@ -4,7 +4,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding: calc(var(--header-h) + clamp(0.45rem, 1.5vh, 1.05rem)) 0 clamp(1.1rem, 2.8vh, 1.8rem);
+  padding: calc(var(--header-h) + clamp(2rem, 5.2vh, 3.4rem)) 0 clamp(1.1rem, 2.8vh, 1.8rem);
   background: var(--ink);
 }
 
@@ -20,17 +20,17 @@
   margin: 0;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(2.35rem, 3.7vw, 3.25rem);
-  line-height: 0.92;
-  letter-spacing: -0.03em;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 .catwalk__sub {
-  margin: 0.28rem 0 0;
-  font-family: var(--sans);
+  margin: 0.35rem 0 0;
+  font-family: var(--mono);
   font-weight: 400;
-  font-size: clamp(0.98rem, 1.15vw, 1.12rem);
-  letter-spacing: 0.005em;
+  font-size: 13px;
+  letter-spacing: 0.04em;
   color: var(--paper);
 }
 
@@ -116,11 +116,11 @@
 .catwalk__track {
   display: flex;
   align-items: stretch;
-  gap: 0.65rem;
+  gap: 6px;
   height: 100%;
   width: max-content;
   margin: 0;
-  padding: 0 5vw;
+  padding: 0 8vw;
   list-style: none;
 }
 
@@ -136,19 +136,16 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #050506;
+  background: #0c0c0f;
 }
 
 .film__band {
-  flex: 0 0 8%;
-  min-height: 12px;
-  background-color: #050506;
-  background-image: repeating-linear-gradient(
-    90deg,
-    #050506 0 8px,
-    #3a3a40 8px 20px,
-    #050506 20px 30px
-  );
+  flex: 0 0 9%;
+  min-height: 14px;
+  background-color: #151517;
+  background-image: radial-gradient(ellipse 3.5px 3px at 50% 50%, #070708 58%, #151517 64%);
+  background-size: 16px 100%;
+  background-repeat: repeat-x;
 }
 
 .film__shot {
