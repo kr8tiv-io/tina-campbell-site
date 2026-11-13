@@ -23,3 +23,16 @@ The gate (mandatory, this is what "done" means):
 7. Final message: the checklist summary and the paths to `after-*/CONTACT-clip-vs-build.jpg` and the side-by-sides. Then `git add -A && git commit` with the commit message given (do not push).
 
 If Grok Imagine, a tool or an install fails, say exactly what failed and stop; do not switch methods silently.
+
+## Locked motion gate (13 Nov 2026)
+
+Matt, after locking the scenes and transitions: close does not count, it has to be perfect. This section applies to locked motion work from prompt `011-locked-motion` onward, and to any later seam or scene work that cites `docs/design-system/MOTION-LOCKED.md`.
+
+It does not change the acceptance rules for prompts 001 through 010, and it does not reopen earlier reviews or CLOSEST photo rows already recorded (H10, H11, R7). In-flight exact-match reviews of those earlier steps still follow the rules above.
+
+For locked motion (target IDs L1-L11 and S01-S10):
+
+- Verdicts are only PASS or FAIL. CLOSEST, ACCEPTABLE, and PARTIAL count as FAIL.
+- The independent reviewer must run `python3 /workspace/tina-campbell/build-plan/tools/motion-gate.py` and open every worst-frame diff. The gate must end with `VERDICT: PASS`.
+- Any FAIL blocks the driver from advancing to the next step and blocks staging.
+- Ambiguity does not block the build: log it in `build-plan/OPEN-QUESTIONS.md` and keep going. A failed motion gate still blocks advancing.

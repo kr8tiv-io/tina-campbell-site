@@ -1,0 +1,130 @@
+{
+  "record": {
+    "width": 1440,
+    "height": 810,
+    "hold": 0.6,
+    "dur": 5.2,
+    "tail": 0.85,
+    "ease": "none",
+    "device_scale_factor": 1
+  },
+  "thresholds": {
+    "ssim_min": 0.92,
+    "mae_max": 8.0,
+    "scroll_dur_tolerance_s": 0.08,
+    "timeline_end_tolerance_s": 0.05,
+    "sample_every_s": 0.2
+  },
+  "seams": [
+    {
+      "id": "01A-02A",
+      "option": "A-ink-bleed-down",
+      "function": "t_01A_02A_A",
+      "clip": "motion-reference/12-seam-transitions/01A-02A/A-ink-bleed-down/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/01A-02A/A-ink-bleed-down/index.html",
+      "site_route": "/",
+      "site_seam": "[data-seam='01A-02A']",
+      "expected_tl_end": 1.17,
+      "eases": ["cine", "power2.inOut", "power3.out", "power2.in"]
+    },
+    {
+      "id": "02A-03B",
+      "option": "C-magenta-flood",
+      "function": "t_02A_03B_C",
+      "clip": "motion-reference/12-seam-transitions/02A-03B/C-magenta-flood/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/02A-03B/C-magenta-flood/index.html",
+      "site_route": "/",
+      "site_seam": "[data-seam='02A-03B']",
+      "expected_tl_end": 1.05,
+      "eases": ["cine", "power2.in"]
+    },
+    {
+      "id": "03B-04B",
+      "option": "A-catwalk-to-grid",
+      "function": "t_03B_04B_A",
+      "clip": "motion-reference/12-seam-transitions/03B-04B/A-catwalk-to-grid/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/03B-04B/A-catwalk-to-grid/index.html",
+      "site_route": "/",
+      "site_seam": "[data-seam='03B-04B']",
+      "expected_tl_end": 1.10,
+      "eases": ["cine", "power3.out"]
+    },
+    {
+      "id": "04B-05C",
+      "option": "C-loupe-assemble",
+      "function": "t_04B_05C_C",
+      "clip": "motion-reference/12-seam-transitions/04B-05C/C-loupe-assemble/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/04B-05C/C-loupe-assemble/index.html",
+      "site_route": "/work/",
+      "site_seam": "[data-seam='04B-05C']",
+      "expected_tl_end": 0.95,
+      "eases": ["cine", "power2.inOut"]
+    },
+    {
+      "id": "05C-06B",
+      "option": "A-print-to-column",
+      "function": "t_05C_06B_A",
+      "clip": "motion-reference/12-seam-transitions/05C-06B/A-print-to-column/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/05C-06B/A-print-to-column/index.html",
+      "site_route": "/work/",
+      "site_seam": "[data-seam='05C-06B']",
+      "expected_tl_end": 1.10,
+      "eases": ["cine", "power1.inOut"]
+    },
+    {
+      "id": "06B-07C",
+      "option": "C-magazine-close",
+      "function": "t_06B_07C_C",
+      "clip": "motion-reference/12-seam-transitions/06B-07C/C-magazine-close/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/06B-07C/C-magazine-close/index.html",
+      "site_route": "/fashion-editorial/",
+      "site_seam": "[data-seam='06B-07C']",
+      "expected_tl_end": 1.03,
+      "eases": ["cine"]
+    },
+    {
+      "id": "07C-08B",
+      "option": "C-ink-curtain-wipe",
+      "function": "t_07C_08B_C",
+      "clip": "motion-reference/12-seam-transitions/07C-08B/C-ink-curtain-wipe/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/07C-08B/C-ink-curtain-wipe/index.html",
+      "site_route": "/series/the-red-gown/",
+      "site_seam": "[data-seam='07C-08B']",
+      "expected_tl_end": 1.10,
+      "eases": ["cine", "power2.inOut"]
+    },
+    {
+      "id": "08B-09B",
+      "option": "C-city-iris",
+      "function": "t_08B_09B_C",
+      "clip": "motion-reference/12-seam-transitions/08B-09B/C-city-iris/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/08B-09B/C-city-iris/index.html",
+      "site_route": "/about/",
+      "site_seam": "[data-seam='08B-09B']",
+      "expected_tl_end": 1.05,
+      "eases": ["cine", "power2.inOut"]
+    },
+    {
+      "id": "09B-10A",
+      "option": "B-layers-settle",
+      "function": "t_09B_10A_B",
+      "clip": "motion-reference/12-seam-transitions/09B-10A/B-layers-settle/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/09B-10A/B-layers-settle/index.html",
+      "site_route": "/about/",
+      "site_seam": "[data-seam='09B-10A']",
+      "expected_tl_end": 1.05,
+      "eases": ["cine"]
+    },
+    {
+      "id": "10A-11B",
+      "option": "B-band-lifts-chapter",
+      "function": "t_10A_11B_B",
+      "clip": "motion-reference/12-seam-transitions/10A-11B/B-band-lifts-chapter/clip.mp4",
+      "prototype": "motion-reference/12-seam-transitions/10A-11B/B-band-lifts-chapter/index.html",
+      "site_route": "/portraits/",
+      "site_seam": "[data-seam='10A-11B']",
+      "expected_tl_end": 1.05,
+      "eases": ["cine", "power2.inOut", "power2.out"]
+    }
+  ]
+}

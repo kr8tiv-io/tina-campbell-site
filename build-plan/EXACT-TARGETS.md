@@ -157,3 +157,35 @@ Measured 2026-11-12 4:05-4:20 PM (UTC-6) from clip 06 frames (24 fps, 1280x720; 
 | T2 | Site duration | same curve and keyframe order compressed to 1.2 s +/- 0.15 s; verify with `replay.mjs --clip clip05 --timescale 3.5` so the slowed site run lines up with the clip frame by frame. |
 | T3 | Fallback | reduced motion: crossfade 200 ms; touch: crimson wipe. |
 | T4 | Layout 15 look mid-flight | the flying frame has a soft dark vignette edge and rounded ~12 px corners; the side frames show sprocket edges and motion blur (layout 15) |
+
+## Locked motion (13 Nov 2026, Matt: these are the exact animations and transitions)
+
+Matt locked the 11 scenes and 10 section-to-section transitions. Binding spec: `/workspace/tina-campbell/docs/design-system/MOTION-LOCKED.md`. In-repo prototypes and gold clips: `/workspace/tina-campbell/motion-reference/`. The site must match them 1:1 (same timing, easing, masks, layering). Close does not count.
+
+Target IDs L1-L11 (scenes) and S01-S10 (seams). Verdicts are only PASS or FAIL. Independent review must run `python3 /workspace/tina-campbell/build-plan/tools/motion-gate.py`. Any FAIL blocks the next driver step and blocks staging. This section does not reopen earlier layout targets or earlier CLOSEST photo rows (H10, H11, R7).
+
+| # | Target | Value |
+|---|---|---|
+| L1 | Home hero | 01A living-gown. Full-bleed red gown on the teal truck, fabric living in a breeze. Clip: `concepts/motion-options-2026-11-12/01-home-hero/A-living-gown/clip.mp4`. Stills: `motion-reference/01-home-hero/A-living-gown/` |
+| L2 | Home filmstrip | 02A film-gate-advance. Category band as a 35mm film gate, advancing frame by frame. Clip: `concepts/motion-options-2026-11-12/02-home-filmstrip/A-film-gate-advance/clip.mp4` |
+| L3 | Home runway | 03B followspot (provisional, build as locked). Stage stays noir; a followspot flushes each frame into colour. Clip: `concepts/motion-options-2026-11-12/03-home-runway/B-followspot/clip.mp4` |
+| L4 | Work hover | 04B crimson-ink-drop. Crimson ink blooms into the gown on the Work tile. Clip: `concepts/motion-options-2026-11-12/04-work-hover/B-crimson-ink-drop/clip.mp4` |
+| L5 | Work entrance | 05C light-table-drop. Prints drop onto a light table and settle into the Work grid. Clip: `concepts/motion-options-2026-11-12/05-work-entrance/C-light-table-drop/clip.mp4` |
+| L6 | Editorial split | 06B crimson-thread. A crimson hairline paints red into the gown. Clip: `concepts/motion-options-2026-11-12/06-editorial-split/B-crimson-thread/clip.mp4` |
+| L7 | Series story | 07C print-stack. Series cover as a loose stack of prints. Clip: `concepts/motion-options-2026-11-12/07-series-story/C-print-stack/clip.mp4` |
+| L8 | Page ink flood (scene) | 08B ink-flood. Page-to-page ink flood, next cover emerging through the wash. Clip: `concepts/motion-options-2026-11-12/08-page-transitions/B-ink-flood/clip.mp4`. Route-change Flip / film-strip (clip 05, T1-T4) stays in force |
+| L9 | About parallax | 09B blue-hour-lights. Dusk to blue hour, bridge and city lights on. Clip: `concepts/motion-options-2026-11-12/09-about-parallax/B-blue-hour-lights/clip.mp4` |
+| L10 | Contact / footer | 10A blue-hour-drift. Walterdale arch drifting at blue hour. Clip: `concepts/motion-options-2026-11-12/10-contact-footer/A-blue-hour-drift/clip.mp4` |
+| L11 | Portraits chapters | 11B veil-wipe. A veil wiping between frames. Clip: `concepts/motion-options-2026-11-12/11-portraits-chapters/B-veil-wipe/clip.mp4` |
+| S01 | Seam 01A to 02A | A-ink-bleed-down. `motion-reference/12-seam-transitions/01A-02A/A-ink-bleed-down/`. Ink bleed from the bottom, contact sheet rises out. See MOTION-LOCKED.md for GSAP times and eases. Gate gold: that folder's `clip.mp4` |
+| S02 | Seam 02A to 03B | C-magenta-flood. Magenta stage light floods up; the runway emerges from the haze |
+| S03 | Seam 03B to 04B | A-catwalk-to-grid. Runway frames drop and rotate into the Work grid |
+| S04 | Seam 04B to 05C | C-loupe-assemble. Crimson loupe ring opens; prints assemble inside a circle clip-path |
+| S05 | Seam 05C to 06B | A-print-to-column. One print grows into the editorial column; crimson thread draws down (DrawSVG) |
+| S06 | Seam 06B to 07C | C-magazine-close. rotateY magazine close, 1600 perspective |
+| S07 | Seam 07C to 08B | C-ink-curtain-wipe. Ink curtain wipes left to right |
+| S08 | Seam 08B to 09B | C-city-iris. Circle clip-path iris at 50% 55% into the About layers |
+| S09 | Seam 09B to 10A | B-layers-settle. About layers settle into the contact band |
+| S10 | Seam 10A to 11B | B-band-lifts-chapter. Contact band lifts off; portraits chapter comes up |
+| G-RM | Reduced motion | Every locked scene and seam: no pin, no scrub, no SplitText staggers, no masks or floods. Incoming section visible, or a 200 ms crossfade. Content readable without JS |
+| G-GATE | Motion gate | `python3 build-plan/tools/motion-gate.py --base http://127.0.0.1:<port> --out qa/<prompt-id>/gate`. SSIM >= 0.92 and MAE <= 8.0 on every sampled frame; timeline end within 0.05 s; record hook required. Last line VERDICT: PASS or VERDICT: FAIL only |

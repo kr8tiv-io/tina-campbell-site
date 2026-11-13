@@ -22,3 +22,7 @@
 !/SECTIONS-INVENTORY.md
 !/qa/
 /build-plan/driver.nohup
+!/docs/
+!/docs/**
+!/motion-reference/
+!/motion-reference/**

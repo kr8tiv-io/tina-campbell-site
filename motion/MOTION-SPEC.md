@@ -1,3 +1,5 @@
+> Locked motion (13 Nov 2026): Matt approved the 11 scene picks and 10 seam transitions. The exact, binding spec is `docs/design-system/MOTION-LOCKED.md`. In-repo prototypes live in `motion-reference/`. The site must match those, not only the earlier layout/clip notes in this file.
+
 # Motion spec: Tina Campbell (TCPhoto)
 Stack: Astro (static pages + ClientRouter view transitions), GSAP 3 (ScrollTrigger, Flip, SplitText, DrawSVG, Observer; all free since GSAP 3.13), Lenis (smooth scroll on gsap.ticker), Three.js (one shared WebGL canvas for image planes, lazy-loaded after a capability check), Node (build, sharp image pipeline, ffmpeg for loops).
 Rules: photos are never degraded (full-res textures, effects around the image, not baked in). Transform and opacity only outside WebGL. Every effect has a prefers-reduced-motion path (static, fades only) and a touch path (no hover, swipe instead). Budget: LCP image under 200 KB AVIF, JS under 120 KB gz before Three.js, Three.js only on pages that use it.
