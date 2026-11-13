@@ -4,6 +4,26 @@ import { SplitText } from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
+/** Extra rise of the hero title and meta, as a fraction of scrollY. Linear, no ease. */
+const HERO_COPY_EXTRA = 0.12;
+let heroCopy: HTMLElement | null = null;
+
+/** Called from the Lenis scroll path. Moves the hero copy, not the photo or the runway. */
+export function syncHeroCopy(scroll: number): void {
+  const wide = window.matchMedia('(min-width: 961px)').matches;
+  if (!heroCopy || !heroCopy.isConnected) {
+    heroCopy = document.querySelector<HTMLElement>('[data-hero-copy]');
+  }
+  const copy = heroCopy;
+  if (!copy) return;
+  if (!wide) {
+    copy.style.transform = '';
+    return;
+  }
+  const y = -scroll * HERO_COPY_EXTRA;
+  copy.style.transform = y === 0 ? '' : `translate3d(0px, ${y.toFixed(2)}px, 0px)`;
+}
+
 function padMasks(split: SplitText): void {
   split.masks?.forEach((mask) => {
     if (!(mask instanceof HTMLElement)) return;
@@ -250,12 +270,18 @@ export function initHome(reduced: boolean, fine: boolean, signal: AbortSignal): 
     document.documentElement.classList.remove('is-motion');
   };
 
+  const releaseHeroCopy = (): void => {
+    if (heroCopy) heroCopy.style.transform = '';
+    heroCopy = null;
+  };
+
   const refresh = (): void => ScrollTrigger.refresh();
   window.addEventListener('load', refresh, { once: true });
 
   return () => {
     window.removeEventListener('load', refresh);
     releaseMotionClass();
+    releaseHeroCopy();
     releases.forEach((release) => release());
   };
 }

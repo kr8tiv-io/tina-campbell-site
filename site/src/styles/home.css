@@ -287,10 +287,10 @@
 }
 
 .runway__frame .photo img.pos-catwalk {
-  /* Left edge of fb_085: red gown shoulder, arm, and skirt. Scale 2 keeps the white bride on the right, not in the centre. */
-  object-position: 0% 46%;
-  transform: scale(2);
-  transform-origin: 0% 46%;
+  /* Left foreground of fb_085: shoulder, arm, and skirt of the red gown. Scale 3.2 from the left keeps the bride past the right edge. */
+  object-position: 0% 24%;
+  transform: scale(3.2);
+  transform-origin: 0% 24%;
 }
 
 .runway__frame .photo img.pos-stage {

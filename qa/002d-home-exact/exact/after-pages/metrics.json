@@ -26,11 +26,11 @@
    "ta": "start"
   },
   "nav": {
-   "x": 387,
-   "y": 51,
-   "w": 49,
-   "h": 30,
-   "fs": "20px",
+   "x": 422,
+   "y": 54,
+   "w": 61,
+   "h": 26,
+   "fs": "25.5px",
    "ff": "\"JetBrains Mono\", ui-monospace, monospac",
    "ta": "start"
   },
@@ -40,7 +40,7 @@
    {
     "cls": "hero",
     "id": "",
-    "h": 941
+    "h": 923
    },
    {
     "cls": "runway",
@@ -50,7 +50,7 @@
    {
     "cls": "statement",
     "id": "",
-    "h": 192
+    "h": 207
    },
    {
     "cls": "sheet",
@@ -68,64 +68,7 @@
     "h": 504
    }
   ],
-  "scrollHeight": 3308,
-  "errors": []
- },
- "fashion-editorial-1440": {
-  "h1": {
-   "x": 67,
-   "y": 343,
-   "w": 602,
-   "h": 206,
-   "fs": "102.96px",
-   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
-   "ta": "start"
-  },
-  "h1glyph": {
-   "x": 67,
-   "w": 602,
-   "y": 314,
-   "h": 264
-  },
-  "h1text": "Fashion\n& Editorial",
-  "logo": {
-   "x": 58,
-   "y": 0,
-   "w": 187,
-   "h": 133,
-   "fs": "16px",
-   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
-   "ta": "start"
-  },
-  "nav": {
-   "x": 387,
-   "y": 51,
-   "w": 49,
-   "h": 30,
-   "fs": "20px",
-   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
-   "ta": "start"
-  },
-  "overflowX": false,
-  "sw": 1440,
-  "sections": [
-   {
-    "cls": "fe-split",
-    "id": "",
-    "h": 896
-   },
-   {
-    "cls": "fe-pull",
-    "id": "",
-    "h": 390
-   },
-   {
-    "cls": "fe-collab",
-    "id": "",
-    "h": 224
-   }
-  ],
-  "scrollHeight": 2952,
+  "scrollHeight": 3306,
   "errors": []
  },
  "home-390": {
@@ -159,7 +102,7 @@
    "y": 0,
    "w": 0,
    "h": 0,
-   "fs": "18px",
+   "fs": "22px",
    "ff": "\"JetBrains Mono\", ui-monospace, monospac",
    "ta": "start"
   },
@@ -198,63 +141,6 @@
    }
   ],
   "scrollHeight": 3990,
-  "errors": []
- },
- "fashion-editorial-390": {
-  "h1": {
-   "x": 28,
-   "y": 3047,
-   "w": 334,
-   "h": 94,
-   "fs": "54.6px",
-   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
-   "ta": "start"
-  },
-  "h1glyph": {
-   "x": 28,
-   "w": 181,
-   "y": 3034,
-   "h": 118
-  },
-  "h1text": "Fashion\n& Editorial",
-  "logo": {
-   "x": 20,
-   "y": 12,
-   "w": 79,
-   "h": 56,
-   "fs": "16px",
-   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
-   "ta": "start"
-  },
-  "nav": {
-   "x": 0,
-   "y": 0,
-   "w": 0,
-   "h": 0,
-   "fs": "18px",
-   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
-   "ta": "start"
-  },
-  "overflowX": false,
-  "sw": 390,
-  "sections": [
-   {
-    "cls": "fe-split",
-    "id": "",
-    "h": 3419
-   },
-   {
-    "cls": "fe-pull",
-    "id": "",
-    "h": 678
-   },
-   {
-    "cls": "fe-collab",
-    "id": "",
-    "h": 290
-   }
-  ],
-  "scrollHeight": 4902,
   "errors": []
  }
 }

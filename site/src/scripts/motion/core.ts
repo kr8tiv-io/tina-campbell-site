@@ -5,7 +5,7 @@ import Lenis from 'lenis';
 import { bindScrollLock, initHeader } from './header';
 import { initCursor } from './cursor';
 import { endLoader, playLoader } from './loader';
-import { initHome } from './home';
+import { initHome, syncHeroCopy } from './home';
 import { initRunway } from './runway';
 import { initWork } from './work';
 import { initEditorial } from './editorial';
@@ -70,7 +70,10 @@ function setupLenis(reduced: boolean, fine: boolean): void {
     autoRaf: false,
     anchors: true,
   });
-  lenis.on('scroll', ScrollTrigger.update);
+  lenis.on('scroll', (instance) => {
+    ScrollTrigger.update();
+    syncHeroCopy(instance.scroll);
+  });
   const tick = (time: number): void => {
     lenis?.raf(time * 1000);
   };
