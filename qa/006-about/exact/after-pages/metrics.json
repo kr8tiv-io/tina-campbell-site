@@ -1,0 +1,127 @@
+{
+ "about-1440": {
+  "h1": {
+   "x": 0,
+   "y": 607,
+   "w": 1440,
+   "h": 131,
+   "fs": "181.8px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "center"
+  },
+  "h1glyph": {
+   "x": 192,
+   "w": 1056,
+   "y": 554,
+   "h": 236
+  },
+  "h1text": "TINA CAMPBELL",
+  "logo": {
+   "x": 58,
+   "y": 0,
+   "w": 187,
+   "h": 133,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 422,
+   "y": 54,
+   "w": 61,
+   "h": 26,
+   "fs": "25.5px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "about-hero",
+    "id": "",
+    "h": 900
+   },
+   {
+    "cls": "about-split",
+    "id": "",
+    "h": 640
+   },
+   {
+    "cls": "about-bts",
+    "id": "",
+    "h": 440
+   },
+   {
+    "cls": "about-places",
+    "id": "",
+    "h": 704
+   }
+  ],
+  "scrollHeight": 3542,
+  "errors": []
+ },
+ "about-390": {
+  "h1": {
+   "x": 8,
+   "y": 694,
+   "w": 374,
+   "h": 53,
+   "fs": "59.28px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "center"
+  },
+  "h1glyph": {
+   "x": 31,
+   "w": 327,
+   "y": 682,
+   "h": 77
+  },
+  "h1text": "TINA CAMPBELL",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "22px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "about-hero",
+    "id": "",
+    "h": 771
+   },
+   {
+    "cls": "about-split",
+    "id": "",
+    "h": 798
+   },
+   {
+    "cls": "about-bts",
+    "id": "",
+    "h": 479
+   },
+   {
+    "cls": "about-places",
+    "id": "",
+    "h": 946
+   }
+  ],
+  "scrollHeight": 3511,
+  "errors": []
+ },
+ "_failures": []
+}

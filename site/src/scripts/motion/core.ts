@@ -9,6 +9,7 @@ import { initHome, syncHeroCopy } from './home';
 import { initRunway } from './runway';
 import { initWork } from './work';
 import { initEditorial } from './editorial';
+import { initAbout } from './about';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -210,8 +211,10 @@ async function initMotion(): Promise<void> {
   const releaseRunway = initRunway(reduced, fine, abort.signal);
   const releaseWork = initWork(reduced, fine, abort.signal);
   const releaseEditorial = initEditorial(reduced, fine, abort.signal);
+  const releaseAbout = initAbout(reduced, fine, abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releaseAbout();
     releaseEditorial();
     releaseWork();
     releaseRunway();

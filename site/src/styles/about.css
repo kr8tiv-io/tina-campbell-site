@@ -1,0 +1,467 @@
+/* About. Desktop matches layout 07 and clip 06. Mobile matches layout 13. */
+
+.about {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.about-hero {
+  position: relative;
+  height: 100vh;
+  background: var(--ink);
+}
+
+.about-hero__stage {
+  position: absolute;
+  top: var(--header-h);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.about-layer--sky {
+  position: absolute;
+  z-index: 1;
+  top: -16px;
+  right: 0;
+  left: 0;
+  height: calc(100% + 32px);
+}
+
+.about-sky__img,
+.about-layer--arch,
+.about-layer--figure {
+  display: block;
+  max-width: none;
+}
+
+.about-sky__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% 38%;
+}
+
+.about-layer--arch {
+  position: absolute;
+  z-index: 2;
+  top: calc(33vh - var(--header-h));
+  left: 34%;
+  width: 37%;
+  height: auto;
+}
+
+.about-hero__fade {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 46%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(12, 12, 15, 0.35) 42%, #0c0c0f 100%);
+  pointer-events: none;
+}
+
+.about-hero__title {
+  position: absolute;
+  z-index: 4;
+  top: calc(67.4vh - var(--header-h));
+  right: 0;
+  left: 0;
+  margin: 0;
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 20.2vh;
+  font-weight: 400;
+  line-height: 0.72;
+  letter-spacing: 0.012em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.about-layer--figure {
+  position: absolute;
+  z-index: 5;
+  top: calc(21vh - var(--header-h));
+  left: 7%;
+  width: 11%;
+  height: auto;
+}
+
+.about-rule {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: rgba(240, 243, 244, 0.55);
+}
+
+.about-split {
+  position: relative;
+  min-height: 640px;
+  padding: 52px 0 76px;
+}
+
+.about-portrait {
+  position: absolute;
+  top: 52px;
+  left: 15%;
+  width: 26%;
+  margin: 0;
+}
+
+.about-portrait__frame {
+  overflow: hidden;
+  aspect-ratio: 3 / 4.15;
+  background: var(--ink);
+}
+
+.about-portrait .photo,
+.about-portrait .photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+/* fb_021 watermark sits on the left hair. Shift the frame onto the face. */
+.about-portrait .photo img {
+  width: 168%;
+  height: 132%;
+  object-position: 84% 16%;
+  margin-left: -52%;
+  margin-top: -4%;
+}
+
+.about-split__hair {
+  position: absolute;
+  top: 64px;
+  bottom: 88px;
+  left: 50%;
+  width: 1px;
+  background: rgba(240, 243, 244, 0.42);
+}
+
+.about-copy {
+  width: 38%;
+  margin-left: 54%;
+  padding-top: 28px;
+}
+
+.about-copy h2 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 46px;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.about-copy p {
+  margin: 1.35rem 0 0;
+  max-width: 34rem;
+  color: rgba(240, 243, 244, 0.86);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.about-press {
+  margin-top: 1.6rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+}
+
+.about-bts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 8px 37px 28px;
+}
+
+.about-tile {
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 333 / 405;
+  background: #141416;
+}
+
+.about-tile .photo,
+.about-tile .photo img,
+.about-card .photo,
+.about-card .photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.about-tile--shoot .photo img {
+  object-position: 78% 42%;
+}
+
+.about-tile--makeup .photo img {
+  width: 155%;
+  height: 125%;
+  object-position: 86% 22%;
+  margin-left: -42%;
+}
+
+.about-tile--set .photo img {
+  object-position: center 30%;
+}
+
+.about-places {
+  padding: 12px 37px 80px;
+}
+
+.about-places h2 {
+  margin: 0 0 22px;
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 46px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.about-card {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 333 / 415;
+  background: #141416;
+}
+
+.about-card figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 56px 10px 16px;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.28) 55%, transparent 100%);
+}
+
+.about-card--leg .photo img {
+  object-position: center 18%;
+}
+
+.about-card--walt .photo img {
+  object-position: 68% 12%;
+  transform: scale(1.42);
+  transform-origin: 72% 8%;
+}
+
+.about-card--high .photo img {
+  object-position: 42% 22%;
+  transform: scale(1.18);
+}
+
+.about-card--river .photo img {
+  object-position: 42% 8%;
+  transform: scale(1.5);
+  transform-origin: 40% 12%;
+}
+
+.about-areas {
+  margin: 28px 0 18px;
+  color: rgba(240, 243, 244, 0.88);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.about-book {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 60px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: var(--crimson);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.about-book:hover {
+  background: var(--crimson-deep);
+}
+
+@media (max-width: 900px) {
+  .about-hero {
+    height: auto;
+    padding: 8px;
+    padding-top: calc(var(--header-h) + 8px);
+  }
+
+  .about-hero__stage {
+    position: relative;
+    top: auto;
+    height: 80svh;
+    overflow: hidden;
+  }
+
+  .about-layer--arch {
+    top: 8%;
+    left: 18%;
+    width: 70%;
+  }
+
+  .about-layer--figure {
+    top: auto;
+    bottom: 7%;
+    left: 0;
+    width: 44%;
+    height: 52%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .about-hero__title {
+    z-index: 6;
+    top: auto;
+    bottom: 2.4%;
+    font-size: 15.2vw;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+  }
+
+  .about-hero__fade {
+    height: 38%;
+  }
+
+  .about-rule,
+  .about-split__hair {
+    display: none;
+  }
+
+  .about-split {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .about-portrait {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+  }
+
+  .about-portrait__frame {
+    aspect-ratio: 1 / 1.1;
+  }
+
+  .about-copy {
+    width: auto;
+    margin: 0;
+    padding: 22px 16px 8px;
+  }
+
+  .about-copy h2 {
+    font-size: 38px;
+    line-height: 1.12;
+  }
+
+  .about-copy h2 br {
+    display: none;
+  }
+
+  .about-bts {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 18px 8px 8px;
+  }
+
+  .about-places {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 0 36px;
+  }
+
+  .about-book {
+    order: -1;
+    width: 100%;
+    height: 54px;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .about-places h2 {
+    order: 0;
+    margin: 0;
+    padding: 18px 16px 12px;
+    font-size: 34px;
+  }
+
+  .about-cards {
+    order: 1;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 0 8px;
+  }
+
+  .about-card {
+    aspect-ratio: auto;
+    overflow: visible;
+  }
+
+  .about-card .photo {
+    aspect-ratio: 2.2 / 1;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .about-card figcaption {
+    position: static;
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    background: #141416;
+  }
+
+  .about-card--high .photo img {
+    transform: none;
+    object-position: center 40%;
+  }
+
+  .about-areas {
+    order: 2;
+    margin: 18px 16px 0;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-layer--sky,
+  .about-layer--arch,
+  .about-layer--figure,
+  .about-hero__title {
+    transform: none !important;
+  }
+}

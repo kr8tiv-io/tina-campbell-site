@@ -1,0 +1,58 @@
+{
+ "about-1440": {
+  "h1": {
+   "x": 8,
+   "y": 21,
+   "w": 1424,
+   "h": 37,
+   "fs": "32px",
+   "ff": "\"Times New Roman\"",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 8,
+   "w": 205,
+   "y": 21,
+   "h": 36
+  },
+  "h1text": "Error response",
+  "logo": null,
+  "nav": null,
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [],
+  "scrollHeight": 900,
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)",
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ]
+ },
+ "about-390": {
+  "h1": {
+   "x": 8,
+   "y": 21,
+   "w": 964,
+   "h": 37,
+   "fs": "32px",
+   "ff": "\"Times New Roman\"",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 8,
+   "w": 205,
+   "y": 21,
+   "h": 36
+  },
+  "h1text": "Error response",
+  "logo": null,
+  "nav": null,
+  "overflowX": false,
+  "sw": 980,
+  "sections": [],
+  "scrollHeight": 2121,
+  "errors": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ]
+ },
+ "_failures": []
+}

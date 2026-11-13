@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { getPhoto } from '../../data/photos';
+import { bookHref, bookLabel } from '../../data/site';
+import sky from '../../assets/about-layers/sky.webp';
+import arch from '../../assets/about-layers/arch.webp';
+import figure from '../../assets/about-layers/figure.webp';
+import '../../styles/about.css';
+
+const title = 'About Tina | Tina Campbell Photography, Edmonton';
+const description =
+  'Meet Tina Campbell, an Edmonton photographer for fashion, editorial, portraits, bridal and runway.';
+
+const portrait = getPhoto('fb_021_portrait');
+const shoots = [
+  { photo: getPhoto('ig_profile_05'), className: 'about-tile--shoot' },
+  { photo: getPhoto('fb_120_portrait'), className: 'about-tile--makeup' },
+  { photo: getPhoto('fb_029_runway'), className: 'about-tile--lights' },
+  { photo: getPhoto('fb_141_signature'), className: 'about-tile--set' },
+];
+const places = [
+  { photo: getPhoto('fb_046_signature'), name: 'Alberta Legislature', className: 'about-card--leg' },
+  { photo: getPhoto('fb_066_city'), name: 'Walterdale Bridge', className: 'about-card--walt' },
+  { photo: getPhoto('fb_001_city'), name: 'High Level Bridge', className: 'about-card--high' },
+  { photo: getPhoto('fb_168_city'), name: 'River Valley', className: 'about-card--river' },
+];
+---
+
+<BaseLayout title={title} description={description} imageAlt="Edmonton skyline at dusk">
+  <main id="content" class="about">
+    <section class="about-hero" data-about-hero aria-label="Tina Campbell">
+      <div class="about-hero__stage">
+        <div class="about-layer about-layer--sky" data-layer="sky">
+          <img
+            class="about-sky__img"
+            src={sky.src}
+            width={sky.width}
+            height={sky.height}
+            alt="Edmonton skyline at dusk over the river valley"
+          />
+        </div>
+        <img
+          class="about-layer about-layer--arch"
+          data-layer="arch"
+          src={arch.src}
+          width={arch.width}
+          height={arch.height}
+          alt="Walterdale Bridge arch"
+        />
+        <div class="about-hero__fade" aria-hidden="true"></div>
+        <h1 class="about-hero__title" data-layer="title">Tina Campbell</h1>
+        <img
+          class="about-layer about-layer--figure"
+          data-layer="figure"
+          src={figure.src}
+          width={figure.width}
+          height={figure.height}
+          alt="A photographer at work, seen from behind with a camera to her eye"
+        />
+      </div>
+    </section>
+
+    <hr class="about-rule" />
+
+    <section class="about-split" aria-labelledby="about-headline">
+      <figure class="about-portrait">
+        <div class="about-portrait__frame">
+          <Photo
+            src={portrait.src}
+            alt={portrait.alt}
+            sizes="(max-width: 900px) 100vw, 370px"
+            widths={[480, 800, 1200]}
+            priority
+          />
+        </div>
+      </figure>
+      <div class="about-split__hair" aria-hidden="true"></div>
+      <div class="about-copy">
+        <h2 id="about-headline">
+          I shoot everything.<br />
+          Fashion is the one<br />
+          I'd do for free.
+        </h2>
+        <p>
+          I started out photographing weddings about fifteen years ago. These days I focus on fashion,
+          editorial and portraits, and on helping people feel confident in front of the camera. My
+          favourite moment is still the same: someone seeing their photos for the first time and smiling.
+        </p>
+        <p class="about-press">Featured as Woman of the Week by Elle &amp; Beauty Inc.</p>
+      </div>
+    </section>
+
+    <section class="about-bts" aria-label="Behind the scenes">
+      {
+        shoots.map((item) => (
+          <figure class:list={['about-tile', item.className]}>
+            <Photo
+              src={item.photo.src}
+              alt={item.photo.alt}
+              sizes="(max-width: 900px) 50vw, 333px"
+              widths={[480, 800, 1200]}
+            />
+          </figure>
+        ))
+      }
+    </section>
+
+    <section class="about-places" aria-labelledby="where">
+      <h2 id="where">Where I shoot</h2>
+      <div class="about-cards">
+        {
+          places.map((place) => (
+            <figure class:list={['about-card', place.className]}>
+              <Photo
+                src={place.photo.src}
+                alt={place.photo.alt}
+                sizes="(max-width: 900px) 100vw, 333px"
+                widths={[480, 800, 1200]}
+              />
+              <figcaption>{place.name}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+      <p class="about-areas">Edmonton, St. Albert and Fort Saskatchewan. Happy to travel in Alberta.</p>
+      <a class="about-book" href={bookHref}>{bookLabel}</a>
+    </section>
+  </main>
+</BaseLayout>
