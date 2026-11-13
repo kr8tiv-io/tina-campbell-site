@@ -14,32 +14,36 @@ import {
 } from 'three';
 
 /**
- * Shared noir canvas for the work grid.
- * Progress 0→1 is linear over 5s after contact (clip 03: cursor arrives at 1s,
- * the bubble fills the frame by the end of the 6s take). The radius eases out.
- * The clip's bubble spills onto the film strip; this one is clamped to the tile.
+ * Shared noir canvas. Ripple is concentric rings in tile pixels, centred on the
+ * pointer. Site pace is ripple 0-1s then colour 1-1.6s. When the replay slows
+ * GSAP, durations stretch by the same factor so clip time and the rings line up.
  */
 
-const TRAVEL = 5;
-
 const vert = /* glsl */ `
-varying vec2 vUv;
+uniform vec2 uMesh;
+varying vec2 vPx;
 void main() {
-  vUv = uv;
+  vPx = vec2(uv.x, 1.0 - uv.y) * uMesh;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `;
 
 const frag = /* glsl */ `
+precision highp float;
+
 uniform sampler2D uMap;
 uniform vec2 uPointer;
 uniform vec2 uImage;
 uniform vec2 uTile;
+uniform float uSpill;
 uniform float uTime;
-uniform float uProgress;
+uniform float uRipple;
+uniform float uWave;
+uniform float uColour;
 uniform float uFade;
 uniform float uBias;
-varying vec2 vUv;
+uniform float uPxScale;
+varying vec2 vPx;
 
 vec2 coverUv(vec2 uv) {
   float imageAspect = uImage.x / max(uImage.y, 1.0);
@@ -69,91 +73,117 @@ float redMask(vec3 rgb) {
   }
   float sat = maxC <= 0.0001 ? 0.0 : delta / maxC;
   float hueDist = min(hue, 1.0 - hue);
-  float redHue = smoothstep(0.075, 0.018, hueDist);
-  float satGate = smoothstep(0.28, 0.5, sat);
-  float redDom = smoothstep(0.1, 0.26, rgb.r - max(rgb.g, rgb.b));
+  float redHue = smoothstep(0.08, 0.02, hueDist);
+  float satGate = smoothstep(0.32, 0.55, sat);
+  float redDom = smoothstep(0.12, 0.28, rgb.r - max(rgb.g, rgb.b));
   return clamp(redHue * max(satGate, redDom), 0.0, 1.0);
 }
 
+float gradeLuma(float luma) {
+  float x = clamp((luma - 0.055) / 0.86, 0.0, 1.0);
+  x = pow(x, 1.22);
+  x = 1.0 - exp(-x * 1.85);
+  return clamp(x * 0.78, 0.0, 0.78);
+}
+
 vec3 gradeNoir(vec3 rgb) {
-  float luma = dot(rgb, vec3(0.299, 0.587, 0.114));
-  luma = smoothstep(0.05, 0.96, luma);
-  return mix(vec3(luma), rgb, redMask(rgb));
+  float luma = dot(rgb, vec3(0.2126, 0.7152, 0.0722));
+  return mix(vec3(gradeLuma(luma)), rgb, redMask(rgb));
+}
+
+bool insideTile(vec2 px) {
+  return px.x >= -0.5 && px.y >= -0.5 && px.x <= uTile.x + 0.5 && px.y <= uTile.y + 0.5;
+}
+
+vec3 sampleAt(vec2 tilePx) {
+  vec2 clamped = clamp(tilePx, vec2(0.0), uTile);
+  vec2 uv = vec2(clamped.x / max(uTile.x, 1.0), 1.0 - clamped.y / max(uTile.y, 1.0));
+  return texture2D(uMap, coverUv(uv)).rgb;
 }
 
 void main() {
-  float p = clamp(uProgress, 0.0, 1.0);
-  float grow = 1.0 - pow(1.0 - p, 1.65);
+  vec2 tilePx = vPx - vec2(uSpill);
+  float ripple = clamp(uRipple, 0.0, 1.0);
+  float wave = clamp(uWave, 0.0, 1.0);
+  float colourMix = clamp(uColour, 0.0, 1.0);
+  bool fragIn = insideTile(tilePx);
 
-  vec2 aspect = vec2(uTile.x / max(uTile.y, 1.0), 1.0);
-  vec2 pointer = clamp(uPointer, 0.0, 1.0);
-  vec2 d = (vUv - pointer) * aspect;
-  float dist = length(d);
-  vec2 dir = dist > 0.0008 ? d / dist : vec2(1.0, 0.0);
+  vec2 delta = tilePx - uPointer;
+  float dist = length(delta);
+  vec2 dir = dist > 0.8 ? delta / dist : vec2(0.0);
+  float scale = max(uPxScale, 0.5);
+  float radius = 210.0 * scale * pow(max(ripple, 0.0001), 0.72);
+  float spacing = max(8.0, 18.0 * scale);
+  float behind = max(radius - dist, 0.0);
+  float front = smoothstep(radius + 14.0 * scale, radius - 1.0 * scale, dist);
+  float fill = exp(-behind / (120.0 * scale));
+  float center = smoothstep(0.0, 42.0 * scale, dist);
+  float live = smoothstep(0.0, 0.04, wave) * smoothstep(0.0, 0.015, ripple);
+  float bands = sin((radius - dist) / spacing * 6.2831853 - uTime * 2.2);
+  float reach = radius > 1.0 ? dist / radius : 0.0;
+  float lensEnv = smoothstep(0.42, 0.92, reach) * front * center;
+  float lens = 28.0 * scale * lensEnv * live * smoothstep(0.12, 0.62, ripple);
+  float fine = 2.2 * scale * bands * front * fill * center * live;
+  float amp = lens + fine;
+  if (wave < 0.001 || ripple < 0.001) amp = 0.0;
 
-  vec2 c0 = (vec2(0.0) - pointer) * aspect;
-  vec2 c1 = (vec2(1.0, 0.0) - pointer) * aspect;
-  vec2 c2 = (vec2(0.0, 1.0) - pointer) * aspect;
-  vec2 c3 = (vec2(1.0) - pointer) * aspect;
-  float maxR = max(max(length(c0), length(c1)), max(length(c2), length(c3)));
-  float radius = max(0.001, maxR * grow);
-  float nd = dist / radius;
-  float inside = 1.0 - smoothstep(0.96, 1.04, nd);
-  float rim = smoothstep(0.58, 0.98, nd) * inside;
-
-  float ndc = clamp(nd, 0.0, 1.0);
-  float spin = pow(ndc, 1.85) * 1.25 * inside;
-  float s = sin(spin);
-  float c = cos(spin);
-  vec2 spun = vec2(c * d.x - s * d.y, s * d.x + c * d.y);
-  float squeeze = 1.0 - inside * 0.16 * (1.0 - ndc);
-  vec2 bent = spun * squeeze;
-  float wave = sin(ndc * 11.0 - uTime * 2.0) * 0.02 * pow(ndc, 1.6) * inside;
-  bent += dir * wave;
-
-  vec2 tileUv = clamp(pointer + bent / aspect, 0.0, 1.0);
-
-  float shift = 0.012 * smoothstep(0.78, 1.0, ndc) * inside * smoothstep(0.08, 0.4, grow);
-  vec2 axis = dir / aspect;
-  vec3 raw = texture2D(uMap, coverUv(tileUv)).rgb;
-  vec3 split = vec3(
-    texture2D(uMap, coverUv(clamp(tileUv + axis * shift, 0.0, 1.0))).r,
-    raw.g,
-    texture2D(uMap, coverUv(clamp(tileUv - axis * shift, 0.0, 1.0))).b
-  );
+  vec2 src = tilePx - dir * amp;
+  bool srcIn = insideTile(src);
+  float shift = 2.4 * scale * abs(bands) * front * fill * live;
+  vec3 baseSample = sampleAt(src);
+  vec3 splitR = sampleAt(src + dir * shift);
+  vec3 splitB = sampleAt(src - dir * shift);
+  float chroma = front * fill * live * (0.35 + 0.45 * abs(bands));
+  vec3 raw = mix(baseSample, vec3(splitR.r, baseSample.g, splitB.b), chroma);
 
   vec3 graded = gradeNoir(raw);
-  vec3 fringe = mix(graded, split, clamp(rim * 1.25, 0.0, 1.0));
-  float colourMix = inside * smoothstep(0.3, 0.88, grow);
-  vec3 tinted = mix(fringe, mix(raw, split, clamp(0.35 + rim, 0.0, 1.0)), colourMix);
+  vec3 tone = mix(graded, raw, colourMix);
+  tone *= 1.0 + 0.2 * bands * front * fill * center * live;
 
-  vec3 base = gradeNoir(texture2D(uMap, coverUv(vUv)).rgb);
-  vec3 colour = mix(base, tinted, inside);
-  gl_FragColor = vec4(colour * uFade, uFade);
+  float alpha = 0.0;
+  if (fragIn) {
+    alpha = 1.0;
+  } else if (live > 0.05 && srcIn && dist < radius + 8.0 * scale) {
+    alpha = front * 0.94;
+  }
+
+  alpha *= uFade;
+  if (alpha < 0.004) {
+    gl_FragColor = vec4(0.0);
+    return;
+  }
+  gl_FragColor = vec4(tone * alpha, alpha);
 }
 `;
+
+interface TileUniforms {
+  uMap: { value: Texture | null };
+  uPointer: { value: Vector2 };
+  uImage: { value: Vector2 };
+  uTile: { value: Vector2 };
+  uMesh: { value: Vector2 };
+  uSpill: { value: number };
+  uTime: { value: number };
+  uRipple: { value: number };
+  uWave: { value: number };
+  uColour: { value: number };
+  uFade: { value: number };
+  uBias: { value: number };
+  uPxScale: { value: number };
+}
 
 interface TileRecord {
   id: string;
   el: HTMLElement;
   mesh: Mesh;
-  uniforms: {
-    uMap: { value: Texture | null };
-    uPointer: { value: Vector2 };
-    uImage: { value: Vector2 };
-    uTile: { value: Vector2 };
-    uTime: { value: number };
-    uProgress: { value: number };
-    uFade: { value: number };
-    uBias: { value: number };
-  };
+  uniforms: TileUniforms;
   texture: Texture | null;
   img: HTMLImageElement | null;
   loading: boolean;
 }
 
 export interface NoirGrid {
-  aim: (id: string, u: number, v: number) => void;
+  aim: (id: string, x: number, y: number) => void;
   play: (id: string, to: number) => void;
   destroy: () => void;
 }
@@ -171,14 +201,19 @@ function makeTexture(img: HTMLImageElement, maxEdge: number): Texture {
   canvas.height = Math.max(1, Math.round(nh * scale));
   const ctx = canvas.getContext('2d', { alpha: false });
   ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-  const source: CanvasImageSource = canvas;
-  const texture = new Texture(source);
+  const texture = new Texture(canvas);
   texture.colorSpace = NoColorSpace;
   texture.needsUpdate = true;
   texture.minFilter = LinearFilter;
   texture.magFilter = LinearFilter;
   texture.generateMipmaps = false;
   return texture;
+}
+
+function clipStretch(): number {
+  const scale = gsap.globalTimeline.timeScale();
+  if (!(scale > 0)) return 1;
+  return 1 / scale;
 }
 
 export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid {
@@ -205,20 +240,27 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
   const geometry = new PlaneGeometry(1, 1);
   const clock = { value: 0 };
   const records = new Map<string, TileRecord>();
+  const pxScale = (): number => Math.max(0.7, window.innerWidth / 1280);
 
   const nodes = [...grid.querySelectorAll<HTMLElement>('.tile')];
   nodes.forEach((el) => {
     const id = el.dataset.id;
     if (!id) return;
-    const uniforms = {
-      uMap: { value: null as Texture | null },
-      uPointer: { value: new Vector2(0.5, 0.5) },
+    const bias = Number(el.dataset.bias);
+    const uniforms: TileUniforms = {
+      uMap: { value: null },
+      uPointer: { value: new Vector2(0, 0) },
       uImage: { value: new Vector2(1, 1) },
       uTile: { value: new Vector2(1, 1) },
+      uMesh: { value: new Vector2(1, 1) },
+      uSpill: { value: 0 },
       uTime: clock,
-      uProgress: { value: 0 },
+      uRipple: { value: 0 },
+      uWave: { value: 0 },
+      uColour: { value: 0 },
       uFade: { value: 0 },
-      uBias: { value: el.dataset.orient === 'landscape' ? 0.5 : 0.32 },
+      uBias: { value: Number.isFinite(bias) ? bias : 0.58 },
+      uPxScale: { value: pxScale() },
     };
     const material = new ShaderMaterial({
       uniforms,
@@ -233,6 +275,7 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
     const mesh = new Mesh(geometry, material);
     mesh.visible = false;
     mesh.frustumCulled = false;
+    mesh.renderOrder = 1;
     scene.add(mesh);
     records.set(id, {
       id,
@@ -268,7 +311,7 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
     const upload = (): void => {
       if (signal.aborted || record.texture) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      const maxEdge = Math.min(1024, Math.max(480, Math.ceil(displayWidth * dpr)));
+      const maxEdge = Math.min(1280, Math.max(640, Math.ceil(displayWidth * dpr)));
       const texture = makeTexture(img, maxEdge);
       record.texture = texture;
       record.uniforms.uMap.value = texture;
@@ -303,10 +346,24 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
     );
   };
 
+  const paintFlags = (record: TileRecord): void => {
+    const ripple = record.uniforms.uRipple.value;
+    const colour = record.uniforms.uColour.value;
+    const radius = 210 * pxScale() * Math.pow(Math.max(ripple, 0.0001), 0.72);
+    record.el.dataset.ripple = ripple.toFixed(3);
+    record.el.dataset.colour = colour.toFixed(3);
+    record.el.dataset.radius = ripple > 0.02 ? radius.toFixed(0) : '0';
+    record.el.classList.toggle('is-rippling', ripple > 0.02 && colour < 0.98);
+    record.el.classList.toggle('is-colour', colour >= 0.98 && ripple >= 0.98);
+    record.mesh.renderOrder = ripple > 0.02 ? 8 : 1;
+  };
+
   const sync = (): void => {
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const margin = height * 0.45;
+    const margin = height * 0.55;
+    const scale = pxScale();
+    const spillBase = 240 * scale;
     records.forEach((record) => {
       const filtered = record.el.classList.contains('is-filtered');
       const rect = record.el.getBoundingClientRect();
@@ -324,12 +381,18 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
         record.el.classList.remove('is-gl');
         return;
       }
+      const spill = spillBase;
+      const meshW = rect.width + spill * 2;
+      const meshH = rect.height + spill * 2;
       record.mesh.visible = true;
       record.el.classList.add('is-gl');
       record.mesh.position.set(rect.left + rect.width / 2 - width / 2, height / 2 - (rect.top + rect.height / 2), 0);
-      record.mesh.scale.set(rect.width, rect.height, 1);
+      record.mesh.scale.set(meshW, meshH, 1);
       record.uniforms.uTile.value.set(rect.width, rect.height);
-      record.el.dataset.ripple = record.uniforms.uProgress.value.toFixed(3);
+      record.uniforms.uMesh.value.set(meshW, meshH);
+      record.uniforms.uSpill.value = spill;
+      record.uniforms.uPxScale.value = scale;
+      paintFlags(record);
     });
   };
 
@@ -338,7 +401,8 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
     const seconds = time;
     const delta = last === 0 ? 0.016 : Math.min(0.05, seconds - last);
     last = seconds;
-    clock.value += delta;
+    const motion = gsap.globalTimeline.timeScale();
+    clock.value += delta * (motion > 0 ? motion : 1);
     sync();
     const drawing = [...records.values()].some((record) => record.mesh.visible);
     if (drawing) renderer.render(scene, camera);
@@ -353,27 +417,61 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
   });
   gsap.ticker.add(tick);
 
+  const stopTweens = (record: TileRecord): void => {
+    gsap.killTweensOf(record.uniforms.uRipple);
+    gsap.killTweensOf(record.uniforms.uWave);
+    gsap.killTweensOf(record.uniforms.uColour);
+  };
+
   const api: NoirGrid = {
-    aim(id, u, v) {
+    aim(id, x, y) {
       const record = records.get(id);
       if (!record) return;
-      record.uniforms.uPointer.value.set(u, v);
+      record.uniforms.uPointer.value.set(x, y);
+      record.el.dataset.pointer = `${x.toFixed(1)},${y.toFixed(1)}`;
     },
     play(id, to) {
       const record = records.get(id);
       if (!record) return;
-      const uniform = record.uniforms.uProgress;
-      const distance = Math.abs(to - uniform.value);
-      gsap.to(uniform, {
-        value: to,
-        duration: Math.max(0.12, TRAVEL * distance),
-        ease: 'none',
+      stopTweens(record);
+      const stretch = clipStretch();
+      if (to >= 1) {
+        const tl = gsap.timeline({ overwrite: true });
+        tl.to(record.uniforms.uWave, { value: 1, duration: 0.08 * stretch, ease: 'power2.out' }, 0);
+        tl.to(record.uniforms.uRipple, { value: 1, duration: 1 * stretch, ease: 'none' }, 0);
+        tl.to(
+          record.uniforms.uColour,
+          { value: 1, duration: 0.6 * stretch, ease: 'power2.out' },
+          1 * stretch,
+        );
+        tl.to(record.uniforms.uWave, { value: 0, duration: 0.55 * stretch, ease: 'power1.in' }, 0.95 * stretch);
+        return;
+      }
+      gsap.to(record.uniforms.uWave, {
+        value: 0,
+        duration: 0.32 * stretch,
+        ease: 'power2.in',
         overwrite: true,
-        onUpdate: () => {
-          const value = uniform.value;
-          record.el.dataset.ripple = value.toFixed(3);
-          record.el.classList.toggle('is-rippling', value > 0.02 && value < 0.985);
-          record.el.classList.toggle('is-colour', value >= 0.985);
+        onComplete: () => {
+          record.uniforms.uWave.value = 0;
+        },
+      });
+      gsap.to(record.uniforms.uRipple, {
+        value: 0,
+        duration: 0.48 * stretch,
+        ease: 'power2.in',
+        overwrite: true,
+        onComplete: () => {
+          record.uniforms.uRipple.value = 0;
+        },
+      });
+      gsap.to(record.uniforms.uColour, {
+        value: 0,
+        duration: 0.55 * stretch,
+        ease: 'power2.out',
+        overwrite: true,
+        onComplete: () => {
+          record.uniforms.uColour.value = 0;
         },
       });
     },
@@ -382,8 +480,7 @@ export function mountNoirGrid(grid: HTMLElement, signal: AbortSignal): NoirGrid 
       gsap.ticker.remove(tick);
       window.removeEventListener('resize', onResize);
       records.forEach((record) => {
-        gsap.killTweensOf(record.uniforms.uProgress);
-        gsap.killTweensOf(record.uniforms.uFade);
+        stopTweens(record);
         record.texture?.dispose();
         (record.mesh.material as ShaderMaterial).dispose();
         record.el.classList.remove('is-gl', 'is-rippling', 'is-colour');

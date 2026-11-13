@@ -9,9 +9,9 @@ export function initCursor(signal: AbortSignal, fine: boolean): void {
   if (!fill || !label) return;
 
   document.documentElement.classList.add('has-cursor');
-  const xTo = gsap.quickTo(cursor, 'x', { duration: 0.35, ease: 'power3.out' });
-  const yTo = gsap.quickTo(cursor, 'y', { duration: 0.35, ease: 'power3.out' });
-  const scaleTo = gsap.quickTo(fill, 'scale', { duration: 0.35, ease: 'power3.out' });
+  const xTo = gsap.quickTo(cursor, 'x', { duration: 0.28, ease: 'power3.out' });
+  const yTo = gsap.quickTo(cursor, 'y', { duration: 0.28, ease: 'power3.out' });
+  const scaleTo = gsap.quickTo(fill, 'scale', { duration: 0.22, ease: 'power3.out' });
   scaleTo(0.14);
 
   const onMove = (event: PointerEvent): void => {

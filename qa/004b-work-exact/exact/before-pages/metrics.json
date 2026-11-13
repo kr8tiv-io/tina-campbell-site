@@ -1,0 +1,84 @@
+{
+ "work-1440": {
+  "h1": {
+   "x": 58,
+   "y": 126,
+   "w": 262,
+   "h": 124,
+   "fs": "163.2px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 58,
+   "w": 262,
+   "y": 81,
+   "h": 213
+  },
+  "h1text": "Work",
+  "logo": {
+   "x": 58,
+   "y": 0,
+   "w": 187,
+   "h": 133,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 422,
+   "y": 54,
+   "w": 61,
+   "h": 26,
+   "fs": "25.5px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [],
+  "scrollHeight": 9153,
+  "errors": []
+ },
+ "work-390": {
+  "h1": {
+   "x": 20,
+   "y": 94,
+   "w": 113,
+   "h": 53,
+   "fs": "70.2px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 20,
+   "w": 113,
+   "y": 75,
+   "h": 91
+  },
+  "h1text": "Work",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "22px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [],
+  "scrollHeight": 9095,
+  "errors": []
+ }
+}

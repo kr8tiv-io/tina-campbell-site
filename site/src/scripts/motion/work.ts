@@ -138,11 +138,21 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
   const desktopQuery = window.matchMedia('(min-width: 801px)');
   const useGl = fine && !reduced && desktopQuery.matches && canWebGL();
 
-  const pointerUv = (tile: HTMLElement, event: PointerEvent): { u: number; v: number } => {
+  const pointerPx = (tile: HTMLElement, event: PointerEvent): { x: number; y: number } => {
     const rect = tile.getBoundingClientRect();
-    const u = rect.width > 0 ? (event.clientX - rect.left) / rect.width : 0.5;
-    const v = rect.height > 0 ? 1 - (event.clientY - rect.top) / rect.height : 0.5;
-    return { u: Math.min(1, Math.max(0, u)), v: Math.min(1, Math.max(0, v)) };
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    return {
+      x: Math.min(Math.max(0, x), Math.max(0, rect.width)),
+      y: Math.min(Math.max(0, y), Math.max(0, rect.height)),
+    };
+  };
+
+  const aimTile = (tile: HTMLElement, event: PointerEvent): void => {
+    const id = tile.dataset.id;
+    if (!id || !gridApi) return;
+    const point = pointerPx(tile, event);
+    gridApi.aim(id, point.x, point.y);
   };
 
   const onEnter = (event: PointerEvent): void => {
@@ -156,9 +166,26 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
     }
     activeId = id;
     tile.classList.add('is-hot');
-    const uv = pointerUv(tile, event);
-    gridApi.aim(id, uv.u, uv.v);
+    aimTile(tile, event);
     gridApi.play(id, 1);
+  };
+
+  const onMove = (event: PointerEvent): void => {
+    const tile = event.currentTarget;
+    if (!(tile instanceof HTMLElement) || !gridApi) return;
+    if (tile.dataset.id !== activeId) return;
+    aimTile(tile, event);
+  };
+
+  const onWindowMove = (event: PointerEvent): void => {
+    if (!activeId || !gridApi) return;
+    const tile = grid.querySelector<HTMLElement>(`[data-id="${activeId}"]`);
+    if (!tile || tile.classList.contains('is-filtered')) return;
+    const rect = tile.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+    gridApi.aim(activeId, x, y);
   };
 
   const onLeave = (event: PointerEvent): void => {
@@ -166,6 +193,8 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
     if (!(tile instanceof HTMLElement) || !gridApi) return;
     const id = tile.dataset.id;
     if (!id) return;
+    const next = event.relatedTarget;
+    if (next instanceof Node && tile.contains(next)) return;
     tile.classList.remove('is-hot');
     gridApi.play(id, 0);
     if (activeId === id) activeId = null;
@@ -176,13 +205,17 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
   const bindHover = (): void => {
     tiles.forEach((tile) => {
       tile.addEventListener('pointerenter', onEnter);
+      tile.addEventListener('pointermove', onMove);
       tile.addEventListener('pointerleave', onLeave);
     });
+    window.addEventListener('pointermove', onWindowMove);
     removeHover = () => {
       tiles.forEach((tile) => {
         tile.removeEventListener('pointerenter', onEnter);
+        tile.removeEventListener('pointermove', onMove);
         tile.removeEventListener('pointerleave', onLeave);
       });
+      window.removeEventListener('pointermove', onWindowMove);
     };
   };
 
