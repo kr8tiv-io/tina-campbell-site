@@ -231,6 +231,10 @@
   min-width: 0;
 }
 
+.runway__item--peek {
+  display: none;
+}
+
 @media (min-width: 961px) {
   .runway__viewport {
     overflow: hidden;
@@ -283,9 +287,10 @@
 }
 
 .runway__frame .photo img.pos-catwalk {
-  object-position: 0% 40%;
-  transform: scale(3.8);
-  transform-origin: 0% 40%;
+  /* Left edge of fb_085: red gown shoulder, arm, and skirt. Scale 2 keeps the white bride on the right, not in the centre. */
+  object-position: 0% 46%;
+  transform: scale(2);
+  transform-origin: 0% 46%;
 }
 
 .runway__frame .photo img.pos-stage {
@@ -589,8 +594,8 @@
 @media (min-width: 961px) {
   .hero {
     margin-top: var(--header-h);
-    /* Clip 01 at 1280x720: tile top ~y597 at scroll 303, ~y236 at scroll 621. */
-    height: calc(113.7svh - var(--header-h));
+    /* Extra height below the first screen so pure scroll puts the tile top near y597 at 295px and y236 at 621px. */
+    height: calc(115svh - var(--header-h));
   }
 
   .hero__media,
@@ -733,6 +738,10 @@
     flex: 0 0 50vw;
     width: 50vw;
     scroll-snap-align: center;
+  }
+
+  .runway__item--peek {
+    display: block;
   }
 
   .runway__frame {
@@ -917,6 +926,10 @@
     flex: 1 1 calc(50% - 0.75rem);
     width: auto;
     scroll-snap-align: none;
+  }
+
+  .runway__item--peek {
+    display: none;
   }
 
   .runway__frame {

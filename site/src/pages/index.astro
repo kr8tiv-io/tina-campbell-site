@@ -64,6 +64,26 @@ const description =
       </div>
       <div class="runway__viewport" data-runway-viewport>
         <ol class="runway__track" data-runway-track>
+          <li
+            class="runway__item runway__item--peek"
+            data-clone
+            data-no={runway[4].n}
+            data-location={runway[4].location}
+            aria-hidden="true"
+          >
+            <figure class="runway__frame">
+              <a href={runway[4].href} tabindex="-1">
+                <Photo
+                  src={runway[4].photo.src}
+                  alt=""
+                  sizes="50vw"
+                  class={runway[4].pos}
+                  priority
+                />
+              </a>
+            </figure>
+            <p class="runway__num">{runway[4].n}</p>
+          </li>
           {
             runway.map((item) => (
               <li class="runway__item" data-no={item.n} data-location={item.location}>
@@ -74,6 +94,7 @@ const description =
                       alt={item.photo.alt}
                       sizes="(max-width: 960px) 72vw, 22vw"
                       class={item.pos}
+                      priority
                     />
                   </a>
                 </figure>

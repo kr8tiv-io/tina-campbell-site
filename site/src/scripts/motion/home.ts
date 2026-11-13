@@ -38,7 +38,8 @@ function initRunwayProgress(signal: AbortSignal): () => void {
     const max = viewport.scrollWidth - viewport.clientWidth;
     if (max <= 1) return;
     const items = [...viewport.querySelectorAll<HTMLElement>('.runway__item')];
-    const item = items[1];
+    // Item 0 is the truck. A mobile-only clone sits before it so the left peek is a photo.
+    const item = items.find((el) => !el.hasAttribute('data-clone'));
     if (!item) return;
     const left = item.offsetLeft - (viewport.clientWidth - item.offsetWidth) / 2;
     if (viewport.scrollLeft < 2) viewport.scrollLeft = Math.max(0, left);
@@ -88,42 +89,9 @@ function initHeaderSolid(signal: AbortSignal): () => void {
 }
 
 function initHero(): () => void {
-  const hero = document.querySelector<HTMLElement>('[data-hero]');
   const shift = document.querySelector<HTMLElement>('[data-hero-shift]');
   const title = document.querySelector<HTMLElement>('[data-hero-title]');
-  const triggers: ScrollTrigger[] = [];
   const splits: SplitText[] = [];
-
-  const compact = window.matchMedia('(max-width: 960px)').matches;
-
-  if (hero && shift && !compact) {
-    const trigger = ScrollTrigger.create({
-      trigger: hero,
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true,
-      onUpdate: (self) => {
-        const t = Math.min(1, self.progress / 0.5);
-        const media = shift.parentElement;
-        const span = media?.offsetHeight || hero.offsetHeight;
-        gsap.set(shift, { y: -span * 0.06 * t });
-      },
-    });
-    triggers.push(trigger);
-  }
-
-  if (title && !compact && window.matchMedia('(pointer: fine)').matches) {
-    /* Late lift only, so t=0 through t=2.25 stays 1:1. Clears the title by scroll 621. */
-    const lift = ScrollTrigger.create({
-      start: 380,
-      end: 621,
-      scrub: true,
-      onUpdate: (self) => {
-        gsap.set(title, { y: -58 * self.progress });
-      },
-    });
-    triggers.push(lift);
-  }
 
   if (title) {
     try {
@@ -147,35 +115,9 @@ function initHero(): () => void {
   }
 
   return () => {
-    triggers.forEach((trigger) => trigger.kill());
     splits.forEach((split) => split.revert());
     if (shift) gsap.set(shift, { clearProps: 'transform' });
     if (title) gsap.set(title, { clearProps: 'transform' });
-  };
-}
-
-function initRunwayRise(): () => void {
-  const section = document.querySelector<HTMLElement>('[data-runway-pin]');
-  const track = document.querySelector<HTMLElement>('[data-runway-track]');
-  if (!section || !track) return () => {};
-  const tween = gsap.fromTo(
-    track,
-    { y: 30 },
-    {
-      y: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top 78%',
-        end: 'top 30%',
-        scrub: true,
-      },
-    },
-  );
-  return () => {
-    tween.scrollTrigger?.kill();
-    tween.kill();
-    gsap.set(track, { clearProps: 'transform' });
   };
 }
 
@@ -299,7 +241,6 @@ export function initHome(reduced: boolean, fine: boolean, signal: AbortSignal): 
 
   if (!reduced) {
     releases.push(initHero());
-    if (motion) releases.push(initRunwayRise());
     releases.push(initStatement());
     releases.push(initTeaser());
     releases.push(initBand());
