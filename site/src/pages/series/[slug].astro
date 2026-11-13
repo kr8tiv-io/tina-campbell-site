@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
-import { metaLine, spreadFor } from '../../data/editorial';
+import { frameStyle, metaLine, spreadFor, titleLines } from '../../data/editorial';
 import { seriesCredits, seriesList, type SeriesSlug } from '../../data/photos';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/editorial.css';
@@ -14,6 +14,8 @@ export function getStaticPaths() {
 const slug = Astro.params.slug as SeriesSlug;
 const spread = spreadFor(slug);
 const { series, next } = spread;
+const lines = titleLines[series.slug];
+const nextSpread = spreadFor(next.slug);
 const credits = seriesCredits(series);
 const title = `${series.title} | Tina Campbell Photography, Edmonton`;
 const description = series.intro;
@@ -65,7 +67,13 @@ const jsonLd = [
       <div
         class="cover__zoom"
         data-cover-zoom
-        style={`--pos: ${spread.coverPosition}; --cover-scale: ${spread.coverScale}; --cover-origin: ${spread.coverOrigin}`}
+        style={frameStyle(
+          spread.coverPosition,
+          spread.coverScale,
+          spread.coverOrigin,
+          spread.coverCropMobile,
+          spread.coverOriginMobile,
+        )}
       >
         <Photo
           src={spread.cover.src}
@@ -79,9 +87,7 @@ const jsonLd = [
       <div class="cover__shade" aria-hidden="true"></div>
       <div class="cover__copy">
         <h1 id="series-title" data-series-title>
-          {series.slug === 'legislature-in-black' ? 'Legislature' : series.title}
-          {series.slug === 'legislature-in-black' && <br />}
-          {series.slug === 'legislature-in-black' && 'in Black'}
+          {lines[0]}<br />{lines[1]}
         </h1>
         <p class="cover__meta">{metaLine(series)}</p>
       </div>
@@ -99,7 +105,7 @@ const jsonLd = [
         }
         <p class="spread__intro" data-credit>{series.intro}</p>
       </div>
-      <figure class="spread__photo" data-unmask style={`--pos: ${spread.featurePosition}`}>
+      <figure class="spread__photo" data-unmask style={frameStyle(spread.featurePosition, spread.featureCrop, spread.featureOrigin)}>
         <Photo
           src={spread.feature.src}
           alt={spread.feature.alt}
@@ -113,7 +119,7 @@ const jsonLd = [
       {
         spread.pair.map((photo, index) => (
           <li>
-            <figure data-unmask data-unmask-dir={index === 0 ? 'left' : 'right'} style={`--pos: ${spread.pairPosition[index]}`}>
+            <figure data-unmask data-unmask-dir={index === 0 ? 'left' : 'right'} style={frameStyle(spread.pairPosition[index], spread.pairCrop[index], spread.pairOrigin[index])}>
               <Photo
                 src={photo.src}
                 alt={photo.alt}
@@ -127,22 +133,21 @@ const jsonLd = [
     </ul>
 
     <figure class="filmwide">
-      <div class="filmwide__frame" data-unmask style={`--pos: ${spread.filmPosition}`}>
+      <div class="filmwide__frame" data-unmask style={frameStyle(spread.filmPosition, spread.filmCrop, spread.filmOrigin)}>
         <Photo
           src={spread.film.src}
           alt={spread.film.alt}
           sizes="100vw"
           widths={[800, 1200, 1600, 2000]}
         />
-        <p class="filmwide__no">{series.number}</p>
       </div>
     </figure>
 
     <a class="next" href={`/series/${next.slug}/`} data-cursor="View">
       <h2>Next series:<br />{next.title}</h2>
-      <span class="next__thumb">
+      <span class="next__thumb" style={frameStyle(nextSpread.coverPosition, nextSpread.coverScale, nextSpread.coverOrigin, nextSpread.coverCropMobile, nextSpread.coverOriginMobile)}>
         <Photo
-          src={spreadFor(next.slug).cover.src}
+          src={nextSpread.cover.src}
           alt=""
           sizes="150px"
           widths={[320, 480]}

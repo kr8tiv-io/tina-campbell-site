@@ -14,30 +14,83 @@ export interface Frame {
   /** Story the photo actually belongs to. */
   href: SeriesSlug;
   position: string;
+  /** Extra cover zoom so a baked signature stays out of the frame. */
+  crop: number;
+  origin: string;
 }
 
-function frame(id: string, series: SeriesSlug, position: string, href: SeriesSlug = series): Frame {
-  return { photo: getPhoto(id), series, href, position };
+function frame(
+  id: string,
+  series: SeriesSlug,
+  position: string,
+  href: SeriesSlug = series,
+  crop = 1,
+  origin = 'center center',
+): Frame {
+  return { photo: getPhoto(id), series, href, position, crop, origin };
 }
 
-/** Opening stack matches layout 03. Later frames keep the left panel moving. */
+/** CSS variables for object-position plus a scale that keeps a signature out of frame. */
+export function frameStyle(
+  position: string,
+  crop = 1,
+  origin = 'center center',
+  cropMobile?: number,
+  originMobile?: string,
+): string {
+  let style = `--pos: ${position}; --crop: ${crop}; --origin: ${origin}`;
+  if (cropMobile != null) style += `; --crop-m: ${cropMobile}`;
+  if (originMobile) style += `; --origin-m: ${originMobile}`;
+  return style;
+}
+
+/**
+ * Opening stack is three Red Gown bands (layout 03). Later frames walk 02-05
+ * so the pinned column can toggle the index. Crops keep baked signatures off
+ * the subject: wide bands from the top or the lower-right, never the full file.
+ */
 export const fashionColumn: Frame[] = [
-  frame('fb_013_signature', 'the-red-gown', 'center 10%'),
-  frame('fb_116_signature', 'the-red-gown', 'center 38%'),
-  frame('fb_136_portrait', 'the-red-gown', 'center 36%', 'red-in-snow'),
-  frame('fb_141_signature', 'legislature-in-black', 'center 22%'),
-  frame('fb_009_fashion', 'red-in-snow', 'center 30%'),
-  frame('fb_064_runway', 'runway-nights', 'center 40%'),
-  frame('fb_008_fashion', 'blue-hour', 'center 34%'),
+  frame('fb_016_signature', 'the-red-gown', 'center 70%', 'the-red-gown', 1.12, '62% 74%'),
+  frame('fb_116_signature', 'the-red-gown', 'center 24%', 'the-red-gown', 1.12, 'center 20%'),
+  frame('fb_013_signature', 'the-red-gown', 'center 22%', 'the-red-gown', 1.12, 'center 18%'),
+  frame('fb_046_signature', 'legislature-in-black', 'center 34%'),
+  frame('fb_141_signature', 'legislature-in-black', 'center 28%'),
+  frame('fb_009_fashion', 'red-in-snow', 'center 32%'),
+  frame('fb_034_fashion', 'red-in-snow', 'center 36%'),
+  frame('fb_029_runway', 'runway-nights', 'center 42%'),
+  frame('fb_168_city', 'blue-hour', 'center top', 'blue-hour', 1.45, 'center top'),
+  frame('fb_001_city', 'blue-hour', 'center top', 'blue-hour', 1.35, 'center top'),
 ];
 
-/** Four crops from the red gown shoot, as in the pull-quote strip. */
+/**
+ * Four tall portraits. fb_016 is the only red-gown file whose signature sits
+ * in a corner we can crop off a 1:2 frame. The other three are clean snow
+ * portraits (the truck files carry script across the gown).
+ */
 export const fashionStrip: Frame[] = [
-  frame('fb_013_signature', 'the-red-gown', 'center 24%'),
-  frame('fb_116_signature', 'the-red-gown', 'center 40%'),
-  frame('fb_114_signature', 'the-red-gown', 'center 38%'),
-  frame('fb_016_signature', 'the-red-gown', 'center 30%'),
+  frame('fb_016_signature', 'the-red-gown', '78% 58%', 'the-red-gown', 1.7, '82% 60%'),
+  frame('fb_009_fashion', 'red-in-snow', 'center 30%', 'red-in-snow'),
+  frame('fb_034_fashion', 'red-in-snow', 'center 34%', 'red-in-snow'),
+  frame('fb_136_portrait', 'red-in-snow', 'center 28%', 'red-in-snow'),
 ];
+
+export const titleLines: Record<SeriesSlug, [string, string]> = {
+  'the-red-gown': ['The Red', 'Gown'],
+  'legislature-in-black': ['Legislature', 'in Black'],
+  'red-in-snow': ['Red in', 'Snow'],
+  'runway-nights': ['Runway', 'Nights'],
+  'blue-hour': ['Blue', 'Hour'],
+};
+
+interface ShotPlan {
+  id: string;
+  position: string;
+  crop?: number;
+  origin?: string;
+  /** Tighter crop for a tall cover. A wide desktop band can hide a low signature that a phone frame still shows. */
+  cropMobile?: number;
+  originMobile?: string;
+}
 
 export interface Spread {
   series: Series;
@@ -45,101 +98,129 @@ export interface Spread {
   coverPosition: string;
   coverScale: number;
   coverOrigin: string;
+  coverCropMobile?: number;
+  coverOriginMobile?: string;
   feature: Photo;
   featurePosition: string;
+  featureCrop: number;
+  featureOrigin: string;
   pair: [Photo, Photo];
   pairPosition: [string, string];
+  pairCrop: [number, number];
+  pairOrigin: [string, string];
   film: Photo;
   filmPosition: string;
+  filmCrop: number;
+  filmOrigin: string;
   next: Series;
 }
 
 const spreadPlan: Record<
   SeriesSlug,
-  {
-    cover: string;
-    coverPosition: string;
-    coverScale?: number;
-    coverOrigin?: string;
-    feature: string;
-    featurePosition: string;
-    pair: [string, string];
-    pairPosition: [string, string];
-    film: string;
-    filmPosition: string;
-  }
+  { cover: ShotPlan; feature: ShotPlan; pair: [ShotPlan, ShotPlan]; film: ShotPlan }
 > = {
   'the-red-gown': {
-    cover: 'fb_013_signature',
-    coverPosition: 'center 28%',
-    feature: 'fb_116_signature',
-    featurePosition: 'center 42%',
-    pair: ['fb_114_signature', 'fb_016_signature'],
-    pairPosition: ['center 40%', 'center 32%'],
-    film: 'fb_016_signature',
-    filmPosition: 'center 55%',
+    cover: { id: 'fb_016_signature', position: 'center 90%', crop: 1.9, origin: '58% 92%' },
+    feature: { id: 'fb_116_signature', position: 'center top', crop: 2.05, origin: 'center top' },
+    pair: [
+      { id: 'fb_013_signature', position: 'center top', crop: 1.5, origin: 'center top' },
+      { id: 'fb_016_signature', position: '72% 82%', crop: 1.4, origin: '74% 84%' },
+    ],
+    film: { id: 'fb_016_signature', position: 'center 84%', crop: 1.2, origin: 'center 86%' },
   },
   'legislature-in-black': {
-    cover: 'fb_046_signature',
-    coverPosition: 'center 38%',
-    coverScale: 1,
-    coverOrigin: 'center center',
-    feature: 'fb_141_signature',
-    featurePosition: 'center 16%',
-    pair: ['ig_profile_03', 'ig_profile_02'],
-    pairPosition: ['center 42%', 'center 30%'],
-    film: 'fb_046_signature',
-    filmPosition: 'center 78%',
+    cover: { id: 'fb_046_signature', position: 'center 32%' },
+    feature: { id: 'fb_141_signature', position: 'center 30%' },
+    pair: [
+      { id: 'ig_profile_03', position: 'center 38%' },
+      { id: 'fb_046_signature', position: 'center top', crop: 1.15, origin: 'center top' },
+    ],
+    film: { id: 'fb_046_signature', position: 'center 16%', crop: 1.1, origin: 'center top' },
   },
   'red-in-snow': {
-    cover: 'fb_133_fashion',
-    coverPosition: 'center 30%',
-    feature: 'fb_136_portrait',
-    featurePosition: 'center 28%',
-    pair: ['fb_009_fashion', 'fb_034_fashion'],
-    pairPosition: ['center 32%', 'center 30%'],
-    film: 'fb_009_fashion',
-    filmPosition: 'center 40%',
+    cover: { id: 'fb_034_fashion', position: 'center 34%' },
+    feature: { id: 'fb_136_portrait', position: 'center 26%' },
+    pair: [
+      { id: 'fb_009_fashion', position: 'center 30%' },
+      { id: 'fb_133_fashion', position: 'center 32%' },
+    ],
+    film: { id: 'fb_034_fashion', position: 'center 28%' },
   },
   'runway-nights': {
-    cover: 'fb_064_runway',
-    coverPosition: 'center 35%',
-    feature: 'fb_037_runway',
-    featurePosition: 'center 40%',
-    pair: ['fb_029_runway', 'fb_158_runway'],
-    pairPosition: ['center 30%', 'center 42%'],
-    film: 'fb_012_runway',
-    filmPosition: 'center 45%',
+    cover: { id: 'fb_029_runway', position: 'center 40%' },
+    feature: { id: 'fb_012_runway', position: 'center 36%' },
+    pair: [
+      { id: 'fb_158_runway', position: 'center top', crop: 1.25, origin: 'center top' },
+      { id: 'fb_085_runway', position: 'center top', crop: 1.25, origin: 'center top' },
+    ],
+    film: { id: 'fb_029_runway', position: 'center 36%' },
   },
   'blue-hour': {
-    cover: 'fb_066_city',
-    coverPosition: 'center 48%',
-    feature: 'fb_008_fashion',
-    featurePosition: 'center 34%',
-    pair: ['fb_001_city', 'fb_072_fashion'],
-    pairPosition: ['center 45%', 'center 40%'],
-    film: 'fb_168_city',
-    filmPosition: 'center 50%',
+    cover: {
+      id: 'fb_168_city',
+      position: 'center 38%',
+      crop: 1.2,
+      origin: 'center 36%',
+      cropMobile: 2.8,
+      originMobile: 'center 34%',
+    },
+    feature: { id: 'fb_066_city', position: 'center top', crop: 1.65, origin: 'center top' },
+    pair: [
+      { id: 'fb_001_city', position: 'center top', crop: 1.35, origin: 'center top' },
+      { id: 'fb_066_city', position: 'center top', crop: 1.55, origin: 'center top' },
+    ],
+    film: { id: 'fb_001_city', position: 'center 32%', crop: 1.2, origin: 'center 28%' },
   },
 };
+
+function shot(plan: ShotPlan): {
+  photo: Photo;
+  position: string;
+  crop: number;
+  origin: string;
+  cropMobile?: number;
+  originMobile?: string;
+} {
+  return {
+    photo: getPhoto(plan.id),
+    position: plan.position,
+    crop: plan.crop ?? 1,
+    origin: plan.origin ?? 'center center',
+    cropMobile: plan.cropMobile,
+    originMobile: plan.originMobile,
+  };
+}
 
 export function spreadFor(slug: SeriesSlug): Spread {
   const series = getSeries(slug);
   const plan = spreadPlan[slug];
   const index = seriesList.findIndex((item) => item.slug === slug);
   const next = seriesList[(index + 1) % seriesList.length] ?? seriesList[0];
+  const cover = shot(plan.cover);
+  const feature = shot(plan.feature);
+  const pair0 = shot(plan.pair[0]);
+  const pair1 = shot(plan.pair[1]);
+  const film = shot(plan.film);
   return {
     series,
-    cover: getPhoto(plan.cover),
-    coverPosition: plan.coverPosition,
-    coverScale: plan.coverScale ?? 1,
-    coverOrigin: plan.coverOrigin ?? 'center center',
-    feature: getPhoto(plan.feature),
-    featurePosition: plan.featurePosition,
-    pair: [getPhoto(plan.pair[0]), getPhoto(plan.pair[1])],
-    pairPosition: plan.pairPosition,
-    film: getPhoto(plan.film),
-    filmPosition: plan.filmPosition,
+    cover: cover.photo,
+    coverPosition: cover.position,
+    coverScale: cover.crop,
+    coverOrigin: cover.origin,
+    coverCropMobile: cover.cropMobile,
+    coverOriginMobile: cover.originMobile,
+    feature: feature.photo,
+    featurePosition: feature.position,
+    featureCrop: feature.crop,
+    featureOrigin: feature.origin,
+    pair: [pair0.photo, pair1.photo],
+    pairPosition: [pair0.position, pair1.position],
+    pairCrop: [pair0.crop, pair1.crop],
+    pairOrigin: [pair0.origin, pair1.origin],
+    film: film.photo,
+    filmPosition: film.position,
+    filmCrop: film.crop,
+    filmOrigin: film.origin,
     next,
   };
 }
@@ -149,7 +230,11 @@ export interface Chapter {
   title: string;
   text: string;
   href: string;
-  frames: { photo: Photo; position: string }[];
+  frames: { photo: Photo; position: string; crop: number; origin: string }[];
+}
+
+function chapterFrame(id: string, position: string, crop = 1, origin = 'center center') {
+  return { photo: getPhoto(id), position, crop, origin };
 }
 
 export const chapters: Chapter[] = [
@@ -159,9 +244,9 @@ export const chapters: Chapter[] = [
     text: "Glam, personal brand and headshots. I'll guide every pose, so you can stop worrying about your hands.",
     href: '/work/?filter=portraits',
     frames: [
-      { photo: getPhoto('fb_021_portrait'), position: 'center 18%' },
-      { photo: getPhoto('fb_154_portrait'), position: 'center 28%' },
-      { photo: getPhoto('fb_120_portrait'), position: 'center 30%' },
+      chapterFrame('fb_137_portrait', 'center 42%'),
+      chapterFrame('fb_154_portrait', '64% 24%', 1.6, '66% 22%'),
+      chapterFrame('fb_120_portrait', '80% 34%', 1.75, '82% 32%'),
     ],
   },
   {
@@ -170,9 +255,9 @@ export const chapters: Chapter[] = [
     text: 'I started out photographing weddings, and I still love a good bridal portrait. Staircases, glass and great light.',
     href: '/work/?filter=bridal',
     frames: [
-      { photo: getPhoto('fb_049_bridal'), position: 'center 16%' },
-      { photo: getPhoto('fb_056_bridal'), position: 'center 20%' },
-      { photo: getPhoto('fb_059_bridal'), position: 'center 18%' },
+      chapterFrame('fb_049_bridal', 'center top', 1.55, 'center top'),
+      chapterFrame('fb_056_bridal', 'center top', 1.55, 'center top'),
+      chapterFrame('fb_059_bridal', 'center top', 1.55, 'center top'),
     ],
   },
   {
@@ -181,9 +266,9 @@ export const chapters: Chapter[] = [
     text: 'Engagements, anniversaries or just because. Relaxed, a little glamorous, and very much you two.',
     href: '/work/?filter=couples',
     frames: [
-      { photo: getPhoto('fb_031_couples'), position: 'center 28%' },
-      { photo: getPhoto('fb_007_couples'), position: 'center 32%' },
-      { photo: getPhoto('fb_065_couples'), position: 'center 30%' },
+      chapterFrame('fb_031_couples', 'center top', 1.7, 'center top'),
+      chapterFrame('fb_007_couples', 'center 34%'),
+      chapterFrame('fb_065_couples', 'center 32%'),
     ],
   },
 ];

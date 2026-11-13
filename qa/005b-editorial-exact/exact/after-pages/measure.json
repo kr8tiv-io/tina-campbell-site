@@ -1,0 +1,1576 @@
+{
+  "fe-1440": {
+    "vw": 1440,
+    "vh": 900,
+    "overflow": 0,
+    "phase": "done",
+    "rule": {
+      "x": 720,
+      "y": 112,
+      "w": 1,
+      "h": 788,
+      "r": 721,
+      "btm": 900,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "view": {
+      "x": 806,
+      "y": 112,
+      "w": 504,
+      "h": 788,
+      "r": 1310,
+      "btm": 900,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "left": {
+      "x": 0,
+      "y": 112,
+      "w": 720,
+      "h": 788,
+      "r": 720,
+      "btm": 900,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "line2": {
+      "text": "& Editorial",
+      "x": 46,
+      "w": 593,
+      "h": 240,
+      "fs": "185px"
+    },
+    "links": [
+      {
+        "t": "01 The Red Gown",
+        "x": 46,
+        "w": 307,
+        "y": 707,
+        "h": 34,
+        "btm": 740,
+        "fs": "31.9968px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(179, 38, 30)",
+        "active": "true"
+      },
+      {
+        "t": "02 Legislature in Black",
+        "x": 46,
+        "w": 461,
+        "y": 745,
+        "h": 34,
+        "btm": 779,
+        "fs": "31.9968px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "03 Red in Snow",
+        "x": 46,
+        "w": 288,
+        "y": 784,
+        "h": 34,
+        "btm": 817,
+        "fs": "31.9968px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "04 Runway Nights",
+        "x": 46,
+        "w": 326,
+        "y": 822,
+        "h": 34,
+        "btm": 856,
+        "fs": "31.9968px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "05 Blue Hour",
+        "x": 46,
+        "w": 249,
+        "y": 861,
+        "h": 34,
+        "btm": 894,
+        "fs": "31.9968px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      }
+    ],
+    "shots": [
+      {
+        "x": 806,
+        "y": 112,
+        "w": 504,
+        "h": 257,
+        "btm": 369
+      },
+      {
+        "x": 806,
+        "y": 377,
+        "w": 504,
+        "h": 257,
+        "btm": 635
+      },
+      {
+        "x": 806,
+        "y": 643,
+        "w": 504,
+        "h": 257,
+        "btm": 900
+      }
+    ],
+    "gaps": [
+      8,
+      8
+    ],
+    "mark": {
+      "x": 46,
+      "y": 128,
+      "w": 200,
+      "h": 142,
+      "nw": 584,
+      "nh": 415
+    },
+    "quote": {
+      "x": 0,
+      "w": 1440,
+      "y": 2773
+    },
+    "strip": [
+      {
+        "x": 360,
+        "y": 2814,
+        "w": 264,
+        "h": 528,
+        "ratio": 0.5
+      },
+      {
+        "x": 632,
+        "y": 2814,
+        "w": 264,
+        "h": 528,
+        "ratio": 0.5
+      },
+      {
+        "x": 904,
+        "y": 2814,
+        "w": 264,
+        "h": 528,
+        "ratio": 0.5
+      },
+      {
+        "x": 1176,
+        "y": 2814,
+        "w": 264,
+        "h": 528,
+        "ratio": 0.5
+      }
+    ],
+    "quoteMark": {
+      "x": 58,
+      "y": 2984,
+      "w": 286,
+      "h": 46,
+      "r": 344,
+      "btm": 3030,
+      "fs": "66.24px",
+      "ff": "\"Instrument Serif\"",
+      "ls": "normal",
+      "c": "rgb(179, 38, 30)"
+    },
+    "collab": {
+      "x": 363,
+      "y": 3426,
+      "w": 544,
+      "h": 39,
+      "r": 907,
+      "btm": 3465,
+      "fs": "33.84px",
+      "ff": "\"Instrument Serif\"",
+      "ls": "-0.6768px",
+      "c": "rgb(240, 243, 244)"
+    },
+    "pill": {
+      "x": 945,
+      "y": 3423,
+      "w": 132,
+      "h": 46,
+      "r": 1077,
+      "btm": 3469,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "0.16px",
+      "c": "rgb(240, 243, 244)"
+    },
+    "order": {
+      "mark": 128,
+      "title": 281,
+      "list": 707,
+      "shot": 112
+    },
+    "errors": []
+  },
+  "fe-390": {
+    "vw": 390,
+    "vh": 844,
+    "overflow": 0,
+    "phase": "static",
+    "rule": {
+      "x": 20,
+      "y": 482,
+      "w": 42,
+      "h": 1,
+      "r": 62,
+      "btm": 483,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "view": {
+      "x": 20,
+      "y": 501,
+      "w": 350,
+      "h": 2405,
+      "r": 370,
+      "btm": 2906,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "left": {
+      "x": 20,
+      "y": 90,
+      "w": 350,
+      "h": 374,
+      "r": 370,
+      "btm": 463,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "line2": {
+      "text": "& Editorial",
+      "x": 20,
+      "w": 178,
+      "h": 71,
+      "fs": "54.6px"
+    },
+    "links": [
+      {
+        "t": "01 The Red Gown",
+        "x": 20,
+        "w": 153,
+        "y": 320,
+        "h": 17,
+        "btm": 336,
+        "fs": "15.99px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(179, 38, 30)",
+        "active": "is-active"
+      },
+      {
+        "t": "02 Legislature in Black",
+        "x": 20,
+        "w": 230,
+        "y": 351,
+        "h": 17,
+        "btm": 368,
+        "fs": "15.99px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "03 Red in Snow",
+        "x": 20,
+        "w": 144,
+        "y": 382,
+        "h": 17,
+        "btm": 399,
+        "fs": "15.99px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "04 Runway Nights",
+        "x": 20,
+        "w": 163,
+        "y": 413,
+        "h": 17,
+        "btm": 430,
+        "fs": "15.99px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "05 Blue Hour",
+        "x": 20,
+        "w": 125,
+        "y": 444,
+        "h": 17,
+        "btm": 461,
+        "fs": "15.99px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      }
+    ],
+    "shots": [
+      {
+        "x": 20,
+        "y": 501,
+        "w": 350,
+        "h": 233,
+        "btm": 734
+      },
+      {
+        "x": 20,
+        "y": 742,
+        "w": 350,
+        "h": 233,
+        "btm": 976
+      },
+      {
+        "x": 20,
+        "y": 984,
+        "w": 350,
+        "h": 233,
+        "btm": 1217
+      }
+    ],
+    "gaps": [
+      8,
+      8
+    ],
+    "mark": {
+      "x": 20,
+      "y": 90,
+      "w": 90,
+      "h": 64,
+      "nw": 584,
+      "nh": 415
+    },
+    "quote": {
+      "x": 0,
+      "w": 390,
+      "y": 2926
+    },
+    "strip": [
+      {
+        "x": 20,
+        "y": 3109,
+        "w": 161,
+        "h": 322,
+        "ratio": 0.5
+      },
+      {
+        "x": 189,
+        "y": 3109,
+        "w": 161,
+        "h": 322,
+        "ratio": 0.5
+      },
+      {
+        "x": 20,
+        "y": 3439,
+        "w": 161,
+        "h": 322,
+        "ratio": 0.5
+      },
+      {
+        "x": 189,
+        "y": 3439,
+        "w": 161,
+        "h": 322,
+        "ratio": 0.5
+      }
+    ],
+    "quoteMark": {
+      "x": 20,
+      "y": 2964,
+      "w": 334,
+      "h": 36,
+      "r": 354,
+      "btm": 3000,
+      "fs": "51.2px",
+      "ff": "\"Instrument Serif\"",
+      "ls": "normal",
+      "c": "rgb(179, 38, 30)"
+    },
+    "collab": {
+      "x": 20,
+      "y": 3837,
+      "w": 350,
+      "h": 57,
+      "r": 370,
+      "btm": 3894,
+      "fs": "24.8px",
+      "ff": "\"Instrument Serif\"",
+      "ls": "-0.496px",
+      "c": "rgb(240, 243, 244)"
+    },
+    "pill": {
+      "x": 129,
+      "y": 3910,
+      "w": 132,
+      "h": 46,
+      "r": 261,
+      "btm": 3956,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "0.16px",
+      "c": "rgb(240, 243, 244)"
+    },
+    "order": {
+      "mark": 90,
+      "title": 165,
+      "list": 320,
+      "shot": 501
+    },
+    "errors": []
+  },
+  "fe-360": {
+    "vw": 360,
+    "vh": 780,
+    "overflow": 0,
+    "phase": "static",
+    "rule": {
+      "x": 20,
+      "y": 475,
+      "w": 42,
+      "h": 1,
+      "r": 62,
+      "btm": 476,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "view": {
+      "x": 20,
+      "y": 494,
+      "w": 320,
+      "h": 2205,
+      "r": 340,
+      "btm": 2700,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "left": {
+      "x": 20,
+      "y": 90,
+      "w": 320,
+      "h": 367,
+      "r": 340,
+      "btm": 456,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "normal",
+      "c": "rgb(240, 243, 244)"
+    },
+    "line2": {
+      "text": "& Editorial",
+      "x": 20,
+      "w": 165,
+      "h": 66,
+      "fs": "50.4px"
+    },
+    "links": [
+      {
+        "t": "01 The Red Gown",
+        "x": 20,
+        "w": 146,
+        "y": 313,
+        "h": 16,
+        "btm": 329,
+        "fs": "15.2px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(179, 38, 30)",
+        "active": "is-active"
+      },
+      {
+        "t": "02 Legislature in Black",
+        "x": 20,
+        "w": 219,
+        "y": 344,
+        "h": 16,
+        "btm": 360,
+        "fs": "15.2px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "03 Red in Snow",
+        "x": 20,
+        "w": 137,
+        "y": 375,
+        "h": 16,
+        "btm": 391,
+        "fs": "15.2px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "04 Runway Nights",
+        "x": 20,
+        "w": 155,
+        "y": 406,
+        "h": 16,
+        "btm": 422,
+        "fs": "15.2px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      },
+      {
+        "t": "05 Blue Hour",
+        "x": 20,
+        "w": 118,
+        "y": 437,
+        "h": 16,
+        "btm": 453,
+        "fs": "15.2px",
+        "ff": "\"JetBrains Mono\"",
+        "numC": "rgb(240, 243, 244)",
+        "active": ""
+      }
+    ],
+    "shots": [
+      {
+        "x": 20,
+        "y": 494,
+        "w": 320,
+        "h": 213,
+        "btm": 708
+      },
+      {
+        "x": 20,
+        "y": 716,
+        "w": 320,
+        "h": 213,
+        "btm": 929
+      },
+      {
+        "x": 20,
+        "y": 937,
+        "w": 320,
+        "h": 213,
+        "btm": 1150
+      }
+    ],
+    "gaps": [
+      8,
+      8
+    ],
+    "mark": {
+      "x": 20,
+      "y": 90,
+      "w": 90,
+      "h": 64,
+      "nw": 584,
+      "nh": 415
+    },
+    "quote": {
+      "x": 0,
+      "w": 360,
+      "y": 2720
+    },
+    "strip": [
+      {
+        "x": 20,
+        "y": 2900,
+        "w": 146,
+        "h": 292,
+        "ratio": 0.5
+      },
+      {
+        "x": 174,
+        "y": 2900,
+        "w": 146,
+        "h": 292,
+        "ratio": 0.5
+      },
+      {
+        "x": 20,
+        "y": 3200,
+        "w": 146,
+        "h": 292,
+        "ratio": 0.5
+      },
+      {
+        "x": 174,
+        "y": 3200,
+        "w": 146,
+        "h": 292,
+        "ratio": 0.5
+      }
+    ],
+    "quoteMark": {
+      "x": 20,
+      "y": 2755,
+      "w": 304,
+      "h": 36,
+      "r": 324,
+      "btm": 2790,
+      "fs": "51.2px",
+      "ff": "\"Instrument Serif\"",
+      "ls": "normal",
+      "c": "rgb(179, 38, 30)"
+    },
+    "collab": {
+      "x": 20,
+      "y": 3562,
+      "w": 320,
+      "h": 57,
+      "r": 340,
+      "btm": 3619,
+      "fs": "24.8px",
+      "ff": "\"Instrument Serif\"",
+      "ls": "-0.496px",
+      "c": "rgb(240, 243, 244)"
+    },
+    "pill": {
+      "x": 114,
+      "y": 3635,
+      "w": 132,
+      "h": 46,
+      "r": 246,
+      "btm": 3681,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "ls": "0.16px",
+      "c": "rgb(240, 243, 244)"
+    },
+    "order": {
+      "mark": 90,
+      "title": 165,
+      "list": 313,
+      "shot": 494
+    },
+    "errors": []
+  },
+  "series-the-red-gown-1440": {
+    "vw": 1440,
+    "overflow": 0,
+    "h1": {
+      "x": 50,
+      "y": 106,
+      "w": 648,
+      "h": 384,
+      "r": 698,
+      "btm": 490,
+      "fs": "150px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "The Red Gown",
+    "meta": "Series 01 / Edmonton",
+    "metaBox": {
+      "x": 50,
+      "y": 462,
+      "w": 648,
+      "h": 23,
+      "r": 698,
+      "btm": 484,
+      "fs": "15.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 788,
+      "btm": 900
+    },
+    "h1btm": 490,
+    "copy": {
+      "x": 0,
+      "w": 1440
+    },
+    "feature": {
+      "x": 670,
+      "w": 720,
+      "h": 1044,
+      "ratio": 0.69
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 50,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      },
+      {
+        "x": 724,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 1440,
+      "h": 600,
+      "r": 1440,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 180,
+      "y": 3219,
+      "w": 745,
+      "h": 112,
+      "r": 925,
+      "btm": 3330,
+      "fs": "54.72px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "nextColor": "rgb(240, 243, 244)",
+    "arrow": {
+      "x": 1159,
+      "y": 3261,
+      "w": 101,
+      "h": 27,
+      "r": 1260,
+      "btm": 3288,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "series-legislature-in-black-1440": {
+    "vw": 1440,
+    "overflow": 0,
+    "h1": {
+      "x": 50,
+      "y": 106,
+      "w": 648,
+      "h": 384,
+      "r": 698,
+      "btm": 490,
+      "fs": "150px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "Legislature in Black",
+    "meta": "Series 02 / Edmonton",
+    "metaBox": {
+      "x": 50,
+      "y": 462,
+      "w": 648,
+      "h": 23,
+      "r": 698,
+      "btm": 484,
+      "fs": "15.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 788,
+      "btm": 900
+    },
+    "h1btm": 490,
+    "copy": {
+      "x": 0,
+      "w": 1440
+    },
+    "feature": {
+      "x": 670,
+      "w": 720,
+      "h": 1044,
+      "ratio": 0.69
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 50,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      },
+      {
+        "x": 724,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 1440,
+      "h": 600,
+      "r": 1440,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 180,
+      "y": 3219,
+      "w": 745,
+      "h": 112,
+      "r": 925,
+      "btm": 3330,
+      "fs": "54.72px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "nextColor": "rgb(240, 243, 244)",
+    "arrow": {
+      "x": 1159,
+      "y": 3261,
+      "w": 101,
+      "h": 27,
+      "r": 1260,
+      "btm": 3288,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "series-red-in-snow-1440": {
+    "vw": 1440,
+    "overflow": 0,
+    "h1": {
+      "x": 50,
+      "y": 106,
+      "w": 648,
+      "h": 384,
+      "r": 698,
+      "btm": 490,
+      "fs": "150px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "Red in Snow",
+    "meta": "Series 03 / Edmonton",
+    "metaBox": {
+      "x": 50,
+      "y": 462,
+      "w": 648,
+      "h": 23,
+      "r": 698,
+      "btm": 484,
+      "fs": "15.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 788,
+      "btm": 900
+    },
+    "h1btm": 490,
+    "copy": {
+      "x": 0,
+      "w": 1440
+    },
+    "feature": {
+      "x": 670,
+      "w": 720,
+      "h": 1044,
+      "ratio": 0.69
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 50,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      },
+      {
+        "x": 724,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 1440,
+      "h": 600,
+      "r": 1440,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 180,
+      "y": 3219,
+      "w": 745,
+      "h": 112,
+      "r": 925,
+      "btm": 3330,
+      "fs": "54.72px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "nextColor": "rgb(240, 243, 244)",
+    "arrow": {
+      "x": 1159,
+      "y": 3261,
+      "w": 101,
+      "h": 27,
+      "r": 1260,
+      "btm": 3288,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "series-runway-nights-1440": {
+    "vw": 1440,
+    "overflow": 0,
+    "h1": {
+      "x": 50,
+      "y": 106,
+      "w": 648,
+      "h": 384,
+      "r": 698,
+      "btm": 490,
+      "fs": "150px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "Runway Nights",
+    "meta": "Series 04 / Edmonton",
+    "metaBox": {
+      "x": 50,
+      "y": 462,
+      "w": 648,
+      "h": 23,
+      "r": 698,
+      "btm": 484,
+      "fs": "15.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 788,
+      "btm": 900
+    },
+    "h1btm": 490,
+    "copy": {
+      "x": 0,
+      "w": 1440
+    },
+    "feature": {
+      "x": 670,
+      "w": 720,
+      "h": 1044,
+      "ratio": 0.69
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 50,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      },
+      {
+        "x": 724,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 1440,
+      "h": 600,
+      "r": 1440,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 180,
+      "y": 3219,
+      "w": 745,
+      "h": 112,
+      "r": 925,
+      "btm": 3330,
+      "fs": "54.72px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "nextColor": "rgb(240, 243, 244)",
+    "arrow": {
+      "x": 1159,
+      "y": 3261,
+      "w": 101,
+      "h": 27,
+      "r": 1260,
+      "btm": 3288,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "series-blue-hour-1440": {
+    "vw": 1440,
+    "overflow": 0,
+    "h1": {
+      "x": 50,
+      "y": 106,
+      "w": 648,
+      "h": 384,
+      "r": 698,
+      "btm": 490,
+      "fs": "150px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "Blue Hour",
+    "meta": "Series 05 / Edmonton",
+    "metaBox": {
+      "x": 50,
+      "y": 462,
+      "w": 648,
+      "h": 23,
+      "r": 698,
+      "btm": 484,
+      "fs": "15.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 788,
+      "btm": 900
+    },
+    "h1btm": 490,
+    "copy": {
+      "x": 0,
+      "w": 1440
+    },
+    "feature": {
+      "x": 670,
+      "w": 720,
+      "h": 1044,
+      "ratio": 0.69
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 50,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      },
+      {
+        "x": 724,
+        "w": 666,
+        "h": 444,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 1440,
+      "h": 600,
+      "r": 1440,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 180,
+      "y": 3219,
+      "w": 745,
+      "h": 112,
+      "r": 925,
+      "btm": 3330,
+      "fs": "54.72px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "nextColor": "rgb(240, 243, 244)",
+    "arrow": {
+      "x": 1159,
+      "y": 3261,
+      "w": 101,
+      "h": 27,
+      "r": 1260,
+      "btm": 3288,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "series-legislature-in-black-390": {
+    "vw": 390,
+    "overflow": 0,
+    "h1": {
+      "x": 20,
+      "y": 647,
+      "w": 350,
+      "h": 160,
+      "r": 370,
+      "btm": 807,
+      "fs": "62.4px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "Legislature in Black",
+    "meta": "Series 02 / Edmonton",
+    "metaBox": {
+      "x": 20,
+      "y": 803,
+      "w": 350,
+      "h": 20,
+      "r": 370,
+      "btm": 823,
+      "fs": "13.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 776,
+      "btm": 856
+    },
+    "h1btm": 807,
+    "copy": {
+      "x": 0,
+      "w": 390
+    },
+    "feature": {
+      "x": 14,
+      "w": 363,
+      "h": 484,
+      "ratio": 0.75
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 14,
+        "w": 363,
+        "h": 242,
+        "ratio": 1.5
+      },
+      {
+        "x": 14,
+        "w": 363,
+        "h": 242,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 390,
+      "h": 163,
+      "r": 390,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 20,
+      "y": 2442,
+      "w": 137,
+      "h": 72,
+      "r": 157,
+      "btm": 2514,
+      "fs": "35.2px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(179, 38, 30)"
+    },
+    "nextColor": "rgb(179, 38, 30)",
+    "arrow": {
+      "x": 20,
+      "y": 2675,
+      "w": 64,
+      "h": 17,
+      "r": 84,
+      "btm": 2692,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "series-the-red-gown-390": {
+    "vw": 390,
+    "overflow": 0,
+    "h1": {
+      "x": 20,
+      "y": 647,
+      "w": 350,
+      "h": 160,
+      "r": 370,
+      "btm": 807,
+      "fs": "62.4px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "The Red Gown",
+    "meta": "Series 01 / Edmonton",
+    "metaBox": {
+      "x": 20,
+      "y": 803,
+      "w": 350,
+      "h": 20,
+      "r": 370,
+      "btm": 823,
+      "fs": "13.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 776,
+      "btm": 856
+    },
+    "h1btm": 807,
+    "copy": {
+      "x": 0,
+      "w": 390
+    },
+    "feature": {
+      "x": 14,
+      "w": 363,
+      "h": 484,
+      "ratio": 0.75
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 14,
+        "w": 363,
+        "h": 242,
+        "ratio": 1.5
+      },
+      {
+        "x": 14,
+        "w": 363,
+        "h": 242,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 390,
+      "h": 163,
+      "r": 390,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 20,
+      "y": 2417,
+      "w": 212,
+      "h": 72,
+      "r": 232,
+      "btm": 2488,
+      "fs": "35.2px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(179, 38, 30)"
+    },
+    "nextColor": "rgb(179, 38, 30)",
+    "arrow": {
+      "x": 20,
+      "y": 2649,
+      "w": 64,
+      "h": 17,
+      "r": 84,
+      "btm": 2667,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "series-blue-hour-360": {
+    "vw": 360,
+    "overflow": 0,
+    "h1": {
+      "x": 20,
+      "y": 602,
+      "w": 320,
+      "h": 147,
+      "r": 340,
+      "btm": 749,
+      "fs": "57.6px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "h1text": "Blue Hour",
+    "meta": "Series 05 / Edmonton",
+    "metaBox": {
+      "x": 20,
+      "y": 747,
+      "w": 320,
+      "h": 20,
+      "r": 340,
+      "btm": 766,
+      "fs": "13.12px",
+      "ff": "\"JetBrains Mono\"",
+      "c": "rgb(240, 243, 244)"
+    },
+    "cover": {
+      "h": 718,
+      "btm": 798
+    },
+    "h1btm": 749,
+    "copy": {
+      "x": 0,
+      "w": 360
+    },
+    "feature": {
+      "x": 13,
+      "w": 335,
+      "h": 446,
+      "ratio": 0.75
+    },
+    "glow": "rgba(240, 243, 244, 0.14) 0px 0px 0px 1px, rgba(226, 214, 200, 0.28) 0px 0px 70p",
+    "pair": [
+      {
+        "x": 13,
+        "w": 335,
+        "h": 223,
+        "ratio": 1.5
+      },
+      {
+        "x": 13,
+        "w": 335,
+        "h": 223,
+        "ratio": 1.5
+      }
+    ],
+    "film": {
+      "x": 0,
+      "w": 360,
+      "h": 150,
+      "r": 360,
+      "ratio": 2.4
+    },
+    "next": {
+      "x": 20,
+      "y": 2240,
+      "w": 160,
+      "h": 72,
+      "r": 180,
+      "btm": 2312,
+      "fs": "35.2px",
+      "ff": "\"Instrument Serif\"",
+      "c": "rgb(179, 38, 30)"
+    },
+    "nextColor": "rgb(179, 38, 30)",
+    "arrow": {
+      "x": 20,
+      "y": 2473,
+      "w": 64,
+      "h": 17,
+      "r": 84,
+      "btm": 2490,
+      "fs": "16px",
+      "ff": "\"Inter Tight\"",
+      "c": "rgb(179, 38, 30)"
+    }
+  },
+  "pbc-1440": {
+    "vw": 1440,
+    "overflow": 0,
+    "h1": "Portraits, Bridal and Couples",
+    "h1fs": "136.8px",
+    "h1w": 1332,
+    "h1pct": 0.925,
+    "h1ls": "normal",
+    "nowrap": "nowrap",
+    "chapters": [
+      {
+        "kicker": "Ch. 01",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "Portraits",
+        "h2fs": "84.96px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 43,
+          "w": 706,
+          "h": 529,
+          "ratio": 1.333,
+          "pct": 0.49
+        },
+        "h2x": 780,
+        "link": "See the gallery",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      },
+      {
+        "kicker": "Ch. 02",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "",
+        "h2fs": "84.96px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 43,
+          "w": 706,
+          "h": 529,
+          "ratio": 1.333,
+          "pct": 0.49
+        },
+        "h2x": 780,
+        "link": "",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      },
+      {
+        "kicker": "Ch. 03",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "",
+        "h2fs": "84.96px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 43,
+          "w": 706,
+          "h": 529,
+          "ratio": 1.333,
+          "pct": 0.49
+        },
+        "h2x": 780,
+        "link": "",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      }
+    ]
+  },
+  "pbc-390": {
+    "vw": 390,
+    "overflow": 0,
+    "h1": "Portraits, Bridal and Couples",
+    "h1fs": "32.76px",
+    "h1w": 290,
+    "h1pct": 0.745,
+    "h1ls": "-0.9828px",
+    "nowrap": "nowrap",
+    "chapters": [
+      {
+        "kicker": "Ch. 01",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "Portraits",
+        "h2fs": "38.4px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 12,
+          "w": 367,
+          "h": 275,
+          "ratio": 1.333,
+          "pct": 0.94
+        },
+        "h2x": 12,
+        "link": "See the gallery",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      },
+      {
+        "kicker": "Ch. 02",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "",
+        "h2fs": "38.4px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 12,
+          "w": 367,
+          "h": 275,
+          "ratio": 1.333,
+          "pct": 0.94
+        },
+        "h2x": 12,
+        "link": "",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      },
+      {
+        "kicker": "Ch. 03",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "",
+        "h2fs": "38.4px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 12,
+          "w": 367,
+          "h": 275,
+          "ratio": 1.333,
+          "pct": 0.94
+        },
+        "h2x": 12,
+        "link": "",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      }
+    ]
+  },
+  "pbc-360": {
+    "vw": 360,
+    "overflow": 0,
+    "h1": "Portraits, Bridal and Couples",
+    "h1fs": "30.24px",
+    "h1w": 268,
+    "h1pct": 0.745,
+    "h1ls": "-0.9072px",
+    "nowrap": "nowrap",
+    "chapters": [
+      {
+        "kicker": "Ch. 01",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "Portraits",
+        "h2fs": "38.4px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 11,
+          "w": 338,
+          "h": 254,
+          "ratio": 1.333,
+          "pct": 0.94
+        },
+        "h2x": 11,
+        "link": "See the gallery",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      },
+      {
+        "kicker": "Ch. 02",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "",
+        "h2fs": "38.4px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 11,
+          "w": 338,
+          "h": 254,
+          "ratio": 1.333,
+          "pct": 0.94
+        },
+        "h2x": 11,
+        "link": "",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      },
+      {
+        "kicker": "Ch. 03",
+        "kickerFf": "\"JetBrains Mono\"",
+        "h2": "",
+        "h2fs": "38.4px",
+        "rule": "1px rgba(240, 243, 244, 0.42)",
+        "shot": {
+          "x": 11,
+          "w": 338,
+          "h": 254,
+          "ratio": 1.333,
+          "pct": 0.94
+        },
+        "h2x": 11,
+        "link": "",
+        "linkC": "rgb(179, 38, 30)",
+        "linkFf": "\"JetBrains Mono\""
+      }
+    ]
+  }
+}

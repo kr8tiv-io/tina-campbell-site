@@ -31,8 +31,12 @@ function unmask(el: HTMLElement, reduced: boolean, mobile: boolean): void {
     },
   });
   tl.fromTo(el, { clipPath: from }, { clipPath: 'inset(0 0 0% 0)', duration: mobile ? 0.55 : 0.9, ease: 'power3.out' }, 0);
-  if (img) {
-    tl.fromTo(img, { scale: 1.12 }, { scale: 1, duration: mobile ? 0.7 : 1.05, ease: 'power3.out' }, 0);
+  /* Scale the picture box, not the img. The img transform is the crop. */
+  const photo = el.querySelector<HTMLElement>('.photo');
+  if (photo) {
+    tl.fromTo(photo, { scale: 1.08 }, { scale: 1, duration: mobile ? 0.7 : 1.05, ease: 'power3.out' }, 0);
+  } else if (img) {
+    tl.fromTo(img, { scale: 1.08 }, { scale: 1, duration: mobile ? 0.7 : 1.05, ease: 'power3.out' }, 0);
   }
 }
 
@@ -44,15 +48,16 @@ function playFashionIntro(splits: SplitText[]): void {
   const rows = [...document.querySelectorAll<HTMLElement>('[data-series-link]')];
   const rule = document.querySelector<HTMLElement>('[data-fe-rule]');
   const view = document.querySelector<HTMLElement>('[data-fe-view]');
-  const photos = [...document.querySelectorAll<HTMLElement>('.fe-shot img')];
+  const shots = [...document.querySelectorAll<HTMLElement>('.fe-shot')];
   if (!title || !view) return;
 
   const split = SplitText.create(title, { type: 'lines', mask: 'lines', linesClass: 'line', aria: 'auto' });
   splits.push(split);
   padMasks(split);
-  gsap.set(split.lines, { yPercent: 130 });
+  /* 180 clears the mask padding, so the 0-0.5s hold stays black instead of a glyph sliver. */
+  gsap.set(split.lines, { yPercent: 180 });
   gsap.set(title, { autoAlpha: 1 });
-  if (photos.length) gsap.set(photos, { scale: 1.08, transformOrigin: 'center center' });
+  if (shots.length) gsap.set(shots, { scale: 1.06, transformOrigin: 'center top' });
 
   root.dataset.fePhase = 'play';
   const tl = gsap.timeline({
@@ -61,27 +66,29 @@ function playFashionIntro(splits: SplitText[]): void {
       root.classList.remove('fe-intro');
     },
   });
-  if (mark) tl.fromTo(mark, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 0.35);
-  if (rule) tl.fromTo(rule, { scaleY: 0 }, { scaleY: 1, duration: 0.85, ease: 'power2.out' }, 0.28);
-  tl.to(split.lines, { yPercent: 0, duration: 0.9, stagger: 0.4, ease: 'power3.out' }, 0.55);
-  leads.forEach((lead, index) => {
-    tl.fromTo(lead, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.55, ease: 'power2.out' }, 1.15 + index * 0.25);
+  /* Clip 04, from page load: 0-0.5s black, then type, divider done at 1.0s. */
+  /* The clip's in-panel mark is already up at 0.5s, before the title rises. */
+  if (mark) tl.fromTo(mark, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.12);
+  if (rule) tl.fromTo(rule, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'power2.inOut' }, 0.5);
+  tl.to(split.lines, { yPercent: 0, duration: 0.5, stagger: 0.25, ease: 'power3.out' }, 0.5);
+  leads.forEach((lead) => {
+    tl.fromTo(lead, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6, ease: 'power2.out' }, 1.0);
   });
   if (rows.length) {
     tl.fromTo(
       rows,
-      { autoAlpha: 0, y: 12 },
-      { autoAlpha: 1, y: 0, duration: 0.42, stagger: 0.38, ease: 'power2.out' },
+      { autoAlpha: 0, y: 10 },
+      { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.35, ease: 'power2.out' },
       2,
     );
   }
   tl.fromTo(
     view,
     { clipPath: 'inset(0 0 100% 0)' },
-    { clipPath: 'inset(0 0 0% 0)', duration: 1.65, ease: 'power2.inOut' },
-    2.7,
+    { clipPath: 'inset(0 0 0% 0)', duration: 1.5, ease: 'power2.inOut' },
+    2.75,
   );
-  if (photos.length) tl.to(photos, { scale: 1, duration: 1.8, ease: 'power2.out' }, 2.7);
+  if (shots.length) tl.to(shots, { scale: 1, duration: 1.5, ease: 'power2.out' }, 2.75);
 }
 
 function pinFashionColumn(): void {

@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
-import { fashionColumn, fashionStrip } from '../../data/editorial';
+import { fashionColumn, fashionStrip, frameStyle } from '../../data/editorial';
 import { seriesList } from '../../data/photos';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/editorial.css';
@@ -75,7 +75,7 @@ const jsonLd = {
                   href={`/series/${frame.href}/`}
                   data-series={frame.series}
                   data-cursor="View"
-                  style={`--pos: ${frame.position}`}
+                  style={frameStyle(frame.position, frame.crop, frame.origin)}
                 >
                   <Photo
                     src={frame.photo.src}
@@ -101,7 +101,7 @@ const jsonLd = {
         {
           fashionStrip.map((frame) => (
             <li>
-              <a class="shot" href="/series/the-red-gown/" data-cursor="View" data-unmask style={`--pos: ${frame.position}`}>
+              <a class="shot" href={`/series/${frame.href}/`} data-cursor="View" data-unmask style={frameStyle(frame.position, frame.crop, frame.origin)}>
                 <Photo
                   src={frame.photo.src}
                   alt={frame.photo.alt}

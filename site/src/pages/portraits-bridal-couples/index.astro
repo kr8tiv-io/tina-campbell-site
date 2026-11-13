@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
-import { chapters } from '../../data/editorial';
+import { chapters, frameStyle } from '../../data/editorial';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/editorial.css';
 
@@ -46,7 +46,7 @@ const jsonLd = {
             <p class="chapter__kicker">Ch. {chapter.number}</p>
             <div class="chapter__shots" data-shots>
               {chapter.frames.map((frame, index) => (
-                <figure class="chapter__shot" style={`--pos: ${frame.position}`}>
+                <figure class="chapter__shot" style={frameStyle(frame.position, frame.crop, frame.origin)}>
                   <Photo
                     src={frame.photo.src}
                     alt={index === 0 ? frame.photo.alt : ''}
