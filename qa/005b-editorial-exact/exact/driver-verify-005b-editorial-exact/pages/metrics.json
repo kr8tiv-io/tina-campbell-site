@@ -1,0 +1,406 @@
+{
+ "fashion-editorial-1440": {
+  "h1": {
+   "x": 46,
+   "y": 281,
+   "w": 645,
+   "h": 355,
+   "fs": "185px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 46,
+   "w": 645,
+   "y": 230,
+   "h": 459
+  },
+  "h1text": "Fashion\n& Editorial",
+  "logo": {
+   "x": 58,
+   "y": 0,
+   "w": 187,
+   "h": 133,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 422,
+   "y": 54,
+   "w": 61,
+   "h": 26,
+   "fs": "25.5px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "fe-split",
+    "id": "",
+    "h": 900
+   },
+   {
+    "cls": "fe-pull",
+    "id": "",
+    "h": 596
+   },
+   {
+    "cls": "fe-collab",
+    "id": "",
+    "h": 224
+   }
+  ],
+  "scrollHeight": 3999,
+  "errors": []
+ },
+ "series_the-red-gown-1440": {
+  "h1": {
+   "x": 50,
+   "y": 106,
+   "w": 648,
+   "h": 384,
+   "fs": "150px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 50,
+   "w": 648,
+   "y": 106,
+   "h": 384
+  },
+  "h1text": "The Red\nGown",
+  "logo": {
+   "x": 58,
+   "y": 0,
+   "w": 187,
+   "h": 133,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 422,
+   "y": 54,
+   "w": 61,
+   "h": 26,
+   "fs": "25.5px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "cover",
+    "id": "",
+    "h": 788
+   },
+   {
+    "cls": "spread",
+    "id": "",
+    "h": 1152
+   }
+  ],
+  "scrollHeight": 3852,
+  "errors": []
+ },
+ "series_legislature-in-black-1440": {
+  "h1": {
+   "x": 50,
+   "y": 106,
+   "w": 648,
+   "h": 384,
+   "fs": "150px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 50,
+   "w": 648,
+   "y": 106,
+   "h": 384
+  },
+  "h1text": "Legislature\nin Black",
+  "logo": {
+   "x": 58,
+   "y": 0,
+   "w": 187,
+   "h": 133,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 422,
+   "y": 54,
+   "w": 61,
+   "h": 26,
+   "fs": "25.5px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [
+   {
+    "cls": "cover",
+    "id": "",
+    "h": 788
+   },
+   {
+    "cls": "spread",
+    "id": "",
+    "h": 1152
+   }
+  ],
+  "scrollHeight": 3852,
+  "errors": []
+ },
+ "portraits-bridal-couples-1440": {
+  "h1": {
+   "x": 43,
+   "y": 135,
+   "w": 1354,
+   "h": 130,
+   "fs": "136.8px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 43,
+   "w": 1332,
+   "y": 111,
+   "h": 177
+  },
+  "h1text": "Portraits, Bridal and Couples",
+  "logo": {
+   "x": 58,
+   "y": 0,
+   "w": 187,
+   "h": 133,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 422,
+   "y": 54,
+   "w": 61,
+   "h": 26,
+   "fs": "25.5px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 1440,
+  "sections": [],
+  "scrollHeight": 5405,
+  "errors": []
+ },
+ "fashion-editorial-390": {
+  "h1": {
+   "x": 20,
+   "y": 165,
+   "w": 350,
+   "h": 90,
+   "fs": "54.6px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 20,
+   "w": 178,
+   "y": 151,
+   "h": 116
+  },
+  "h1text": "Fashion\n& Editorial",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "22px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "fe-split",
+    "id": "",
+    "h": 2926
+   },
+   {
+    "cls": "fe-pull",
+    "id": "",
+    "h": 860
+   },
+   {
+    "cls": "fe-collab",
+    "id": "",
+    "h": 290
+   }
+  ],
+  "scrollHeight": 4592,
+  "errors": []
+ },
+ "series_the-red-gown-390": {
+  "h1": {
+   "x": 20,
+   "y": 647,
+   "w": 350,
+   "h": 160,
+   "fs": "62.4px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 20,
+   "w": 350,
+   "y": 647,
+   "h": 160
+  },
+  "h1text": "The Red\nGown",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "22px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "cover",
+    "id": "",
+    "h": 776
+   },
+   {
+    "cls": "spread",
+    "id": "",
+    "h": 830
+   }
+  ],
+  "scrollHeight": 3250,
+  "errors": []
+ },
+ "series_legislature-in-black-390": {
+  "h1": {
+   "x": 20,
+   "y": 647,
+   "w": 350,
+   "h": 160,
+   "fs": "62.4px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 20,
+   "w": 350,
+   "y": 647,
+   "h": 160
+  },
+  "h1text": "Legislature\nin Black",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "22px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [
+   {
+    "cls": "cover",
+    "id": "",
+    "h": 776
+   },
+   {
+    "cls": "spread",
+    "id": "",
+    "h": 856
+   }
+  ],
+  "scrollHeight": 3276,
+  "errors": []
+ },
+ "portraits-bridal-couples-390": {
+  "h1": {
+   "x": 12,
+   "y": 102,
+   "w": 367,
+   "h": 31,
+   "fs": "32.76px",
+   "ff": "\"Instrument Serif\", \"Iowan Old Style\", G",
+   "ta": "start"
+  },
+  "h1glyph": {
+   "x": 12,
+   "w": 290,
+   "y": 96,
+   "h": 42
+  },
+  "h1text": "Portraits, Bridal and Couples",
+  "logo": {
+   "x": 20,
+   "y": 12,
+   "w": 79,
+   "h": 56,
+   "fs": "16px",
+   "ff": "\"Inter Tight\", \"Helvetica Neue\", Arial, ",
+   "ta": "start"
+  },
+  "nav": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "fs": "22px",
+   "ff": "\"JetBrains Mono\", ui-monospace, monospac",
+   "ta": "start"
+  },
+  "overflowX": false,
+  "sw": 390,
+  "sections": [],
+  "scrollHeight": 4023,
+  "errors": []
+ }
+}
