@@ -10,6 +10,7 @@ import { initRunway } from './runway';
 import { initWork } from './work';
 import { initEditorial } from './editorial';
 import { initAbout } from './about';
+import { initPages } from './pages';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -212,8 +213,10 @@ async function initMotion(): Promise<void> {
   const releaseWork = initWork(reduced, fine, abort.signal);
   const releaseEditorial = initEditorial(reduced, fine, abort.signal);
   const releaseAbout = initAbout(reduced, fine, abort.signal);
+  const releasePages = initPages(reduced, abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releasePages();
     releaseAbout();
     releaseEditorial();
     releaseWork();

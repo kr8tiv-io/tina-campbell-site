@@ -1,0 +1,114 @@
+---
+import { getImage } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { getPhoto } from '../../data/photos';
+import { bookHref, bookLabel, defaultSiteUrl } from '../../data/site';
+import '../../styles/pages.css';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('journal');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'journal'>;
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const hero = getPhoto(post.data.hero);
+const toc = headings.filter((heading) => heading.depth === 2);
+const related = (await getCollection('journal'))
+  .filter((entry) => entry.id !== post.id)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+const og = await getImage({ src: hero.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL(`/journal/${post.id}/`, origin).href;
+const homeUrl = new URL('/', origin).href;
+const journalUrl = new URL('/journal/', origin).href;
+const personId = new URL('/#tina', origin).href;
+
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
+}
+
+const jsonLd = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: homeUrl },
+      { '@type': 'ListItem', position: 2, name: 'Journal', item: journalUrl },
+      { '@type': 'ListItem', position: 3, name: post.data.title, item: pageUrl },
+    ],
+  },
+  {
+    '@type': 'Article',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.date.toISOString(),
+    dateModified: post.data.updated.toISOString(),
+    image: new URL(og.src, origin).href,
+    url: pageUrl,
+    author: { '@id': personId },
+    mainEntityOfPage: pageUrl,
+  },
+];
+---
+
+<BaseLayout
+  title={`${post.data.title} | Tina Campbell Photography, Edmonton`}
+  description={post.data.description}
+  image={og.src}
+  imageAlt={hero.alt}
+  jsonLd={jsonLd}
+>
+  <main id="content" class="page-wrap article">
+    <nav class="toc" aria-label="On this page">
+      <p class="kicker">On this page</p>
+      <ol>
+        {toc.map((heading) => (
+          <li>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <article>
+      <p class="meta-line">{formatDate(post.data.date)} · {post.data.location}</p>
+      <h1 class="display">{post.data.title}</h1>
+      <figure class="article__hero">
+        <Photo src={hero.src} alt={hero.alt} sizes="(max-width: 900px) 92vw, 68ch" widths={[800, 1200, 1600]} priority />
+      </figure>
+      <div class="prose">
+        <Content />
+      </div>
+      <p class="page-cta">
+        <a class="btn" href={bookHref}>{bookLabel}</a>
+      </p>
+      <nav class="related" aria-label="More from the journal">
+        <p class="kicker">More from the journal</p>
+        <ul>
+          {
+            related.map((entry) => (
+              <li>
+                <a href={`/journal/${entry.id}/`}>{entry.data.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </article>
+  </main>
+</BaseLayout>

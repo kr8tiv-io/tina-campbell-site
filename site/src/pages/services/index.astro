@@ -1,0 +1,164 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { getPhoto } from '../../data/photos';
+import { bookHref, bookLabel, defaultSiteUrl } from '../../data/site';
+import '../../styles/pages.css';
+
+const title = 'Services | Tina Campbell Photography, Edmonton';
+const description =
+  'Portrait, model portfolio, bridal, couples, runway and business content photography in Edmonton. Pricing on request.';
+const hero = getPhoto('fb_156_portrait');
+const rows = [
+  {
+    num: '01',
+    title: 'Portraits and glam',
+    line: 'Polished portraits for you, your brand or your next profile picture.',
+    photo: getPhoto('fb_106_portrait'),
+  },
+  {
+    num: '02',
+    title: 'Model portfolios',
+    line: 'Fresh images for agencies, comp cards and your book.',
+    photo: getPhoto('fb_008_fashion'),
+  },
+  {
+    num: '03',
+    title: 'Bridal and engagement',
+    line: 'Bridal portraits and engagement sessions with a fashion edge.',
+    photo: getPhoto('fb_049_bridal'),
+  },
+  {
+    num: '04',
+    title: 'Couples',
+    line: 'Easy, styled sessions for two.',
+    photo: getPhoto('fb_065_couples'),
+  },
+  {
+    num: '05',
+    title: 'Runway and events',
+    line: 'Fashion shows, launches and events, delivered fast.',
+    photo: getPhoto('fb_012_runway'),
+  },
+  {
+    num: '06',
+    title: 'Content days for businesses',
+    line: 'A day of images for salons, studios and boutiques.',
+    photo: getPhoto('fb_120_portrait'),
+  },
+];
+const faqs = [
+  {
+    q: 'How much does a shoot cost?',
+    a: "Every shoot is different, so pricing is on request. Send a few details and I'll reply with options.",
+  },
+  {
+    q: 'Where do you shoot?',
+    a: 'All over Edmonton, St. Albert and Fort Saskatchewan, and anywhere in Alberta by arrangement.',
+  },
+  {
+    q: 'Do you help with posing?',
+    a: "Yes. Most people have never been directed before, and that's fine.",
+  },
+  {
+    q: 'Can I bring my own hair and makeup artist?',
+    a: 'Of course. I can also recommend local artists.',
+  },
+  {
+    q: 'How long until I get my photos?',
+    a: 'Usually within two weeks. Runway and event coverage can be faster.',
+  },
+];
+const og = await getImage({ src: hero.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL('/services/', origin).href;
+
+const jsonLd = {
+  '@type': 'FAQPage',
+  name: 'Services',
+  url: pageUrl,
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={hero.alt} jsonLd={jsonLd}>
+  <main id="content" class="page">
+    <div class="page-wrap">
+      <header class="svc-split">
+        <div>
+          <h1 class="display">Services</h1>
+          <p class="lead">You bring the nerves. I bring the light.</p>
+        </div>
+        <figure class="svc-split__photo">
+          <Photo src={hero.src} alt={hero.alt} sizes="(max-width: 900px) 92vw, 40vw" widths={[480, 800, 1200]} priority />
+        </figure>
+      </header>
+
+      <div>
+        {
+          rows.map((row) => (
+            <article class="svc-row" data-svc-row>
+              <p class="svc-row__num">{row.num}</p>
+              <div>
+                <h2>{row.title}</h2>
+                <p>{row.line}</p>
+                <small>Pricing on request</small>
+              </div>
+              <div class="svc-row__thumb" data-svc-thumb>
+                <Photo
+                  src={row.photo.src}
+                  alt={row.photo.alt}
+                  sizes="(max-width: 900px) 92vw, 260px"
+                  widths={[480, 800]}
+                />
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <h2 class="section-title">How it works</h2>
+      <div class="steps">
+        <div class="steps__line" data-steps-line aria-hidden="true"></div>
+        <section>
+          <h3>Chat</h3>
+          <p>Tell me what you have in mind. I'll suggest looks, locations and timing.</p>
+        </section>
+        <section>
+          <h3>Shoot</h3>
+          <p>We meet on location or in studio and I direct the whole session.</p>
+        </section>
+        <section>
+          <h3>Gallery</h3>
+          <p>Your edited images arrive in a private online gallery.</p>
+        </section>
+      </div>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="section-title">Questions</h2>
+        {
+          faqs.map((item, index) => (
+            <div class="faq__item">
+              <button type="button" data-faq aria-expanded="false" aria-controls={`faq-${index}`}>
+                {item.q}
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="faq__panel" id={`faq-${index}`}>
+                <p>{item.a}</p>
+              </div>
+            </div>
+          ))
+        }
+      </section>
+
+      <p class="page-cta">
+        <a class="btn" href={bookHref}>{bookLabel}</a>
+      </p>
+    </div>
+  </main>
+</BaseLayout>

@@ -31,5 +31,6 @@ export function noindexEnabled(): boolean {
 export function isCurrent(path: string, href: string): boolean {
   if (path === href) return true;
   if (href === '/fashion-editorial/' && path.startsWith('/series/')) return true;
+  if (href === '/journal/' && path.startsWith('/journal/')) return true;
   return false;
 }

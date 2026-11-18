@@ -1,0 +1,110 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { getPhoto } from '../../data/photos';
+import { defaultSiteUrl, facebookUrl, instagramHandle, instagramUrl } from '../../data/site';
+import '../../styles/pages.css';
+
+const title = 'Book a Shoot | Tina Campbell Photography, Edmonton';
+const description =
+  'Book a fashion, portrait, bridal, couples or event shoot with Edmonton photographer Tina Campbell.';
+const backdrop = getPhoto('fb_577057434409234');
+const strip = [
+  getPhoto('fb_141_signature'),
+  getPhoto('fb_066_city'),
+  getPhoto('fb_001_city'),
+];
+const chips = [
+  { value: 'fashion', label: 'Fashion' },
+  { value: 'portraits', label: 'Portraits' },
+  { value: 'model', label: 'Model portfolio' },
+  { value: 'bridal', label: 'Bridal' },
+  { value: 'couples', label: 'Couples' },
+  { value: 'events', label: 'Events' },
+  { value: 'business', label: 'Business content' },
+  { value: 'other', label: 'Something else' },
+];
+const og = await getImage({ src: backdrop.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL('/book/', origin).href;
+
+const jsonLd = {
+  '@type': 'ContactPage',
+  name: 'Book a shoot',
+  description,
+  url: pageUrl,
+};
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={backdrop.alt} jsonLd={jsonLd}>
+  <main id="content" class="book">
+    <div class="book__bg" data-book-bg>
+      <Photo src={backdrop.src} alt="" sizes="100vw" widths={[800, 1200, 1600, 2000]} priority />
+    </div>
+    <div class="page-wrap book__inner">
+      <h1 class="display">Book a shoot</h1>
+      <div class="book-panel">
+        <form class="book-form" data-book-form method="post" action="/api/book.php" novalidate>
+          <label class="field">
+            <span>Name</span>
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" inputmode="email" required />
+          </label>
+          <fieldset class="field field--wide">
+            <legend>What are we shooting?</legend>
+            <div class="chips">
+              {
+                chips.map((chip) => (
+                  <label>
+                    <input type="checkbox" name="type" value={chip.value} />
+                    {chip.label}
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+          <label class="field">
+            <span>Preferred date</span>
+            <input name="date" type="date" />
+          </label>
+          <label class="field">
+            <span>Location idea</span>
+            <input name="location" type="text" autocomplete="off" />
+          </label>
+          <label class="field field--wide">
+            <span>Message</span>
+            <textarea name="message" rows="4" required></textarea>
+          </label>
+          <label class="hp" aria-hidden="true">
+            Company
+            <input name="company" type="text" tabindex="-1" autocomplete="off" />
+          </label>
+          <p class="book-status" data-book-status role="status" aria-live="polite"></p>
+          <div class="field field--wide">
+            <button class="btn" type="submit">Send it</button>
+          </div>
+        </form>
+        <aside class="book-side">
+          <a href={instagramUrl}>{instagramHandle}</a>
+          <a href={facebookUrl}>Facebook</a>
+          <p>Edmonton, Alberta</p>
+          <img src="/brand/tcphoto-logo-white.png" alt="TCPhoto" width="584" height="415" />
+        </aside>
+      </div>
+      <div class="book-strip">
+        {
+          strip.map((photo) => (
+            <figure>
+              <Photo src={photo.src} alt={photo.alt} sizes="(max-width: 900px) 46vw, 30vw" widths={[480, 800, 1200]} />
+              <figcaption class="meta-line">{photo.location ?? 'Edmonton, Alberta'}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</BaseLayout>

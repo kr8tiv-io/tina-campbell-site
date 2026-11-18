@@ -1,0 +1,121 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import { getPhoto } from '../../data/photos';
+import { bookHref, bookLabel, defaultSiteUrl } from '../../data/site';
+import '../../styles/pages.css';
+
+const title = 'About Tina | Tina Campbell Photography, Edmonton';
+const description =
+  'Meet Tina Campbell, an Edmonton photographer for fashion, editorial, portraits, bridal and runway.';
+const far = getPhoto('fb_168_city');
+const mid = getPhoto('fb_577057434409234');
+const near = getPhoto('fb_141_signature');
+const story = getPhoto('fb_106_portrait');
+const frames = [
+  getPhoto('fb_016_signature'),
+  getPhoto('fb_049_bridal'),
+  getPhoto('fb_012_runway'),
+  getPhoto('fb_065_couples'),
+];
+const places = [
+  { photo: getPhoto('ig_profile_03'), name: 'Alberta Legislature' },
+  { photo: getPhoto('fb_066_city'), name: 'Walterdale Bridge' },
+  { photo: getPhoto('fb_001_city'), name: 'High Level Bridge' },
+  { photo: getPhoto('fb_168_city'), name: 'River Valley' },
+];
+const og = await getImage({ src: far.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const origin = Astro.site ?? new URL(defaultSiteUrl);
+const pageUrl = new URL('/about/', origin).href;
+
+const jsonLd = {
+  '@type': 'AboutPage',
+  name: 'About Tina',
+  description,
+  url: pageUrl,
+  mainEntity: { '@id': new URL('/#tina', origin).href },
+};
+---
+
+<BaseLayout title={title} description={description} image={og.src} imageAlt={far.alt} jsonLd={jsonLd}>
+  <!--
+    Stand-ins, not Tina. Near layer: fb_141_signature, a model in a black gown under a lamp post
+    at the Legislature, masked to the left. Story portrait: fb_106_portrait, a black and white
+    lace portrait, not Tina. Mid layer: fb_577057434409234, a masked Walterdale frame, not a
+    cutout of a person. Far layer: fb_168_city, the skyline at dusk. There is no clean photo of
+    Tina from behind with a camera. Timeline in the story is copied from COPY.md ("about fifteen
+    years ago") and still needs confirmation against her 2021 "10 years ago" post.
+  -->
+  <main id="content">
+    <section class="about-hero" data-about-hero aria-labelledby="about-name">
+      <div class="about-hero__layer about-hero__layer--far" data-layer="far">
+        <Photo src={far.src} alt={far.alt} sizes="100vw" widths={[800, 1200, 1600, 2000]} priority />
+      </div>
+      <div class="about-hero__layer about-hero__layer--mid" data-layer="mid">
+        <Photo src={mid.src} alt={mid.alt} sizes="100vw" widths={[800, 1200, 1600, 2000]} />
+      </div>
+      <div class="about-hero__layer about-hero__layer--near" data-layer="near">
+        <Photo src={near.src} alt={near.alt} sizes="(max-width: 900px) 58vw, 46vw" widths={[480, 800, 1200]} priority />
+      </div>
+      <h1 id="about-name" class="about-hero__name">Tina Campbell</h1>
+    </section>
+
+    <div class="page">
+      <div class="page-wrap">
+        <section class="about-story">
+          <figure class="about-story__photo">
+            <Photo
+              src={story.src}
+              alt={story.alt}
+              sizes="(max-width: 900px) 92vw, 36vw"
+              widths={[480, 800, 1200]}
+            />
+          </figure>
+          <div class="about-story__copy">
+            <h2>I shoot everything. Fashion is the one I'd do for free.</h2>
+            <p>
+              I started out photographing weddings about fifteen years ago. These days I focus on fashion,
+              editorial and portraits, and on helping people feel confident in front of the camera. My
+              favourite moment is still the same: someone seeing their photos for the first time and smiling.
+            </p>
+            <p class="about-press">Featured as Woman of the Week by Elle &amp; Beauty Inc.</p>
+          </div>
+        </section>
+
+        <h2 class="section-title">From the shoots</h2>
+        <div class="film-row">
+          {
+            frames.map((photo) => (
+              <figure>
+                <Photo src={photo.src} alt={photo.alt} sizes="(max-width: 900px) 46vw, 22vw" widths={[480, 800, 1200]} />
+                <figcaption>{photo.location ?? 'Edmonton'}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+
+        <h2 class="section-title">Where I shoot</h2>
+        <div class="place-grid">
+          {
+            places.map((place) => (
+              <figure>
+                <Photo
+                  src={place.photo.src}
+                  alt={place.photo.alt}
+                  sizes="(max-width: 900px) 46vw, 22vw"
+                  widths={[480, 800, 1200]}
+                />
+                <figcaption>{place.name}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+        <p class="areas">Edmonton, St. Albert and Fort Saskatchewan. Happy to travel in Alberta.</p>
+        <p class="page-cta">
+          <a class="btn" href={bookHref}>{bookLabel}</a>
+        </p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
