@@ -13,7 +13,8 @@
     "mae_max": 8.0,
     "scroll_dur_tolerance_s": 0.08,
     "timeline_end_tolerance_s": 0.05,
-    "sample_every_s": 0.2
+    "sample_every_s": 0.1,
+    "neighbour_tolerance": 1
   },
   "seams": [
     {
@@ -22,10 +23,16 @@
       "function": "t_01A_02A_A",
       "clip": "motion-reference/12-seam-transitions/01A-02A/A-ink-bleed-down/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/01A-02A/A-ink-bleed-down/index.html",
-      "site_route": "/",
+      "site_route": "/motion-lab/seams/01A-02A/",
       "site_seam": "[data-seam='01A-02A']",
       "expected_tl_end": 1.17,
-      "eases": ["cine", "power2.inOut", "power3.out", "power2.in"]
+      "eases": [
+        "cine",
+        "power2.inOut",
+        "power3.out",
+        "power2.in"
+      ],
+      "site_route_real": "/"
     },
     {
       "id": "02A-03B",
@@ -33,10 +40,14 @@
       "function": "t_02A_03B_C",
       "clip": "motion-reference/12-seam-transitions/02A-03B/C-magenta-flood/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/02A-03B/C-magenta-flood/index.html",
-      "site_route": "/",
+      "site_route": "/motion-lab/seams/02A-03B/",
       "site_seam": "[data-seam='02A-03B']",
       "expected_tl_end": 1.05,
-      "eases": ["cine", "power2.in"]
+      "eases": [
+        "cine",
+        "power2.in"
+      ],
+      "site_route_real": "/"
     },
     {
       "id": "03B-04B",
@@ -44,10 +55,14 @@
       "function": "t_03B_04B_A",
       "clip": "motion-reference/12-seam-transitions/03B-04B/A-catwalk-to-grid/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/03B-04B/A-catwalk-to-grid/index.html",
-      "site_route": "/",
+      "site_route": "/motion-lab/seams/03B-04B/",
       "site_seam": "[data-seam='03B-04B']",
-      "expected_tl_end": 1.10,
-      "eases": ["cine", "power3.out"]
+      "expected_tl_end": 1.1,
+      "eases": [
+        "cine",
+        "power3.out"
+      ],
+      "site_route_real": "/"
     },
     {
       "id": "04B-05C",
@@ -55,10 +70,14 @@
       "function": "t_04B_05C_C",
       "clip": "motion-reference/12-seam-transitions/04B-05C/C-loupe-assemble/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/04B-05C/C-loupe-assemble/index.html",
-      "site_route": "/work/",
+      "site_route": "/motion-lab/seams/04B-05C/",
       "site_seam": "[data-seam='04B-05C']",
       "expected_tl_end": 0.95,
-      "eases": ["cine", "power2.inOut"]
+      "eases": [
+        "cine",
+        "power2.inOut"
+      ],
+      "site_route_real": "/work/"
     },
     {
       "id": "05C-06B",
@@ -66,10 +85,14 @@
       "function": "t_05C_06B_A",
       "clip": "motion-reference/12-seam-transitions/05C-06B/A-print-to-column/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/05C-06B/A-print-to-column/index.html",
-      "site_route": "/work/",
+      "site_route": "/motion-lab/seams/05C-06B/",
       "site_seam": "[data-seam='05C-06B']",
-      "expected_tl_end": 1.10,
-      "eases": ["cine", "power1.inOut"]
+      "expected_tl_end": 1.1,
+      "eases": [
+        "cine",
+        "power1.inOut"
+      ],
+      "site_route_real": "/work/"
     },
     {
       "id": "06B-07C",
@@ -77,10 +100,13 @@
       "function": "t_06B_07C_C",
       "clip": "motion-reference/12-seam-transitions/06B-07C/C-magazine-close/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/06B-07C/C-magazine-close/index.html",
-      "site_route": "/fashion-editorial/",
+      "site_route": "/motion-lab/seams/06B-07C/",
       "site_seam": "[data-seam='06B-07C']",
       "expected_tl_end": 1.03,
-      "eases": ["cine"]
+      "eases": [
+        "cine"
+      ],
+      "site_route_real": "/fashion-editorial/"
     },
     {
       "id": "07C-08B",
@@ -88,10 +114,14 @@
       "function": "t_07C_08B_C",
       "clip": "motion-reference/12-seam-transitions/07C-08B/C-ink-curtain-wipe/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/07C-08B/C-ink-curtain-wipe/index.html",
-      "site_route": "/series/the-red-gown/",
+      "site_route": "/motion-lab/seams/07C-08B/",
       "site_seam": "[data-seam='07C-08B']",
-      "expected_tl_end": 1.10,
-      "eases": ["cine", "power2.inOut"]
+      "expected_tl_end": 1.1,
+      "eases": [
+        "cine",
+        "power2.inOut"
+      ],
+      "site_route_real": "/series/the-red-gown/"
     },
     {
       "id": "08B-09B",
@@ -99,10 +129,14 @@
       "function": "t_08B_09B_C",
       "clip": "motion-reference/12-seam-transitions/08B-09B/C-city-iris/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/08B-09B/C-city-iris/index.html",
-      "site_route": "/about/",
+      "site_route": "/motion-lab/seams/08B-09B/",
       "site_seam": "[data-seam='08B-09B']",
       "expected_tl_end": 1.05,
-      "eases": ["cine", "power2.inOut"]
+      "eases": [
+        "cine",
+        "power2.inOut"
+      ],
+      "site_route_real": "/about/"
     },
     {
       "id": "09B-10A",
@@ -110,10 +144,13 @@
       "function": "t_09B_10A_B",
       "clip": "motion-reference/12-seam-transitions/09B-10A/B-layers-settle/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/09B-10A/B-layers-settle/index.html",
-      "site_route": "/about/",
+      "site_route": "/motion-lab/seams/09B-10A/",
       "site_seam": "[data-seam='09B-10A']",
       "expected_tl_end": 1.05,
-      "eases": ["cine"]
+      "eases": [
+        "cine"
+      ],
+      "site_route_real": "/about/"
     },
     {
       "id": "10A-11B",
@@ -121,10 +158,15 @@
       "function": "t_10A_11B_B",
       "clip": "motion-reference/12-seam-transitions/10A-11B/B-band-lifts-chapter/clip.mp4",
       "prototype": "motion-reference/12-seam-transitions/10A-11B/B-band-lifts-chapter/index.html",
-      "site_route": "/portraits/",
+      "site_route": "/motion-lab/seams/10A-11B/",
       "site_seam": "[data-seam='10A-11B']",
       "expected_tl_end": 1.05,
-      "eases": ["cine", "power2.inOut", "power2.out"]
+      "eases": [
+        "cine",
+        "power2.inOut",
+        "power2.out"
+      ],
+      "site_route_real": "/portraits/"
     }
   ]
 }

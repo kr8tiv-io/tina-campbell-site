@@ -21,7 +21,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw
 
-ROOT = Path("/workspace/tina-campbell")
+ROOT = Path(__file__).resolve().parents[2]  # repo root of the worktree running the gate
 DEFAULT_MANIFEST = ROOT / "build-plan/tools/motion-gate-seams.json"
 CHROME = "/usr/bin/google-chrome"
 
@@ -190,6 +190,12 @@ def record_site_seam(page, rec: dict, out_webm: Path) -> dict:
 
 
 FREEZE_INIT_JS = """(() => {
+  // Real 'scroll' events arrive on the real event loop at random moments between fake-clock ticks and restart
+  // ScrollTrigger's scrub tween at a random phase (self-test was flaky at 0.1 s sampling). The gate already calls
+  // ScrollTrigger.update() on every fake gsap tick, so swallow page scroll events entirely during capture.
+  const swallow = (e) => { e.stopImmediatePropagation(); };
+  window.addEventListener('scroll', swallow, true);
+  document.addEventListener('scroll', swallow, true);
   const P = HTMLMediaElement.prototype; P.play = function () { try { this.pause(); } catch (e) {} return Promise.resolve(); };
   document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('video').forEach(v => { v.autoplay = false; v.pause(); }));
 })();"""
@@ -361,7 +367,11 @@ def capture_frames(browser, url: str, seam_sel, rec: dict, thr: dict, dest: Path
         if m["hook"] != "function":
             m["notes"].append("window.__START_RECORD__ missing (required)")
             return m
-        page.clock.run_for(250)
+        # Align the start to a fixed fake-clock phase (next whole second + 250 ms). The ready loop above can take a
+        # different number of 100 ms steps on different runs; without this, rAF ticks fall at a different phase
+        # against the 100 ms samples and the same page renders slightly different frames (self-test failed on 2 seams).
+        now = int(page.evaluate("Date.now()"))
+        page.clock.run_for((1000 - now % 1000) % 1000 + 250)
         page.evaluate("Promise.resolve(window.__START_RECORD__()).then(() => { window.__GATE_DONE__ = true; }); 1")
         step = float(thr["sample_every_s"])
         n = int(round((rec["hold"] + rec["dur"] + rec["tail"]) / step)) + 1
@@ -408,10 +418,28 @@ def compare_frames(gold_frames: list, site_frames: list, thr: dict) -> dict:
         g = load_frame(gold_frames[i])
         s = resize_to(load_frame(site_frames[i]), (g.shape[1], g.shape[0]))
         sv, mae = ssim_luma(g, s), mae_rgb(g, s)
-        rows.append({"i": i, "t": i * float(thr["sample_every_s"]), "ssim": sv, "mae": mae,
-                     "pass": sv >= thr["ssim_min"] and mae <= thr["mae_max"], "gold": gold_frames[i], "site": site_frames[i]})
+        ok = sv >= thr["ssim_min"] and mae <= thr["mae_max"]
+        shift = 0
+        # Neighbour tolerance (19 Nov 2026): the locked prototype fails against ITSELF on a few fast frames because
+        # the headless compositor can land one rAF tick either side of a 100 ms sample. A frame may therefore match
+        # the gold one sample either side (+/-0.1 s of record time = about 2% of scroll progress). Every shifted
+        # frame is reported; more than 10% shifted frames fails the seam (see below).
+        if not ok and int(thr.get("neighbour_tolerance", 0)):
+            for j in (i - 1, i + 1):
+                if 0 <= j < len(gold_frames):
+                    gj = load_frame(gold_frames[j])
+                    sj, mj = ssim_luma(gj, s), mae_rgb(gj, s)
+                    if sj >= thr["ssim_min"] and mj <= thr["mae_max"]:
+                        ok, shift, sv, mae = True, j - i, max(sv, sj), min(mae, mj)
+                        break
+        rows.append({"i": i, "t": i * float(thr["sample_every_s"]), "ssim": sv, "mae": mae, "shift": shift,
+                     "pass": ok, "gold": gold_frames[i], "site": site_frames[i]})
     failed = [r for r in rows if not r["pass"]]
+    shifted = [r for r in rows if r.get("shift")]
     reason = ""
+    if n and len(shifted) > 0.10 * n:
+        failed = failed or shifted
+        reason = f"{len(shifted)}/{n} frames only matched a neighbouring gold sample (max 10%); "
     if len(site_frames) != len(gold_frames):
         reason = f"frame count {len(site_frames)} vs gold {len(gold_frames)}; "
     if failed:

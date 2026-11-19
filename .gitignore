@@ -32,3 +32,6 @@
 /qa/**/motion-gate/*/site-frames/
 /qa/**/gate/*/site-frames/
 /build-plan/WATCH-ALERT.txt
+!/build-plan-locked-2026-11-19/
+/build-plan-locked-2026-11-19/.gold/
+/qa/**/gate/*/frames/
