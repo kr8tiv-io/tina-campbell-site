@@ -1,6 +1,3 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
 import { bindScrollLock, initHeader } from './header';
 import { initCursor } from './cursor';
@@ -11,8 +8,8 @@ import { initWork } from './work';
 import { initEditorial } from './editorial';
 import { initAbout } from './about';
 import { initPages } from './pages';
-
-gsap.registerPlugin(ScrollTrigger, SplitText);
+import { initSeams } from './seams';
+import { gsap, isRecordMode, ScrollTrigger, SplitText } from './runtime';
 
 declare global {
   interface Window {
@@ -64,6 +61,19 @@ function destroyMotion(): void {
 }
 
 function setupLenis(reduced: boolean, fine: boolean): void {
+  // Record mode keeps native scroll so the seam gate can drive ScrollTrigger directly.
+  if (isRecordMode()) {
+    const onScroll = (): void => {
+      ScrollTrigger.update();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const previous = cleanup;
+    cleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+      previous?.();
+    };
+    return;
+  }
   if (reduced || !fine) return;
   lenis = new Lenis({
     duration: 1.1,
@@ -214,8 +224,10 @@ async function initMotion(): Promise<void> {
   const releaseEditorial = initEditorial(reduced, fine, abort.signal);
   const releaseAbout = initAbout(reduced, fine, abort.signal);
   const releasePages = initPages(reduced, abort.signal);
+  const releaseSeams = initSeams(document);
   const previous = cleanup;
   cleanup = () => {
+    releaseSeams();
     releasePages();
     releaseAbout();
     releaseEditorial();

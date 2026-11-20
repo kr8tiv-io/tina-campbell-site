@@ -1,0 +1,59 @@
+---
+import Seam from '../../../components/motion/Seam.astro';
+import SeamChrome from '../../../components/motion/SeamChrome.astro';
+
+export const ids = [
+  '01A-02A',
+  '02A-03B',
+  '03B-04B',
+  '04B-05C',
+  '05C-06B',
+  '06B-07C',
+  '07C-08B',
+  '08B-09B',
+  '09B-10A',
+  '10A-11B',
+];
+
+const titles: Record<string, string> = {
+  '01A-02A': 'Tina Campbell — Ink bleed down',
+  '02A-03B': 'Tina Campbell — Magenta flood',
+  '03B-04B': 'Tina Campbell — Catwalk to grid',
+  '04B-05C': 'Tina Campbell — Loupe assemble',
+  '05C-06B': 'Tina Campbell — Print to column',
+  '06B-07C': 'Tina Campbell — Magazine close',
+  '07C-08B': 'Tina Campbell — Ink curtain wipe',
+  '08B-09B': 'Tina Campbell — City iris',
+  '09B-10A': 'Tina Campbell — Layers settle',
+  '10A-11B': 'Tina Campbell — Band lifts chapter',
+};
+
+export function getStaticPaths() {
+  if (process.env.TC_MOTION_LAB !== '1') return [];
+  return ids.map((id) => ({ params: { id } }));
+}
+
+const id = Astro.params.id ?? '';
+const title = titles[id] ?? 'Tina Campbell';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="/motion-lab/chrome.css" />
+  </head>
+  <body>
+    <SeamChrome id={id} />
+    <main>
+      <Seam id={id} />
+    </main>
+    <script>
+      import { initSeams } from '../../../scripts/motion/seams';
+      initSeams(document);
+    </script>
+  </body>
+</html>

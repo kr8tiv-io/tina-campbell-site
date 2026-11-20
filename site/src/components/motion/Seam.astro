@@ -1,0 +1,335 @@
+---
+import type { ImageMetadata } from 'astro';
+import '../../styles/seams.css';
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const files = import.meta.glob<ImageMetadata>('../../../public/motion-lab/media/**/*.jpg', {
+  eager: true,
+  import: 'default',
+});
+const byPath = new Map<string, string>();
+for (const [key, file] of Object.entries(files)) {
+  const src = typeof file === 'string' ? file : file.src;
+  byPath.set(key.replace(/^.*\/media\//, ''), src);
+}
+
+function media(path: string): string {
+  const src = byPath.get(path);
+  if (!src) throw new Error(`Missing seam media ${path}`);
+  return src;
+}
+
+const editorialTitle = 'Fashion<br><em class="amp">&amp; Editorial</em>';
+---
+
+<div class="scroll-track" data-track data-seam={id}>
+  <div class="stage" data-stage>
+    {
+      id === '01A-02A' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="01A">
+            <div class="media">
+              <video
+                data-media
+                autoplay
+                muted
+                loop
+                playsinline
+                poster={media('01-home-hero/A-living-gown/end.jpg')}
+                src="/motion-lab/media/01-home-hero/A-living-gown/clip.mp4"
+              />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Edmonton</p>
+              <h1>Tina Campbell</h1>
+              <p class="lede">Fashion, portrait and runway photography in Edmonton, Alberta.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="02A">
+            <div class="media">
+              <img data-media src={media('02-home-filmstrip/A-film-gate-advance/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Home</p>
+              <h1>The contact sheet</h1>
+              <p class="lede">Work, fashion, portraits, bridal and the city, advancing one frame at a time.</p>
+            </div>
+          </section>
+          <div class="ink-layer" data-ink aria-hidden="true" />
+        </>
+      )
+    }
+    {
+      id === '02A-03B' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="02A">
+            <div class="media">
+              <img data-media src={media('02-home-filmstrip/A-film-gate-advance/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Home</p>
+              <h1>The contact sheet</h1>
+              <p class="lede">Work, fashion, portraits, bridal and the city, advancing one frame at a time.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="03B">
+            <div class="media">
+              <img data-media src={media('03-home-runway/B-followspot/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Home</p>
+              <h1>Runway</h1>
+              <p class="lede">A followspot finds each look and lets the colour come back.</p>
+            </div>
+          </section>
+          <div class="flood-layer" data-flood aria-hidden="true" />
+        </>
+      )
+    }
+    {
+      id === '03B-04B' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="03B">
+            <div class="media">
+              <img data-media src={media('03-home-runway/B-followspot/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Home</p>
+              <h1>Runway</h1>
+              <p class="lede">A followspot finds each look and lets the colour come back.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="04B">
+            <div class="media">
+              <img data-media src={media('04-work-hover/B-crimson-ink-drop/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Index</p>
+              <h1>Work</h1>
+              <p class="lede">A drop of crimson ink finds the gown and stays there.</p>
+            </div>
+          </section>
+        </>
+      )
+    }
+    {
+      id === '04B-05C' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="04B">
+            <div class="media">
+              <img data-media src={media('04-work-hover/B-crimson-ink-drop/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Index</p>
+              <h1>Work</h1>
+              <p class="lede">A drop of crimson ink finds the gown and stays there.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="05C">
+            <div class="media">
+              <img data-media src={media('05-work-entrance/C-light-table-drop/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Index</p>
+              <h1>Work</h1>
+              <p class="lede">Prints settle onto the light table.</p>
+            </div>
+          </section>
+          <svg class="mask-svg" viewBox="0 0 1440 810" aria-hidden="true">
+            <circle data-loupe cx="720" cy="405" r="90" fill="none" stroke="#b3261e" stroke-width="6" />
+          </svg>
+        </>
+      )
+    }
+    {
+      id === '05C-06B' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="05C">
+            <div class="media">
+              <img data-media src={media('05-work-entrance/C-light-table-drop/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Index</p>
+              <h1>Work</h1>
+              <p class="lede">Prints settle onto the light table.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="06B">
+            <div class="media">
+              <img data-media src={media('06-editorial-split/B-crimson-thread/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--left">
+              <p class="kicker">Fashion</p>
+              <h1 set:html={editorialTitle} />
+              <ol class="series-list">
+                <li class="is-active"><span>01</span> The Red Gown</li>
+                <li><span>02</span> Legislature in Black</li>
+                <li><span>03</span> Runway Nights</li>
+              </ol>
+            </div>
+          </section>
+          <svg class="mask-svg" viewBox="0 0 1440 810" preserveAspectRatio="none" aria-hidden="true">
+            <path
+              id="threadPath"
+              fill="none"
+              stroke="#b3261e"
+              stroke-width="3"
+              d="M720,0 C716,160 728,280 720,405 C712,560 724,680 720,810"
+            />
+          </svg>
+        </>
+      )
+    }
+    {
+      id === '06B-07C' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="06B">
+            <div class="media">
+              <img data-media src={media('06-editorial-split/B-crimson-thread/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--left">
+              <p class="kicker">Fashion</p>
+              <h1 set:html={editorialTitle} />
+              <ol class="series-list">
+                <li class="is-active"><span>01</span> The Red Gown</li>
+                <li><span>02</span> Legislature in Black</li>
+                <li><span>03</span> Runway Nights</li>
+              </ol>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="07C">
+            <div class="media">
+              <img data-media src={media('07-series-story/C-print-stack/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Series 01</p>
+              <h1>The Red Gown</h1>
+              <p class="lede">A loose stack of prints from the series.</p>
+            </div>
+          </section>
+        </>
+      )
+    }
+    {
+      id === '07C-08B' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="07C">
+            <div class="media">
+              <img data-media src={media('07-series-story/C-print-stack/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Series 01</p>
+              <h1>The Red Gown</h1>
+              <p class="lede">A loose stack of prints from the series.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="08B">
+            <div class="media">
+              <img data-media src={media('08-page-transitions/B-ink-flood/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Page</p>
+              <h1>The next frame</h1>
+              <p class="lede">Ink floods the page, and the next cover comes through.</p>
+            </div>
+          </section>
+          <div class="ink-layer" data-ink aria-hidden="true" />
+        </>
+      )
+    }
+    {
+      id === '08B-09B' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="08B">
+            <div class="media">
+              <img data-media src={media('08-page-transitions/B-ink-flood/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Page</p>
+              <h1>The next frame</h1>
+              <p class="lede">Ink floods the page, and the next cover comes through.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="09B">
+            <div class="media">
+              <img data-layer data-media src={media('09-about-parallax/B-blue-hour-lights/start.jpg')} alt="" />
+              <img
+                data-layer
+                src={media('09-about-parallax/B-blue-hour-lights/start.jpg')}
+                alt=""
+                style="position:absolute;inset:0;opacity:.55;mix-blend-mode:screen;transform:scale(1.06)"
+              />
+              <img
+                data-layer
+                src={media('09-about-parallax/B-blue-hour-lights/start.jpg')}
+                alt=""
+                style="position:absolute;inset:0;opacity:.35;transform:scale(1.12)"
+              />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Edmonton</p>
+              <h1>About</h1>
+              <p class="lede">Dusk turns to blue hour over the Walterdale arch.</p>
+            </div>
+          </section>
+        </>
+      )
+    }
+    {
+      id === '09B-10A' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="09B">
+            <div class="media">
+              <img data-media src={media('09-about-parallax/B-blue-hour-lights/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--hero">
+              <p class="kicker">Edmonton</p>
+              <h1>About</h1>
+              <p class="lede">Dusk turns to blue hour over the Walterdale arch.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="10A">
+            <div class="media media--band">
+              <img data-media src={media('10-contact-footer/A-blue-hour-drift/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--footer">
+              <p class="kicker">Edmonton, Alberta</p>
+              <h1>Book a shoot</h1>
+              <p class="lede">Fashion, portrait and runway photographer in Edmonton.</p>
+            </div>
+          </section>
+        </>
+      )
+    }
+    {
+      id === '10A-11B' && (
+        <>
+          <section class="sec sec-out" data-out data-scene="10A">
+            <div class="media media--band">
+              <img data-media src={media('10-contact-footer/A-blue-hour-drift/end.jpg')} alt="" />
+            </div>
+            <div class="copy copy--footer">
+              <p class="kicker">Edmonton, Alberta</p>
+              <h1>Book a shoot</h1>
+              <p class="lede">Fashion, portrait and runway photographer in Edmonton.</p>
+            </div>
+          </section>
+          <section class="sec sec-in" data-in data-scene="11B">
+            <div class="media">
+              <img data-media src={media('11-portraits-chapters/B-veil-wipe/start.jpg')} alt="" />
+            </div>
+            <div class="copy copy--chapter">
+              <p class="kicker">Chapter</p>
+              <h1>Portraits, Bridal and Couples</h1>
+              <p class="lede">A veil sweeps from one frame into the next.</p>
+            </div>
+          </section>
+        </>
+      )
+    }
+  </div>
+</div>

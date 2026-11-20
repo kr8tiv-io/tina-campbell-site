@@ -1,0 +1,203 @@
+/* Stage rules for [data-seam], copied from the locked chrome.css.
+   Harness pages also load /motion-lab/chrome.css. Values match. */
+
+[data-seam] {
+  position: relative;
+  height: 320vh;
+  color: var(--paper);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+[data-seam] .stage {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+[data-seam] .sec {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+[data-seam] .sec-in {
+  pointer-events: none;
+}
+
+[data-seam] .media {
+  position: absolute;
+  inset: 0;
+}
+
+[data-seam] .media img,
+[data-seam] .media video {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+[data-seam] .media--band {
+  top: 18%;
+  bottom: 18%;
+}
+
+[data-seam] .media--band img,
+[data-seam] .media--band video {
+  object-fit: cover;
+  height: 100%;
+}
+
+[data-seam] .copy {
+  position: absolute;
+  z-index: 5;
+  color: var(--paper);
+  pointer-events: none;
+}
+
+[data-seam] .copy .kicker {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+
+[data-seam] .copy h1,
+[data-seam] .copy h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  margin: 0;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.55);
+}
+
+[data-seam] .copy .lede,
+[data-seam] .copy .kicker {
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
+}
+
+[data-seam] .copy h1 {
+  font-size: clamp(3.4rem, 8.6vw, 8.2rem);
+}
+
+[data-seam] .copy h2 {
+  font-size: clamp(2.4rem, 5.4vw, 4.8rem);
+}
+
+[data-seam] .copy .lede {
+  margin: 0.85rem 0 0;
+  font-family: var(--sans);
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+  max-width: 22em;
+  color: var(--paper);
+  opacity: 0.88;
+}
+
+[data-seam] .copy--hero {
+  left: var(--page-pad);
+  right: var(--page-pad);
+  bottom: 8.5vh;
+}
+
+[data-seam] .copy--left {
+  left: var(--page-pad);
+  top: calc(var(--header-h) + 6vh);
+  width: min(42vw, 560px);
+}
+
+[data-seam] .copy--chapter {
+  left: var(--page-pad);
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(36vw, 480px);
+}
+
+[data-seam] .copy--footer {
+  left: var(--page-pad);
+  bottom: 10vh;
+}
+
+[data-seam] .copy .amp {
+  display: block;
+  font-style: italic;
+}
+
+[data-seam] .series-list {
+  list-style: none;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: clamp(1rem, 2vw, 1.7rem);
+  line-height: 1.45;
+}
+
+[data-seam] .series-list li {
+  opacity: 0.55;
+}
+
+[data-seam] .series-list li.is-active {
+  opacity: 1;
+}
+
+[data-seam] .series-list li.is-active span {
+  color: var(--crimson);
+}
+
+[data-seam] .ink-layer,
+[data-seam] .flood-layer,
+[data-seam] .spot-layer,
+[data-seam] .veil-layer,
+[data-seam] .leak-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+
+[data-seam] .ink-layer {
+  background: var(--ink);
+}
+
+[data-seam] .flood-layer {
+  background: var(--ink);
+}
+
+[data-seam] svg.mask-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  z-index: 7;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-seam] .sec-out {
+    opacity: 0;
+  }
+
+  [data-seam] .sec-in {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  [data-seam] .ink-layer,
+  [data-seam] .flood-layer,
+  [data-seam] .spot-layer,
+  [data-seam] .veil-layer,
+  [data-seam] .leak-layer,
+  [data-seam] svg.mask-svg {
+    display: none;
+  }
+}

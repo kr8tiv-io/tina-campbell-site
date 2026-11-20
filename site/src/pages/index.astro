@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Photo from '../components/Photo.astro';
+import Seam from '../components/motion/Seam.astro';
 import { getPhoto } from '../data/photos';
 import '../styles/home.css';
 
@@ -57,6 +58,9 @@ const description =
         </div>
       </div>
     </section>
+
+    <Seam id="01A-02A" />
+    <Seam id="02A-03B" />
 
     <section class="runway" data-runway-pin aria-labelledby="runway-label">
       <div class="runway__head">

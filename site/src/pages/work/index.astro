@@ -2,6 +2,7 @@
 import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
+import Seam from '../../components/motion/Seam.astro';
 import { sizesFor, workFilters, workTiles } from '../../data/work';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/work.css';
@@ -91,6 +92,7 @@ const jsonLd = {
       }
     </ul>
     <p class="work-empty" data-empty hidden>Nothing here yet. Try another filter.</p>
+    <Seam id="04B-05C" />
     <script is:inline>
       (function () {
         var known = { all: 1, fashion: 1, runway: 1, portraits: 1, bridal: 1, couples: 1, edmonton: 1 };

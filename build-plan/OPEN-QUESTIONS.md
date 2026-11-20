@@ -12,3 +12,13 @@ Logged 13 Nov 2026, America/Costa_Rica (UTC-6):
    - R7 (runway opening): no magenta-catwalk plate exists in `images/`; the build uses the darkest real runway frames (`fb_029`, `fb_012`).
 4. Scene `clip.mp4` files were not copied into `motion-reference/` (they are large). Use the original paths under `concepts/motion-options-2026-11-12/` as listed in MOTION-LOCKED.md.
 5. Root `OPEN-QUESTIONS.md` still has client questions for Matt (domain, brand name, services, hosting, and the rest). Those stay open. They do not block building what is already approved.
+
+Logged 19 Nov 2026, while porting the locked seams. The seam runtime is on the routes where both scenes already exist. The others are not wired:
+
+6. `03B-04B` (`site_route_real` `/`): home has the runway section (03B). It does not have the 04B work-hover scene. That scene is the work index. The seam is not inserted on `/`.
+7. `05C-06B` (`site_route_real` `/work/`): `/work/` has the work entrance (05C) and the hover grid (04B). It does not have the 06B editorial split. That scene is `/fashion-editorial/`. The seam is not inserted on `/work/`.
+8. `06B-07C` (`site_route_real` `/fashion-editorial/`): the editorial split (06B) is this page. The 07C print-stack series scene is not a section here. It lives at `/series/the-red-gown/`. The seam is not inserted.
+9. `07C-08B` (`site_route_real` `/series/the-red-gown/`): the series story (07C) is this page. The 08B ink-flood page transition is not a section on it. The seam is not inserted.
+10. `08B-09B` (`site_route_real` `/about/`): the about parallax hero (09B) exists. The 08B ink-flood scene is not a section on `/about/`. The seam is not inserted.
+11. `09B-10A` (`site_route_real` `/about/`): the about hero (09B) exists. The 10A blue-hour contact band is not a section on `/about/`. The home band and the site footer are separate. The seam is not inserted.
+12. `10A-11B` (`site_route_real` `/portraits/`): there is no `/portraits/` route. Portraits, bridal and couples live at `/portraits-bridal-couples/`. That page does not include the 10A contact band. The seam is not inserted.

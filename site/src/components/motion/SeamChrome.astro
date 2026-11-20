@@ -1,0 +1,47 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+
+const links = [
+  { href: '/work/', label: 'Work' },
+  { href: '/fashion-editorial/', label: 'Fashion & Editorial' },
+  { href: '/about/', label: 'About' },
+  { href: '/services/', label: 'Services' },
+  { href: '/journal/', label: 'Journal' },
+];
+
+const nav: Record<string, { current?: string; out?: string; inn?: string }> = {
+  '01A-02A': {},
+  '02A-03B': {},
+  '03B-04B': { inn: '/work/' },
+  '04B-05C': { current: '/work/' },
+  '05C-06B': { current: '/work/', out: '/work/', inn: '/fashion-editorial/' },
+  '06B-07C': { current: '/fashion-editorial/' },
+  '07C-08B': { current: '/fashion-editorial/' },
+  '08B-09B': { current: '/fashion-editorial/', out: '/fashion-editorial/', inn: '/about/' },
+  '09B-10A': { current: '/about/' },
+  '10A-11B': { current: '/about/', out: '/about/', inn: '/work/' },
+};
+
+const state = nav[id] ?? {};
+---
+
+<div class="grain" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="logo" href="/" aria-label="Tina Campbell Photography, home">
+      <img src="/motion-lab/brand/tcphoto-logo-white.png" alt="" width="584" height="415" />
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={state.current === link.href ? 'page' : undefined} data-nav-out={state.out === link.href ? '' : undefined} data-nav-in={state.inn === link.href ? '' : undefined}>{link.label}</a>
+        ))
+      }
+    </nav>
+    <a class="btn site-header__cta" href="/book/">Book a shoot</a>
+  </div>
+</header>
