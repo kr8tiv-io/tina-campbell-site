@@ -26,7 +26,9 @@ Gates you must run and paste into `qa/<prompt-id>/REPORT.md` (PASS or FAIL only,
 cd site && npm run check && TC_MOTION_LAB=1 npm run build && (npx astro preview --port 4821 --host 127.0.0.1 > /tmp/preview-4821.log 2>&1 &) ; cd ..
 python3 build-plan-locked-2026-11-19/tools/scene_gate.py --base http://127.0.0.1:4821 --scenes <IDs> --out qa/<prompt-id>/scene-gate
 python3 build-plan-locked-2026-11-19/tools/seam_gate.py --base http://127.0.0.1:4821 --out qa/<prompt-id>/seam-gate   # must stay 10/10
-npm --prefix site run build    # production build: no motion-lab routes, noindex meta still present
+python3 build-plan-locked-2026-11-19/tools/seam_route_check.py --base http://127.0.0.1:4821                     # 3/3
+python3 build-plan-locked-2026-11-19/tools/seam_route_visual.py --base http://127.0.0.1:4821 --out qa/<prompt-id>/route-visual   # 3/3, also with --mobile
+npm --prefix site run build && (cd site && npx playwright test)   # production build: no motion-lab routes, noindex; tests 42+ passed, 0 failed
 ```
 Plus screenshots with Playwright (`/usr/bin/google-chrome`): desktop 1440x900 and mobile 390x844 (DPR 3) of every route you
 touched, at scroll 0 and at each scene's start/middle/end, saved under `qa/<prompt-id>/shots/`. Also one reduced-motion shot.
