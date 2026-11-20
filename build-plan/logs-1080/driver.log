@@ -24,3 +24,13 @@
 2026-11-20 03:07:09 CST END 015-scene-work-04B-05C rc=0
 2026-11-20 03:08:43 CST OPERATOR gate 015 start
 2026-11-20 03:27:31 CST OPERATOR 015 GATE PASS (check, build, pages, tests 42/0/18, seams 10/10, tables 3/3, visual 3/3+3/3, scenes 01A 0.9748 03B 0.9613 04B 0.9531, 05C timeline 0 off; hover nav verified)
+2026-11-20 03:27:57 CST START 016-scene-editorial-06B-07C pid 665614
+2026-11-20 03:29:19 CST OPERATOR brain progress pushed f32da8a
+2026-11-20 06:22:52 CST END 016-scene-editorial-06B-07C rc=0
+2026-11-20 06:23:02 CST OPERATOR gate 016 start (auto)
+2026-11-20 06:41:32 CST OPERATOR gate 016 auto-run done: GATE 016-scene-editorial-06B-07C: FAIL
+2026-11-20 06:57:44 CST OPERATOR 016 GATE FAIL (combined scene gate: 06B ready timeout after 01A/03B/04B, readyState 0 networkState IDLE; order 06B-first PASS). Tests 41/1 flaky under parallel load, rerun 12/12 pass. Seams 10/10, tables 3/3, visual 3/3+3/3. Fix prompt 016b written
+2026-11-20 06:57:44 CST START 016b-scene-gate-06B-ready pid 798386
+2026-11-20 09:15:24 CST END 016b-scene-gate-06B-ready rc=0
+2026-11-20 09:15:27 CST OPERATOR gate 016b start (auto)
+2026-11-20 09:17:14 CST OPERATOR 016b GATE FAIL (Grok: combined scene gate 06B ready timeout again; headless GPU process ~349% CPU after 435 screenshots; tests 42/0/18, seams 10/10, route 3/3+3/3, one-tab 06B scrub 0/3.04/5.96). Second failure: auto-gate stopped; staging zip built from b445e46 per steer; 017 NOT started
