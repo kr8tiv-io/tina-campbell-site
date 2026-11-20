@@ -1,0 +1,51 @@
+pages 19 distinct used 70 of library 70 total uses 194
+
+Per-page repeats (same photo more than once on one page):
+  /about/: 9 uses, 9 distinct
+  /book/: 4 uses, 4 distinct
+  /fashion-editorial/: 14 uses, 11 distinct; repeats {'fb_016_signature': 2, 'fb_009_fashion': 2, 'fb_034_fashion': 2}
+  /: 14 uses, 12 distinct; repeats {'fb_046_signature': 2, 'fb_016_signature': 2}
+  /journal/bridal-portraits-edmonton/: 1 uses, 1 distinct
+  /journal/edmonton-photoshoot-locations/: 1 uses, 1 distinct
+  /journal/engagement-photos-edmonton/: 1 uses, 1 distinct
+  /journal/: 5 uses, 5 distinct
+  /journal/model-portfolio-alberta/: 1 uses, 1 distinct
+  /journal/what-to-wear-photoshoot/: 1 uses, 1 distinct
+  /portraits-bridal-couples/: 9 uses, 9 distinct
+  /runway/: 24 uses, 8 distinct; repeats {'fb_012_runway': 8, 'fb_029_runway': 8, 'fb_037_runway': 2, 'fb_158_runway': 2}
+  /series/blue-hour/: 6 uses, 4 distinct; repeats {'fb_066_city': 2, 'fb_001_city': 2}
+  /series/legislature-in-black/: 6 uses, 4 distinct; repeats {'fb_046_signature': 3}
+  /series/red-in-snow/: 6 uses, 5 distinct; repeats {'fb_034_fashion': 2}
+  /series/runway-nights/: 6 uses, 5 distinct; repeats {'fb_029_runway': 2}
+  /series/the-red-gown/: 6 uses, 4 distinct; repeats {'fb_016_signature': 3}
+  /services/: 7 uses, 7 distinct
+  /work/: 73 uses, 70 distinct; repeats {'fb_016_signature': 2, 'fb_013_signature': 2, 'fb_049_bridal': 2}
+
+Most used site-wide (uses / pages):
+  fb_029_runway: 15 uses on 7 pages
+  fb_012_runway: 11 uses on 4 pages
+  fb_016_signature: 10 uses on 5 pages
+  fb_046_signature: 9 uses on 6 pages
+  fb_168_city: 8 uses on 8 pages
+  fb_001_city: 6 uses on 5 pages
+  fb_034_fashion: 6 uses on 4 pages
+  fb_065_couples: 6 uses on 6 pages
+  fb_049_bridal: 6 uses on 5 pages
+  fb_141_signature: 5 uses on 5 pages
+  fb_066_city: 5 uses on 4 pages
+  fb_120_portrait: 4 uses on 4 pages
+  fb_013_signature: 4 uses on 3 pages
+  fb_009_fashion: 4 uses on 3 pages
+  fb_114_signature: 4 uses on 4 pages
+  fb_085_runway: 4 uses on 4 pages
+  fb_008_fashion: 4 uses on 4 pages
+  fb_158_runway: 4 uses on 3 pages
+  fb_021_portrait: 3 uses on 3 pages
+  fb_577057434409234: 3 uses on 3 pages
+  fb_116_signature: 3 uses on 3 pages
+  fb_136_portrait: 3 uses on 3 pages
+  fb_064_runway: 3 uses on 3 pages
+  fb_037_runway: 3 uses on 2 pages
+  ig_profile_05: 2 uses on 2 pages
+
+Unused library photos: []

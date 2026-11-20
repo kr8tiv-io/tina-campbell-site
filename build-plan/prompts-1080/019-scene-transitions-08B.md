@@ -16,3 +16,10 @@ Timeline exported as `window.__SCENE_TL__['08B']`; order check (rise, hold, radi
 the clip; all seven scene gates and seams 10/10 still PASS.
 ## Commit message
 feat(scene-08B): ink flood page transition
+
+## Added 20 Nov 2026 (gap audit): on-page gate
+Gate mode alone is not enough (04B passed at 0.95 yet reads tiny on the page). Also run
+`build-plan/gap-audit-2026-11-20/tools/capture-pages.mjs` against the preview for your scenes (copy into site/, ONLY=<IDs>)
+and `tools/sheet.py <IDs>` with `STG=qa/<prompt-id>/cap SHEET_OUT=qa/<prompt-id> LABEL="<prompt-id> preview"`. The scene must
+read at the size and place it has on the page: full-bleed where the clip is full-bleed. Write per column what still differs.
+Photos: follow `build-plan/gap-audit-2026-11-20/PHOTO-PLAN.md` (no repeats on a page).
