@@ -5,6 +5,7 @@ Shared context `_CONTEXT.md` is prepended to each prompt. Plan and evidence: `..
 | # | Prompt | Scenes | Gate |
 |---|---|---|---|
 | 012b | seams-integrate | seams between real sections | 38 tests + seams 10/10 + route tables |
+| 012c | seams-visual-fix | real-route seams match gold sequence | + seam_route_visual 3/3 |
 | 013 | scene-hero-01A | 01A video loop + shared scene-video helper | scene_gate 01A + seams 10/10 |
 | 014 | scene-runway-03B | 03B video scrub | scene_gate 01A,03B |
 | 015 | scene-work-04B-05C | 04B video play, 05C code | + 04B, 05C timing |

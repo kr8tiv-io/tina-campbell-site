@@ -4,7 +4,7 @@ title: Home hero becomes the 01A living-gown 1080p video
 kind: build
 effort: xhigh
 model: grok-4.7
-depends_on: [012b-seams-integrate]
+depends_on: [012c-seams-visual-fix]
 ---
 ## Goal
 The home hero (`site/src/pages/index.astro` `.hero`, `site/src/scripts/motion/home.ts`) plays scene 01A A-living-gown exactly
