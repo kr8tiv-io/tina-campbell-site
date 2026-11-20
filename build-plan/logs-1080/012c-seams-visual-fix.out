@@ -1,0 +1,23 @@
+The real routes still hold black between sections and bring the hero back after the seam. I'll read the seam plan, the 012b evidence, and the current seam code, then match each wired pair to the gold sequence.Auto-compacting conversation (81% full)...
+Conversation compacted.
+The real-route seams still pin empty black stages and bring the hero back. I’ll put both real sections inside each pinned stage and stop the post-seam reset, then run the gates.The black holds come from empty pinned stages and a reset that brings the hero back. I’ll put both real sections in each stage and keep the end state after the pin.Playwright is 42 passed, 0 failed, 18 skipped. Next I’ll build the motion-lab preview and run the seam gates.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The preview is already up. I'll run the three seam gates against it, then compare the route sheets to the gold frames.The gates are running. I'll review the seam layout while they capture so a darkness miss can be fixed without touching tween timing.The harness and route tables passed. The work seam is still too dark, and the wrapper lengths are far from the 2.2 pin, so I'm checking whether the pin is actually applied.The work sheet falls through to the footer, and the home frames never leave the hero. The pin is measured before it mounts. I'll time `fonts.ready` against the gate's 1.5s wait.The darkness check is 3/3. I'll compare the contact sheets with the gold frames before treating that as a real pass.The real seams now follow the gold sequence. Home goes hero, ink, contact sheet, crimson flood, runway. Work goes the live grid, loupe, then the incoming frames. The hero does not come back, and work no longer ends on an empty black stage.
+
+The route visual gate was measuring the page 1.5s after load, while the signature loader held ScrollTrigger until about 2.6s, so those frames never saw a pin. Record mode, which the gates use, now skips that hold. Ordinary visits still play the loader. Each track stays 320vh with a 100vh stage, so the pin ratio is 2.2.
+
+Sheets in `qa/012c-seams-visual-fix/route-visual/` match that sequence against the gold frames. The dark band above the flood at 02A step 8 is the same shape as gold `p-040`.
+
+Suggested commit message: `fix(seams): real-route seams follow the gold sequence with no black holds`
+
+GATE 012c: PASS, TESTS: 42/0/18, SEAMS: 10/10, ROUTE-VISUAL: 3/3
+01A-02A worst SSIM 1.0000
+02A-03B worst SSIM 1.0000
+03B-04B worst SSIM 1.0000
+04B-05C worst SSIM 1.0000
+05C-06B worst SSIM 1.0000
+06B-07C worst SSIM 1.0000
+07C-08B worst SSIM 1.0000
+08B-09B worst SSIM 1.0000
+09B-10A worst SSIM 1.0000
+10A-11B worst SSIM 1.0000

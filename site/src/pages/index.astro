@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeSheet from '../components/HomeSheet.astro';
 import Photo from '../components/Photo.astro';
 import { getPhoto } from '../data/photos';
 import '../styles/home.css';
@@ -32,68 +33,45 @@ const description =
 <BaseLayout title={title} description={description} imageAlt={hero.alt}>
   <main id="content" data-page="home" data-keep-header>
     <div data-seam-pair="01A-02A">
-    <div class="seam-real__track" data-track>
-      <div class="seam-real__stage" data-stage>
-    <section class="hero" data-hero data-seam-out data-out>
-      <span class="seam-real__ghost" data-seam-title aria-hidden="true">Tina Campbell</span>
-      <div class="hero__media" data-seam-media>
-        <div class="hero__shift" data-hero-shift>
-          <div class="hero__zoom" data-hero-zoom>
-            <Photo
-              src={hero.src}
-              alt={hero.alt}
-              sizes="100vw"
-              priority
-              class="pos-hero"
-            />
-            <div class="hero__night" aria-hidden="true"></div>
-            <div class="hero__warm" aria-hidden="true"></div>
-          </div>
-        </div>
-        <div class="hero__shade" aria-hidden="true"></div>
-        <div class="hero__grain" aria-hidden="true"></div>
-      </div>
-      <div class="hero__copy" data-hero-copy>
-        <h1 class="hero__title" data-hero-title><span class="hero__first">Tina</span> <span class="hero__last">Campbell</span></h1>
-        <div class="hero__meta">
-          <p class="hero__caption">No. 001 / Alberta Legislature, Edmonton</p>
-          <span class="hero__rule" aria-hidden="true"></span>
-          <p class="hero__scroll">Scroll</p>
-        </div>
-      </div>
-    </section>
-      </div>
-    </div>
-    <div data-seam-pair="02A-03B" data-seam-in data-in>
-    <section class="sheet" aria-label="Categories" data-seam-out data-out>
-      <span class="seam-real__ghost" data-seam-title aria-hidden="true">The contact sheet</span>
-      <ul class="sheet__row" data-seam-media>
-        {
-          categories.map((item) => (
-            <li class="sheet__item">
-              <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View">
-                <span class="sheet__frame">
+      <div class="seam-real__track" data-track>
+        <div class="seam-real__stage" data-stage>
+          <section class="hero" data-hero data-seam-out data-out>
+            <span class="seam-real__ghost" data-seam-title aria-hidden="true">Tina Campbell</span>
+            <div class="hero__media" data-seam-media>
+              <div class="hero__shift" data-hero-shift>
+                <div class="hero__zoom" data-hero-zoom>
                   <Photo
-                    src={item.photo.src}
-                    alt={item.photo.alt}
-                    sizes="(max-width: 960px) 76px, 16vw"
-                    class={item.pos}
+                    src={hero.src}
+                    alt={hero.alt}
+                    sizes="100vw"
+                    priority
+                    class="pos-hero"
                   />
-                </span>
-                <span class="sheet__label">
-                  {item.label}
-                  <span class="sheet__no">No. {item.n}</span>
-                </span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-    <div class="seam-real__track" data-track>
-      <div class="seam-real__stage" data-stage></div>
+                  <div class="hero__night" aria-hidden="true"></div>
+                  <div class="hero__warm" aria-hidden="true"></div>
+                </div>
+              </div>
+              <div class="hero__shade" aria-hidden="true"></div>
+              <div class="hero__grain" aria-hidden="true"></div>
+            </div>
+            <div class="hero__copy" data-hero-copy>
+              <h1 class="hero__title" data-hero-title><span class="hero__first">Tina</span> <span class="hero__last">Campbell</span></h1>
+              <div class="hero__meta">
+                <p class="hero__caption">No. 001 / Alberta Legislature, Edmonton</p>
+                <span class="hero__rule" aria-hidden="true"></span>
+                <p class="hero__scroll">Scroll</p>
+              </div>
+            </div>
+          </section>
+          <HomeSheet items={categories} place="in" />
+        </div>
+      </div>
     </div>
-    <section class="runway" data-runway-pin data-seam-in data-in aria-labelledby="runway-label">
+    <div data-seam-pair="02A-03B">
+      <div class="seam-real__track" data-track>
+        <div class="seam-real__stage" data-stage>
+          <HomeSheet items={categories} place="out" />
+          <section class="runway" data-runway-pin data-seam-in data-in aria-labelledby="runway-label">
       <span class="seam-real__ghost" data-seam-title aria-hidden="true">Runway</span>
       <div class="runway__head">
         <h2 class="runway__label" id="runway-label">The Runway</h2>
@@ -147,8 +125,9 @@ const description =
         <p data-runway-no>No. 001</p>
         <p data-runway-loc>Edmonton</p>
       </div>
-    </section>
-    </div>
+          </section>
+        </div>
+      </div>
     </div>
 
     <section class="statement" aria-labelledby="statement-heading">

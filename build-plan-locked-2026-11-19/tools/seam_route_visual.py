@@ -25,7 +25,9 @@ def dark(arr):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--base", default="http://127.0.0.1:4821")
-    ap.add_argument("--out", default=str(ROOT / "qa/seam-route-visual")); a = ap.parse_args()
+    ap.add_argument("--out", default=str(ROOT / "qa/seam-route-visual")); ap.add_argument("--mobile", action="store_true"); a = ap.parse_args()
+    global W, H
+    if a.mobile: W, H = 390, 844   # gold darkness still read from the 1440 frames (same progress)
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     from playwright.sync_api import sync_playwright
     pw = sync_playwright().start()
@@ -34,7 +36,7 @@ def main():
     try:
         for route, pairs in ROUTES.items():
             for pair in pairs:
-                ctx = br.new_context(viewport={"width": W, "height": H}, reduced_motion="no-preference"); pg = ctx.new_page()
+                ctx = br.new_context(viewport={"width": W, "height": H}, reduced_motion="no-preference", is_mobile=a.mobile, has_touch=a.mobile); pg = ctx.new_page()
                 pg.goto(a.base.rstrip("/") + route + "?record=1", wait_until="networkidle", timeout=60000)
                 pg.wait_for_timeout(1500)
                 box = pg.evaluate(f"""() => {{ const e = document.querySelector('[data-seam-pair="{pair}"]'); if (!e) return null;
@@ -50,10 +52,10 @@ def main():
                     p = out / pair / f"s-{i:02d}.jpg"; p.parent.mkdir(parents=True, exist_ok=True)
                     pg.screenshot(path=str(p), type="jpeg", quality=85)
                     s = np.asarray(Image.open(p).convert("RGB")); g = np.asarray(Image.open(GOLD / pair / f"p-{round(i * 100 / STEPS):03d}.jpg").convert("RGB").resize((W, H)))
-                    rows.append((i, dark(s), dark(g))); shots.append(Image.open(p).resize((288, 162)))
+                    rows.append((i, dark(s), dark(g))); shots.append(Image.open(p).resize((288, 162) if not a.mobile else (117, 253)))
                 ctx.close()
-                sheet = Image.new("RGB", (288 * 7, 162 * 3), (12, 12, 15))
-                for k, im in enumerate(shots): sheet.paste(im, ((k % 7) * 288, (k // 7) * 162))
+                tw, th = shots[0].size; sheet = Image.new("RGB", (tw * 7, th * 3), (12, 12, 15))
+                for k, im in enumerate(shots): sheet.paste(im, ((k % 7) * tw, (k // 7) * th))
                 sheet.save(out / f"sheet-{pair}.jpg", quality=85)
                 worst = max(rows, key=lambda r: r[1] - r[2]); lenvh = round(box["h"] / H, 2)
                 good = worst[1] - worst[2] <= SLACK  # length is reported, not gated (wrappers contain real sections)

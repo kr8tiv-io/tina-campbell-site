@@ -1,0 +1,58 @@
+---
+import type { ImageMetadata } from 'astro';
+import Photo from './Photo.astro';
+
+interface Item {
+  label: string;
+  filter: string;
+  photo: { src: ImageMetadata; alt: string };
+  n: string;
+  pos: string;
+}
+
+interface Props {
+  items: Item[];
+  /** `in` is the live band. `out` is the inert echo the next seam leaves behind. */
+  place: 'in' | 'out';
+}
+
+const { items, place } = Astro.props;
+const echo = place === 'out';
+---
+
+<section
+  class:list={['sheet', echo && 'sheet--echo']}
+  aria-label={echo ? undefined : 'Categories'}
+  aria-hidden={echo ? 'true' : undefined}
+  inert={echo ? true : undefined}
+  data-seam-out={echo ? '' : undefined}
+  data-out={echo ? '' : undefined}
+  data-seam-in={echo ? undefined : ''}
+  data-in={echo ? undefined : ''}
+>
+  <span class="seam-real__ghost" data-seam-title aria-hidden="true">The contact sheet</span>
+  <ul class="sheet__row" data-seam-media>
+    {
+      echo
+        ? null
+        : items.map((item) => (
+        <li class="sheet__item">
+          <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View" tabindex={echo ? -1 : undefined}>
+            <span class="sheet__frame">
+              <Photo
+                src={item.photo.src}
+                alt={echo ? '' : item.photo.alt}
+                sizes="(max-width: 960px) 34vw, 16vw"
+                class={item.pos}
+              />
+            </span>
+            <span class="sheet__label">
+              {item.label}
+              <span class="sheet__no">No. {item.n}</span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

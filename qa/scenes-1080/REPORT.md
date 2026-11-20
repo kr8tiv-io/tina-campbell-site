@@ -12,7 +12,7 @@ luma SSIM >= 0.92 and MAE <= 8 on all 145 frames, master >= 1920 wide, duration 
 | 01A living-gown | ESRGAN hybrid | PASS 0.9748 | PASS 0.9773 | 0.74 / 2.4 / 0.84 | dn 0.5 ESRGAN streaked the sky (rejected); hybrid sky clean, frame-to-frame change 0.715 vs source 0.681 |
 | 03B followspot | ESRGAN hybrid | PASS 0.9613 | PASS 0.9661 | 3.1 / 5.9 / 2.5 | scrub GOP 6 |
 | 04B crimson-ink-drop | ESRGAN hybrid | PASS 0.9531 | PASS 0.9555 | 1.9 / 3.6 / 1.3 | |
-| 06B crimson-thread | Lanczos | PASS 0.9816 | PASS 0.9895 | see manifest | ESRGAN hybrid failed the gate (0.906): it smoothed the B&W grain. Lanczos keeps it |
+| 06B crimson-thread | Lanczos | PASS 0.9816 | PASS 0.9895 | 3.6 / 4.5 / 1.9 | ESRGAN hybrid failed the gate (0.906): it smoothed the B&W grain. Lanczos keeps it |
 | 09B blue-hour-lights | ESRGAN hybrid | PASS 0.9319 | PASS 0.9334 | 4.9 / 9.1 / 3.5 | dense foliage + water; higher quality encode (GOP 12, CRF 20/29); heaviest scene, lazy only |
 | 10A blue-hour-drift | ESRGAN hybrid | PASS 0.9526 | PASS 0.9660 | 1.8 / 3.9 / 1.4 | |
 | 11B veil-wipe | ESRGAN hybrid | PASS 0.9662 | PASS 0.9676 | 4.6 / 7.6 / 3.2 | |

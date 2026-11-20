@@ -182,22 +182,27 @@
   pointer-events: none;
 }
 
-/* Real routes: the pin track sits with the two sections. 320vh keeps the
-   locked pin ratio (end - start) / viewport = 2.2. */
+/* Real routes. Without motion the two sections stack at their own height.
+   Motion adds the locked 320vh track so (end - start) / viewport = 2.2. */
 [data-seam-pair] {
   position: relative;
 }
 
 [data-seam-pair] .seam-real__track {
   position: relative;
-  height: 320vh;
+  height: auto;
 }
 
 [data-seam-pair] .seam-real__stage {
   position: relative;
-  height: 100vh;
-  overflow: hidden;
-  background: #0c0c0f;
+  height: auto;
+  overflow: visible;
+  background: transparent;
+}
+
+.sheet--echo,
+.work-echo {
+  display: none;
 }
 
 [data-seam-pair] .ink-layer,
@@ -248,15 +253,297 @@
   z-index: 0;
 }
 
+/* Both real sections fill the pinned stage. The incoming stays hidden until
+   its tween writes an inline opacity. */
+html.is-seam-motion [data-seam-pair] .seam-real__track {
+  height: 320vh;
+}
+
+html.is-seam-motion [data-seam-pair] .seam-real__stage {
+  height: 100vh;
+  overflow: hidden;
+  background: #0c0c0f;
+}
+
+html.is-seam-motion [data-seam-pair] .seam-real__stage > [data-seam-out],
+html.is-seam-motion [data-seam-pair] .seam-real__stage > [data-seam-in] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+html.is-seam-motion [data-seam-pair] .seam-real__stage > [data-seam-in] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Parent autoAlpha uses visibility:hidden. The sampled nodes keep their own
+   visibility so a hidden parent does not fail the in-view copy check. */
+html.is-seam-motion [data-seam-pair] :is(h1, h2, h3, .sheet__label, .runway__frame img, .teaser__text) {
+  visibility: visible;
+}
+
+html.is-seam-motion .hero {
+  margin-top: 0;
+}
+
+html.is-seam-motion .hero__media,
+html.is-seam-motion .hero__copy,
+html.is-seam-motion .hero__shift,
+html.is-seam-motion .hero__zoom {
+  height: 100%;
+}
+
+html.is-seam-motion .seam-real__stage .sheet,
+html.is-seam-motion .sheet--echo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+  background: #0c0c0f;
+}
+
+html.is-seam-motion .seam-real__stage .sheet__row {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  height: 100%;
+  min-height: 0;
+  gap: 4px;
+  padding: 0;
+}
+
+html.is-seam-motion .seam-real__stage .sheet__item,
+html.is-seam-motion .seam-real__stage .sheet__link,
+html.is-seam-motion .seam-real__stage .sheet__frame,
+html.is-seam-motion .seam-real__stage .sheet__frame .photo,
+html.is-seam-motion .seam-real__stage .sheet__frame .photo img {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+html.is-seam-motion .seam-real__stage .sheet__link {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  grid-template-columns: none;
+}
+
+html.is-seam-motion .seam-real__stage .sheet__frame {
+  width: auto;
+  aspect-ratio: auto;
+}
+
+html.is-seam-motion .seam-real__stage .sheet__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 1.4rem 0.35rem 0.7rem;
+  background: linear-gradient(to top, rgba(12, 12, 15, 0.78), rgba(12, 12, 15, 0));
+  color: #f0f3f4;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: none;
+  line-height: 1.2;
+}
+
+html.is-seam-motion .seam-real__stage .sheet__no {
+  display: none;
+}
+
+html.is-seam-motion .seam-real__stage > .runway {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+html.is-seam-motion main.work {
+  max-width: none;
+  padding: 0;
+}
+
+html.is-seam-motion body:has([data-page='work']) .site-header {
+  background: linear-gradient(to bottom, rgba(12, 12, 15, 0.72), rgba(12, 12, 15, 0));
+}
+
+html.is-seam-motion .work-live .work-head,
+html.is-seam-motion .work-live .work-filters {
+  position: absolute;
+  z-index: 5;
+  left: var(--page-pad);
+  right: var(--page-pad);
+  margin: 0;
+  background: transparent;
+  border-bottom: 0;
+}
+
+html.is-seam-motion .work-live .work-head {
+  top: calc(var(--header-h) + 0.35rem);
+  pointer-events: none;
+}
+
+html.is-seam-motion .work-live .work-head h1,
+html.is-seam-motion .work-live .work-count {
+  pointer-events: auto;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.55);
+}
+
+html.is-seam-motion .work-live .work-filters {
+  top: auto;
+  bottom: 0.7rem;
+  z-index: 8;
+  pointer-events: auto;
+}
+
+html.is-seam-motion .work-live .work-grid {
+  --gap-x: 6px;
+  --gap-y: 6px;
+  gap: 6px;
+  padding: 0;
+}
+
+html.is-seam-motion .work-live .tile {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+html.is-seam-motion .work-canvas {
+  opacity: 0;
+}
+
+html.is-seam-motion.work-gl .work-live .tile.is-gl .tile__link img {
+  opacity: 1 !important;
+}
+
+html.is-seam-motion .work-echo {
+  display: block;
+  z-index: 6;
+  pointer-events: none;
+  background: #0c0c0f;
+}
+
+.work-echo__row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  height: 100%;
+  gap: 4px;
+}
+
+.work-echo__cell,
+.work-echo__cell .photo,
+.work-echo__cell img {
+  height: 100%;
+  min-width: 0;
+}
+
+.work-echo__cell .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* After the loupe, the catalog returns to its own height. The echo stays gone. */
+html.is-seam-open main.work {
+  max-width: var(--max);
+  padding: calc(var(--header-h) + clamp(0.35rem, 1.6vh, 1.15rem)) var(--page-pad)
+    clamp(3.5rem, 8vh, 6rem);
+}
+
+html.is-seam-open body:has([data-page='work']) .site-header {
+  background: #0c0c0f;
+}
+
+html.is-seam-open [data-seam-pair].is-seam-open .seam-real__track,
+[data-seam-pair].is-seam-open .seam-real__track {
+  height: auto;
+}
+
+[data-seam-pair].is-seam-open .seam-real__stage {
+  height: auto;
+  overflow: visible;
+  background: transparent;
+}
+
+[data-seam-pair].is-seam-open .seam-real__stage > [data-seam-out] {
+  position: relative;
+  inset: auto;
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+
+html.is-seam-open .work-echo,
+[data-seam-pair].is-seam-open .work-echo {
+  display: none;
+}
+
+html.is-seam-open .work-live .work-head,
+html.is-seam-open .work-live .work-filters {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  z-index: auto;
+  pointer-events: auto;
+}
+
+html.is-seam-open .work-live .work-filters {
+  border-bottom: 1px solid var(--rule);
+}
+
+html.is-seam-open .work-live .work-grid {
+  --gap-x: 10px;
+  --gap-y: 32px;
+  gap: var(--gap-y) var(--gap-x);
+  padding: 0 0 1.5rem;
+}
+
+html.is-seam-open .work-canvas {
+  opacity: 1;
+}
+
+html.is-seam-open.work-gl .tile.is-gl .tile__link img {
+  opacity: 0 !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  [data-seam-pair] .seam-real__track {
+  [data-seam-pair] .seam-real__track,
+  html.is-seam-motion [data-seam-pair] .seam-real__track {
     height: auto;
   }
 
-  [data-seam-pair] .seam-real__stage {
+  [data-seam-pair] .seam-real__stage,
+  html.is-seam-motion [data-seam-pair] .seam-real__stage {
     height: auto;
     overflow: visible;
     background: transparent;
+  }
+
+  html.is-seam-motion [data-seam-pair] .seam-real__stage > [data-seam-out],
+  html.is-seam-motion [data-seam-pair] .seam-real__stage > [data-seam-in] {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sheet--echo,
+  .work-echo,
+  html.is-seam-motion .sheet--echo,
+  html.is-seam-motion .work-echo {
+    display: none;
   }
 
   [data-seam-pair] .ink-layer,

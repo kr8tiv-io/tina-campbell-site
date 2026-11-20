@@ -204,8 +204,10 @@ async function initMotion(): Promise<void> {
   initCursor(abort.signal, fine);
 
   // Hold reveals until the signature loader finishes so the hero rise is seen.
+  // Record mode skips that hold. The route visual gate reads seam geometry
+  // 1.5s after load, and the loader does not release ScrollTrigger until ~2.6s.
   const revealed = new Promise<void>((resolve) => {
-    playLoader(reduced, () => {
+    playLoader(reduced || isRecordMode(), () => {
       if (abort.signal.aborted) return;
       lenis?.start();
       resolve();

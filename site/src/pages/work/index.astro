@@ -10,6 +10,7 @@ import '../../styles/seams.css';
 const tiles = workTiles();
 const count = tiles.length;
 const hero = tiles[0].photo;
+const echo = tiles.slice(0, 3);
 const og = await getImage({
   src: hero.src,
   width: 1200,
@@ -48,55 +49,74 @@ const jsonLd = {
       })();
     </script>
     <div data-seam-pair="04B-05C">
-    <header class="work-head" data-seam-in data-in>
-      <span class="seam-real__ghost" data-seam-title aria-hidden="true">Work</span>
-      <h1>Work</h1>
-      <p class="work-count" aria-live="polite"><span data-count>{count}</span> frames</p>
-    </header>
-    <nav class="work-filters" aria-label="Filter work">
-      {
-        workFilters.map((item) => (
-          <a href={item.href} data-filter-link={item.id} aria-current={item.id === 'all' ? 'true' : undefined}>
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
-    <ul class="work-grid" data-work-grid data-seam-out data-out data-seam-media>
-      {
-        tiles.map((tile, index) => (
-          <li
-            class:list={['tile', `tile--${tile.role}`, tile.hero && 'tile--hero']}
-            data-filter={tile.filter}
-            data-id={tile.photo.id}
-            data-orient={tile.photo.orientation}
-            data-series={tile.photo.series ?? ''}
-            data-bias={tile.bias}
-            style={`--focus: ${tile.focus}`}
-          >
-            <a class="tile__link" href={tile.href} data-cursor="View" data-astro-prefetch="false">
-              <Photo
-                src={tile.photo.src}
-                alt={tile.photo.alt}
-                sizes={sizesFor(tile.role)}
-                widths={
-                  tile.hero || tile.role === 'tall' || tile.role === 'lead-d' || tile.role === 'wide'
-                    ? [480, 800, 1200, 1600]
-                    : [480, 800, 1200]
-                }
-                priority={index < 3}
-                flipId={tile.photo.id}
-              />
-            </a>
-            <p class="tile__cap">{tile.caption}</p>
-          </li>
-        ))
-      }
-    </ul>
-    <p class="work-empty" data-empty hidden>Nothing here yet. Try another filter.</p>
-    <div class="seam-real__track" data-track>
-      <div class="seam-real__stage" data-stage></div>
-    </div>
+      <div class="seam-real__track" data-track>
+        <div class="seam-real__stage" data-stage>
+          <div class="work-live" data-seam-out data-out>
+            <header class="work-head">
+              <h1>Work</h1>
+              <p class="work-count" aria-live="polite"><span data-count>{count}</span> frames</p>
+            </header>
+            <nav class="work-filters" aria-label="Filter work">
+              {
+                workFilters.map((item) => (
+                  <a href={item.href} data-filter-link={item.id} aria-current={item.id === 'all' ? 'true' : undefined}>
+                    {item.label}
+                  </a>
+                ))
+              }
+            </nav>
+            <ul class="work-grid" data-work-grid data-seam-media>
+              {
+                tiles.map((tile, index) => (
+                  <li
+                    class:list={['tile', `tile--${tile.role}`, tile.hero && 'tile--hero']}
+                    data-filter={tile.filter}
+                    data-id={tile.photo.id}
+                    data-orient={tile.photo.orientation}
+                    data-series={tile.photo.series ?? ''}
+                    data-bias={tile.bias}
+                    style={`--focus: ${tile.focus}`}
+                  >
+                    <a class="tile__link" href={tile.href} data-cursor="View" data-astro-prefetch="false">
+                      <Photo
+                        src={tile.photo.src}
+                        alt={tile.photo.alt}
+                        sizes={sizesFor(tile.role)}
+                        widths={
+                          tile.hero || tile.role === 'tall' || tile.role === 'lead-d' || tile.role === 'wide'
+                            ? [480, 800, 1200, 1600]
+                            : [480, 800, 1200]
+                        }
+                        priority={index < 3}
+                        flipId={tile.photo.id}
+                      />
+                    </a>
+                    <p class="tile__cap">{tile.caption}</p>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="work-empty" data-empty hidden>Nothing here yet. Try another filter.</p>
+          </div>
+          <div class="work-echo" data-seam-in data-in aria-hidden="true">
+            <span class="seam-real__ghost" data-seam-title>Work</span>
+            <div class="work-echo__row">
+              {
+                echo.map((tile) => (
+                  <div class="work-echo__cell">
+                    <Photo
+                      src={tile.photo.src}
+                      alt=""
+                      sizes="34vw"
+                      widths={[480, 800, 1200]}
+                    />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <script is:inline>
       (function () {

@@ -138,6 +138,19 @@ function layer(className: string, attr: string): HTMLElement {
   return node;
 }
 
+/** The echo sheet stays empty in the markup so reduced motion does not wait on hidden images. */
+function fillSheetEcho(): void {
+  const live = document.querySelector<HTMLElement>('[data-seam-pair="01A-02A"] .sheet:not(.sheet--echo) .sheet__row');
+  const echo = document.querySelector<HTMLElement>('[data-seam-pair="02A-03B"] .sheet--echo .sheet__row');
+  if (!live || !echo || echo.childElementCount > 0) return;
+  live.querySelectorAll<HTMLElement>(':scope > li').forEach((item) => {
+    const clone = item.cloneNode(true);
+    if (!(clone instanceof HTMLElement)) return;
+    clone.querySelectorAll('a').forEach((anchor) => anchor.setAttribute('tabindex', '-1'));
+    echo.append(clone);
+  });
+}
+
 /** Masks, ink, flood and the loupe are decorative. They are never headings or copy. */
 function ensurePairLayers(seam: HTMLElement): void {
   const stage = seam.querySelector('[data-stage]');
@@ -296,8 +309,9 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
         anticipatePin: 1,
         onToggle: (self) => {
           if (liveHarness) return;
-          if (self.isActive) deferred.forEach((fn) => fn());
-          else releaseResting();
+          // Re-apply the from-state only as the pin engages. Releasing at the
+          // end put the outgoing section back on top of the incoming one.
+          if (self.isActive && self.progress < 0.04) deferred.forEach((fn) => fn());
         },
         onUpdate: (self) => swapNav(self.progress),
       },
@@ -810,15 +824,45 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
     timeline.to(inS, { autoAlpha: 1, duration: 0.5 }, 0.2);
   }
 
+  const cleanups: Array<() => void> = [];
+  if (!liveHarness && seam.dataset.seamPair === '04B-05C') {
+    let opened = false;
+    let armed = false;
+    const arm = (): void => {
+      armed = true;
+    };
+    const maybeOpen = (): void => {
+      if (!armed || opened) return;
+      const st = timeline.scrollTrigger;
+      if (!st || st.progress < 1 || window.scrollY <= st.end + 1) return;
+      opened = true;
+      seam.classList.add('is-seam-open');
+      document.documentElement.classList.add('is-seam-open');
+      releaseResting();
+      st.kill(true);
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('wheel', arm, { passive: true });
+    window.addEventListener('touchmove', arm, { passive: true });
+    window.addEventListener('keydown', arm);
+    window.addEventListener('scroll', maybeOpen, { passive: true });
+    cleanups.push(() => {
+      window.removeEventListener('wheel', arm);
+      window.removeEventListener('touchmove', arm);
+      window.removeEventListener('keydown', arm);
+      window.removeEventListener('scroll', maybeOpen);
+    });
+  }
+
   return {
     timeline,
     pair: seam.dataset.seamPair,
     settle: () => {
-      if (liveHarness) return;
-      const active = timeline.scrollTrigger?.isActive ?? false;
-      if (!active) releaseResting();
+      // The from-state stays on. Clearing it when the pin is idle covers the
+      // outgoing section with the incoming one, or with a full ink layer.
     },
     revert: () => {
+      cleanups.forEach((fn) => fn());
       timeline.scrollTrigger?.kill();
       timeline.kill();
       splits.forEach((item) => item.revert());
@@ -847,8 +891,14 @@ export function initSeams(root: ParentNode = document): () => void {
   let cancelled = false;
   let mounted: Mounted[] = [];
 
+  // The pin length has to exist before the route visual gate measures the
+  // wrapper. That read happens 1.5s after load, which can beat font settling.
+  if (pairs.length) document.documentElement.classList.add('is-seam-motion');
+
   const mount = (): void => {
     if (cancelled) return;
+    if (pairs.length) document.documentElement.classList.add('is-seam-motion');
+    fillSheetEcho();
     pairs.forEach((seam) => ensurePairLayers(seam));
     const built = [...harness, ...pairs]
       .map((seam) => mountSeam(seam, root))
@@ -876,6 +926,7 @@ export function initSeams(root: ParentNode = document): () => void {
 
   return () => {
     cancelled = true;
+    document.documentElement.classList.remove('is-seam-motion', 'is-seam-open');
     mounted.forEach((item) => item.revert());
     if (window.__PROTO_TL__ && mounted.some((item) => item.timeline === window.__PROTO_TL__)) {
       window.__PROTO_TL__ = undefined;

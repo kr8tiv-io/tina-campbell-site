@@ -1,0 +1,76 @@
+{
+ "duration": 1.2,
+ "defaults": "{\"ease\":\"cine\",\"duration\":1}",
+ "pin": {
+  "start": "top top",
+  "end": "bottom bottom",
+  "scrub": 0.6,
+  "anticipatePin": 1,
+  "ratio": 2.2
+ },
+ "rows": [
+  {
+   "start": 0,
+   "dur": 0.55,
+   "ease": "power2.in",
+   "stagger": null,
+   "n": 1,
+   "target": ".flood-layer",
+   "props": {
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.15,
+   "dur": 0.4,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-out",
+   "props": {
+    "autoAlpha": 0,
+    "yPercent": -10
+   },
+   "from": null
+  },
+  {
+   "start": 0.4,
+   "dur": 0.7,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-in",
+   "props": {
+    "autoAlpha": 1,
+    "filter": "blur(0px)",
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.55,
+   "dur": 0.5,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".flood-layer",
+   "props": {
+    "autoAlpha": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.55,
+   "dur": 0.65,
+   "ease": "cine",
+   "stagger": 0.03,
+   "n": 6,
+   "target": "DIV",
+   "props": {
+    "yPercent": 0
+   },
+   "from": null
+  }
+ ]
+}
