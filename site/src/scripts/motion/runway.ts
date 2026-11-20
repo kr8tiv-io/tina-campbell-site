@@ -95,6 +95,19 @@ function mountFallback(section: HTMLElement, signal: AbortSignal): () => void {
   return () => {};
 }
 
+/**
+ * Home 03B calls this as the followspot pin moves. It only marks the home
+ * frame strip. The curved catwalk mount below does not read the flag.
+ */
+export function hookRunwayHandoff(progress: number): void {
+  const strip = document.querySelector<HTMLElement>('[data-runway-strip]');
+  if (!strip) return;
+  const handed = progress >= 0.92;
+  strip.classList.toggle('is-handed', handed);
+  if (handed) strip.dataset.runwayHandoff = 'strip';
+  else delete strip.dataset.runwayHandoff;
+}
+
 export function initRunway(reduced: boolean, _fine: boolean, signal: AbortSignal): () => void {
   const section = document.querySelector<HTMLElement>('[data-catwalk]');
   if (!section) return () => {};

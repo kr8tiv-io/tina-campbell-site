@@ -179,22 +179,16 @@ function createScrubber(video: HTMLVideoElement): (progress: number) => void {
     seeking = true;
     pending = null;
     const release = (): void => {
+      if (!seeking) return;
       seeking = false;
       const next = pending;
       pending = null;
       if (next != null) seek(next);
     };
-    if (typeof video.requestVideoFrameCallback === 'function') {
-      video.addEventListener(
-        'seeked',
-        () => {
-          video.requestVideoFrameCallback(() => release());
-        },
-        { once: true },
-      );
-    } else {
-      video.addEventListener('seeked', release, { once: true });
-    }
+    // Release on seeked. A paused scrub presents one frame per seek, so a
+    // requestVideoFrameCallback registered after seeked never runs and every
+    // later seek stays stuck in `pending`.
+    video.addEventListener('seeked', release, { once: true });
     try {
       video.currentTime = clamped;
     } catch {

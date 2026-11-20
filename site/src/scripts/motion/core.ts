@@ -4,6 +4,7 @@ import { initCursor } from './cursor';
 import { endLoader, playLoader } from './loader';
 import { initHome, syncHeroCopy } from './home';
 import { initRunway } from './runway';
+import { initRunwayFollowspot } from './scenes/runway-followspot';
 import { initWork } from './work';
 import { initEditorial } from './editorial';
 import { initAbout } from './about';
@@ -229,8 +230,10 @@ async function initMotion(): Promise<void> {
   const releasePages = initPages(reduced, abort.signal);
   const releaseSeams = initSeams(document);
   const releaseVideos = initSceneVideos(abort.signal);
+  const releaseFollow = initRunwayFollowspot(reduced, abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releaseFollow();
     releaseVideos();
     releaseSeams();
     releasePages();

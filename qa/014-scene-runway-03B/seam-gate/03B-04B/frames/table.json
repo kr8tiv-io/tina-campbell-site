@@ -1,0 +1,78 @@
+{
+ "duration": 1.1,
+ "defaults": "{\"ease\":\"cine\",\"duration\":1}",
+ "pin": {
+  "start": "top top",
+  "end": "bottom bottom",
+  "scrub": 0.6,
+  "anticipatePin": 1,
+  "ratio": 2.2
+ },
+ "rows": [
+  {
+   "start": 0,
+   "dur": 0.5,
+   "ease": "cine",
+   "stagger": 0.02,
+   "n": 6,
+   "target": "DIV",
+   "props": {
+    "yPercent": -110
+   },
+   "from": null
+  },
+  {
+   "start": 0,
+   "dur": 0.7,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".media",
+   "props": {
+    "rotate": 3,
+    "scale": 0.8,
+    "yPercent": 40
+   },
+   "from": null
+  },
+  {
+   "start": 0.25,
+   "dur": 0.85,
+   "ease": "power3.out",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-in",
+   "props": {
+    "autoAlpha": 1,
+    "rotate": 0,
+    "scale": 1,
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.5,
+   "dur": 0.59,
+   "ease": "cine",
+   "stagger": 0.03,
+   "n": 4,
+   "target": "DIV",
+   "props": {
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.55,
+   "dur": 0.3,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-out",
+   "props": {
+    "autoAlpha": 0
+   },
+   "from": null
+  }
+ ]
+}

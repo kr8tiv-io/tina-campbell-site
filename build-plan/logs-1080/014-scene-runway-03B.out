@@ -1,0 +1,11 @@
+I'll implement the 03B followspot scrub on the home runway band, starting from the locked scene spec, the motion contract, and how 01A already uses the shared video helper.The runway band will open on the followspot video, scrubbed by the existing seam pin, then hand off to the photo strip. The WebGL catwalk stays as it is.Typecheck passed. Next I’ll build with the motion lab on and start the preview the gates use.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The followspot scrub is in and the scene gates already passed. I am re-shooting the progress frames with a longer settle so the colour hold is visible, then I will run the production build and Playwright.The end frame in the scene gate is in colour, but the full-page shot at progress 1 is still the noir poster. I am checking whether that is a capture delay or the still sitting on top of the video.Reduced motion shows the colour end still. The full-page shots at the end of the pin stay noir because Chrome leaves the video layer out of the page capture. I am re-shooting those frames from the decoded picture.Continuous scrub stops after the first seek. A paused clip never fires `requestVideoFrameCallback` once that callback is registered inside `seeked`, so later times stay queued. I am releasing the lock on `seeked` so forward and reverse can keep moving.The handoff shot is from before the scrub lock was fixed, so the stage still looks noir. I am recapturing that frame from the decoded picture, then writing the report.Scene 03B scrubs on the pinned home runway stage. Scroll progress 0 to 1 maps to 0 to 6.0 seconds, forward and back, and the photo strip takes over at the hold. The WebGL runway on `/runway/` is unchanged.
+
+The first seek was landing, then later seeks never ran: a paused clip does not fire `requestVideoFrameCallback` after `seeked`, so the shared scrubber stayed locked. It now releases on `seeked`. 01A still loops.
+
+Seam 02A-03B passes on `/`. 03B-04B stays cross-route and is noted in `build-plan/OPEN-QUESTIONS.md`. Report: `qa/014-scene-runway-03B/REPORT.md`. Suggested commit: `feat(scene-03B): runway followspot video scrubbed by the pinned runway stage`.
+
+GATE 014-scene-runway-03B: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)

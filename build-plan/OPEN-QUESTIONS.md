@@ -16,6 +16,7 @@ Logged 13 Nov 2026, America/Costa_Rica (UTC-6):
 Logged 19 Nov 2026, while porting the locked seams. The seam runtime is on the routes where both scenes already exist. The others are not wired:
 
 6. `03B-04B` (`site_route_real` `/`): home has the runway section (03B). It does not have the 04B work-hover scene. That scene is the work index. The seam is not inserted on `/`.
+   Update 20 Nov 2026 (prompt 014): 03B is the followspot video on the home runway stage (`/`). 04B is still the work-index hover, a different route. The pair stays cross-route. The seam is still not inserted on `/`. The harness at `/motion-lab/seams/03B-04B/` is unchanged.
 7. `05C-06B` (`site_route_real` `/work/`): `/work/` has the work entrance (05C) and the hover grid (04B). It does not have the 06B editorial split. That scene is `/fashion-editorial/`. The seam is not inserted on `/work/`.
 8. `06B-07C` (`site_route_real` `/fashion-editorial/`): the editorial split (06B) is this page. The 07C print-stack series scene is not a section here. It lives at `/series/the-red-gown/`. The seam is not inserted.
 9. `07C-08B` (`site_route_real` `/series/the-red-gown/`): the series story (07C) is this page. The 08B ink-flood page transition is not a section on it. The seam is not inserted.
