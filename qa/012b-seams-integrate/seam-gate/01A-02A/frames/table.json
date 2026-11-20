@@ -1,0 +1,104 @@
+{
+ "duration": 1.54,
+ "defaults": "{\"ease\":\"cine\",\"duration\":1}",
+ "pin": {
+  "start": "top top",
+  "end": "bottom bottom",
+  "scrub": 0.6,
+  "anticipatePin": 1,
+  "ratio": 2.2
+ },
+ "rows": [
+  {
+   "start": 0,
+   "dur": 1.2,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".media",
+   "props": {
+    "scale": 1.08,
+    "yPercent": -12
+   },
+   "from": null
+  },
+  {
+   "start": 0.05,
+   "dur": 0.77,
+   "ease": "cine",
+   "stagger": 0.02,
+   "n": 12,
+   "target": "DIV",
+   "props": {
+    "opacity": 0,
+    "yPercent": -110
+   },
+   "from": null
+  },
+  {
+   "start": 0.15,
+   "dur": 0.65,
+   "ease": "power2.inOut",
+   "stagger": null,
+   "n": 1,
+   "target": ".ink-layer",
+   "props": {
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.38,
+   "dur": 0.85,
+   "ease": "power3.out",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-in",
+   "props": {
+    "autoAlpha": 1,
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.4,
+   "dur": 0.7,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".media",
+   "props": {
+    "filter": "blur(0px)",
+    "yPercent": 0
+   },
+   "from": {
+    "filter": "blur(8px)",
+    "yPercent": 18
+   }
+  },
+  {
+   "start": 0.52,
+   "dur": 1.02,
+   "ease": "cine",
+   "stagger": 0.03,
+   "n": 15,
+   "target": "DIV",
+   "props": {
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.72,
+   "dur": 0.45,
+   "ease": "power2.in",
+   "stagger": null,
+   "n": 1,
+   "target": ".ink-layer",
+   "props": {
+    "yPercent": 100
+   },
+   "from": null
+  }
+ ]
+}

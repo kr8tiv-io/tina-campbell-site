@@ -1,0 +1,89 @@
+{
+ "duration": 1.338,
+ "defaults": "{\"ease\":\"cine\",\"duration\":1}",
+ "pin": {
+  "start": "top top",
+  "end": "bottom bottom",
+  "scrub": 0.6,
+  "anticipatePin": 1,
+  "ratio": 2.2
+ },
+ "rows": [
+  {
+   "start": 0,
+   "dur": 0.46,
+   "ease": "cine",
+   "stagger": 0.02,
+   "n": 4,
+   "target": "DIV",
+   "props": {
+    "opacity": 0,
+    "xPercent": -30
+   },
+   "from": null
+  },
+  {
+   "start": 0,
+   "dur": 0.7,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".media",
+   "props": {
+    "scale": 0.92,
+    "xPercent": -18
+   },
+   "from": null
+  },
+  {
+   "start": 0.25,
+   "dur": 0.8,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-in",
+   "props": {
+    "autoAlpha": 1,
+    "scale": 1,
+    "xPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.4,
+   "dur": 0.7,
+   "ease": "power1.inOut",
+   "stagger": null,
+   "n": 1,
+   "target": "#threadPath",
+   "props": {
+    "drawSVG": "0% 100%"
+   },
+   "from": null
+  },
+  {
+   "start": 0.45,
+   "dur": 0.888,
+   "ease": "cine",
+   "stagger": 0.018,
+   "n": 17,
+   "target": "DIV",
+   "props": {
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.6,
+   "dur": 0.25,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-out",
+   "props": {
+    "autoAlpha": 0
+   },
+   "from": null
+  }
+ ]
+}

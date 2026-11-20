@@ -1,4 +1,4 @@
-import { DrawSVGPlugin, gsap, ScrollTrigger, SplitText } from './runtime';
+import { DrawSVGPlugin, gsap, isRecordMode, ScrollTrigger, SplitText } from './runtime';
 
 declare global {
   interface Window {
@@ -6,6 +6,160 @@ declare global {
     __PROTO_READY__?: boolean;
     __PROTO_DONE__?: Promise<void>;
     __START_RECORD__?: () => Promise<void>;
+    __SEAM_TABLES__?: Record<string, SeamTable>;
+  }
+}
+
+interface SeamTableRow {
+  start: number;
+  dur: number;
+  ease: string;
+  stagger: number | string | null;
+  n: number;
+  target: string;
+  props: Record<string, number | string>;
+  from: Record<string, number | string> | null;
+}
+
+interface SeamTable {
+  duration: number;
+  defaults: string;
+  pin: {
+    start: string;
+    end: string;
+    scrub: number | boolean;
+    anticipatePin: number;
+    ratio: number;
+  } | null;
+  rows: SeamTableRow[];
+}
+
+const CLEAR_PROPS =
+  'opacity,visibility,transform,filter,clipPath,background,backgroundColor,borderRadius,transformOrigin,zIndex';
+
+/** Harness markup uses `.copy h1` / `.media`. Real sections use the same tweens on their own nodes. */
+function titleOf(section: HTMLElement): Element | null {
+  return section.querySelector('.copy h1') || section.querySelector('[data-seam-title]');
+}
+
+function mediaOf(section: HTMLElement): Element | null {
+  return section.querySelector('.media') || section.querySelector('[data-seam-media]');
+}
+
+function extractTable(tl: gsap.core.Timeline): SeamTable {
+  const st = tl.scrollTrigger || null;
+  const name = (node: Element | null): string => {
+    if (!node) return '';
+    const id = node.id ? `#${node.id}` : '';
+    const cls = node.getAttribute('class');
+    const className = cls ? `.${cls.trim().split(/\s+/).join('.')}` : '';
+    return id + className || node.tagName;
+  };
+  const norm = (value: unknown): number | string => {
+    if (typeof value === 'number') return Math.round(value * 1000) / 1000;
+    if (typeof value === 'string') return value;
+    if (value && typeof value === 'object' && !Array.isArray(value)) return JSON.stringify(value);
+    return String(value);
+  };
+  const skip = new Set([
+    'ease',
+    'duration',
+    'stagger',
+    'delay',
+    'onComplete',
+    'onUpdate',
+    'onStart',
+    'immediateRender',
+    'lazy',
+    'callbackScope',
+    'overwrite',
+    'parent',
+    'runBackwards',
+    'startAt',
+    'data',
+    'id',
+    'paused',
+    'yoyo',
+    'repeat',
+    'keyframes',
+  ]);
+  const rows = tl.getChildren(true, true, true).map((child) => {
+    const tween = child as gsap.core.Tween;
+    const vars = (tween.vars || {}) as Record<string, unknown>;
+    const props: Record<string, number | string> = {};
+    Object.keys(vars)
+      .sort()
+      .forEach((key) => {
+        if (!skip.has(key)) props[key] = norm(vars[key]);
+      });
+    const startAt = vars.startAt as Record<string, unknown> | undefined;
+    const from = startAt
+      ? Object.fromEntries(
+          Object.keys(startAt)
+            .sort()
+            .filter((key) => !skip.has(key))
+            .map((key) => [key, norm(startAt[key])]),
+        )
+      : null;
+    const targets = tween.targets ? tween.targets() : [];
+    const first = targets[0] instanceof Element ? targets[0] : null;
+    return {
+      start: Math.round(tween.startTime() * 1000) / 1000,
+      dur: Math.round(tween.duration() * 1000) / 1000,
+      ease: vars.ease ? String(vars.ease) : 'default',
+      stagger: vars.stagger === undefined ? null : norm(vars.stagger),
+      n: targets.length,
+      target: first ? name(first) : '',
+      props,
+      from,
+    };
+  });
+  return {
+    duration: Math.round(tl.duration() * 1000) / 1000,
+    defaults: JSON.stringify(tl.vars.defaults || {}),
+    pin: st
+      ? {
+          start: String(st.vars.start),
+          end: String(st.vars.end),
+          scrub: st.vars.scrub as number | boolean,
+          anticipatePin: Number(st.vars.anticipatePin || 0),
+          ratio: Math.round(((st.end - st.start) / innerHeight) * 1000) / 1000,
+        }
+      : null,
+    rows,
+  };
+}
+
+function layer(className: string, attr: string): HTMLElement {
+  const node = document.createElement('div');
+  node.className = className;
+  node.setAttribute(attr, '');
+  node.setAttribute('aria-hidden', 'true');
+  return node;
+}
+
+/** Masks, ink, flood and the loupe are decorative. They are never headings or copy. */
+function ensurePairLayers(seam: HTMLElement): void {
+  const stage = seam.querySelector('[data-stage]');
+  if (!(stage instanceof HTMLElement)) return;
+  const pair = seam.dataset.seamPair || '';
+  if (pair === '01A-02A' && !stage.querySelector('[data-ink]')) stage.append(layer('ink-layer', 'data-ink'));
+  if (pair === '02A-03B' && !stage.querySelector('[data-flood]')) stage.append(layer('flood-layer', 'data-flood'));
+  if (pair === '04B-05C' && !stage.querySelector('[data-loupe]')) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'mask-svg');
+    svg.setAttribute('viewBox', '0 0 1440 810');
+    svg.setAttribute('aria-hidden', 'true');
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('data-loupe', '');
+    circle.setAttribute('cx', '720');
+    circle.setAttribute('cy', '405');
+    circle.setAttribute('r', '90');
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', '#b3261e');
+    circle.setAttribute('stroke-width', '6');
+    svg.append(circle);
+    stage.append(svg);
   }
 }
 
@@ -72,6 +226,8 @@ function showIncomingOnly(seam: HTMLElement): void {
 
 interface Mounted {
   timeline: gsap.core.Timeline;
+  pair?: string;
+  settle?: () => void;
   revert: () => void;
 }
 
@@ -89,6 +245,26 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   const navOut = [...root.querySelectorAll<HTMLElement>('[data-nav-out]')];
   const navIn = [...root.querySelectorAll<HTMLElement>('[data-nav-in]')];
   const splits: SplitText[] = [];
+  const liveHarness = seam.hasAttribute('data-seam');
+  const touched: Element[] = [];
+  const deferred: Array<() => void> = [];
+
+  function applySet(target: gsap.TweenTarget, vars: gsap.TweenVars): void {
+    gsap.set(target, vars);
+    if (liveHarness || target == null) return;
+    gsap.utils.toArray(target).forEach((node) => {
+      if (node instanceof Element) touched.push(node);
+    });
+    deferred.push(() => {
+      gsap.set(target, vars);
+    });
+  }
+
+  function releaseResting(): void {
+    touched.forEach((node) => {
+      gsap.set(node, { clearProps: CLEAR_PROPS });
+    });
+  }
 
   function split(el: Element | null): SplitText | null {
     if (!(el instanceof HTMLElement)) return null;
@@ -118,6 +294,11 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
         scrub: 0.6,
         pin: stage,
         anticipatePin: 1,
+        onToggle: (self) => {
+          if (liveHarness) return;
+          if (self.isActive) deferred.forEach((fn) => fn());
+          else releaseResting();
+        },
         onUpdate: (self) => swapNav(self.progress),
       },
     });
@@ -126,18 +307,18 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   /* ---------- 01A → 02A ---------- */
   function t_01A_02A_A(tl: gsap.core.Timeline): void {
     const ink = stage.querySelector('[data-ink]');
-    const outCopy = split(outS.querySelector('.copy h1'));
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(ink, { yPercent: 100, zIndex: 8 });
-    gsap.set(inS, { yPercent: 36, autoAlpha: 0, zIndex: 9 });
-    if (inCopy) gsap.set(inCopy.chars, { yPercent: 110 });
-    tl.to(outS.querySelector('.media'), { yPercent: -12, scale: 1.08, duration: 1.2 }, 0);
+    const outCopy = split(titleOf(outS));
+    const inCopy = split(titleOf(inS));
+    applySet(ink, { yPercent: 100, zIndex: 8 });
+    applySet(inS, { yPercent: 36, autoAlpha: 0, zIndex: 9 });
+    if (inCopy) applySet(inCopy.chars, { yPercent: 110 });
+    tl.to(mediaOf(outS), { yPercent: -12, scale: 1.08, duration: 1.2 }, 0);
     if (outCopy) tl.to(outCopy.chars, { yPercent: -110, opacity: 0, stagger: 0.02, duration: 0.55 }, 0.05);
     tl.to(ink, { yPercent: 0, duration: 0.65, ease: 'power2.inOut' }, 0.15);
     tl.to(inS, { autoAlpha: 1, yPercent: 0, duration: 0.85, ease: 'power3.out' }, 0.38);
     if (inCopy) tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.6 }, 0.52);
     tl.fromTo(
-      inS.querySelector('.media'),
+      mediaOf(inS),
       { yPercent: 18, filter: 'blur(8px)' },
       { yPercent: 0, filter: 'blur(0px)', duration: 0.7 },
       0.4,
@@ -146,11 +327,11 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   }
 
   function t_01A_02A_B(tl: gsap.core.Timeline): void {
-    const outCopy = split(outS.querySelector('.copy h1'));
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0 });
+    const outCopy = split(titleOf(outS));
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0 });
     tl.to(
-      outS.querySelector('.media'),
+      mediaOf(outS),
       { scale: 0.34, yPercent: 6, xPercent: 0, borderRadius: 4, duration: 1 },
       0,
     );
@@ -158,23 +339,23 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
     if (outCopy) tl.to(outCopy.chars, { yPercent: 120, opacity: 0, stagger: 0.015, duration: 0.4 }, 0.05);
     tl.fromTo(inS, { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.7 }, 0.35);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.025, duration: 0.55 }, 0.5);
     }
   }
 
   function t_01A_02A_C(tl: gsap.core.Timeline): void {
     const brush = stage.querySelector('#brushPath');
-    const outCopy = split(outS.querySelector('.copy h1'));
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 1, clipPath: 'inset(0 0 0 100%)' });
-    if (brush) gsap.set(brush, { drawSVG: '0% 0%' });
+    const outCopy = split(titleOf(outS));
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 1, clipPath: 'inset(0 0 0 100%)' });
+    if (brush) applySet(brush, { drawSVG: '0% 0%' });
     if (outCopy) tl.to(outCopy.chars, { xPercent: -40, opacity: 0, stagger: 0.02, duration: 0.5 }, 0);
     if (brush) tl.to(brush, { drawSVG: '0% 100%', duration: 0.8, ease: 'power2.inOut' }, 0.05);
     tl.to(inS, { clipPath: 'inset(0 0 0 0%)', duration: 0.8, ease: 'power2.inOut' }, 0.15);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.7);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.55 }, 0.45);
     }
     if (brush) {
@@ -185,24 +366,24 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
 
   /* ---------- 02A → 03B ---------- */
   function t_02A_03B_A(tl: gsap.core.Timeline): void {
-    const outCopy = split(outS.querySelector('.copy h1'));
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, scaleY: 0.42, yPercent: 8 });
-    tl.to(outS.querySelector('.media'), { scaleY: 1.55, scaleX: 0.92, yPercent: -6, duration: 0.8 }, 0);
+    const outCopy = split(titleOf(outS));
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, scaleY: 0.42, yPercent: 8 });
+    tl.to(mediaOf(outS), { scaleY: 1.55, scaleX: 0.92, yPercent: -6, duration: 0.8 }, 0);
     if (outCopy) tl.to(outCopy.chars, { yPercent: -110, stagger: 0.02, duration: 0.4 }, 0);
     tl.to(inS, { autoAlpha: 1, scaleY: 1, yPercent: 0, duration: 0.85 }, 0.25);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.55);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_02A_03B_B(tl: gsap.core.Timeline): void {
     const spot = stage.querySelector('[data-spot]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, scale: 1.12 });
-    gsap.set(spot, { autoAlpha: 0, '--sx': '18%', '--sy': '55%' });
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, scale: 1.12 });
+    applySet(spot, { autoAlpha: 0, '--sx': '18%', '--sy': '55%' });
     tl.to(outS, { filter: 'saturate(0) brightness(0.45)', duration: 0.4 }, 0);
     tl.to(spot, { autoAlpha: 1, duration: 0.3 }, 0.1);
     tl.to(spot, { '--sx': '50%', '--sy': '50%', duration: 0.8 }, 0.2);
@@ -210,201 +391,201 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
     tl.to(outS, { autoAlpha: 0, duration: 0.35 }, 0.65);
     tl.to(spot, { autoAlpha: 0.4, duration: 0.4 }, 0.7);
     if (inCopy) {
-      gsap.set(inCopy.chars, { opacity: 0, y: 30 });
+      applySet(inCopy.chars, { opacity: 0, y: 30 });
       tl.to(inCopy.chars, { opacity: 1, y: 0, stagger: 0.03, duration: 0.5 }, 0.55);
     }
   }
 
   function t_02A_03B_C(tl: gsap.core.Timeline): void {
     const flood = stage.querySelector('[data-flood]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(flood, { yPercent: 100, background: 'linear-gradient(180deg,#4a0d1a 0%,#b3261e 40%,#1a0a12 100%)' });
-    gsap.set(inS, { autoAlpha: 0, yPercent: 16, filter: 'blur(10px)' });
+    const inCopy = split(titleOf(inS));
+    applySet(flood, { yPercent: 100, background: 'linear-gradient(180deg,#4a0d1a 0%,#b3261e 40%,#1a0a12 100%)' });
+    applySet(inS, { autoAlpha: 0, yPercent: 16, filter: 'blur(10px)' });
     tl.to(flood, { yPercent: 0, duration: 0.55, ease: 'power2.in' }, 0);
     tl.to(outS, { autoAlpha: 0, yPercent: -10, duration: 0.4 }, 0.15);
     tl.to(inS, { autoAlpha: 1, yPercent: 0, filter: 'blur(0px)', duration: 0.7 }, 0.4);
     tl.to(flood, { autoAlpha: 0, duration: 0.5 }, 0.55);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.55);
     }
   }
 
   /* ---------- 03B → 04B ---------- */
   function t_03B_04B_A(tl: gsap.core.Timeline): void {
-    const outCopy = split(outS.querySelector('.copy h1'));
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, rotate: -4, yPercent: -20, scale: 0.86 });
+    const outCopy = split(titleOf(outS));
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, rotate: -4, yPercent: -20, scale: 0.86 });
     if (outCopy) tl.to(outCopy.chars, { yPercent: -110, stagger: 0.02, duration: 0.4 }, 0);
-    tl.to(outS.querySelector('.media'), { yPercent: 40, rotate: 3, scale: 0.8, duration: 0.7 }, 0);
+    tl.to(mediaOf(outS), { yPercent: 40, rotate: 3, scale: 0.8, duration: 0.7 }, 0);
     tl.to(inS, { autoAlpha: 1, rotate: 0, yPercent: 0, scale: 1, duration: 0.85, ease: 'power3.out' }, 0.25);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.55);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_03B_04B_B(tl: gsap.core.Timeline): void {
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, clipPath: 'inset(100% 0 0 0)' });
-    tl.to(outS.querySelector('.media'), { filter: 'grayscale(1) brightness(0.7)', yPercent: 8, duration: 0.6 }, 0);
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, clipPath: 'inset(100% 0 0 0)' });
+    tl.to(mediaOf(outS), { filter: 'grayscale(1) brightness(0.7)', yPercent: 8, duration: 0.6 }, 0);
     tl.to(inS, { autoAlpha: 1, clipPath: 'inset(0% 0 0 0)', duration: 0.8, ease: 'power2.inOut' }, 0.2);
     tl.to(outS, { autoAlpha: 0, duration: 0.25 }, 0.7);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_03B_04B_C(tl: gsap.core.Timeline): void {
     const spot = stage.querySelector('[data-spot]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(spot, { autoAlpha: 1, '--sx': '50%', '--sy': '50%' });
-    gsap.set(inS, { autoAlpha: 0, scale: 1.2 });
+    const inCopy = split(titleOf(inS));
+    applySet(spot, { autoAlpha: 1, '--sx': '50%', '--sy': '50%' });
+    applySet(inS, { autoAlpha: 0, scale: 1.2 });
     tl.to(spot, { '--sx': '50%', '--sy': '48%', duration: 0.3 }, 0);
-    tl.to(outS.querySelector('.media'), { scale: 0.42, duration: 0.7 }, 0.1);
+    tl.to(mediaOf(outS), { scale: 0.42, duration: 0.7 }, 0.1);
     tl.to(inS, { autoAlpha: 1, scale: 1, duration: 0.7 }, 0.35);
     tl.to(spot, { autoAlpha: 0, duration: 0.45 }, 0.55);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.6);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.55);
     }
   }
 
   /* ---------- 04B → 05C ---------- */
   function t_04B_05C_A(tl: gsap.core.Timeline): void {
-    const outCopy = split(outS.querySelector('.copy h1'));
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, yPercent: -18, rotate: -5, scale: 1.08 });
+    const outCopy = split(titleOf(outS));
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, yPercent: -18, rotate: -5, scale: 1.08 });
     if (outCopy) tl.to(outCopy.chars, { yPercent: -110, stagger: 0.02, duration: 0.35 }, 0);
-    tl.to(outS.querySelector('.media'), { yPercent: -30, rotate: 4, scale: 0.9, duration: 0.65 }, 0);
+    tl.to(mediaOf(outS), { yPercent: -30, rotate: 4, scale: 0.9, duration: 0.65 }, 0);
     tl.to(inS, { autoAlpha: 1, yPercent: 0, rotate: 0, scale: 1, duration: 0.85, ease: 'back.out(1.2)' }, 0.25);
     tl.to(outS, { autoAlpha: 0, duration: 0.25 }, 0.55);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_04B_05C_B(tl: gsap.core.Timeline): void {
     const ink = stage.querySelector('[data-ink]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(ink, { scale: 0, borderRadius: '50%', background: '#b3261e' });
-    gsap.set(inS, { autoAlpha: 0 });
+    const inCopy = split(titleOf(inS));
+    applySet(ink, { scale: 0, borderRadius: '50%', background: '#b3261e' });
+    applySet(inS, { autoAlpha: 0 });
     tl.to(ink, { scale: 18, duration: 0.7, ease: 'power2.in' }, 0);
     tl.set(ink, { background: '#0c0c0f' }, 0.45);
     tl.to(inS, { autoAlpha: 1, duration: 0.5 }, 0.45);
     tl.to(ink, { autoAlpha: 0, duration: 0.45 }, 0.65);
     tl.to(outS, { autoAlpha: 0, duration: 0.2 }, 0.5);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.6);
     }
   }
 
   function t_04B_05C_C(tl: gsap.core.Timeline): void {
     const loupe = stage.querySelector('[data-loupe]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(loupe, { scale: 0.15, autoAlpha: 1 });
-    gsap.set(inS, { autoAlpha: 0, clipPath: 'circle(8% at 50% 50%)' });
+    const inCopy = split(titleOf(inS));
+    applySet(loupe, { scale: 0.15, autoAlpha: 1 });
+    applySet(inS, { autoAlpha: 0, clipPath: 'circle(8% at 50% 50%)' });
     tl.to(loupe, { scale: 1.15, duration: 0.85, ease: 'power2.inOut' }, 0);
     tl.to(inS, { autoAlpha: 1, clipPath: 'circle(80% at 50% 50%)', duration: 0.85, ease: 'power2.inOut' }, 0.1);
     tl.to(loupe, { autoAlpha: 0, duration: 0.3 }, 0.7);
     tl.to(outS, { autoAlpha: 0, duration: 0.25 }, 0.65);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.55);
     }
   }
 
   /* ---------- 05C → 06B ---------- */
   function t_05C_06B_A(tl: gsap.core.Timeline): void {
-    const outCopy = split(outS.querySelector('.copy h1'));
-    const inTitle = split(inS.querySelector('.copy h1'));
+    const outCopy = split(titleOf(outS));
+    const inTitle = split(titleOf(inS));
     const thread = stage.querySelector('#threadPath');
-    gsap.set(inS, { autoAlpha: 0, xPercent: 28, scale: 0.86 });
-    if (thread) gsap.set(thread, { drawSVG: '0% 0%' });
+    applySet(inS, { autoAlpha: 0, xPercent: 28, scale: 0.86 });
+    if (thread) applySet(thread, { drawSVG: '0% 0%' });
     if (outCopy) tl.to(outCopy.chars, { xPercent: -30, opacity: 0, stagger: 0.02, duration: 0.4 }, 0);
-    tl.to(outS.querySelector('.media'), { xPercent: -18, scale: 0.92, duration: 0.7 }, 0);
+    tl.to(mediaOf(outS), { xPercent: -18, scale: 0.92, duration: 0.7 }, 0);
     tl.to(inS, { autoAlpha: 1, xPercent: 0, scale: 1, duration: 0.8 }, 0.25);
     if (thread) tl.to(thread, { drawSVG: '0% 100%', duration: 0.7, ease: 'power1.inOut' }, 0.4);
     tl.to(outS, { autoAlpha: 0, duration: 0.25 }, 0.6);
     if (inTitle) {
-      gsap.set(inTitle.chars, { yPercent: 110 });
+      applySet(inTitle.chars, { yPercent: 110 });
       tl.to(inTitle.chars, { yPercent: 0, stagger: 0.018, duration: 0.6 }, 0.45);
     }
   }
 
   function t_05C_06B_B(tl: gsap.core.Timeline): void {
     const thread = stage.querySelector('#threadPath');
-    const inTitle = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, clipPath: 'inset(0 0 0 50%)' });
-    if (thread) gsap.set(thread, { drawSVG: '0% 0%' });
+    const inTitle = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, clipPath: 'inset(0 0 0 50%)' });
+    if (thread) applySet(thread, { drawSVG: '0% 0%' });
     if (thread) tl.to(thread, { drawSVG: '0% 100%', duration: 0.55 }, 0);
-    tl.to(outS.querySelector('.media'), { xPercent: -8, duration: 0.8 }, 0);
+    tl.to(mediaOf(outS), { xPercent: -8, duration: 0.8 }, 0);
     tl.to(inS, { autoAlpha: 1, clipPath: 'inset(0 0 0 0%)', duration: 0.85, ease: 'power2.inOut' }, 0.2);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.65);
     if (inTitle) {
-      gsap.set(inTitle.chars, { yPercent: 110 });
+      applySet(inTitle.chars, { yPercent: 110 });
       tl.to(inTitle.chars, { yPercent: 0, stagger: 0.018, duration: 0.6 }, 0.4);
     }
   }
 
   function t_05C_06B_C(tl: gsap.core.Timeline): void {
-    const inTitle = split(inS.querySelector('.copy h1'));
+    const inTitle = split(titleOf(inS));
     const thread = stage.querySelector('#threadPath');
-    gsap.set(inS, { autoAlpha: 0, rotateY: -18, transformOrigin: 'right center' });
-    if (thread) gsap.set(thread, { drawSVG: '0% 0%' });
-    tl.to(outS.querySelector('.media'), { rotateY: 12, xPercent: -10, duration: 0.65 }, 0);
+    applySet(inS, { autoAlpha: 0, rotateY: -18, transformOrigin: 'right center' });
+    if (thread) applySet(thread, { drawSVG: '0% 0%' });
+    tl.to(mediaOf(outS), { rotateY: 12, xPercent: -10, duration: 0.65 }, 0);
     tl.to(inS, { autoAlpha: 1, rotateY: 0, duration: 0.8 }, 0.25);
     if (thread) tl.to(thread, { drawSVG: '0% 100%', duration: 0.65 }, 0.4);
     tl.to(outS, { autoAlpha: 0, duration: 0.25 }, 0.6);
     if (inTitle) {
-      gsap.set(inTitle.chars, { yPercent: 110 });
+      applySet(inTitle.chars, { yPercent: 110 });
       tl.to(inTitle.chars, { yPercent: 0, stagger: 0.018, duration: 0.6 }, 0.45);
     }
   }
 
   /* ---------- 06B → 07C ---------- */
   function t_06B_07C_A(tl: gsap.core.Timeline): void {
-    const outTitle = split(outS.querySelector('.copy h1'));
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, rotate: -8, yPercent: 16, scale: 0.82, transformOrigin: '50% 50%' });
+    const outTitle = split(titleOf(outS));
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, rotate: -8, yPercent: 16, scale: 0.82, transformOrigin: '50% 50%' });
     if (outTitle) tl.to(outTitle.chars, { yPercent: -110, stagger: 0.015, duration: 0.4 }, 0);
-    tl.to(outS.querySelector('.media'), { scale: 0.7, rotate: 6, xPercent: -8, duration: 0.7 }, 0);
+    tl.to(mediaOf(outS), { scale: 0.7, rotate: 6, xPercent: -8, duration: 0.7 }, 0);
     tl.to(inS, { autoAlpha: 1, rotate: 0, yPercent: 0, scale: 1, duration: 0.85, ease: 'power3.out' }, 0.25);
     tl.to(outS, { autoAlpha: 0, duration: 0.25 }, 0.6);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_06B_07C_B(tl: gsap.core.Timeline): void {
     const thread = stage.querySelector('#threadPath');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    if (thread) gsap.set(thread, { drawSVG: '0% 100%' });
-    gsap.set(inS, { autoAlpha: 0, xPercent: 20, rotate: 4 });
+    const inCopy = split(titleOf(inS));
+    if (thread) applySet(thread, { drawSVG: '0% 100%' });
+    applySet(inS, { autoAlpha: 0, xPercent: 20, rotate: 4 });
     if (thread) tl.to(thread, { drawSVG: '100% 100%', duration: 0.5, ease: 'power1.in' }, 0);
-    tl.to(outS.querySelector('.media'), { xPercent: -22, rotate: -3, duration: 0.7 }, 0.1);
+    tl.to(mediaOf(outS), { xPercent: -22, rotate: -3, duration: 0.7 }, 0.1);
     tl.to(inS, { autoAlpha: 1, xPercent: 0, rotate: 0, duration: 0.75 }, 0.3);
     tl.to(outS, { autoAlpha: 0, duration: 0.25 }, 0.6);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_06B_07C_C(tl: gsap.core.Timeline): void {
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, rotateY: 90, transformPerspective: 1600, transformOrigin: 'left center' });
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0, rotateY: 90, transformPerspective: 1600, transformOrigin: 'left center' });
     tl.to(outS, { rotateY: -55, transformPerspective: 1600, transformOrigin: 'right center', duration: 0.7 }, 0);
     tl.to(inS, { autoAlpha: 1, rotateY: 0, duration: 0.75 }, 0.28);
     tl.to(outS, { autoAlpha: 0, duration: 0.2 }, 0.65);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
@@ -412,46 +593,46 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   /* ---------- 07C → 08B ---------- */
   function t_07C_08B_A(tl: gsap.core.Timeline): void {
     const ink = stage.querySelector('[data-ink]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(ink, { yPercent: 100 });
-    gsap.set(inS, { autoAlpha: 0, scale: 1.08 });
+    const inCopy = split(titleOf(inS));
+    applySet(ink, { yPercent: 100 });
+    applySet(inS, { autoAlpha: 0, scale: 1.08 });
     tl.to(ink, { yPercent: 0, duration: 0.7, ease: 'power2.inOut' }, 0);
     tl.to(outS, { autoAlpha: 0, yPercent: -8, duration: 0.4 }, 0.2);
     tl.to(inS, { autoAlpha: 1, scale: 1, duration: 0.7 }, 0.45);
     tl.to(ink, { autoAlpha: 0, duration: 0.5 }, 0.65);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.55 }, 0.55);
     }
   }
 
   function t_07C_08B_B(tl: gsap.core.Timeline): void {
     const ink = stage.querySelector('[data-ink]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0 });
-    gsap.set(ink, { yPercent: 100 });
-    tl.to(outS.querySelector('.media'), { scale: 1.35, duration: 0.7 }, 0);
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0 });
+    applySet(ink, { yPercent: 100 });
+    tl.to(mediaOf(outS), { scale: 1.35, duration: 0.7 }, 0);
     tl.to(outS.querySelector('.copy'), { autoAlpha: 0, duration: 0.3 }, 0);
     tl.to(ink, { yPercent: 0, duration: 0.65, ease: 'power2.in' }, 0.3);
     tl.to(inS, { autoAlpha: 1, duration: 0.6 }, 0.5);
     tl.to(ink, { autoAlpha: 0, duration: 0.4 }, 0.7);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.6);
     }
   }
 
   function t_07C_08B_C(tl: gsap.core.Timeline): void {
     const ink = stage.querySelector('[data-ink]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(ink, { xPercent: -100, background: 'linear-gradient(90deg,#0c0c0f 70%,transparent)' });
-    gsap.set(inS, { autoAlpha: 0, xPercent: 12 });
+    const inCopy = split(titleOf(inS));
+    applySet(ink, { xPercent: -100, background: 'linear-gradient(90deg,#0c0c0f 70%,transparent)' });
+    applySet(inS, { autoAlpha: 0, xPercent: 12 });
     tl.to(ink, { xPercent: 0, duration: 0.6, ease: 'power2.inOut' }, 0);
     tl.to(outS, { xPercent: -10, autoAlpha: 0, duration: 0.5 }, 0.15);
     tl.to(inS, { autoAlpha: 1, xPercent: 0, duration: 0.7 }, 0.4);
     tl.to(ink, { xPercent: 100, duration: 0.55 }, 0.55);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.55);
     }
   }
@@ -459,83 +640,83 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   /* ---------- 08B → 09B ---------- */
   function t_08B_09B_A(tl: gsap.core.Timeline): void {
     const ink = stage.querySelector('[data-ink]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(ink, { autoAlpha: 1, yPercent: 0 });
-    gsap.set(inS, { autoAlpha: 1 });
-    gsap.set(inS.querySelector('.media'), { yPercent: 18, scale: 1.08 });
+    const inCopy = split(titleOf(inS));
+    applySet(ink, { autoAlpha: 1, yPercent: 0 });
+    applySet(inS, { autoAlpha: 1 });
+    applySet(mediaOf(inS), { yPercent: 18, scale: 1.08 });
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0);
     tl.to(ink, { yPercent: -110, duration: 0.9, ease: 'power2.inOut' }, 0.05);
-    tl.to(inS.querySelector('.media'), { yPercent: 0, scale: 1, duration: 1 }, 0.1);
+    tl.to(mediaOf(inS), { yPercent: 0, scale: 1, duration: 1 }, 0.1);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.6 }, 0.45);
     }
   }
 
   function t_08B_09B_B(tl: gsap.core.Timeline): void {
     const layers = inS.querySelectorAll('[data-layer]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0 });
-    if (layers.length) gsap.set(layers, { yPercent: (i: number) => 20 + i * 14, scale: 1.1 });
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 0 });
+    if (layers.length) applySet(layers, { yPercent: (i: number) => 20 + i * 14, scale: 1.1 });
     tl.to(outS, { autoAlpha: 0, filter: 'blur(8px)', duration: 0.5 }, 0);
     tl.to(inS, { autoAlpha: 1, duration: 0.4 }, 0.2);
     if (layers.length) tl.to(layers, { yPercent: 0, scale: 1, stagger: 0.08, duration: 0.9 }, 0.2);
-    else tl.fromTo(inS.querySelector('.media'), { yPercent: 16, scale: 1.1 }, { yPercent: 0, scale: 1, duration: 0.9 }, 0.2);
+    else tl.fromTo(mediaOf(inS), { yPercent: 16, scale: 1.1 }, { yPercent: 0, scale: 1, duration: 0.9 }, 0.2);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.6 }, 0.5);
     }
   }
 
   function t_08B_09B_C(tl: gsap.core.Timeline): void {
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 1, clipPath: 'circle(0% at 50% 55%)' });
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 1, clipPath: 'circle(0% at 50% 55%)' });
     tl.to(inS, { clipPath: 'circle(80% at 50% 55%)', duration: 1, ease: 'power2.inOut' }, 0);
     tl.to(outS, { autoAlpha: 0, scale: 1.06, duration: 0.6 }, 0.35);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.55 }, 0.5);
     }
   }
 
   /* ---------- 09B → 10A ---------- */
   function t_09B_10A_A(tl: gsap.core.Timeline): void {
-    const inCopy = split(inS.querySelector('.copy h1'));
-    const outCopy = split(outS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0 });
+    const inCopy = split(titleOf(inS));
+    const outCopy = split(titleOf(outS));
+    applySet(inS, { autoAlpha: 0 });
     if (outCopy) tl.to(outCopy.chars, { yPercent: -80, opacity: 0, stagger: 0.02, duration: 0.45 }, 0);
-    tl.to(outS.querySelector('.media'), { scaleY: 0.62, yPercent: 0, duration: 0.8, transformOrigin: '50% 50%' }, 0.05);
+    tl.to(mediaOf(outS), { scaleY: 0.62, yPercent: 0, duration: 0.8, transformOrigin: '50% 50%' }, 0.05);
     tl.to(inS, { autoAlpha: 1, duration: 0.6 }, 0.35);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.6);
-    tl.fromTo(inS.querySelector('.media'), { xPercent: -6 }, { xPercent: 0, duration: 0.9 }, 0.4);
+    tl.fromTo(mediaOf(inS), { xPercent: -6 }, { xPercent: 0, duration: 0.9 }, 0.4);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_09B_10A_B(tl: gsap.core.Timeline): void {
-    const inCopy = split(inS.querySelector('.copy h1'));
-    const outCopy = split(outS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, yPercent: 20 });
+    const inCopy = split(titleOf(inS));
+    const outCopy = split(titleOf(outS));
+    applySet(inS, { autoAlpha: 0, yPercent: 20 });
     if (outCopy) tl.to(outCopy.chars, { yPercent: -110, stagger: 0.02, duration: 0.4 }, 0);
-    tl.to(outS.querySelector('.media'), { yPercent: -14, scale: 1.04, duration: 0.8 }, 0);
+    tl.to(mediaOf(outS), { yPercent: -14, scale: 1.04, duration: 0.8 }, 0);
     tl.to(inS, { autoAlpha: 1, yPercent: 0, duration: 0.75 }, 0.3);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.6);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
 
   function t_09B_10A_C(tl: gsap.core.Timeline): void {
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 1, clipPath: 'inset(100% 0 0 0)' });
+    const inCopy = split(titleOf(inS));
+    applySet(inS, { autoAlpha: 1, clipPath: 'inset(100% 0 0 0)' });
     tl.to(inS, { clipPath: 'inset(0% 0 0 0)', duration: 0.9, ease: 'power2.inOut' }, 0.05);
-    tl.to(outS.querySelector('.media'), { yPercent: -16, duration: 0.9 }, 0);
+    tl.to(mediaOf(outS), { yPercent: -16, duration: 0.9 }, 0);
     tl.to(outS, { autoAlpha: 0, duration: 0.3 }, 0.7);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.5);
     }
   }
@@ -543,27 +724,27 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   /* ---------- 10A → 11B ---------- */
   function t_10A_11B_A(tl: gsap.core.Timeline): void {
     const veil = stage.querySelector('[data-veil]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(veil, { xPercent: -130, autoAlpha: 1 });
-    gsap.set(inS, { autoAlpha: 0 });
+    const inCopy = split(titleOf(inS));
+    applySet(veil, { xPercent: -130, autoAlpha: 1 });
+    applySet(inS, { autoAlpha: 0 });
     tl.to(veil, { xPercent: 130, duration: 1, ease: 'power2.inOut' }, 0);
     tl.to(outS, { autoAlpha: 0, duration: 0.4 }, 0.25);
     tl.to(inS, { autoAlpha: 1, duration: 0.5 }, 0.35);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.55 }, 0.5);
     }
   }
 
   function t_10A_11B_B(tl: gsap.core.Timeline): void {
-    const inCopy = split(inS.querySelector('.copy h1'));
-    const outCopy = split(outS.querySelector('.copy h1'));
-    gsap.set(inS, { autoAlpha: 0, yPercent: 40 });
+    const inCopy = split(titleOf(inS));
+    const outCopy = split(titleOf(outS));
+    applySet(inS, { autoAlpha: 0, yPercent: 40 });
     if (outCopy) tl.to(outCopy.chars, { yPercent: -110, stagger: 0.02, duration: 0.4 }, 0);
     tl.to(outS, { yPercent: -60, duration: 0.8, ease: 'power2.inOut' }, 0.05);
     tl.to(inS, { autoAlpha: 1, yPercent: 0, duration: 0.8, ease: 'power2.out' }, 0.25);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.55 }, 0.5);
     }
   }
@@ -571,17 +752,17 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   function t_10A_11B_C(tl: gsap.core.Timeline): void {
     const leak = stage.querySelector('[data-leak]');
     const veil = stage.querySelector('[data-veil]');
-    const inCopy = split(inS.querySelector('.copy h1'));
-    gsap.set(leak, { autoAlpha: 0 });
-    gsap.set(veil, { xPercent: -120, autoAlpha: 0.85 });
-    gsap.set(inS, { autoAlpha: 0, filter: 'blur(10px) brightness(1.3)' });
+    const inCopy = split(titleOf(inS));
+    applySet(leak, { autoAlpha: 0 });
+    applySet(veil, { xPercent: -120, autoAlpha: 0.85 });
+    applySet(inS, { autoAlpha: 0, filter: 'blur(10px) brightness(1.3)' });
     tl.to(leak, { autoAlpha: 1, duration: 0.35 }, 0);
     tl.to(veil, { xPercent: 120, duration: 0.9, ease: 'power2.inOut' }, 0.1);
     tl.to(inS, { autoAlpha: 1, filter: 'blur(0px) brightness(1)', duration: 0.7 }, 0.3);
     tl.to(outS, { autoAlpha: 0, duration: 0.4 }, 0.3);
     tl.to(leak, { autoAlpha: 0, duration: 0.45 }, 0.65);
     if (inCopy) {
-      gsap.set(inCopy.chars, { yPercent: 110 });
+      applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.55 }, 0.5);
     }
   }
@@ -619,18 +800,24 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
     '10A-11B-C': t_10A_11B_C,
   };
 
-  const pair = seam.dataset.seam || '';
+  const pair = seam.dataset.seam || seam.dataset.seamPair || '';
   const fn = map[LOCKED[pair] || ''];
   const timeline = pinTl();
   if (fn) fn(timeline);
   else {
-    gsap.set(inS, { autoAlpha: 0 });
+    applySet(inS, { autoAlpha: 0 });
     timeline.to(outS, { autoAlpha: 0, duration: 0.5 }, 0);
     timeline.to(inS, { autoAlpha: 1, duration: 0.5 }, 0.2);
   }
 
   return {
     timeline,
+    pair: seam.dataset.seamPair,
+    settle: () => {
+      if (liveHarness) return;
+      const active = timeline.scrollTrigger?.isActive ?? false;
+      if (!active) releaseResting();
+    },
     revert: () => {
       timeline.scrollTrigger?.kill();
       timeline.kill();
@@ -639,15 +826,16 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
   };
 }
 
-/** Build the locked timeline for every `[data-seam]` under `root`. */
+/** Build the locked timeline for every harness `[data-seam]` and real `[data-seam-pair]`. */
 export function initSeams(root: ParentNode = document): () => void {
   window.ScrollTrigger = ScrollTrigger;
   void DrawSVGPlugin;
   installRecordHook();
 
-  const seams = [...root.querySelectorAll<HTMLElement>('[data-seam]')];
+  const harness = [...root.querySelectorAll<HTMLElement>('[data-seam]')];
+  const pairs = [...root.querySelectorAll<HTMLElement>('[data-seam-pair]')];
   if (prefersReducedMotion()) {
-    seams.forEach(showIncomingOnly);
+    harness.forEach(showIncomingOnly);
     window.__PROTO_TL__ = undefined;
     window.__PROTO_READY__ = true;
     return () => {
@@ -661,10 +849,23 @@ export function initSeams(root: ParentNode = document): () => void {
 
   const mount = (): void => {
     if (cancelled) return;
-    mounted = seams
+    pairs.forEach((seam) => ensurePairLayers(seam));
+    const built = [...harness, ...pairs]
       .map((seam) => mountSeam(seam, root))
       .filter((item): item is Mounted => item !== null);
-    window.__PROTO_TL__ = mounted[0]?.timeline;
+    mounted = built;
+    const harnessTimeline = built.find((item) => !item.pair)?.timeline;
+    window.__PROTO_TL__ = harnessTimeline ?? built[0]?.timeline;
+    ScrollTrigger.refresh();
+    built.forEach((item) => item.settle?.());
+    if (isRecordMode()) {
+      const tables: Record<string, SeamTable> = {};
+      built.forEach((item) => {
+        if (!item.pair) return;
+        tables[item.pair] = extractTable(item.timeline);
+      });
+      window.__SEAM_TABLES__ = tables;
+    }
     window.__PROTO_READY__ = true;
   };
 
@@ -680,5 +881,6 @@ export function initSeams(root: ParentNode = document): () => void {
       window.__PROTO_TL__ = undefined;
     }
     window.__PROTO_READY__ = false;
+    if (window.__SEAM_TABLES__) window.__SEAM_TABLES__ = undefined;
   };
 }

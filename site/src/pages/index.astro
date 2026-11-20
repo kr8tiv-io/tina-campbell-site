@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Photo from '../components/Photo.astro';
-import Seam from '../components/motion/Seam.astro';
 import { getPhoto } from '../data/photos';
 import '../styles/home.css';
+import '../styles/seams.css';
 
 const hero = getPhoto('fb_141_signature');
 const runway = [
@@ -31,8 +31,12 @@ const description =
 
 <BaseLayout title={title} description={description} imageAlt={hero.alt}>
   <main id="content" data-page="home" data-keep-header>
-    <section class="hero" data-hero>
-      <div class="hero__media">
+    <div data-seam-pair="01A-02A">
+    <div class="seam-real__track" data-track>
+      <div class="seam-real__stage" data-stage>
+    <section class="hero" data-hero data-seam-out data-out>
+      <span class="seam-real__ghost" data-seam-title aria-hidden="true">Tina Campbell</span>
+      <div class="hero__media" data-seam-media>
         <div class="hero__shift" data-hero-shift>
           <div class="hero__zoom" data-hero-zoom>
             <Photo
@@ -58,11 +62,39 @@ const description =
         </div>
       </div>
     </section>
-
-    <Seam id="01A-02A" />
-    <Seam id="02A-03B" />
-
-    <section class="runway" data-runway-pin aria-labelledby="runway-label">
+      </div>
+    </div>
+    <div data-seam-pair="02A-03B" data-seam-in data-in>
+    <section class="sheet" aria-label="Categories" data-seam-out data-out>
+      <span class="seam-real__ghost" data-seam-title aria-hidden="true">The contact sheet</span>
+      <ul class="sheet__row" data-seam-media>
+        {
+          categories.map((item) => (
+            <li class="sheet__item">
+              <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View">
+                <span class="sheet__frame">
+                  <Photo
+                    src={item.photo.src}
+                    alt={item.photo.alt}
+                    sizes="(max-width: 960px) 76px, 16vw"
+                    class={item.pos}
+                  />
+                </span>
+                <span class="sheet__label">
+                  {item.label}
+                  <span class="sheet__no">No. {item.n}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <div class="seam-real__track" data-track>
+      <div class="seam-real__stage" data-stage></div>
+    </div>
+    <section class="runway" data-runway-pin data-seam-in data-in aria-labelledby="runway-label">
+      <span class="seam-real__ghost" data-seam-title aria-hidden="true">Runway</span>
       <div class="runway__head">
         <h2 class="runway__label" id="runway-label">The Runway</h2>
       </div>
@@ -116,37 +148,14 @@ const description =
         <p data-runway-loc>Edmonton</p>
       </div>
     </section>
+    </div>
+    </div>
 
     <section class="statement" aria-labelledby="statement-heading">
       <h2 id="statement-heading" data-statement>Edmonton is my runway.</h2>
       <p data-statement-sub>
         Fashion, portraits, bridal and runway, shot on location around the city.
       </p>
-    </section>
-
-    <section class="sheet" aria-label="Categories">
-      <ul class="sheet__row">
-        {
-          categories.map((item) => (
-            <li class="sheet__item">
-              <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View">
-                <span class="sheet__frame">
-                  <Photo
-                    src={item.photo.src}
-                    alt={item.photo.alt}
-                    sizes="(max-width: 960px) 76px, 16vw"
-                    class={item.pos}
-                  />
-                </span>
-                <span class="sheet__label">
-                  {item.label}
-                  <span class="sheet__no">No. {item.n}</span>
-                </span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
     </section>
 
     <section class="teaser" aria-labelledby="teaser-heading">

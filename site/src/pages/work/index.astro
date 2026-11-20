@@ -2,10 +2,10 @@
 import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
-import Seam from '../../components/motion/Seam.astro';
 import { sizesFor, workFilters, workTiles } from '../../data/work';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/work.css';
+import '../../styles/seams.css';
 
 const tiles = workTiles();
 const count = tiles.length;
@@ -47,7 +47,9 @@ const jsonLd = {
         }
       })();
     </script>
-    <header class="work-head">
+    <div data-seam-pair="04B-05C">
+    <header class="work-head" data-seam-in data-in>
+      <span class="seam-real__ghost" data-seam-title aria-hidden="true">Work</span>
       <h1>Work</h1>
       <p class="work-count" aria-live="polite"><span data-count>{count}</span> frames</p>
     </header>
@@ -60,7 +62,7 @@ const jsonLd = {
         ))
       }
     </nav>
-    <ul class="work-grid" data-work-grid>
+    <ul class="work-grid" data-work-grid data-seam-out data-out data-seam-media>
       {
         tiles.map((tile, index) => (
           <li
@@ -92,7 +94,10 @@ const jsonLd = {
       }
     </ul>
     <p class="work-empty" data-empty hidden>Nothing here yet. Try another filter.</p>
-    <Seam id="04B-05C" />
+    <div class="seam-real__track" data-track>
+      <div class="seam-real__stage" data-stage></div>
+    </div>
+    </div>
     <script is:inline>
       (function () {
         var known = { all: 1, fashion: 1, runway: 1, portraits: 1, bridal: 1, couples: 1, edmonton: 1 };

@@ -1,0 +1,11 @@
+I'll integrate the ten seams into the real page sections so each route keeps one heading, no overflow, and production media paths. First I'm reading the plan, the motion lock, and the current seam wiring.The seam harness is solid. The real pages are still dropping prototype sections in, which is why the headings, overflow, and media paths broke. I'll mount the same timelines on the real hero, category band, runway, and work sections.Auto-compacting conversation (81% full)...
+Conversation compacted.
+The production build is already in place. I'll check it for `/motion-lab/` leaks, then run the Playwright suite before any lab rebuild overwrites `dist`.Production HTML has `noindex` and no `motion-lab` string. I'll re-check types, then run Playwright against this production build before the lab rebuild.`dist` may be gitignored, so the search tool can miss it. I'll grep it in the shell and start the Playwright suite on this production build.Seams on the real pages now run between the real sections. Home wires `01A-02A` and `02A-03B`. Work wires `04B-05C`. The injected prototype blocks are gone, each page has one `h1`, and nothing on those routes points at `/motion-lab/`.
+
+Harness pages are unchanged and still build only with `TC_MOTION_LAB=1`. The seam gate is 10/10 with worst SSIM 1.0 on every pair. The new route check matches the gold tables for all three wired pairs. Playwright is 42 passed, 0 failed, 18 skipped.
+
+During a pin, the viewport shows that seam's decorative stage (ink on the hero, flood between the category band and the runway, loupe after the work grid). Resting hero, category band, runway, and the work grid stay in the page. Shots are in `qa/012b-seams-integrate/shots/`. Details are in `qa/012b-seams-integrate/REPORT.md`.
+
+GATE 012b: PASS
+TESTS: 42/0/18
+SEAMS: 10/10

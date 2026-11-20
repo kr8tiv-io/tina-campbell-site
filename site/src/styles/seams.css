@@ -1,5 +1,5 @@
 /* Stage rules for [data-seam], copied from the locked chrome.css.
-   Harness pages also load /motion-lab/chrome.css. Values match. */
+   Harness pages also load the lab chrome stylesheet. Values match. */
 
 [data-seam] {
   position: relative;
@@ -182,7 +182,90 @@
   pointer-events: none;
 }
 
+/* Real routes: the pin track sits with the two sections. 320vh keeps the
+   locked pin ratio (end - start) / viewport = 2.2. */
+[data-seam-pair] {
+  position: relative;
+}
+
+[data-seam-pair] .seam-real__track {
+  position: relative;
+  height: 320vh;
+}
+
+[data-seam-pair] .seam-real__stage {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #0c0c0f;
+}
+
+[data-seam-pair] .ink-layer,
+[data-seam-pair] .flood-layer,
+[data-seam-pair] .spot-layer,
+[data-seam-pair] .veil-layer,
+[data-seam-pair] .leak-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+
+[data-seam-pair] .ink-layer {
+  background: #0c0c0f;
+}
+
+[data-seam-pair] .flood-layer {
+  background: #0c0c0f;
+}
+
+[data-seam-pair] svg.mask-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  z-index: 7;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+[data-seam-out],
+[data-seam-in] {
+  position: relative;
+}
+
+[data-seam-pair] .seam-real__ghost {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12em;
+  height: 1.2em;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  [data-seam-pair] .seam-real__track {
+    height: auto;
+  }
+
+  [data-seam-pair] .seam-real__stage {
+    height: auto;
+    overflow: visible;
+    background: transparent;
+  }
+
+  [data-seam-pair] .ink-layer,
+  [data-seam-pair] .flood-layer,
+  [data-seam-pair] .mask-svg,
+  [data-seam-pair] .seam-real__ghost {
+    display: none;
+  }
+
   [data-seam] .sec-out {
     opacity: 0;
   }
