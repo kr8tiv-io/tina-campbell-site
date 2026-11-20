@@ -108,8 +108,16 @@ function initHeaderSolid(signal: AbortSignal): () => void {
   return () => trigger.kill();
 }
 
+/** The living-gown push-in is baked into the hero video. Do not scale or grade the media. */
+function clearHeroMediaMotion(): void {
+  document.querySelectorAll<HTMLElement>('[data-hero-shift], [data-hero-zoom]').forEach((el) => {
+    el.style.removeProperty('transform');
+    el.style.removeProperty('filter');
+  });
+}
+
 function initHero(): () => void {
-  const shift = document.querySelector<HTMLElement>('[data-hero-shift]');
+  clearHeroMediaMotion();
   const title = document.querySelector<HTMLElement>('[data-hero-title]');
   const splits: SplitText[] = [];
 
@@ -136,7 +144,7 @@ function initHero(): () => void {
 
   return () => {
     splits.forEach((split) => split.revert());
-    if (shift) gsap.set(shift, { clearProps: 'transform' });
+    clearHeroMediaMotion();
     if (title) gsap.set(title, { clearProps: 'transform' });
   };
 }

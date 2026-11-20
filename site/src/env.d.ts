@@ -10,6 +10,10 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
+interface Window {
+  __SCENE_READY__?: Record<string, boolean>;
+}
+
 declare module 'three' {
   class AnyThree {
     constructor(...args: any[]);

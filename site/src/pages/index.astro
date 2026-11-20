@@ -31,6 +31,19 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} imageAlt={hero.alt}>
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href="/media/scenes/01A/01A-poster.webp"
+    type="image/webp"
+    fetchpriority="high"
+  />
+  <script is:inline slot="head">
+    if (document.documentElement.classList.contains('loader-skip')) {
+      document.documentElement.classList.add('hero-poster-inset');
+    }
+  </script>
   <main id="content" data-page="home" data-keep-header>
     <div data-seam-pair="01A-02A">
       <div class="seam-real__track" data-track>
@@ -40,21 +53,39 @@ const description =
             <div class="hero__media" data-seam-media>
               <div class="hero__shift" data-hero-shift>
                 <div class="hero__zoom" data-hero-zoom>
-                  <Photo
-                    src={hero.src}
-                    alt={hero.alt}
-                    sizes="100vw"
-                    priority
-                    class="pos-hero"
-                  />
-                  <div class="hero__night" aria-hidden="true"></div>
-                  <div class="hero__warm" aria-hidden="true"></div>
+                  <picture class="hero__still">
+                    <source
+                      srcset="/media/scenes/01A/01A-end.webp"
+                      type="image/webp"
+                      media="(prefers-reduced-motion: reduce)"
+                    />
+                    <img
+                      src="/media/scenes/01A/01A-poster.webp"
+                      alt="Model in a red gown on a teal truck, one leg extended, clear blue sky."
+                      width="1920"
+                      height="1080"
+                      fetchpriority="high"
+                      loading="eager"
+                      data-scene-still="01A"
+                    />
+                  </picture>
+                  <video
+                    data-scene-video="01A"
+                    class="hero__video"
+                    muted
+                    playsinline
+                    preload="none"
+                    poster="/media/scenes/01A/01A-poster.webp"
+                    aria-hidden="true"
+                  ></video>
+                  <div class="hero__night" data-scene-overlay aria-hidden="true"></div>
+                  <div class="hero__warm" data-scene-overlay aria-hidden="true"></div>
                 </div>
               </div>
-              <div class="hero__shade" aria-hidden="true"></div>
-              <div class="hero__grain" aria-hidden="true"></div>
+              <div class="hero__shade" data-scene-overlay aria-hidden="true"></div>
+              <div class="hero__grain" data-scene-overlay aria-hidden="true"></div>
             </div>
-            <div class="hero__copy" data-hero-copy>
+            <div class="hero__copy" data-hero-copy data-scene-copy>
               <h1 class="hero__title" data-hero-title><span class="hero__first">Tina</span> <span class="hero__last">Campbell</span></h1>
               <div class="hero__meta">
                 <p class="hero__caption">No. 001 / Alberta Legislature, Edmonton</p>

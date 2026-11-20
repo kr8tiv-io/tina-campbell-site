@@ -9,6 +9,7 @@ import { initEditorial } from './editorial';
 import { initAbout } from './about';
 import { initPages } from './pages';
 import { initSeams } from './seams';
+import { initSceneVideos } from './scene-video';
 import { gsap, isRecordMode, ScrollTrigger, SplitText } from './runtime';
 
 declare global {
@@ -227,8 +228,10 @@ async function initMotion(): Promise<void> {
   const releaseAbout = initAbout(reduced, fine, abort.signal);
   const releasePages = initPages(reduced, abort.signal);
   const releaseSeams = initSeams(document);
+  const releaseVideos = initSceneVideos(abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releaseVideos();
     releaseSeams();
     releasePages();
     releaseAbout();

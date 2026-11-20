@@ -1,0 +1,64 @@
+{
+ "duration": 1.27,
+ "defaults": "{\"ease\":\"cine\",\"duration\":1}",
+ "pin": {
+  "start": "top top",
+  "end": "bottom bottom",
+  "scrub": 0.6,
+  "anticipatePin": 1,
+  "ratio": 2.2
+ },
+ "rows": [
+  {
+   "start": 0,
+   "dur": 0.7,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-out",
+   "props": {
+    "rotateY": -55,
+    "transformOrigin": "right center",
+    "transformPerspective": 1600
+   },
+   "from": null
+  },
+  {
+   "start": 0.28,
+   "dur": 0.75,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-in",
+   "props": {
+    "autoAlpha": 1,
+    "rotateY": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.5,
+   "dur": 0.77,
+   "ease": "cine",
+   "stagger": 0.03,
+   "n": 10,
+   "target": "DIV",
+   "props": {
+    "yPercent": 0
+   },
+   "from": null
+  },
+  {
+   "start": 0.65,
+   "dur": 0.2,
+   "ease": "cine",
+   "stagger": null,
+   "n": 1,
+   "target": ".sec.sec-out",
+   "props": {
+    "autoAlpha": 0
+   },
+   "from": null
+  }
+ ]
+}

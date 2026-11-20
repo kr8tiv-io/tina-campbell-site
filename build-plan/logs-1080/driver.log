@@ -8,3 +8,9 @@
 2026-11-19 22:16:44 CST OPERATOR gate 012c start
 2026-11-19 22:33:41 CST OPERATOR 012c tests 42/0/18
 2026-11-19 22:41:52 CST OPERATOR 012c GATE PASS (tests 42/0/18, seams 10/10, tables 3/3, route-visual desktop 3/3 mobile 3/3)
+2026-11-19 22:42:17 CST START 013-scene-hero-01A pid 412255
+2026-11-19 22:45:17 CST OPERATOR brain progress pushed 393074d
+2026-11-19 23:38:26 CST OPERATOR 013 still running (pid 412263, active), polling
+2026-11-20 00:02:49 CST END 013-scene-hero-01A rc=0
+2026-11-20 00:03:20 CST OPERATOR gate 013 start
+2026-11-20 00:17:57 CST OPERATOR 013 GATE PASS (check, build, tests 42/0/18, seams 10/10, tables 3/3, route-visual 3/3+3/3, scene 01A 0.9748); phone band + caption carried to 020

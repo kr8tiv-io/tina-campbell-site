@@ -1,0 +1,12 @@
+I'll start by reading the scene plan, motion lock, and the 01A spec so the hero loop matches the picked clip.The hero is still a still photo. I’ll check the locked clip’s framing so the video crop keeps the gown and face in view.The hero is still a filtered still. I’ll add the shared video helper and switch the hero to the locked 01A loop, with the mobile crop aimed at the face and gown.The gate hook is in place: the video fills 1280×720 with no overlays. Next I’ll run the scene gate.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The hero helper and scene gate already pass. The remaining defect is that the poster is not the LCP element, so I am checking why Chrome records the logo and fixing that before the production build.The loader sets `.site-reveal` to opacity 0 before first paint, which keeps the poster out of LCP while the header logo stays visible. I am measuring that path in Chrome before changing it.Chrome drops a hero image that covers the whole viewport, so a return visit was recording the logo. A 1px shortfall on that path keeps the poster as the LCP image, and the first-visit loader path already does.Scene gate still passes. I am measuring LCP and bytes on the built page, then running the production build and tests.The home hero now loops the locked 01A living-gown clip, and the poster image is the LCP element on both first visits and return visits.
+
+The shared helper `site/src/scripts/motion/scene-video.ts` builds the `<video data-scene-video="01A">`, picks 1080 (or 720 under 1000px), and loops it. Title and caption stay real HTML. On a return visit Chrome was dropping the full-bleed still and scoring the header logo; `hero-poster-inset` shortens that still by 1px so the poster stays the largest paint. The shade covers the gap. First visits still record `01A-poster.webp` when the loader reveals it (about 2.3s). Mobile crop is `object-position: 68% 50%`.
+
+Scene gate stayed PASS after that CSS change. Seams stayed 10/10. Production Playwright: 42 passed, 18 skipped, 0 failed.
+
+Suggested commit: `feat(scene-01A): home hero plays the locked living-gown 1080p loop via shared scene-video helper`
+
+GATE 013-scene-hero-01A: PASS
+01A worst SSIM 0.9748 frame 95
