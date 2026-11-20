@@ -1,0 +1,205 @@
+{
+ "version": 1,
+ "created": "2026-11-19",
+ "fps": 24,
+ "frames": 145,
+ "duration": 6.041666666666667,
+ "width": 1920,
+ "height": 1080,
+ "source": "picked 720p clips upscaled (Real-ESRGAN general-wdn-x4v3 dn0 + Lanczos detail-masked hybrid); motion identical to the pick",
+ "scenes": {
+  "01A": {
+   "mode": "loop",
+   "route": "/",
+   "clip": "concepts/motion-options-2026-11-12/01-home-hero/A-living-gown/clip.mp4",
+   "sources": {
+    "av1_1080": "/media/scenes/01A/01A-1080.webm",
+    "h264_1080": "/media/scenes/01A/01A-1080.mp4",
+    "h264_720": "/media/scenes/01A/01A-720.mp4"
+   },
+   "poster": {
+    "webp": "/media/scenes/01A/01A-poster.webp",
+    "jpg": "/media/scenes/01A/01A-poster.jpg"
+   },
+   "end": {
+    "webp": "/media/scenes/01A/01A-end.webp",
+    "jpg": "/media/scenes/01A/01A-end.jpg"
+   },
+   "bytes": {
+    "1080.webm": 772293,
+    "1080.mp4": 2412745,
+    "720.mp4": 840776,
+    "poster.webp": 54868,
+    "end.webp": 135980
+   },
+   "master_sha256": "ac15f172403fafe964de03551e00f5614e498f2e24f875799189f8dfa1bdf48a",
+   "master": "esrgan-wdn dn0 + lanczos detail-masked hybrid"
+  },
+  "03B": {
+   "mode": "scrub",
+   "route": "/",
+   "clip": "concepts/motion-options-2026-11-12/03-home-runway/B-followspot/clip.mp4",
+   "sources": {
+    "av1_1080": "/media/scenes/03B/03B-1080.webm",
+    "h264_1080": "/media/scenes/03B/03B-1080.mp4",
+    "h264_720": "/media/scenes/03B/03B-720.mp4"
+   },
+   "poster": {
+    "webp": "/media/scenes/03B/03B-poster.webp",
+    "jpg": "/media/scenes/03B/03B-poster.jpg"
+   },
+   "end": {
+    "webp": "/media/scenes/03B/03B-end.webp",
+    "jpg": "/media/scenes/03B/03B-end.jpg"
+   },
+   "bytes": {
+    "1080.webm": 3173383,
+    "1080.mp4": 5922050,
+    "720.mp4": 2496949,
+    "poster.webp": 49646,
+    "end.webp": 138544
+   },
+   "master_sha256": "5f843ea8cde1f4fb0d3c6e4a1cdbb816e6737d5ed58e47f744b67ce46cbddeef",
+   "master": "esrgan-wdn dn0 + lanczos detail-masked hybrid"
+  },
+  "04B": {
+   "mode": "play",
+   "route": "/work/",
+   "clip": "concepts/motion-options-2026-11-12/04-work-hover/B-crimson-ink-drop/clip.mp4",
+   "sources": {
+    "av1_1080": "/media/scenes/04B/04B-1080.webm",
+    "h264_1080": "/media/scenes/04B/04B-1080.mp4",
+    "h264_720": "/media/scenes/04B/04B-720.mp4"
+   },
+   "poster": {
+    "webp": "/media/scenes/04B/04B-poster.webp",
+    "jpg": "/media/scenes/04B/04B-poster.jpg"
+   },
+   "end": {
+    "webp": "/media/scenes/04B/04B-end.webp",
+    "jpg": "/media/scenes/04B/04B-end.jpg"
+   },
+   "bytes": {
+    "1080.webm": 1914749,
+    "1080.mp4": 3561631,
+    "720.mp4": 1255670,
+    "poster.webp": 135320,
+    "end.webp": 264794
+   },
+   "master_sha256": "0c9766cec7e14c4a9556c5b8920c25ca95278e5d1478cfff1bf915cbe9b700f3",
+   "master": "esrgan-wdn dn0 + lanczos detail-masked hybrid"
+  },
+  "06B": {
+   "mode": "scrub",
+   "route": "/fashion-editorial/",
+   "clip": "concepts/motion-options-2026-11-12/06-editorial-split/B-crimson-thread/clip.mp4",
+   "sources": {
+    "av1_1080": "/media/scenes/06B/06B-1080.webm",
+    "h264_1080": "/media/scenes/06B/06B-1080.mp4",
+    "h264_720": "/media/scenes/06B/06B-720.mp4"
+   },
+   "poster": {
+    "webp": "/media/scenes/06B/06B-poster.webp",
+    "jpg": "/media/scenes/06B/06B-poster.jpg"
+   },
+   "end": {
+    "webp": "/media/scenes/06B/06B-end.webp",
+    "jpg": "/media/scenes/06B/06B-end.jpg"
+   },
+   "bytes": {
+    "1080.webm": 3628224,
+    "1080.mp4": 4466532,
+    "720.mp4": 1925324,
+    "poster.webp": 87320,
+    "end.webp": 198538
+   },
+   "master_sha256": "d688662ea8472366c5cf7b471823eb3bbd4ae7f20ca8d561d1d27bd1d592e442",
+   "master": "lanczos 1.5x (ESRGAN hybrid altered the B&W grain: gate 0.906)"
+  },
+  "09B": {
+   "mode": "scrub",
+   "route": "/about/",
+   "clip": "concepts/motion-options-2026-11-12/09-about-parallax/B-blue-hour-lights/clip.mp4",
+   "sources": {
+    "av1_1080": "/media/scenes/09B/09B-1080.webm",
+    "h264_1080": "/media/scenes/09B/09B-1080.mp4",
+    "h264_720": "/media/scenes/09B/09B-720.mp4"
+   },
+   "poster": {
+    "webp": "/media/scenes/09B/09B-poster.webp",
+    "jpg": "/media/scenes/09B/09B-poster.jpg"
+   },
+   "end": {
+    "webp": "/media/scenes/09B/09B-end.webp",
+    "jpg": "/media/scenes/09B/09B-end.jpg"
+   },
+   "bytes": {
+    "1080.webm": 5038778,
+    "1080.mp4": 9059621,
+    "720.mp4": 3541042,
+    "poster.webp": 178582,
+    "end.webp": 298300
+   },
+   "master_sha256": "ca22f61c71760f6b900c6d14111d5b17505d0a9dcd2c7700041997434c27fe16",
+   "master": "esrgan-wdn dn0 + lanczos detail-masked hybrid"
+  },
+  "10A": {
+   "mode": "loop",
+   "route": "footer band, /book/",
+   "clip": "concepts/motion-options-2026-11-12/10-contact-footer/A-blue-hour-drift/clip.mp4",
+   "sources": {
+    "av1_1080": "/media/scenes/10A/10A-1080.webm",
+    "h264_1080": "/media/scenes/10A/10A-1080.mp4",
+    "h264_720": "/media/scenes/10A/10A-720.mp4"
+   },
+   "poster": {
+    "webp": "/media/scenes/10A/10A-poster.webp",
+    "jpg": "/media/scenes/10A/10A-poster.jpg"
+   },
+   "end": {
+    "webp": "/media/scenes/10A/10A-end.webp",
+    "jpg": "/media/scenes/10A/10A-end.jpg"
+   },
+   "bytes": {
+    "1080.webm": 1851376,
+    "1080.mp4": 3882261,
+    "720.mp4": 1403258,
+    "poster.webp": 112498,
+    "end.webp": 255718
+   },
+   "master_sha256": "a97a119224d88d9af47b27027b23492d619f7c6e3763964f9079cc4d5bd09fb9",
+   "master": "esrgan-wdn dn0 + lanczos detail-masked hybrid"
+  },
+  "11B": {
+   "mode": "scrub",
+   "route": "/portraits-bridal-couples/",
+   "clip": "concepts/motion-options-2026-11-12/11-portraits-chapters/B-veil-wipe/clip.mp4",
+   "sources": {
+    "av1_1080": "/media/scenes/11B/11B-1080.webm",
+    "h264_1080": "/media/scenes/11B/11B-1080.mp4",
+    "h264_720": "/media/scenes/11B/11B-720.mp4"
+   },
+   "poster": {
+    "webp": "/media/scenes/11B/11B-poster.webp",
+    "jpg": "/media/scenes/11B/11B-poster.jpg"
+   },
+   "end": {
+    "webp": "/media/scenes/11B/11B-end.webp",
+    "jpg": "/media/scenes/11B/11B-end.jpg"
+   },
+   "bytes": {
+    "1080.webm": 4667637,
+    "1080.mp4": 7602183,
+    "720.mp4": 3152933,
+    "poster.webp": 162068,
+    "end.webp": 286104
+   },
+   "master_sha256": "1729807c3b3ed6845402d129d64b12127ea4408ffe4fc5bc694e12b94670e78b",
+   "master": "esrgan-wdn dn0 + lanczos detail-masked hybrid"
+  }
+ },
+ "encode": {
+  "h264": "High, CRF 21 (09B 20), 720p CRF 23 (09B 21), GOP 48 loop/play, GOP 6 scrub (09B 12), no B-frames on scrub, faststart",
+  "av1": "SVT-AV1 preset 4 CRF 34 (09B 29), one cloned tail frame (file 6.083 s; use duration 6.0417 s)"
+ }
+}
