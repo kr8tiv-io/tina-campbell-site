@@ -1,0 +1,31 @@
+I'll start by reading the scene plan, motion lock, and the 04B/05C specs so the work page matches the locked clips.The work page already has the seam and the grid. I'll add the 04B hover video on the centre tile and a 05C drop timeline that stays paused in record mode so the seam still sees the resting grid.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The motion-lab preview is still the source of truth for the remaining 05C captures. I'll confirm it is up, then finish the record, mobile, and reduced-motion shots before the production build.The preview on port 4821 is still serving the motion-lab build. I’ll capture the record, mobile, and reduced-motion frames from it, and check that seeking the 05C timeline actually moves the prints.The 05C numbers match the timing table, but the fall stays off-screen: `power2.in` barely moves `-120vh` until the last moment, and `work-intro` plus the WebGL canvas hide the prints while that timeline plays. I’ll make the drop visible and keep the same timestamps.Auto-compacting conversation (82% full)...
+Conversation compacted.
+The work-page scenes are already built and gated. I'll pull the on-disk scores and the prior report format, then write `qa/015-scene-work-04B-05C/REPORT.md`.Gate reports and the 05C timeline dump are on disk. I'll confirm the production bundle size, then write the report from those numbers.`/work/` now runs 04B as a hover and focus video on the centre tile, and 05C as a GSAP light-table entrance on the opening eight thumbnails. Seam 04B-05C stayed 10/10. The report is `qa/015-scene-work-04B-05C/REPORT.md`.
+
+04B uses the shared `scene-video.ts` play mode. Hover or keyboard focus plays the clip from 0. Leave reverses to 0 over 0.4 s. Touch plays once at 60% in view. The gate records that video full-bleed. The still under it is a CSS background, so the feature tile still has a single photo `img`.
+
+05C falls eight real Work prints from `y -120vh` (rotate ±18, scale 1.1, shadow `0 60px 80px`) between 0.5 s and 2.0 s, settles them into the grid by 5.5 s with ease `cine` and stagger 0.08, then scales a 6 px crimson loupe from 5.2 s to 5.8 s. The exported timeline is 0 frames off that table (limit 2). Record mode exposes `window.__SCENE_TL__['05C']`. Side-by-sides are in `qa/015-scene-work-04B-05C/shots/`.
+
+Gates: scene gate PASS (01A, 03B, 04B). Seam gate 10/10. Route check 3/3. Route visual 3/3 desktop and mobile. Production build is 20 pages, no motion-lab routes, `noindex, nofollow`. Playwright: 42 passed, 18 skipped, 0 failed. Added client gzip is about 0.92 kB.
+
+```
+feat(scene-04B-05C): work hover ink video and light-table entrance
+```
+
+GATE 015-scene-work-04B-05C: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+05C CODE timeline PASS (0 frames off the table; limit 2). Side-by-sides qa/015-scene-work-04B-05C/shots/05C-sbs-{0.5,1.0,2.0,3.5,5.5,6.0}.jpg
+
+A preview task just exited. I'll check whether port 4821 is still open and stop it if it is.The preview on port 4821 is not running. The log is from the earlier gate run, and nothing is listening there now. The other preview on port 4761 belongs to a different project, so it was left alone.
+
+The 015 report is already written at `qa/015-scene-work-04B-05C/REPORT.md`.
+
+GATE 015-scene-work-04B-05C: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+05C CODE timeline PASS (0 frames off the table; limit 2). Side-by-sides qa/015-scene-work-04B-05C/shots/05C-sbs-{0.5,1.0,2.0,3.5,5.5,6.0}.jpg

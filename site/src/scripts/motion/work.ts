@@ -133,7 +133,13 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
       },
     );
   };
-  intro();
+  // 05C owns the entrance on the opening prints. The old fade would fight it.
+  const hasPrints = Boolean(root.querySelector('[data-light-print]'));
+  const record = new URLSearchParams(window.location.search).has('record');
+  if (!hasPrints) intro();
+  else if (reduced || record || !window.matchMedia('(min-width: 801px)').matches) {
+    document.documentElement.classList.remove('work-intro');
+  }
 
   const desktopQuery = window.matchMedia('(min-width: 801px)');
   // Same noir grade at 390 and on a coarse pointer. Ripple stays fine and wide.

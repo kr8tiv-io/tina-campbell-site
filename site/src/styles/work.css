@@ -70,10 +70,26 @@
   background: var(--crimson);
 }
 
+.work-live {
+  position: relative;
+}
+
+.work-table {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 68% 52% at 50% 58%, rgba(232, 214, 186, 0.34), rgba(12, 12, 15, 0) 70%),
+    radial-gradient(ellipse 36% 24% at 50% 72%, rgba(255, 244, 220, 0.2), rgba(12, 12, 15, 0) 72%);
+}
+
 .work-grid {
   --gap-x: 10px;
   --gap-y: 32px;
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-auto-rows: clamp(48px, 5.4vw, 72px);
@@ -177,6 +193,132 @@
   object-position: var(--focus, center 40%);
 }
 
+.tile__scene-still {
+  display: none;
+  background: #0c0c0f url('/media/scenes/04B/04B-poster.webp') 50% 50% / cover no-repeat;
+}
+
+.tile__scene-still,
+.tile__ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.tile__link .tile__ink,
+.tile__ink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  background: #0c0c0f;
+}
+
+.tile__ink {
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tile__ink.is-playing {
+  opacity: 1;
+}
+
+.tile__ink.is-floating {
+  position: fixed;
+  z-index: 6;
+  inset: auto;
+  margin: 0;
+}
+
+.work-loupe {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  z-index: 3;
+  width: 46%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.work-loupe__ring {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 6px solid #b3261e;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  box-sizing: border-box;
+}
+
+.tile--ink.is-ink .work-loupe {
+  opacity: 0;
+}
+
+html:not(.js) .tile--ink .tile__scene-still {
+  display: block;
+  z-index: 2;
+}
+
+html:not(.js) .tile--ink .tile__ink {
+  opacity: 1;
+}
+
+/* Gate: the 04B element fills the viewport. Ancestors must not transform or fade it. */
+html.is-gate-04B .pin-spacer,
+html.is-gate-04B .seam-real__stage,
+html.is-gate-04B .seam-real__track,
+html.is-gate-04B [data-seam-pair],
+html.is-gate-04B .work-live,
+html.is-gate-04B .tile--ink,
+html.is-gate-04B .tile--ink .tile__link {
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+html.is-gate-04B video[data-scene-video='04B'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  background: #0c0c0f !important;
+}
+
+html.is-gate-04B .work-canvas,
+html.is-scene-gate .work-canvas {
+  display: none !important;
+}
+
+html.is-light-table.is-seam-motion [data-seam-pair] .seam-real__stage,
+html.is-light-table .pin-spacer {
+  overflow: visible !important;
+}
+
+/* The graded canvas sits above the grid. Hide it while the prints travel. */
+html.is-light-table .work-canvas {
+  opacity: 0 !important;
+}
+
+html.is-light-table.work-gl .tile.is-gl .tile__link img {
+  opacity: 1 !important;
+}
+
 .tile__cap {
   position: absolute;
   left: 0;
@@ -238,6 +380,10 @@ html[data-work-filter='edmonton'] .tile:not([data-filter='edmonton']) {
 
 html.work-intro .tile {
   opacity: 0;
+}
+
+html.work-intro.is-light-table .tile[data-light-print] {
+  opacity: 1;
 }
 
 @media (max-width: 800px) {
@@ -310,6 +456,25 @@ html.work-intro .tile {
 
   .work-canvas {
     display: none;
+  }
+
+  .tile--ink .tile__ink {
+    display: none !important;
+  }
+
+  .tile--ink .tile__scene-still {
+    display: block;
+    z-index: 2;
+    background-image: url('/media/scenes/04B/04B-end.webp');
+  }
+
+  .work-table {
+    opacity: 1;
+  }
+
+  .work-loupe__ring {
+    opacity: 1;
+    transform: none;
   }
 }
 

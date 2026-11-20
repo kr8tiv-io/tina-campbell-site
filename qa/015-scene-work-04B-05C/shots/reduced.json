@@ -1,0 +1,14 @@
+{
+  "sources": 0,
+  "preload": "none",
+  "videoDisplay": "none",
+  "stillDisplay": "block",
+  "stillBg": "url(\"http://127.0.0.1:4821/media/scenes/04B/04B-end.webp\")",
+  "photoSrc": "http://127.0.0.1:4821/_astro/fb_013_signature.umbGOQBm_6SAEk.avif",
+  "ringOpacity": "1",
+  "ringTransform": "none",
+  "tableOpacity": "1",
+  "tl": false,
+  "intro": false,
+  "errs": []
+}
