@@ -18,12 +18,12 @@ of them plus 6 Instagram frames (70, `site/src/assets/photos/`). Contact sheets 
   unless a slot truly needs it; if so, Lanczos only, max 1.25x, and say so in the REPORT.
 - Dedupe: only one of each near-identical pair (dHash <= 70/256 or same set and pose): keep #135 over #151, #132 over #175,
   fb_018 over fb_160 on the same page, retire ig_profile_02 (identical to fb_141_signature).
-- Keep alt text descriptive and honest. Do not say a photo shows Tina unless Matt confirms it.
+- Keep alt text descriptive and honest. Do not say a photo shows Tina unless Matt confirms it (confirmed so far: fb_171_bts).
 
 ## New picks from the unused 121 (23, all to be confirmed clean at full size)
 | New id | #n | fbid | px | What it is | Fills |
 |---|---|---|---|---|---|
-| fb_171_bts | 171 | 477002674212609 | 1080x1127 | B&W, photographer behind the camera beside a glass table | About hero (primary) |
+| fb_171_bts | 171 | 477002674212609 | 1080x1127 | B&W, Tina Campbell behind the camera beside a glass table (confirmed by Matt 20 Nov) | About hero; alt "Tina Campbell behind the camera" |
 | fb_125_bts | 125 | 253103339935878 | 1080x1080 | B&W, behind the scenes: camera in hand, model on set (crop off the black letterbox) | About hero alt / About BTS |
 | fb_054_fashion | 54 | 516065896972953 | 1080x1390 | Low-key, black hat, red curtain | Fashion & Editorial |
 | fb_069_fashion | 69 | 528469115732631 | 1440x1586 | Olive set, street railing, warm afternoon | Fashion & Editorial |
@@ -67,9 +67,9 @@ originals of #20, #129, #146, #174 and the WCFW frames #152, #159, #180.
 | /fashion-editorial/ pull | fb_018_fashion, fb_124_fashion, fb_177_fashion, fb_136_portrait |
 | /portraits-bridal-couples/ | Portraits: fb_137_portrait, fb_154_portrait, fb_127_portrait. Bridal: fb_056_bridal, fb_061_bridal, fb_109_bridal. Couples: fb_007_couples, fb_132_couples, fb_135_couples |
 | /runway/ catwalk (14 distinct, no loop copies in the DOM) | fb_012, 029, 037, 060, 064, 085, 105, 158, fb_062, 041, 169, 076, 097, 098 (all _runway) |
-| /about/ hero (023) | fb_171_bts (alt fb_125_bts) |
+| /about/ hero (023) | fb_171_bts (Tina, confirmed) |
 | /about/ split | fb_021_portrait |
-| /about/ BTS row | fb_125_bts (or fb_171 if 125 is the hero), ig_profile_05, fb_120_portrait, fb_134_portrait |
+| /about/ BTS row | fb_125_bts, ig_profile_05, fb_120_portrait, fb_134_portrait |
 | /about/ places | fb_066_city, fb_107_landscape, fb_071_landscape, fb_168_city |
 | /about/ 09B band (017) | 09B blue hour media (unchanged) |
 | /services/ header | fb_156_portrait |

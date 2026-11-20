@@ -15,11 +15,11 @@ Gap audit rank 2 (`build-plan/gap-audit-2026-11-20/about-hero-current.jpg`): the
 - Same split grammar as /fashion-editorial/ (06B) and the services header: left ink panel (#0C0C0F) with the eyebrow, the
   one h1 ("Tina Campbell"), a two-line intro in her voice from the existing About copy (no new claims, no em dashes) and the
   Book button; right a real photo, full height, object-fit cover, a thin crimson (#B3261E) rule on the seam between panels.
-- Photo: `fb_171_bts` (raw index #171, `/workspace/tina-campbell/raw/fb_all/fb_477002674212609.jpg`, B&W, photographer
+- Photo: `fb_171_bts`, Tina herself (raw index #171, `/workspace/tina-campbell/raw/fb_all/fb_477002674212609.jpg`, B&W, photographer
   behind the camera by a glass table). Alternate `fb_125_bts` (#125, `fb_253103339935878.jpg`, crop off the black
   letterbox). Add to `site/src/assets/photos/` and `src/data/photos.ts` per PHOTO-PLAN rules (corner check for marks).
-  See `gap-audit-2026-11-20/about-hero-candidates.jpg`. Alt text must not name Tina (not confirmed):
-  "A photographer behind the camera in a bright studio corner."
+  See `gap-audit-2026-11-20/about-hero-candidates.jpg`. Matt confirmed (20 Nov) that fb_171_bts is Tina herself: use it as
+  the hero (not the alternate) with alt text "Tina Campbell behind the camera".
 - Motion on the locked look: on load the photo reveals from the seam outward (clip-path inset 0 100% 0 0 to 0, 0.9 s, ease
   cine), the ink panel text rises 12 px with a 0.08 stagger; on scroll the photo drifts 6 percent slower (parallax) and the
   crimson rule grows to full height. Reduced motion: static, no drift.

@@ -68,8 +68,8 @@ Big "TINA CAMPBELL" over it. On phone the silhouette sits mid-screen and is the 
 Reference 09B: a real wide river-valley photo, Walterdale bridge and skyline, sunset sliding to blue hour, city lights and
 reflections coming on.
 Gap: not a real photo (rule breach in spirit), no blue hour shift, no light, cut-out edges visible. Fix (Matt): redo the
-top as Editorial Split, ink text panel left, a real photo of Tina's work right (proposed `fb_125` B&W behind-the-camera
-frame, alt to fb_171), then the 09B blue-hour scrub as the band directly below. Prompt 023, 017 amended.
+top as Editorial Split, ink text panel left, a real photo right: `fb_171_bts`, Tina behind the camera (confirmed
+by Matt 20 Nov), then the 09B blue-hour scrub as the band directly below. Prompt 023, 017 amended.
 
 ### 04B crimson ink drop (/work/): sheet-04B.jpg
 Reference: three large black-and-white prints; on the centre one a drop of crimson ink lands on the gown and blooms until the
