@@ -121,7 +121,47 @@ function showEndStill(video: HTMLVideoElement, entry: SceneEntry): void {
   if (!img.currentSrc.includes(end) && img.getAttribute('src') !== end) img.src = end;
 }
 
-function attachSources(video: HTMLVideoElement, entry: SceneEntry, small: boolean): void {
+const idleKicks = new WeakMap<HTMLVideoElement, () => void>();
+
+/**
+ * A load that picks a source and then sits at readyState 0 / NETWORK_IDLE
+ * never fires loadedmetadata. One extra load() after that state has had 1.5s
+ * to clear. One timer, no loop of load() calls, cleared on abort.
+ */
+function armIdleLoadKick(video: HTMLVideoElement, signal: AbortSignal): void {
+  idleKicks.get(video)?.();
+  let kicked = false;
+  let timer = 0;
+  const stop = (): void => {
+    if (timer) window.clearTimeout(timer);
+    timer = 0;
+    video.removeEventListener('loadedmetadata', stop);
+    signal.removeEventListener('abort', stop);
+    if (idleKicks.get(video) === stop) idleKicks.delete(video);
+  };
+  const tick = (): void => {
+    timer = 0;
+    if (signal.aborted || kicked || !video.isConnected) return;
+    if (video.readyState > 0) {
+      stop();
+      return;
+    }
+    const asked = video.preload === 'auto' || video.dataset.sceneSrc != null;
+    if (!asked) return;
+    if (video.networkState === video.NETWORK_IDLE) {
+      kicked = true;
+      video.load();
+      return;
+    }
+    timer = window.setTimeout(tick, 1500);
+  };
+  idleKicks.set(video, stop);
+  video.addEventListener('loadedmetadata', stop);
+  signal.addEventListener('abort', stop);
+  timer = window.setTimeout(tick, 1500);
+}
+
+function attachSources(video: HTMLVideoElement, entry: SceneEntry, small: boolean, signal: AbortSignal): void {
   const tier = small ? '720' : '1080';
   if (video.dataset.sceneSrc === tier && video.querySelector('source')) return;
   const sources: Array<{ src: string; type: string }> = small
@@ -139,6 +179,7 @@ function attachSources(video: HTMLVideoElement, entry: SceneEntry, small: boolea
   }
   video.dataset.sceneSrc = tier;
   video.load();
+  if (video.readyState === 0) armIdleLoadKick(video, signal);
 }
 
 function markPlaying(video: HTMLVideoElement): void {
@@ -364,7 +405,7 @@ function mountOne(
     video.preload = 'auto';
     video.autoplay = false;
     video.pause();
-    attachSources(video, entry, false);
+    attachSources(video, entry, false, signal);
     const ready = (): void => {
       window.__SCENE_READY__ = window.__SCENE_READY__ || {};
       window.__SCENE_READY__[id] = true;
@@ -385,7 +426,7 @@ function mountOne(
   const load = (): void => {
     if (signal.aborted || video.dataset.sceneSrc) return;
     video.preload = mode === 'loop' ? 'auto' : 'metadata';
-    attachSources(video, entry, small);
+    attachSources(video, entry, small, signal);
   };
 
   if (mode === 'loop') {

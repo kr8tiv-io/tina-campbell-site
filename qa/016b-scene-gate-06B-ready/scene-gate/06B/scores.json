@@ -1,0 +1,15 @@
+{
+ "scene": "06B",
+ "url": "http://127.0.0.1:4821/fashion-editorial/?record=1&gate=06B",
+ "verdict": "FAIL",
+ "frames": 0,
+ "bad": 0,
+ "mean_ssim": 0,
+ "worst_ssim": 0.0,
+ "worst_frame": -1,
+ "errors": [
+  "capture error: Page.wait_for_function: Timeout 30000ms exceeded."
+ ],
+ "media": null,
+ "rows": []
+}

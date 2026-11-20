@@ -300,6 +300,15 @@ html.is-gate-04B video[data-scene-video='04B'] {
   background: #0c0c0f !important;
 }
 
+/* Gate only: the video now stays in its tile (016b), so the page copy that shares its stacking context would sit on top. */
+html.is-gate-04B .work-head,
+html.is-gate-04B .work-head *,
+html.is-gate-04B .work-filters,
+html.is-gate-04B .work-filters * {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 html.is-gate-04B .work-canvas,
 html.is-scene-gate .work-canvas {
   display: none !important;

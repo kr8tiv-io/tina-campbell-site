@@ -1,0 +1,151 @@
+{
+  "04B": {
+    "mid": {
+      "t": 1.0943,
+      "paused": false,
+      "parent": "BODY.",
+      "floating": true,
+      "headerHit": true,
+      "headerTag": "A.",
+      "videoTop": 0,
+      "headerBottom": 112,
+      "overlapsTile": true
+    },
+    "end": {
+      "t": 3.2145,
+      "rs": 4,
+      "ns": 1,
+      "dur": 6.084,
+      "paused": false,
+      "src": "http://127.0.0.1:4821/media/scenes/04B/04B-1080.webm",
+      "parent": "BODY.",
+      "filter": "none"
+    }
+  },
+  "06B": [
+    {
+      "visit": "first",
+      "point": "start",
+      "frac": 0,
+      "progress": "0.0000",
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0
+      },
+      "t": 0,
+      "rs": 4,
+      "ns": 1,
+      "dur": 6.084,
+      "paused": true,
+      "src": "http://127.0.0.1:4821/media/scenes/06B/06B-1080.webm",
+      "parent": "DIV.fe-scene",
+      "filter": "none"
+    },
+    {
+      "visit": "first",
+      "point": "middle",
+      "frac": 0.5,
+      "progress": "0.4997",
+      "color": {
+        "r": 46,
+        "g": 43,
+        "b": 43
+      },
+      "t": 3.040377,
+      "rs": 4,
+      "ns": 1,
+      "dur": 6.084,
+      "paused": true,
+      "src": "http://127.0.0.1:4821/media/scenes/06B/06B-1080.webm",
+      "parent": "DIV.fe-scene",
+      "filter": "none"
+    },
+    {
+      "visit": "first",
+      "point": "end",
+      "frac": 0.98,
+      "progress": "0.9802",
+      "color": {
+        "r": 47,
+        "g": 42,
+        "b": 42
+      },
+      "t": 5.963814,
+      "rs": 4,
+      "ns": 1,
+      "dur": 6.084,
+      "paused": true,
+      "src": "http://127.0.0.1:4821/media/scenes/06B/06B-1080.webm",
+      "parent": "DIV.fe-scene",
+      "filter": "none"
+    },
+    {
+      "visit": "second",
+      "point": "start",
+      "frac": 0,
+      "progress": "0.0000",
+      "color": {
+        "r": 0,
+        "g": 0,
+        "b": 0
+      },
+      "t": 0,
+      "rs": 4,
+      "ns": 1,
+      "dur": 6.084,
+      "paused": true,
+      "src": "http://127.0.0.1:4821/media/scenes/06B/06B-1080.webm",
+      "parent": "DIV.fe-scene",
+      "filter": "none"
+    },
+    {
+      "visit": "second",
+      "point": "middle",
+      "frac": 0.5,
+      "progress": "0.4997",
+      "color": {
+        "r": 46,
+        "g": 43,
+        "b": 43
+      },
+      "t": 3.040377,
+      "rs": 4,
+      "ns": 1,
+      "dur": 6.084,
+      "paused": true,
+      "src": "http://127.0.0.1:4821/media/scenes/06B/06B-1080.webm",
+      "parent": "DIV.fe-scene",
+      "filter": "none"
+    },
+    {
+      "visit": "second",
+      "point": "end",
+      "frac": 0.98,
+      "progress": "0.9802",
+      "color": {
+        "r": 47,
+        "g": 42,
+        "b": 42
+      },
+      "t": 5.963814,
+      "rs": 4,
+      "ns": 1,
+      "dur": 6.084,
+      "paused": true,
+      "src": "http://127.0.0.1:4821/media/scenes/06B/06B-1080.webm",
+      "parent": "DIV.fe-scene",
+      "filter": "none"
+    }
+  ],
+  "reduced": {
+    "still": {
+      "img": "http://127.0.0.1:4821/media/scenes/06B/06B-end.webp",
+      "videoDisplay": "none",
+      "sources": 0,
+      "cls": "js loader-skip has-cursor",
+      "title": "Fashion\n& Editorial"
+    },
+    "videoRequests": []
+  }
+}

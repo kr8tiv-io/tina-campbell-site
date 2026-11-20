@@ -2,7 +2,8 @@
  * Scene 04B B-crimson-ink-drop. The centre Work tile plays the picked clip
  * through scene-video.ts (mode play): hover or focus from 0, leave reverses
  * to 0 over 0.4 s, touch plays once at 60% in view.
- * Gate mode lifts that video to the viewport so the scene gate can seek it.
+ * Gate mode leaves the video in the tile. html.is-gate-04B already pins it
+ * fixed to the viewport. Moving it after load() suspends the fetch.
  */
 
 import { gsap } from '../runtime';
@@ -28,10 +29,6 @@ export function initWorkInk(reduced: boolean, signal: AbortSignal): () => void {
   const link = video?.closest<HTMLElement>('[data-scene-hit]');
   const tile = video?.closest<HTMLElement>('.tile');
 
-  if (gate === '04B' && video && video.parentElement !== document.body) {
-    document.body.appendChild(video);
-  }
-
   const clearGate = (): void => {
     root.classList.remove('is-gate-04B');
   };
@@ -52,7 +49,16 @@ export function initWorkInk(reduced: boolean, signal: AbortSignal): () => void {
     video.style.left = `${rect.left}px`;
     video.style.width = `${rect.width}px`;
     video.style.height = `${rect.height}px`;
-    if (video.parentElement !== document.body) document.body.appendChild(video);
+    if (video.parentElement !== document.body) {
+      const resume = !video.paused;
+      document.body.appendChild(video);
+      // The float has to leave the tile so the header stays above it.
+      // That move aborts an in-flight fetch. Restart once if nothing arrived.
+      if (video.readyState === 0 && video.querySelector('source')) {
+        video.load();
+        if (resume) void video.play().catch(() => {});
+      }
+    }
     floating = true;
     tile.classList.add('is-ink');
   };

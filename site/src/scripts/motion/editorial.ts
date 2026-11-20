@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
+import { sceneGateId } from './scene-video';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -206,6 +207,14 @@ function initFashion(reduced: boolean, fine: boolean, mobile: boolean, splits: S
     magnet.dataset.magnetBound = '1';
   }
 
+  // The head script adds these on a full load. A client-side swap does not
+  // re-run it, and the previous page's cleanup has already cleared them.
+  if (!reduced && fine && !mobile) document.documentElement.classList.add('fe-intro', 'has-thread');
+
+  // Gate mode seeks the 06B element. The split pin reparents that ancestor
+  // after load() and Chrome leaves the fetch suspended (readyState stays 0).
+  if (sceneGateId() === '06B') return;
+
   if (reduced || mobile || !fine || !document.documentElement.classList.contains('fe-intro')) {
     document.documentElement.classList.remove('fe-intro');
     document.documentElement.dataset.fePhase = 'static';
@@ -234,7 +243,9 @@ function initSeries(reduced: boolean, fine: boolean, mobile: boolean, splits: Sp
 
   const cover = document.querySelector<HTMLElement>('[data-cover]');
   const zoom = document.querySelector<HTMLElement>('[data-cover-zoom]');
-  if (cover && zoom && !reduced && fine && !mobile) {
+  // 07C owns the cover. The old Ken Burns scale would fight the print stack.
+  const stack = cover?.hasAttribute('data-print-stack');
+  if (cover && zoom && !reduced && fine && !mobile && !stack) {
     gsap.fromTo(
       zoom,
       { scale: 1.1 },

@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
 import { frameStyle, metaLine, spreadFor, titleLines } from '../../data/editorial';
-import { seriesCredits, seriesList, type SeriesSlug } from '../../data/photos';
+import { photosInSeries, seriesCredits, seriesList, type SeriesSlug } from '../../data/photos';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/editorial.css';
 
@@ -29,6 +29,8 @@ const og = await getImage({
 const origin = Astro.site ?? new URL(defaultSiteUrl);
 const pageUrl = new URL(`/series/${series.slug}/`, origin).href;
 const galleryPhotos = [spread.cover, spread.feature, spread.pair[0], spread.pair[1], spread.film];
+const pool = photosInSeries(slug);
+const prints = [spread.cover, ...pool.filter((photo) => photo.id !== spread.cover.id)];
 
 const jsonLd = [
   {
@@ -59,14 +61,18 @@ const jsonLd = [
     (function () {
       var reduce = false;
       try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-      if (!reduce) document.documentElement.classList.add('series-intro');
+      if (!reduce) {
+        document.documentElement.classList.add('series-intro');
+        document.documentElement.classList.add('print-live');
+      }
     })();
   </script>
   <main id="content" class="series" data-page="series">
-    <section class="cover" data-cover aria-labelledby="series-title">
+    <section class="cover" data-cover data-print-stack aria-labelledby="series-title">
       <div
         class="cover__zoom"
         data-cover-zoom
+        aria-hidden="true"
         style={frameStyle(
           spread.coverPosition,
           spread.coverScale,
@@ -80,10 +86,24 @@ const jsonLd = [
           alt={spread.cover.alt}
           sizes="100vw"
           widths={[800, 1200, 1600, 2000]}
-          priority
           flipId={series.slug}
         />
       </div>
+      <ol class="print-stack">
+        {
+          prints.map((photo, index) => (
+            <li class="print" data-print={index}>
+              <Photo
+                src={photo.src}
+                alt={photo.alt}
+                sizes="(max-width: 960px) 64vw, 34vw"
+                widths={[480, 800, 1200]}
+                priority={index === 0}
+              />
+            </li>
+          ))
+        }
+      </ol>
       <div class="cover__shade" aria-hidden="true"></div>
       <div class="cover__copy">
         <h1 id="series-title" data-series-title>

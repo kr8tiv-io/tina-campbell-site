@@ -1,0 +1,17 @@
+The 06B gate stall looks like a load that starts, then dies when the video is moved. I’ll read the scene plan and the two places that attach sources and reparent the element before changing anything.The stall matches a media element that starts loading and then goes idle. Gate mode moves that element onto `document.body` after `load()`, which can suspend the fetch. I’ll stop that move and add one idle retry in the shared video helper.Playwright finished at 42 passed and 0 failed. Next I’ll build the motion-lab preview and run the combined scene gate twice in that one Chrome.The combined gate still left 06B without metadata after the other three scenes. A one-shot check at 1.5s misses a load that goes idle later, and the fashion pin can reparent the video while that load is in flight. I’ll keep watching for a real idle stretch, restart that load once, and skip the pin in gate mode.The idle retry was rebuilding the sources and leaving a video request open, so the gate’s network-idle wait never finished. I’ll retry with a single `load()` and start that fetch only after the page has gone quiet.Auto-compacting conversation (83% full)...
+Conversation compacted.
+The 06B ready stall is already diagnosed and the three scene-fix attempts are spent. I’ll confirm the final site code, then run the remaining gates and write the report.The site fix is in place: gate mode no longer moves 04B or 06B, and the shared helper retries a stalled load once. Next I’ll build the motion-lab preview and run the gates against that bundle.The motion-lab bundle matches the tested client hash `BD6uB5dp`. I’ll start the preview and run the combined scene gate on that build.Seam checks passed. The combined scene gate still loses 06B after the other three scenes. I’ll log the real-route scrub and take the screenshots next.06B still fails the combined scene gate. Real-route playback is intact: the fashion pin scrubs from black and white to crimson, and the Work hover plays in its tile with the header above it.
+
+Gate mode no longer moves the 04B or 06B video after `load()`, and the fashion pin is skipped only for `gate=06B`. The shared helper calls `load()` once more if a requested video is still `readyState 0` and `NETWORK_IDLE` after 1.5 seconds. A client-side return to `/fashion-editorial/` restores `fe-intro` and `has-thread`, so the pin mounts again.
+
+Playwright on the production build: 42 passed, 18 skipped, 0 failed. Seams: 10/10, route check 3/3, route visual 3/3 and 3/3 mobile. In one tab, 06B `currentTime` went 0, 3.040, 5.964 on both fashion visits. Reduced motion shows `06B-end.webp` and requests no video. The preview on port 4821 is stopped.
+
+The combined gate was run once and failed, so it was not run again. After 01A, 03B, and 04B screenshot all 145 frames in one Chrome, 06B never sets `__SCENE_READY__` inside 30 seconds. A probe with that same warmup returned from navigation in 0.76 seconds, then the next DevTools call did not return for more than 5 minutes while the headless GPU process sat near 349% CPU. The idle kick cannot run during that freeze. Details are in `qa/016b-scene-gate-06B-ready/REPORT.md`.
+
+Suggested commit (not created): `fix(scene-video): no reparent after load; idle-load kick so 06B is ready in a warm Chrome`
+
+GATE 016b: FAIL
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9256 (frame 1)
+06B worst SSIM 0.0 (no frames, ready timeout 30s)

@@ -801,3 +801,224 @@ html.pbc-motion .chapter__shot:not(:first-child) {
     transform: none !important;
   }
 }
+
+/* 06B. Desktop scene fills the split. Text stays above it. Photos sit under it until the pin ends. */
+
+.fe-scene {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0c0c0f;
+  pointer-events: none;
+}
+
+.fe-scene__still,
+.fe-scene__video,
+.fe-thread {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fe-scene__still img,
+.fe-scene__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.fe-scene__video {
+  opacity: 0;
+}
+
+.fe-scene__video.is-playing {
+  opacity: 1;
+}
+
+.fe-thread {
+  z-index: 2;
+  overflow: visible;
+}
+
+html.js .fe-thread {
+  visibility: hidden;
+}
+
+@media (min-width: 961px) {
+  .fe-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    aspect-ratio: auto;
+  }
+
+  .fe-left {
+    position: relative;
+    z-index: 2;
+  }
+
+  .fe-rule {
+    z-index: 3;
+  }
+
+  .fe-view {
+    z-index: 0;
+  }
+
+  html.has-thread:not(.is-thread-late) .fe-view {
+    pointer-events: none;
+  }
+
+  html.has-thread:not(.is-thread-late) .fe-rule {
+    visibility: hidden;
+  }
+}
+
+html.is-gate-06B .fe-scene__still,
+html.is-gate-06B .fe-thread,
+html.is-gate-06B .pin-spacer,
+html.is-gate-06B .fe-split,
+html.is-gate-06B .fe-grid,
+html.is-gate-06B .fe-scene {
+  transform: none !important;
+  filter: none !important;
+}
+
+html.is-gate-06B .fe-scene__still,
+html.is-gate-06B .fe-thread {
+  display: none !important;
+}
+
+html.is-gate-06B video[data-scene-video='06B'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 80 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  background: #0c0c0f !important;
+}
+
+/* 07C. Settled end is the default (no JS, reduced motion). print-live is the loose start. */
+
+.cover[data-print-stack] {
+  background: #0c0c0f;
+}
+
+.cover[data-print-stack] .cover__zoom {
+  visibility: hidden;
+}
+
+.cover[data-print-stack] .cover__shade {
+  z-index: 2;
+}
+
+.cover[data-print-stack] .cover__copy {
+  z-index: 3;
+}
+
+.print-stack {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.print {
+  position: absolute;
+  top: 18%;
+  left: calc(50% - min(17vw, 200px));
+  width: min(34vw, 400px);
+  margin: 0;
+  padding: 8px 8px 22px;
+  box-sizing: border-box;
+  background: #f4f1ea;
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.28);
+  transform-origin: 50% 40%;
+}
+
+.print .photo {
+  display: block;
+  aspect-ratio: 5 / 4;
+  margin: 0;
+  overflow: hidden;
+  background: #0c0c0f;
+}
+
+.print .photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.print:nth-child(1) {
+  z-index: 4;
+  transform: translate(-48%, -36%) rotate(-8.5deg);
+}
+
+.print:nth-child(2) {
+  z-index: 6;
+  transform: rotate(1.4deg);
+}
+
+.print:nth-child(3) {
+  z-index: 3;
+  transform: translate(-10%, 6%) rotate(-0.6deg) scale(0.98);
+}
+
+.print:nth-child(n + 4) {
+  opacity: 0;
+}
+
+html.print-live .print:nth-child(1) {
+  z-index: 5;
+  transform: translate(6%, -4%) rotate(3deg);
+}
+
+html.print-live .print:nth-child(2) {
+  z-index: 4;
+  transform: translate(10%, 16%) rotate(8deg) scale(0.92);
+  filter: blur(8px);
+}
+
+html.print-live .print:nth-child(3) {
+  z-index: 3;
+  transform: translate(-16%, 2%) rotate(-6deg) scale(0.95);
+  filter: none;
+}
+
+html.print-live .print:nth-child(n + 4) {
+  opacity: 0;
+}
+
+@media (max-width: 960px) {
+  .print {
+    top: 6%;
+    left: 18%;
+    width: 64vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fe-scene__video {
+    display: none !important;
+  }
+
+  .fe-thread {
+    display: none;
+  }
+}

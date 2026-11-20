@@ -1,0 +1,423 @@
+{
+  "duration": 6.04,
+  "labels": {
+    "hold": 0,
+    "slide": 1,
+    "slideEnd": 2,
+    "settle": 5.5,
+    "driftEnd": 6.04
+  },
+  "rows": [
+    {
+      "start": 0,
+      "end": 0,
+      "ease": "cine",
+      "prints": [
+        "3"
+      ],
+      "vars": {
+        "autoAlpha": 0
+      }
+    },
+    {
+      "start": 0,
+      "end": 0,
+      "ease": "cine",
+      "prints": [
+        "0"
+      ],
+      "vars": {
+        "x": 0,
+        "y": 0,
+        "xPercent": 6,
+        "yPercent": -4,
+        "rotation": 3,
+        "scale": 1,
+        "filter": "blur(0px)",
+        "zIndex": 5,
+        "autoAlpha": 1,
+        "boxShadow": "0px 18px 28px rgba(0,0,0,0.28)"
+      }
+    },
+    {
+      "start": 0,
+      "end": 1,
+      "ease": "sine.out",
+      "prints": [
+        "0"
+      ],
+      "vars": {
+        "xPercent": 4,
+        "yPercent": -6,
+        "rotation": 2.2
+      }
+    },
+    {
+      "start": 0,
+      "end": 0,
+      "ease": "cine",
+      "prints": [
+        "1"
+      ],
+      "vars": {
+        "x": 0,
+        "y": 0,
+        "xPercent": 10,
+        "yPercent": 16,
+        "rotation": 8,
+        "scale": 0.92,
+        "filter": "blur(8px)",
+        "zIndex": 4,
+        "autoAlpha": 1,
+        "boxShadow": "0px 18px 28px rgba(0,0,0,0.28)"
+      }
+    },
+    {
+      "start": 0,
+      "end": 0,
+      "ease": "cine",
+      "prints": [
+        "2"
+      ],
+      "vars": {
+        "x": 0,
+        "y": 0,
+        "xPercent": -16,
+        "yPercent": 2,
+        "rotation": -6,
+        "scale": 0.95,
+        "filter": "blur(0px)",
+        "zIndex": 3,
+        "autoAlpha": 1,
+        "boxShadow": "0px 18px 28px rgba(0,0,0,0.28)"
+      }
+    },
+    {
+      "start": 1,
+      "end": 2,
+      "ease": "power2.inOut",
+      "prints": [
+        "0"
+      ],
+      "vars": {
+        "xPercent": -40,
+        "yPercent": -30,
+        "rotation": -8,
+        "boxShadow": "0px 46px 64px rgba(0,0,0,0.55)"
+      }
+    },
+    {
+      "start": 1,
+      "end": 5.5,
+      "ease": "cine",
+      "prints": [
+        "1"
+      ],
+      "vars": {
+        "xPercent": 0,
+        "yPercent": 0,
+        "rotation": 0,
+        "scale": 1,
+        "filter": "blur(0px)"
+      }
+    },
+    {
+      "start": 1,
+      "end": 5.5,
+      "ease": "cine",
+      "prints": [
+        "2"
+      ],
+      "vars": {
+        "xPercent": -10,
+        "yPercent": 6,
+        "rotation": -2,
+        "scale": 0.98
+      }
+    },
+    {
+      "start": 2,
+      "end": 5.5,
+      "ease": "sine.inOut",
+      "prints": [
+        "0"
+      ],
+      "vars": {
+        "xPercent": -48,
+        "yPercent": -36,
+        "rotation": -10,
+        "boxShadow": "0px 16px 26px rgba(0,0,0,0.30)"
+      }
+    },
+    {
+      "start": 2,
+      "end": 2,
+      "ease": "cine",
+      "prints": [
+        "1"
+      ],
+      "vars": {
+        "zIndex": 6
+      }
+    },
+    {
+      "start": 5.5,
+      "end": 6.04,
+      "ease": "sine.inOut",
+      "prints": [
+        "0"
+      ],
+      "vars": {
+        "rotation": -8.5
+      }
+    },
+    {
+      "start": 5.5,
+      "end": 6.04,
+      "ease": "sine.inOut",
+      "prints": [
+        "1"
+      ],
+      "vars": {
+        "rotation": 1.4
+      }
+    },
+    {
+      "start": 5.5,
+      "end": 6.04,
+      "ease": "sine.inOut",
+      "prints": [
+        "2"
+      ],
+      "vars": {
+        "rotation": -0.6
+      }
+    }
+  ],
+  "samples": [
+    {
+      "t": 0,
+      "cards": [
+        {
+          "i": "0",
+          "xPercent": 6,
+          "yPercent": -4,
+          "rotation": 3,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "1",
+          "xPercent": 10,
+          "yPercent": 16,
+          "rotation": 8,
+          "scale": 0.92,
+          "filter": "blur(8px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "2",
+          "xPercent": -16,
+          "yPercent": 2,
+          "rotation": -6,
+          "scale": 0.95,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        }
+      ]
+    },
+    {
+      "t": 0.5,
+      "cards": [
+        {
+          "i": "0",
+          "xPercent": 4.59,
+          "yPercent": -5.41,
+          "rotation": 2.43,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "1",
+          "xPercent": 10,
+          "yPercent": 16,
+          "rotation": 8,
+          "scale": 0.92,
+          "filter": "blur(8px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "2",
+          "xPercent": -16,
+          "yPercent": 2,
+          "rotation": -6,
+          "scale": 0.95,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "cards": [
+        {
+          "i": "0",
+          "xPercent": 4,
+          "yPercent": -6,
+          "rotation": 2.2,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "1",
+          "xPercent": 10,
+          "yPercent": 16,
+          "rotation": 8,
+          "scale": 0.92,
+          "filter": "blur(8px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "2",
+          "xPercent": -16,
+          "yPercent": 2,
+          "rotation": -6,
+          "scale": 0.95,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "cards": [
+        {
+          "i": "0",
+          "xPercent": -40,
+          "yPercent": -30,
+          "rotation": -8,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.55) 0px 46px 64px 0px"
+        },
+        {
+          "i": "1",
+          "xPercent": 2.83,
+          "yPercent": 4.52,
+          "rotation": 2.26,
+          "scale": 0.977,
+          "filter": "blur(2.2609px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "2",
+          "xPercent": -11.7,
+          "yPercent": 4.87,
+          "rotation": -3.13,
+          "scale": 0.972,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        }
+      ]
+    },
+    {
+      "t": 3.5,
+      "cards": [
+        {
+          "i": "0",
+          "xPercent": -43.11,
+          "yPercent": -32.33,
+          "rotation": -8.78,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.45) 0px 34.3378px 49.2279px 0px"
+        },
+        {
+          "i": "1",
+          "xPercent": 0.24,
+          "yPercent": 0.39,
+          "rotation": 0.2,
+          "scale": 0.998,
+          "filter": "blur(0.195px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "2",
+          "xPercent": -10.15,
+          "yPercent": 5.9,
+          "rotation": -2.1,
+          "scale": 0.979,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        }
+      ]
+    },
+    {
+      "t": 5.5,
+      "cards": [
+        {
+          "i": "0",
+          "xPercent": -48,
+          "yPercent": -36,
+          "rotation": -10,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.3) 0px 16px 26px 0px"
+        },
+        {
+          "i": "1",
+          "xPercent": 0,
+          "yPercent": 0,
+          "rotation": 0,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "2",
+          "xPercent": -10,
+          "yPercent": 6,
+          "rotation": -2,
+          "scale": 0.98,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        }
+      ]
+    },
+    {
+      "t": 6.04,
+      "cards": [
+        {
+          "i": "0",
+          "xPercent": -48,
+          "yPercent": -36,
+          "rotation": -8.5,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.3) 0px 16px 26px 0px"
+        },
+        {
+          "i": "1",
+          "xPercent": 0,
+          "yPercent": 0,
+          "rotation": 1.4,
+          "scale": 1,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        },
+        {
+          "i": "2",
+          "xPercent": -10,
+          "yPercent": 6,
+          "rotation": -0.6,
+          "scale": 0.98,
+          "filter": "blur(0px)",
+          "shadow": "rgba(0, 0, 0, 0.28) 0px 18px 28px 0px"
+        }
+      ]
+    }
+  ]
+}

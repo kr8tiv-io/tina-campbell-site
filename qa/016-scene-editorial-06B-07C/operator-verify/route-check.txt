@@ -1,0 +1,4 @@
+PASS 01A-02A on /?record=1 diffs=0
+PASS 02A-03B on /?record=1 diffs=0
+PASS 04B-05C on /work/?record=1 diffs=0
+VERDICT: PASS

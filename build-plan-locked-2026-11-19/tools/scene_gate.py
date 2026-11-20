@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scene gate v1 (19 Nov 2026) for the 7 VIDEO scenes. PASS or FAIL only.
+"""Scene gate v1.1 (fresh browser per scene, 20 Nov 2026; v1 19 Nov 2026) for the 7 VIDEO scenes. PASS or FAIL only.
 
 Truth = the picked 720p clip (concepts/motion-options-2026-11-12/<scene>/<opt>/clip.mp4, 145 frames @ 24 fps).
 The site must expose the scene's media as <video data-scene-video="<ID>"> and honour `?record=1&gate=<ID>`:
@@ -147,10 +147,15 @@ def main():
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True); cache = Path(tempfile.gettempdir()) / "scene-gate-refs"
     from playwright.sync_api import sync_playwright
     pw = sync_playwright().start()
-    br = pw.chromium.launch(headless=True, executable_path=mg.CHROME, args=["--autoplay-policy=no-user-gesture-required", "--disable-dev-shm-usage", "--no-sandbox"])
+    launch = lambda: pw.chromium.launch(headless=True, executable_path=mg.CHROME, args=["--autoplay-policy=no-user-gesture-required", "--disable-dev-shm-usage", "--no-sandbox"])
+    # v1.1 (20 Nov 2026, Matt's call): each scene gets its own fresh browser, so it is judged as a real single page
+    # visit. Thresholds unchanged. One shared headless Chrome froze its GPU process after ~435 screenshots (016/016b).
+    br = None
     results = []
     try:
         for sid in a.scenes.split(","):
+            if br is not None: br.close()
+            br = launch()
             if a.self_test:
                 tmp = Path(tempfile.mkdtemp()); shutil.copy(a.master, tmp / "m.mp4")
                 (tmp / "index.html").write_text(HARNESS.replace("{sid}", sid).replace("{src}", "m.mp4"))
@@ -160,7 +165,8 @@ def main():
             r = run_scene(br, url, sid, out, cache); results.append(r)
             print(f"{sid} {r['verdict']} worst={r['worst_ssim']} (frame {r['worst_frame']}) mean={r['mean_ssim']} bad={r['bad']}/{r['frames']} {r['errors']}", flush=True)
     finally:
-        br.close(); pw.stop()
+        if br is not None: br.close()
+        pw.stop()
     lines = ["# Scene gate v1", "", "| Scene | Verdict | Mean SSIM | Worst SSIM | Worst frame | Bad /145 | Errors |", "|---|---|---|---|---|---|---|"]
     lines += [f"| {r['scene']} | **{r['verdict']}** | {r['mean_ssim']} | {r['worst_ssim']} | {r['worst_frame']} | {r['bad']} | {'; '.join(r['errors'])} |" for r in results]
     allok = all(r["verdict"] == "PASS" for r in results); lines += ["", f"VERDICT: {'PASS' if allok else 'FAIL'}"]

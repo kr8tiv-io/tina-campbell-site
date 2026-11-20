@@ -33,13 +33,46 @@ const jsonLd = {
       var fine = false;
       try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
       try { fine = matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
-      if (!reduce && fine && window.innerWidth > 960) document.documentElement.classList.add('fe-intro');
+      if (!reduce && fine && window.innerWidth > 960) {
+        document.documentElement.classList.add('fe-intro');
+        document.documentElement.classList.add('has-thread');
+      }
     })();
   </script>
   <main id="content" class="fe" data-page="fashion">
     <section class="fe-split" data-fe-split aria-labelledby="fe-title">
       <div class="fe-grid">
-        <div class="fe-left">
+        <div class="fe-scene" data-fe-scene>
+          <picture class="fe-scene__still">
+            <source
+              srcset="/media/scenes/06B/06B-end.webp"
+              type="image/webp"
+              media="(prefers-reduced-motion: reduce)"
+            />
+            <img
+              src="/media/scenes/06B/06B-poster.webp"
+              alt=""
+              width="1920"
+              height="1080"
+              data-scene-still="06B"
+              fetchpriority="high"
+            />
+          </picture>
+          <video
+            data-scene-video="06B"
+            data-scene-mode="scrub"
+            class="fe-scene__video"
+            muted
+            playsinline
+            preload="none"
+            poster="/media/scenes/06B/06B-poster.webp"
+            aria-hidden="true"
+          ></video>
+          <svg class="fe-thread" data-scene-overlay data-fe-thread viewBox="0 0 1440 810" preserveAspectRatio="none" aria-hidden="true">
+            <path data-fe-thread-path d="M720 0 L720 810" fill="none" stroke="#B3261E" stroke-width="3" vector-effect="non-scaling-stroke"></path>
+          </svg>
+        </div>
+        <div class="fe-left" data-scene-copy>
           <img class="fe-mark" src={logo} alt="" width="584" height="415" data-fe-mark />
           <h1 id="fe-title" class="fe-title" data-fe-title>
             Fashion<br />&amp; Editorial
@@ -65,7 +98,7 @@ const jsonLd = {
             }
           </ol>
         </div>
-        <div class="fe-rule" data-fe-rule aria-hidden="true"></div>
+        <div class="fe-rule" data-fe-rule data-scene-overlay aria-hidden="true"></div>
         <div class="fe-view" data-fe-view>
           <div class="fe-track" data-fe-track>
             {

@@ -4,6 +4,8 @@ import { initCursor } from './cursor';
 import { endLoader, playLoader } from './loader';
 import { initHome, syncHeroCopy } from './home';
 import { initRunway } from './runway';
+import { initEditorialThread } from './scenes/editorial-thread';
+import { initPrintStack } from './scenes/print-stack';
 import { initRunwayFollowspot } from './scenes/runway-followspot';
 import { initWorkInk } from './scenes/work-ink';
 import { initWorkLightTable } from './scenes/work-lighttable';
@@ -233,12 +235,16 @@ async function initMotion(): Promise<void> {
   const releaseSeams = initSeams(document);
   const releaseInk = initWorkInk(reduced, abort.signal);
   const releaseVideos = initSceneVideos(abort.signal);
+  const releaseThread = initEditorialThread(reduced, abort.signal);
+  const releasePrints = initPrintStack(reduced, abort.signal);
   const releaseLight = initWorkLightTable(reduced, abort.signal);
   const releaseFollow = initRunwayFollowspot(reduced, abort.signal);
   const previous = cleanup;
   cleanup = () => {
     releaseFollow();
     releaseLight();
+    releasePrints();
+    releaseThread();
     releaseVideos();
     releaseInk();
     releaseSeams();

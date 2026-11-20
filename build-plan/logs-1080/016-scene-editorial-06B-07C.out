@@ -1,0 +1,43 @@
+I'll build the 06B crimson-thread scrub and the 07C print stack from the locked motion plan, then run the gates. First I'm reading the scene specs, motion lock, and the existing scene runtime.The editorial split and series cover are separate routes, so the seams stay unwired. I'll add the 06B scrub and the 07C print-stack timeline on top of the pages that already exist.Auto-compacting conversation (81% full)...
+Conversation compacted.
+The scene modules and CSS are still missing, so the typecheck will fail until those land. I'll match the 04B/05C patterns already in the repo, then write the thread and print-stack code.The markup is in place and the scene modules are still missing, so typecheck cannot pass yet. I'll add the crimson-thread scrub, the print-stack timeline, and the CSS that keeps the existing pin and cover intact.Typecheck passed. Next I’ll build with the motion lab on and start the preview the gates use.Preview is up on port 4821. The scene gate is next: four scenes, 145 frames each.The print stack is applying the stylesheet transform and the GSAP offset together, so the cards move twice as far. I'll clear that transform before the timeline records its start values.Seams are 10/10 and the route checks passed. Next I’ll capture the scene screenshots and the 07C timing side-by-sides.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The side-by-side capture is still running. I'll check whether those frames landed, then finish the production build, tests, and report.The timeline is ready, but the side-by-side screenshots never started. I'll stop that hung Chrome and capture the frames again with a tighter timeout.The route shots are in place. The record-mode side-by-sides stalled in Chrome, so I’m capturing those frames again without the GPU flag, then I’ll run the production build.The seam test that timed out passed on its own. I’m writing the report while a full typecheck and test run finishes.06B and 07C are in. The fashion split scrubs the crimson-thread clip, and a DOM hairline tracks that same progress. Each series cover runs one print-stack step per real photo. Seams 05C-06B and 06B-07C stay unwired because those scenes are on different routes. The report is `qa/016-scene-editorial-06B-07C/REPORT.md`.
+
+The required four-scene gate does not pass in one Chrome. After 01A, 03B and 04B, `__SCENE_READY__['06B']` is not set within 30 seconds. Three helper changes were tried and reverted. Separate runs on the restored AV1 build pass, and a fresh browser marks 06B ready in about a second. Seams are 10/10. Route checks are 3/3 on desktop and mobile. `npm run check` passed. The production build is 20 pages, with no motion-lab routes and `noindex`. Playwright finished at 42 passed, 18 skipped, 0 failed. Added JavaScript is about 1.20 KB gzip.
+
+Suggested commit, not created: `feat(scene-06B-07C): editorial crimson thread scrub and series print stack`
+
+GATE 016-scene-editorial-06B-07C: FAIL
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+06B worst SSIM 0.9816 (frame 5, solo). Combined command: no score, ready timeout
+07C no scene-gate SSIM. Timeline 0 frames off on a 6.04 s step
+
+The earlier screenshot script was stopped on purpose (exit 143). It had stalled before the side-by-sides. Those frames and the report are still in place, so the gate result is unchanged.
+
+GATE 016-scene-editorial-06B-07C: FAIL
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+06B worst SSIM 0.9816 (frame 5, solo). Combined command: no score, ready timeout
+07C no scene-gate SSIM. Timeline 0 frames off on a 6.04 s step
+
+That side-by-side run was the earlier Chrome capture I stopped (exit 143). The finished frames are the later set under `qa/016-scene-editorial-06B-07C/shots/`, and the gate result is unchanged.
+
+GATE 016-scene-editorial-06B-07C: FAIL
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+06B worst SSIM 0.9816 (frame 5, solo). Combined command: no score, ready timeout
+07C no scene-gate SSIM. Timeline 0 frames off on a 6.04 s step
+
+That keyframe run was the hung capture I stopped (exit 143). The side-by-sides already on disk are from the later capture, so the gate result is unchanged.
+
+GATE 016-scene-editorial-06B-07C: FAIL
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+06B worst SSIM 0.9816 (frame 5, solo). Combined command: no score, ready timeout
+07C no scene-gate SSIM. Timeline 0 frames off on a 6.04 s step
