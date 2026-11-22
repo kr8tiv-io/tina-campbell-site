@@ -1,0 +1,37 @@
+I'll start from the 022 report and the film-strip code so the phone strip can fill the viewport while desktop stays as it is.Desktop is still the 022 strip. I'll record those frames first, then change only the phone layout.The phone strip is a thin band because five frames are fitted across a tall screen. I’ll keep the desktop path as it is and size the phone strip to three large frames.The preview is up. Next I’ll measure the phone strip against the size, curve, and label checks and adjust from those numbers.Auto-compacting conversation (81% full)...
+Conversation compacted.
+The phone strip already fills the viewport. The leftover labels on the photos are still in the running preview, so I’ll typecheck the display fix, rebuild, and remeasure before the gates.The rebuild finished. I’ll restart only the preview on port 4821 so it serves the label fix.The preview is up with the label fix. Next I’ll measure phone size, sprockets, light, and the desktop pixel diff against the frames captured before the change.Desktop frames match the earlier capture exactly. Phone size checks pass. Reverse scrub snaps the wrong way because ScrollTrigger’s default snap follows scroll direction, so I’ll turn that off below 760px only.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The phone strip is built. I'll confirm the reduced-motion labels are whole, then run the production Playwright suite and write the report.Couples and No. 05 are whole on the reduced-motion stand-in. Next I’ll pull the gate numbers and run the production Playwright suite.The phone test depends on the live strip API. I'll confirm that API exists in the production build, then start the suite.Production build is 20 pages and has no motion-lab routes. Playwright is next, on its own port.The phone strip now fills the viewport. On 390x844 and 400x860 it bleeds off both edges, the centre frame is about 0.77 by 0.56 of the screen, and three frames stay in view. Desktop record frames and `/runway/` match the pre-change captures at 0 percent mean absolute difference.
+
+Phone scroll runs centre index 0 through 6 and back to 0, with no horizontal overflow. The pin stays `110vh`. The reduced-motion stand-in shows three frames across the width, and "Couples" / "No. 05" are whole. Added JS is about 1.2 KB gzip (`home-filmstrip.ts` is 5083 bytes gzip).
+
+`checks.json` is pass. Scene, seam, and route gates passed on the motion-lab build. The production build is 20 pages, with no motion-lab routes and `noindex` on the home page. Playwright on port 4891: 43 passed, 21 skipped, 0 failed. The new 390x844 test passed on the mobile project.
+
+Report: `qa/022b-filmstrip-02A-phone-size/REPORT.md`. Suggested commit, not made: `feat(scene-02A): curved film strip fills the phone viewport; desktop unchanged`.
+
+GATE 022b-filmstrip-02A-phone-size: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+02A no scene_gate SSIM; checks.json pass
+
+The motion-lab preview on port 4821 stopped because it was shut down before the production build. That was intentional. The 022b result is unchanged.
+
+GATE 022b-filmstrip-02A-phone-size: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+02A no scene_gate SSIM; checks.json pass
+
+The motion-lab preview on port 4821 exited with code 143 after it was stopped for the production build. Nothing else is still running from that preview, and the 022b result stands.
+
+GATE 022b-filmstrip-02A-phone-size: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+02A no scene_gate SSIM; checks.json pass
+
+That preview was the earlier port 4821 server, stopped on purpose before the production build. Exit 143 is the shutdown signal. The 022b result is unchanged.
+
+GATE 022b-filmstrip-02A-phone-size: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+02A no scene_gate SSIM; checks.json pass

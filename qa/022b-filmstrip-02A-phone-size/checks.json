@@ -1,0 +1,431 @@
+{
+  "pass": true,
+  "desktop": {
+    "curve": {
+      "pass": true,
+      "ratios": [
+        0.628,
+        0.59
+      ],
+      "rises": [
+        0.312,
+        0.054
+      ]
+    },
+    "tilt": {
+      "pass": true,
+      "deg": -7,
+      "range": [
+        -9,
+        -5
+      ]
+    },
+    "sprockets": {
+      "pass": true,
+      "holes": {
+        "top": 6,
+        "bottom": 6
+      },
+      "contrast": {
+        "top": 16.07,
+        "bottom": 16.07
+      }
+    },
+    "light": {
+      "pass": true,
+      "ratio": 1.203,
+      "centre": 110.67,
+      "neighbours": [
+        95.42,
+        88.62
+      ],
+      "table": {
+        "above": 14.84,
+        "below": 29.14,
+        "hue": 26.48,
+        "hues": [
+          25.7,
+          25.2,
+          28.6
+        ]
+      }
+    },
+    "scrub": {
+      "pass": true,
+      "sweep": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "snap": 1
+    },
+    "ghost": {
+      "pass": true,
+      "rest": 0.0,
+      "motion": 5.937,
+      "after": 0.357
+    },
+    "pixelDiff": {
+      "1440x810": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "1440x900": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "runway1440x900": 0,
+      "unit": "mean absolute pixel difference, percent of 255"
+    },
+    "vs022": {
+      "curveRatios": [
+        0,
+        0
+      ],
+      "curveRises": [
+        0,
+        0
+      ],
+      "tilt": 0,
+      "lightRatio": 0,
+      "centre": 0,
+      "neighbours": [
+        0,
+        0
+      ],
+      "tableAbove": 0.0385,
+      "tableBelow": 0.0118,
+      "hue": 0.0,
+      "note": "Still frames match the pre-change capture at 0 percent. Table samples move a few pixels on that same picture: above 14.84 versus 14.29, below 29.14 versus 28.8, hue 26.48 exact."
+    },
+    "pass": true
+  },
+  "phone": {
+    "curve": {
+      "pass": true,
+      "ratios": [
+        0.694,
+        0.664
+      ],
+      "rises": [
+        0.212,
+        0.093
+      ]
+    },
+    "tilt": {
+      "pass": true,
+      "deg": -5.0,
+      "range": [
+        -7,
+        -3
+      ]
+    },
+    "sprockets": {
+      "pass": true,
+      "holes": {
+        "top": 5,
+        "bottom": 4
+      },
+      "contrast": {
+        "top": 16.07,
+        "bottom": 16.07
+      }
+    },
+    "light": {
+      "pass": true,
+      "ratio": 1.422,
+      "centre": 117.29,
+      "neighbours": [
+        81.27,
+        83.73
+      ],
+      "table": {
+        "above": 21.14,
+        "below": 49.1,
+        "hue": 28.3,
+        "hues": [
+          28.2,
+          27.9,
+          28.8
+        ]
+      }
+    },
+    "scrub": {
+      "pass": true,
+      "sweep": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "snap": 1
+    },
+    "ghost": {
+      "pass": true,
+      "rest": 0.0,
+      "motion": 5.915,
+      "after": 0.0
+    },
+    "bleed": {
+      "pass": true,
+      "left": -203.6,
+      "right": 593.0
+    },
+    "centreFrame": {
+      "pass": true,
+      "width": 0.766,
+      "height": 0.557,
+      "cy": 0.482
+    },
+    "visibleFrames": {
+      "pass": true,
+      "count": 3,
+      "indices": [
+        2,
+        3,
+        4
+      ],
+      "fracs": [
+        0.528,
+        1,
+        0.528
+      ]
+    },
+    "dead": {
+      "pass": true,
+      "above": 0.217,
+      "below": 0.197,
+      "cy": 0.482
+    },
+    "labels": {
+      "pass": true,
+      "fontMin": 12,
+      "mid": [
+        "Portraits",
+        "Bridal",
+        "Couples"
+      ],
+      "start": [
+        "Signature",
+        "Runway"
+      ],
+      "end": [
+        "Edmonton",
+        "Landscape"
+      ],
+      "overlap": false,
+      "clipped": []
+    },
+    "scroll": {
+      "pass": true,
+      "down": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "up": [
+        6,
+        5,
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "overflow": false,
+      "snap": "nearest frame, directional off below 760px"
+    },
+    "pass": true,
+    "css": {
+      "reduced390": {
+        "pass": true,
+        "frames": 3,
+        "centreWidth": 0.633,
+        "pin": false,
+        "overflow": false
+      },
+      "noJs390": {
+        "pass": true,
+        "links": 7,
+        "overflow": false
+      }
+    }
+  },
+  "phone400": {
+    "curve": {
+      "pass": true,
+      "ratios": [
+        0.694,
+        0.664
+      ],
+      "rises": [
+        0.212,
+        0.094
+      ]
+    },
+    "tilt": {
+      "pass": true,
+      "deg": -5.0,
+      "range": [
+        -7,
+        -3
+      ]
+    },
+    "sprockets": {
+      "pass": true,
+      "holes": {
+        "top": 5,
+        "bottom": 4
+      },
+      "contrast": {
+        "top": 16.07,
+        "bottom": 16.07
+      }
+    },
+    "light": {
+      "pass": true,
+      "ratio": 1.599,
+      "centre": 125.61,
+      "neighbours": [
+        75.59,
+        81.55
+      ],
+      "table": {
+        "above": 21.14,
+        "below": 47.22,
+        "hue": 28.38,
+        "hues": [
+          29.4,
+          28.4,
+          27.4
+        ]
+      }
+    },
+    "scrub": {
+      "pass": true,
+      "sweep": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "snap": 1
+    },
+    "ghost": {
+      "pass": true,
+      "rest": 0.0,
+      "motion": 5.812,
+      "after": 0.0
+    },
+    "bleed": {
+      "pass": true,
+      "left": -208.8,
+      "right": 608.2
+    },
+    "centreFrame": {
+      "pass": true,
+      "width": 0.766,
+      "height": 0.562,
+      "cy": 0.482
+    },
+    "visibleFrames": {
+      "pass": true,
+      "count": 3,
+      "indices": [
+        2,
+        3,
+        4
+      ],
+      "fracs": [
+        0.528,
+        1,
+        0.528
+      ]
+    },
+    "dead": {
+      "pass": true,
+      "above": 0.215,
+      "below": 0.196,
+      "cy": 0.482
+    },
+    "labels": {
+      "pass": true,
+      "fontMin": 12,
+      "mid": [
+        "Portraits",
+        "Bridal",
+        "Couples"
+      ],
+      "start": [
+        "Signature",
+        "Runway"
+      ],
+      "end": [
+        "Edmonton",
+        "Landscape"
+      ],
+      "overlap": false,
+      "clipped": []
+    },
+    "scroll": {
+      "pass": true,
+      "down": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "up": [
+        6,
+        5,
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "overflow": false,
+      "snap": "nearest frame, directional off below 760px"
+    },
+    "pass": true,
+    "css": {
+      "noWebGL400": {
+        "pass": true,
+        "frames": 3,
+        "centreWidth": 0.594,
+        "pin": false,
+        "overflow": false
+      }
+    }
+  },
+  "pinPhone": "110vh",
+  "jsGzip": {
+    "homeFilmstripSource": 5083,
+    "note": "home-filmstrip.ts gzip -9 is 5083 bytes. Prompt 022 measured 3923. Added about 1.2 KB. curvedStrip phone options are a few lines inside the existing module."
+  }
+}

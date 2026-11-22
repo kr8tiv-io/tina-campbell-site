@@ -1,0 +1,41 @@
+I'll build the home 02A film-gate strip from the locked clip and the existing curved-strip code. First I'm reading the scene spec, motion lock, and the current home sheet so the new strip matches both.The home sheet is still a flat row. Next I’ll read the curved-strip renderer, the seam hand-off, and how other scenes register so 02A can reuse that path.`fb_064_runway` and `fb_048_portrait` have burned-in text, so those two frames will use the next clean photos. I’m extending the shared curved strip and wiring it into the home sheet.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The film strip is in place but the site still fails typecheck. I'll fix those three errors, then run the gates.The shader and the CPU projection share one tilt sign. I'll restore the missing canvas half-height, then clear the other two type errors.Typecheck is clean. Phone end frames were slightly under the height ratio, so the gate grade now lifts that falloff. Next I’ll build and measure it in the browser.The six numeric checks passed on both viewports. I'll look at the strip itself before running the longer gates.The numeric checks passed. I'll capture the route shots and the side-by-side while the 01A and 03B regression gate runs.The strip stays on screen through the scrub. Next I’ll recapture reduced motion and run the seam gates.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The label-position CSS is built but the preview on port 4821 is still serving the older bundle. I'll restart that preview and check that the frame labels sit on the strip.The bridal frame still shows a photographer script in the centred crop. I'll shift only that frame's cover so the script falls outside the film window, and leave the runway crop unchanged.Auto-compacting conversation (82% full)...
+Conversation compacted.
+The film strip is in place and the gates already passed. I am checking the recorded scores, then writing the report.Scores match the artifacts. The report records a pass, and it says where the strip still differs from the concept clip.Home section 2 is now a scroll-scrubbed curved 35mm strip. It reuses the runway `mountCurvedStrip` helper, and `/runway/` is unchanged (pixel diff 0). The report is `qa/022-scene-filmstrip-02A/REPORT.md`.
+
+Numeric checks pass on desktop and phone: barrel, tilt, sprockets, amber light, frame snap 0 through 6, and a ghost only while the strip is moving. Seams stay 10/10. Route checks stay 3/3 desktop and 3/3 mobile. Production Playwright is 42 passed, 0 failed. A first reduced-motion run failed on an 11px page overflow from the tilted CSS stand-in. `overflow: hidden` on that stand-in fixed it.
+
+The concept clip is a flatter strip of repeating stills on a photographed ink table. This build is a 7-frame barrel with category photos, CSS ink, and HTML labels. Progress does not map onto the clip. Judge that on `side-by-side-02A.jpg`. `sheet-02A.jpg` columns 4 to 6 show the runway scene because the audit capture walks out of the sheet into the next seam.
+
+Suggested commit (not made): `feat(scene-02A): curved film-gate strip on home, scroll scrubbed, sprockets and amber gate light`
+
+GATE 022-scene-filmstrip-02A: PASS
+01A worst SSIM 0.9748 (frame 95)
+02A no scene_gate SSIM; checks.json PASS (desktop light 1.203, phone 1.155); sheet is operator-judged
+03B worst SSIM 0.9613 (frame 83)
+
+A scene-gate run just finished. I am reading its result before I treat the earlier pass as final.The late scene-gate run finished with the same result already in the report. 01A and 03B both pass, so the verdict does not change.
+
+GATE 022-scene-filmstrip-02A: PASS
+01A worst SSIM 0.9748 (frame 95)
+02A no scene_gate SSIM; checks.json PASS (desktop light 1.203, phone 1.155); sheet is operator-judged
+03B worst SSIM 0.9613 (frame 83)
+
+The gate still passes. The gzip figure in that log does not match the report, so I am measuring the file again.The finished measurement matches the report. `home-filmstrip.ts` is 3923 bytes gzipped now (the log’s 3845 was an earlier copy of the file). Scene gate is unchanged: 01A worst SSIM 0.9748, 03B worst SSIM 0.9613, both PASS.
+
+GATE 022-scene-filmstrip-02A: PASS
+01A worst SSIM 0.9748 (frame 95)
+02A no scene_gate SSIM; checks.json PASS (desktop light 1.203, phone 1.155); sheet is operator-judged
+03B worst SSIM 0.9613 (frame 83)
+
+The full gate batch finished. I am checking whether any score moved.The shot recapture and the full gate batch finished cleanly. Nothing in the report changes.
+
+Shots saved with 0 console errors. The side-by-side is `qa/022-scene-filmstrip-02A/side-by-side-02A.jpg`. Scene gate, seams (10/10), route check (3/3), and route visual desktop and mobile (3/3) all pass with the same scores already in the report.
+
+GATE 022-scene-filmstrip-02A: PASS
+01A worst SSIM 0.9748 (frame 95)
+02A no scene_gate SSIM; checks.json PASS (desktop light 1.203, phone 1.155); sheet is operator-judged
+03B worst SSIM 0.9613 (frame 83)

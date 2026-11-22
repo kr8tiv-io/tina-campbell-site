@@ -1,0 +1,171 @@
+{
+  "desktop": {
+    "curve": {
+      "pass": true,
+      "ratios": [
+        0.628,
+        0.59
+      ],
+      "rises": [
+        0.312,
+        0.054
+      ]
+    },
+    "tilt": {
+      "pass": true,
+      "deg": -7,
+      "range": [
+        -9,
+        -5
+      ]
+    },
+    "sprockets": {
+      "pass": true,
+      "holes": {
+        "top": 6,
+        "bottom": 6
+      },
+      "contrast": {
+        "top": 16.07,
+        "bottom": 16.07
+      }
+    },
+    "light": {
+      "pass": true,
+      "ratio": 1.203,
+      "centre": 110.67,
+      "neighbours": [
+        95.42,
+        88.62
+      ],
+      "table": {
+        "above": 14.29,
+        "below": 28.8,
+        "hue": 26.48,
+        "hues": [
+          25.7,
+          25.2,
+          28.6
+        ]
+      }
+    },
+    "scrub": {
+      "pass": true,
+      "sweep": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "snap": 1
+    },
+    "ghost": {
+      "pass": true,
+      "rest": 0.0,
+      "motion": 6.401,
+      "after": 0.863
+    },
+    "pass": true,
+    "errors": [],
+    "canvas": {
+      "w": 1440,
+      "h": 810,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 810
+      },
+      "gl": true,
+      "hold": true
+    }
+  },
+  "phone": {
+    "curve": {
+      "pass": true,
+      "ratios": [
+        0.61,
+        0.595
+      ],
+      "rises": [
+        0.276,
+        0.103
+      ]
+    },
+    "tilt": {
+      "pass": true,
+      "deg": -5.0,
+      "range": [
+        -7,
+        -3
+      ]
+    },
+    "sprockets": {
+      "pass": true,
+      "holes": {
+        "top": 6,
+        "bottom": 6
+      },
+      "contrast": {
+        "top": 16.07,
+        "bottom": 16.07
+      }
+    },
+    "light": {
+      "pass": true,
+      "ratio": 1.155,
+      "centre": 105.74,
+      "neighbours": [
+        94.6,
+        88.48
+      ],
+      "table": {
+        "above": 17.29,
+        "below": 79.27,
+        "hue": 30.61,
+        "hues": [
+          30.4,
+          31.8,
+          29.6
+        ]
+      }
+    },
+    "scrub": {
+      "pass": true,
+      "sweep": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "snap": 1
+    },
+    "ghost": {
+      "pass": true,
+      "rest": 0.0,
+      "motion": 9.414,
+      "after": 0.0
+    },
+    "pass": true,
+    "errors": [],
+    "canvas": {
+      "w": 390,
+      "h": 844,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 844
+      },
+      "gl": true,
+      "hold": true
+    }
+  },
+  "pass": true
+}

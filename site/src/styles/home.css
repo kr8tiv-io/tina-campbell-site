@@ -586,7 +586,7 @@ html.is-gate-03B .runway__still {
 .sheet__row {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 4px;
   margin: 0;
   padding: 0;
@@ -618,9 +618,8 @@ html.is-gate-03B .runway__still {
 }
 
 .sheet__frame .photo img.cat-bridal {
-  object-position: 100% 52%;
-  transform: scale(1.75);
-  transform-origin: 96% 52%;
+  object-position: 95% center;
+  transform: none;
 }
 
 .sheet__frame .photo img.cat-couples {
@@ -1182,10 +1181,405 @@ html.is-gate-03B .runway__still {
   }
 }
 
+/* 02A film gate. The flat row is the no-JS sheet. Motion swaps in the curve. */
+.sheet__media {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+}
+
+.sheet__table,
+.sheet__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sheet__table {
+  display: none;
+  background:
+    radial-gradient(ellipse 16% 12% at 18% 42%, rgba(8, 8, 10, 0.72), transparent 70%),
+    radial-gradient(ellipse 12% 9% at 82% 58%, rgba(18, 12, 10, 0.55), transparent 72%),
+    linear-gradient(180deg, #0c0c0f 0%, #101014 38%, #14110e 100%);
+  pointer-events: none;
+}
+
+.sheet__pool {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 56%;
+  height: 34%;
+  background: radial-gradient(ellipse at 50% 42%, rgba(232, 160, 80, 0.78), rgba(138, 74, 16, 0.38) 48%, transparent 74%);
+  filter: blur(10px);
+  animation: sheet-breathe 6.4s ease-in-out infinite;
+}
+
+.sheet__splotch {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 9% 7% at 24% 63%, rgba(12, 12, 15, 0.55), transparent 70%),
+    radial-gradient(ellipse 7% 5% at 70% 74%, rgba(20, 14, 10, 0.45), transparent 72%);
+  pointer-events: none;
+}
+
+.sheet__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+  background-size: 160px 160px;
+}
+
+.sheet__canvas {
+  display: none;
+  background: transparent;
+}
+
+.sheet.is-film-gl .sheet__table,
+.sheet.is-film-css .sheet__table {
+  display: block;
+}
+
+.sheet.is-film-gl .sheet__canvas {
+  display: block;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sheet.is-film-gl .sheet__row,
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__row {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  pointer-events: none;
+  grid-template-columns: none;
+  gap: 0;
+}
+
+.sheet.is-film-gl .sheet__item,
+.sheet.is-film-gl .sheet__link {
+  pointer-events: auto;
+}
+
+/* Beat the seam stage, which sets every link to position:relative and height:100%. */
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__item {
+  height: auto;
+  width: auto;
+}
+
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__link {
+  position: absolute;
+  height: auto;
+}
+
+.sheet.is-film-gl .sheet__frame,
+.sheet.is-film-gl .sheet__frame .photo,
+.sheet.is-film-gl .sheet__frame img,
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__frame,
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__frame .photo,
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__frame img {
+  opacity: 0;
+  height: 100%;
+}
+
+.sheet.is-film-gl .sheet__link {
+  position: absolute;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.sheet.is-film-gl .sheet__label,
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46%;
+  bottom: auto;
+  margin: 0;
+  padding: 0 0.2rem;
+  background: transparent;
+  color: #f0f3f4;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: none;
+  text-shadow: 0 1px 10px rgba(12, 12, 15, 0.85);
+  pointer-events: none;
+}
+
+.sheet.is-film-gl .sheet__no,
+html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__no {
+  display: block;
+  margin-top: 0.2rem;
+  color: #f0f3f4;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.sheet.is-film-gl .sheet__link:focus-visible {
+  outline: 2px solid #f0f3f4;
+  outline-offset: 3px;
+}
+
+.sheet.is-film-css,
+html.is-seam-motion .seam-real__stage .sheet.is-film-css,
+html.is-seam-motion .sheet--echo.is-film-css {
+  background: #0c0c0f;
+  overflow: hidden;
+}
+
+.sheet.is-film-css .sheet__media {
+  perspective: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  overflow: hidden;
+}
+
+.sheet.is-film-css .sheet__row,
+html.is-seam-motion .seam-real__stage .sheet.is-film-css .sheet__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  gap: 0;
+  transform: rotate(-7deg);
+  transform-style: preserve-3d;
+}
+
+.sheet.is-film-css .sheet__item {
+  flex: 0 0 auto;
+  width: 11vw;
+  transform: scale(var(--s, 1)) scaleX(var(--sx, 1));
+  filter: brightness(var(--dim, 1));
+}
+
+.sheet.is-film-css .sheet__frame {
+  aspect-ratio: 0.73;
+  background: #050506;
+}
+
+.sheet.is-film-css .sheet__frame::before,
+.sheet.is-film-css .sheet__frame::after {
+  content: '';
+  display: block;
+  height: 9%;
+  background: repeating-linear-gradient(90deg, #151517 0 7px, #050506 7px 16px, #151517 16px 24px);
+}
+
+.sheet.is-film-css .sheet__label {
+  color: #f0f3f4;
+  background: transparent;
+  text-align: center;
+}
+
+.sheet-scrub {
+  height: 150vh;
+  background: #0c0c0f;
+}
+
+html.is-gate-02A .sheet[data-sheet='live'],
+html.is-sheet-hold .sheet[data-sheet='live'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 40 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  background: #0c0c0f !important;
+}
+
+html.is-gate-02A .sheet[data-sheet='live'] .sheet__media,
+html.is-sheet-hold .sheet[data-sheet='live'] .sheet__media {
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  height: 100%;
+}
+
+html.is-gate-02A [data-seam-pair='01A-02A'] .pin-spacer,
+html.is-gate-02A [data-seam-pair='01A-02A'] .seam-real__stage,
+html.is-gate-02A [data-seam-pair='01A-02A'] .seam-real__track,
+html.is-sheet-hold [data-seam-pair='01A-02A'] .pin-spacer,
+html.is-sheet-hold [data-seam-pair='01A-02A'] .seam-real__stage,
+html.is-sheet-hold [data-seam-pair='01A-02A'] .seam-real__track {
+  transform: none !important;
+  filter: none !important;
+}
+
+html.is-gate-02A .sheet__pool {
+  animation: none;
+  opacity: 0.95;
+}
+
+@keyframes sheet-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 759px) {
+  .sheet-scrub {
+    height: 110vh;
+  }
+
+  .sheet.is-film-gl,
+  .sheet.is-film-css,
+  .sheet.is-film-gl .sheet__media,
+  .sheet.is-film-css .sheet__media,
+  .sheet.is-film-gl .sheet__row {
+    overflow: hidden;
+  }
+
+  .sheet__pool {
+    left: 0;
+    right: 0;
+    top: var(--pool-top, 68%);
+    height: 26%;
+  }
+
+  .sheet.is-film-gl .sheet__label,
+  html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__label {
+    position: absolute;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    line-height: 1.15;
+    text-align: center;
+    text-transform: none;
+    white-space: nowrap;
+    text-shadow: 0 1px 8px rgba(12, 12, 15, 0.9);
+  }
+
+  .sheet.is-film-gl .sheet__no,
+  html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__no {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .sheet.is-film-gl .sheet__label.is-offstage,
+  html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__label.is-offstage {
+    display: none;
+  }
+
+  .sheet.is-film-gl .sheet__link {
+    height: auto;
+    overflow: visible;
+  }
+
+  .sheet.is-film-css .sheet__row,
+  html.is-seam-motion .seam-real__stage .sheet.is-film-css .sheet__row {
+    flex-direction: row;
+    align-items: flex-end;
+    width: max-content;
+    max-width: none;
+    transform: rotate(-5deg);
+  }
+
+  .sheet.is-film-css .sheet__item {
+    width: 22vw;
+  }
+
+  .sheet.is-film-css .sheet__item:nth-child(4) {
+    width: 56vw;
+  }
+
+  .sheet.is-film-css .sheet__item.is-offstage {
+    display: none;
+  }
+
+  .sheet.is-film-css .sheet__link {
+    display: block;
+    padding: 0;
+    border: 0;
+    grid-template-columns: none;
+  }
+
+  .sheet.is-film-css .sheet__frame {
+    width: 100%;
+    aspect-ratio: 0.73;
+  }
+
+  .sheet.is-film-css .sheet__label {
+    position: static;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: none;
+    white-space: nowrap;
+    padding: 0.35rem 0.1rem 0;
+    background: transparent;
+    color: #f0f3f4;
+  }
+
+  /* The right-hand frame sits on the screen edge. Pull its label back so the word stays whole. */
+  .sheet.is-film-css .sheet__item:nth-child(5) .sheet__label {
+    display: inline-block;
+    transform: translateX(-18px);
+    white-space: nowrap;
+  }
+
+  .sheet.is-film-css .sheet__no {
+    display: block;
+    margin-top: 0.15rem;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .book-bar,
   .sheet__frame,
   .sheet__frame img {
     transition: none;
+  }
+
+  .sheet__pool {
+    animation: none;
+  }
+
+  .sheet-scrub {
+    display: none;
   }
 }

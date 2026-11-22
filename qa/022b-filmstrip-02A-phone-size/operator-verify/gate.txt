@@ -1,0 +1,10 @@
+check PASS
+build PASS
+pages PASS (1 h1, noindex, no lab)
+playwright rc=0  21 skipped  43 passed (6.3m) 
+seams PASS 10/10
+route tables PASS
+visual desktop PASS
+visual mobile PASS
+scenes PASS: 01A PASS worst=0.9748 (frame 95) mean=0.9773 bad=0/145 [];03B PASS worst=0.9613 (frame 83) mean=0.9693 bad=0/145 [];
+GATE 022b-filmstrip-02A-phone-size: PASS

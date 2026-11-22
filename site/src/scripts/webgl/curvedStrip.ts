@@ -76,6 +76,19 @@ export function widthScale(nx: number): number {
   return 1 / (1 + WIDTH_FALLOFF * x * x);
 }
 
+/** Centre bow in pixels. Short phone frames still curve; desktop keeps the 18px bow. */
+export function gateBow(frameH: number): number {
+  if (frameH < 280) return Math.max(6, frameH * 0.04);
+  return Math.max(0, frameH * 0.09 - 26);
+}
+
+export function gateBrightness(nx: number): number {
+  const ad = Math.min(Math.abs(nx), 1.25);
+  const n = smoothstep(0, 0.34, ad);
+  const e = smoothstep(0.34, 1.15, ad);
+  return MathUtils.lerp(MathUtils.lerp(1.1, 0.7, n), 0.26, e);
+}
+
 /** nx is view x / half the visible width. 0 is the centre of the screen. */
 export function frameLook(nx: number, velocity = 0): FrameLook {
   const ad = Math.min(Math.abs(nx), 1.25);
@@ -96,18 +109,53 @@ export function frameLook(nx: number, velocity = 0): FrameLook {
 export interface CurvedFrame {
   url: string;
   aspect: number;
+  /** Horizontal cover anchor, 0 to 1. Omitted frames stay centred, which is the runway path. */
+  focusX?: number;
+}
+
+export interface ProjectedFrame {
+  index: number;
+  /** TL, TR, BR, BL in viewport CSS pixels. */
+  quad: Array<{ x: number; y: number }>;
+  brightness: number;
+  scale: number;
 }
 
 export interface CurvedStrip {
   setProgress: (progress: number) => void;
   setVelocity: (velocity: number) => void;
+  /** 1 is full brightness. Home dips this on the idle flicker. Runway ignores it. */
+  setFlicker: (amount: number) => void;
   resize: () => void;
   destroy: () => void;
+  frames: () => ProjectedFrame[];
 }
 
 export interface MountOptions {
   signal: AbortSignal;
   onReady?: () => void;
+  /** `gate` is the home light table. Omitted keeps the runway strip. */
+  grade?: 'runway' | 'gate';
+  /** Screen-space degrees. Negative raises the right end. Runway stays 0. */
+  tilt?: number;
+  /** Finite colour strip. Runway keeps the dark run. */
+  darkRun?: boolean;
+  /** Centre frame index at progress 0. Runway stays on STRIP.focusIndex. */
+  focusIndex?: number;
+  /** About this many frames across the width. Runway keeps centreVH sizing. */
+  visible?: number;
+  /** Samples per frame along the ribbon. Runway stays 16. */
+  segments?: number;
+  /** Extra centre scale (1.06 to 1.12). Ignored on the runway grade. */
+  centreScale?: number;
+  /** Left-larger perspective. Ignored on the runway grade. */
+  persp?: number;
+  /** 0 keeps the runway barrel. Phone lifts the falloff so end frames stay in range. */
+  edgeLift?: number;
+  /** Gate only. Shifts the ribbon up by this fraction of the canvas height. Omitted stays centred. */
+  midFrac?: number;
+  /** Gate only. Sprocket holes across one frame. Omitted keeps 5.6. */
+  holes?: number;
 }
 
 export interface StripMetrics {
@@ -152,6 +200,12 @@ uniform float uPitch;
 uniform float uHalfW;
 uniform float uHalfH;
 uniform float uMidY;
+uniform float uMode;
+uniform float uTilt;
+uniform float uCentre;
+uniform float uBow;
+uniform float uPersp;
+uniform float uLift;
 varying vec2 vUv;
 varying float vLocalX;
 varying float vNx;
@@ -180,6 +234,24 @@ void main() {
   // Height barrel is unchanged. Top rises at the centre, bottom drops.
   float scale = clamp(1.0 - 0.48 * x2 + 0.08 * x2 * x, 0.48, 1.0);
   float y = uMidY + position.y * uHalfH * scale;
+  // Home only. uMode 0 keeps the runway vertex path above, unchanged.
+  if (uMode > 0.5) {
+    // Phone shows five frames, so the outer two sit past the edge. Lift the
+    // shared barrel just enough that those end heights stay in range.
+    scale = mix(scale, 1.0, uLift);
+    float boost = mix(uCentre, 1.0, smoothstep(0.0, 0.55, abs(nx)));
+    float persp = clamp(1.0 - nx * uPersp, 0.88, 1.10);
+    scale *= boost * persp;
+    float bow = uBow * (1.0 - smoothstep(0.0, 1.05, abs(nx)));
+    y = uMidY + position.y * (uHalfH * scale + bow);
+    float dx = xPx;
+    float dy = y - uMidY;
+    float theta = -uTilt;
+    float ca = cos(theta);
+    float sa = sin(theta);
+    xPx = dx * ca - dy * sa;
+    y = dx * sa + dy * ca + uMidY;
+  }
   gl_Position = projectionMatrix * viewMatrix * vec4(xPx, y, 0.0, 1.0);
   vUv = uv;
   vLocalX = position.x;
@@ -198,6 +270,9 @@ uniform float uRows;
 uniform float uCount;
 uniform float uDark;
 uniform float uSpeed;
+uniform float uMode;
+uniform float uGhost;
+uniform float uFlicker;
 varying vec2 vUv;
 varying float vLocalX;
 varying float vNx;
@@ -255,6 +330,12 @@ void main() {
     #include <colorspace_fragment>
     return;
   }
+  // Home film is finite. Outside 0..count is empty base, not the dark run.
+  if (uMode > 0.5 && (idx < 0.0 || idx >= uCount)) {
+    gl_FragColor = vec4(gutter, 1.0);
+    #include <colorspace_fragment>
+    return;
+  }
   float wrapped = wrapIndex(idx);
   float photoU = (within - halfG) / max(1.0 - uGutter, 0.001);
   float photoV = (vUv.y - uBand) / max(1.0 - 2.0 * uBand, 0.001);
@@ -272,10 +353,26 @@ void main() {
   float dim = mix(1.0, 0.30, t);
   // Centre (t = 0) stays sharp. Edges soften, a little more while moving.
   float amount = t * (0.42 + uSpeed * 0.5);
+  if (uMode > 0.5) {
+    float n = smoothstep(0.0, 0.34, ad);
+    float e = smoothstep(0.34, 1.15, ad);
+    dim = mix(mix(1.10, 0.70, n), 0.26, e) * uFlicker;
+    amount = 0.0;
+  }
   vec2 cell = vec2(1.0 / uCols, 1.0 / uRows);
   vec2 cmin = vec2(float(col), float(row)) * cell + vec2(0.0008);
   vec2 cmax = cmin + cell - vec2(0.0016);
-  vec3 color = soft(atlas, cmin, cmax, amount).rgb * dim;
+  vec3 color = soft(atlas, cmin, cmax, amount).rgb;
+  // Gate ghost: 4 taps, shift capped at 3px, only while uGhost is up.
+  if (uMode > 0.5 && uGhost > 0.02) {
+    float du = (3.0 * uGhost / max(uPitch, 1.0)) / uCols;
+    vec3 ghost = color * 0.46;
+    ghost += soft(atlas + vec2(du, 0.0), cmin, cmax, 0.0).rgb * 0.24;
+    ghost += soft(atlas + vec2(du * 2.0, 0.0), cmin, cmax, 0.0).rgb * 0.16;
+    ghost += soft(atlas - vec2(du * 0.7, 0.0), cmin, cmax, 0.0).rgb * 0.14;
+    color = ghost;
+  }
+  color *= dim;
   gl_FragColor = vec4(color, 1.0);
   #include <colorspace_fragment>
 }
@@ -288,6 +385,7 @@ function drawCover(
   dy: number,
   dw: number,
   dh: number,
+  focusX = 0.5,
 ): void {
   const ir = img.width / img.height;
   const box = dw / dh;
@@ -297,7 +395,7 @@ function drawCover(
   let sh = img.height;
   if (ir > box) {
     sw = img.height * box;
-    sx = (img.width - sw) * 0.5;
+    sx = (img.width - sw) * focusX;
   } else {
     sh = img.width / box;
     sy = (img.height - sh) * 0.18;
@@ -314,18 +412,33 @@ function loadImage(url: string): Promise<HTMLImageElement | null> {
   });
 }
 
+const WIDTH_A = 1.42;
+
+function foreshortenPx(xi: number, pitch: number, halfW: number): number {
+  const u = (Math.abs(xi) * pitch) / Math.max(halfW, 0.001);
+  let n = u < 0.8 ? u : Math.pow(Math.max((u * 3) / WIDTH_A, 1e-6), 1 / 3);
+  for (let i = 0; i < 6; i += 1) {
+    const n2 = n * n;
+    const f = n + (WIDTH_A / 3) * n2 * n - u;
+    const df = 1 + WIDTH_A * n2;
+    n = Math.max(n - f / df, 0);
+  }
+  return Math.sign(xi) * n * halfW;
+}
+
 export function mountCurvedStrip(
   canvas: HTMLCanvasElement,
-  frames: CurvedFrame[],
+  framesIn: CurvedFrame[],
   options: MountOptions,
 ): CurvedStrip {
+  const gate = options.grade === 'gate';
   const renderer = new WebGLRenderer({
     canvas,
     antialias: true,
-    alpha: false,
+    alpha: gate,
     powerPreference: 'high-performance',
   });
-  renderer.setClearColor(0x0c0c0f, 1);
+  renderer.setClearColor(0x0c0c0f, gate ? 0 : 1);
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = NoToneMapping;
 
@@ -335,6 +448,7 @@ export function mountCurvedStrip(
   camera.lookAt(0, 0, 0);
   scene.add(camera);
 
+  const frames = framesIn;
   const count = Math.max(frames.length, 1);
   const cols = Math.min(4, count);
   const rows = Math.ceil(count / cols);
@@ -356,7 +470,7 @@ export function mountCurvedStrip(
   texture.generateMipmaps = false;
 
   const pad = STRIP.pad;
-  const samples = Math.max(1, (count + pad * 2) * 16);
+  const samples = Math.max(1, (count + pad * 2) * (options.segments ?? 16));
   const positions = new Float32Array((samples + 1) * 2 * 3);
   const uvs = new Float32Array((samples + 1) * 2 * 2);
   const indices: number[] = [];
@@ -397,6 +511,14 @@ export function mountCurvedStrip(
       uCount: { value: count },
       uDark: { value: Math.min(STRIP.darkRun, count) },
       uSpeed: { value: 0 },
+      uMode: { value: 0 },
+      uTilt: { value: 0 },
+      uCentre: { value: 1 },
+      uBow: { value: 0 },
+      uPersp: { value: 0 },
+      uLift: { value: 0 },
+      uGhost: { value: 0 },
+      uFlicker: { value: 1 },
     },
     vertexShader: vert,
     fragmentShader: frag,
@@ -410,9 +532,23 @@ export function mountCurvedStrip(
 
   let progress = 0;
   let velocity = 0;
-  let focus = Math.min(STRIP.focusIndex, count - 1);
+  let flicker = 1;
+  const focusIndex = options.focusIndex ?? STRIP.focusIndex;
+  let focus = Math.min(Math.max(0, focusIndex), Math.max(0, count - 1));
   let span = Math.max(1, count - 1 - focus);
+  let pitchPx = 260;
+  let frameH = 400;
+  let midY = 0;
   let dirty = true;
+  const tiltRad = ((options.tilt ?? 0) * Math.PI) / 180;
+  const centreScale = options.centreScale ?? 1;
+  const persp = options.persp ?? 0;
+  const edgeLift = gate ? (options.edgeLift ?? 0) : 0;
+  material.uniforms.uMode.value = gate ? 1 : 0;
+  material.uniforms.uTilt.value = tiltRad;
+  material.uniforms.uCentre.value = gate ? centreScale : 1;
+  material.uniforms.uPersp.value = gate ? persp : 0;
+  material.uniforms.uLift.value = edgeLift;
   let stopped = false;
   let onScreen = true;
   let raf = 0;
@@ -422,28 +558,108 @@ export function mountCurvedStrip(
     const height = canvas.clientHeight;
     if (width < 2 || height < 2) return;
     const metrics = stripMetrics(window.innerWidth, window.innerHeight, height, count);
-    focus = metrics.focus;
-    span = metrics.span;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    focus = Math.min(Math.max(0, focusIndex), Math.max(0, count - 1));
+    span = Math.max(1, count - 1 - focus);
+    frameH = metrics.frameH;
+    pitchPx = metrics.pitchPx;
+    if (gate && options.visible && options.visible > 1) {
+      const halfW = width / 2;
+      const iEdge = 1 + WIDTH_A / 3;
+      const wanted = (iEdge * halfW) / (options.visible / 2);
+      const fromPitch = wanted / (0.82 * STRIP.photoAspect + STRIP.gutter);
+      frameH = Math.min(fromPitch, height * 0.62);
+      const photoH = frameH * (1 - STRIP.band * 2);
+      pitchPx = photoH * STRIP.photoAspect + frameH * STRIP.gutter;
+    }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, gate ? 1.25 : 1.5));
     renderer.setSize(width, height, false);
     camera.left = -width / 2;
     camera.right = width / 2;
     camera.top = height / 2;
     camera.bottom = -height / 2;
     camera.updateProjectionMatrix();
-    material.uniforms.uPitch.value = metrics.pitchPx;
-    // Centre sprocket pitch stays ~36 px. Width foreshortening tightens it toward the edges.
-    material.uniforms.uHole.value = 36 / Math.max(metrics.pitchPx, 1);
+    material.uniforms.uPitch.value = pitchPx;
+    // Centre sprocket pitch stays ~36 px on the runway. The gate wants >= 5 holes.
+    // Phone can pass a higher count so a cropped neighbour still shows four holes.
+    material.uniforms.uHole.value = gate ? 1 / (options.holes ?? 5.6) : 36 / Math.max(pitchPx, 1);
     material.uniforms.uHalfW.value = width / 2;
-    material.uniforms.uHalfH.value = metrics.frameH / 2;
-    const padPx = Math.min(10, height * 0.02);
-    material.uniforms.uMidY.value = height / 2 - padPx - metrics.frameH / 2;
+    material.uniforms.uHalfH.value = frameH / 2;
+    if (gate) {
+      midY = (options.midFrac ?? 0) * height;
+      material.uniforms.uBow.value = gateBow(frameH);
+      material.uniforms.uMidY.value = midY;
+    } else {
+      const padPx = Math.min(10, height * 0.02);
+      midY = height / 2 - padPx - frameH / 2;
+      material.uniforms.uBow.value = 0;
+      material.uniforms.uMidY.value = midY;
+    }
     dirty = true;
   }
 
   function layout(): void {
     mesh.position.x = -focus - progress * span;
-    material.uniforms.uSpeed.value = Math.min(Math.abs(velocity), 1);
+    const speed = Math.min(Math.abs(velocity), 1);
+    material.uniforms.uSpeed.value = speed;
+    material.uniforms.uGhost.value = gate ? speed : 0;
+    material.uniforms.uFlicker.value = gate ? flicker : 1;
+  }
+
+  function readFrames(): ProjectedFrame[] {
+    const width = canvas.clientWidth || window.innerWidth;
+    const height = canvas.clientHeight || window.innerHeight;
+    const rect = canvas.getBoundingClientRect();
+    const halfW = width / 2;
+    // Ortho camera top is +height/2. Screen y grows down, so world y subtracts.
+    const halfH = height / 2;
+    const bow = gate ? gateBow(frameH) : 0;
+    const theta = gate ? -tiltRad : 0;
+    const ca = Math.cos(theta);
+    const sa = Math.sin(theta);
+    const out: ProjectedFrame[] = [];
+    const place = (xi: number, sy: number): { x: number; y: number; scale: number; nx: number } => {
+      let xPx = foreshortenPx(xi, pitchPx, halfW);
+      const nx = xPx / Math.max(halfW, 0.001);
+      let scale = barrelScale(nx);
+      if (gate) {
+        scale += (1 - scale) * edgeLift;
+        const t = smoothstep(0, 0.55, Math.abs(nx));
+        const boost = centreScale * (1 - t) + t;
+        scale *= boost * MathUtils.clamp(1 - nx * persp, 0.88, 1.1);
+      }
+      const localBow = gate ? bow * (1 - smoothstep(0, 1.05, Math.abs(nx))) : 0;
+      let y = midY + sy * ((frameH / 2) * scale + localBow);
+      if (gate) {
+        const dx = xPx;
+        const dy = y - midY;
+        xPx = dx * ca - dy * sa;
+        y = dx * sa + dy * ca + midY;
+      }
+      return { x: rect.left + halfW + xPx, y: rect.top + halfH - y, scale, nx };
+    };
+    for (let index = 0; index < count; index += 1) {
+      const centreXi = index - focus - progress * span;
+      const centre = place(centreXi, 1);
+      const tl = place(centreXi - 0.5, 1);
+      const bl = place(centreXi - 0.5, -1);
+      const tr = place(centreXi + 0.5, 1);
+      const br = place(centreXi + 0.5, -1);
+      const bright = gate
+        ? gateBrightness(centre.nx) * flicker
+        : MathUtils.lerp(1, 0.57, smoothstep(0.02, 1, Math.abs(centre.nx)));
+      out.push({
+        index,
+        quad: [
+          { x: tl.x, y: tl.y },
+          { x: tr.x, y: tr.y },
+          { x: br.x, y: br.y },
+          { x: bl.x, y: bl.y },
+        ],
+        brightness: bright,
+        scale: centre.scale,
+      });
+    }
+    return out;
   }
 
   function frame(): void {
@@ -479,7 +695,7 @@ export function mountCurvedStrip(
       const col = index % cols;
       const row = Math.floor(index / cols);
       if (!img) return;
-      drawCover(ctx, img, col * cellW, row * cellH, cellW, cellH);
+      drawCover(ctx, img, col * cellW, row * cellH, cellW, cellH, frames[index]?.focusX ?? 0.5);
     });
     texture.needsUpdate = true;
     dirty = true;
@@ -498,8 +714,15 @@ export function mountCurvedStrip(
       velocity = next;
       dirty = true;
     },
+    setFlicker(amount: number): void {
+      flicker = amount;
+      dirty = true;
+    },
     resize(): void {
       resize();
+    },
+    frames(): ProjectedFrame[] {
+      return readFrames();
     },
     destroy(): void {
       if (stopped) return;

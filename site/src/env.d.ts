@@ -12,6 +12,7 @@ interface ImportMeta {
 
 interface Window {
   __SCENE_READY__?: Record<string, boolean>;
+  __tcScrollVelocity?: number;
 }
 
 declare module 'three' {

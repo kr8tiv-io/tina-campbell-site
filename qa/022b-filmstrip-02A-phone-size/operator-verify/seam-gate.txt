@@ -1,0 +1,11 @@
+PASS 01A-02A frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 02A-03B frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 03B-04B frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 04B-05C frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 05C-06B frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 06B-07C frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 07C-08B frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 08B-09B frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 09B-10A frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+PASS 10A-11B frames=101 bad=0 worst_ssim=1.0000@p-000.jpg timing_diffs=0
+VERDICT: PASS

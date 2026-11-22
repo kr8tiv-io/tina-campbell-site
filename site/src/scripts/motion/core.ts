@@ -3,6 +3,7 @@ import { bindScrollLock, initHeader } from './header';
 import { initCursor } from './cursor';
 import { endLoader, playLoader } from './loader';
 import { initHome, syncHeroCopy } from './home';
+import { initHomeFilmstrip } from './scenes/home-filmstrip';
 import { initRunway } from './runway';
 import { initEditorialThread } from './scenes/editorial-thread';
 import { initPrintStack } from './scenes/print-stack';
@@ -91,6 +92,7 @@ function setupLenis(reduced: boolean, fine: boolean): void {
   lenis.on('scroll', (instance) => {
     ScrollTrigger.update();
     syncHeroCopy(instance.scroll);
+    window.__tcScrollVelocity = instance.velocity;
   });
   const tick = (time: number): void => {
     lenis?.raf(time * 1000);
@@ -227,6 +229,7 @@ async function initMotion(): Promise<void> {
   setupReveals(reduced);
   setupSkew(reduced);
   const releaseHome = initHome(reduced, fine, abort.signal);
+  const releaseSheet = initHomeFilmstrip(reduced, abort.signal);
   const releaseRunway = initRunway(reduced, fine, abort.signal);
   const releaseWork = initWork(reduced, fine, abort.signal);
   const releaseEditorial = initEditorial(reduced, fine, abort.signal);
@@ -253,6 +256,7 @@ async function initMotion(): Promise<void> {
     releaseEditorial();
     releaseWork();
     releaseRunway();
+    releaseSheet();
     releaseHome();
     previous?.();
   };

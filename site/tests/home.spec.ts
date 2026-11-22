@@ -133,6 +133,109 @@ test('home matches layout and motion', async ({ page }, info) => {
   }
 });
 
+test('phone film strip fills the viewport', async ({ page }, info) => {
+  test.skip(info.project.name !== 'mobile', '390 phone only');
+  test.setTimeout(120_000);
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem('tc-loader', '1');
+    } catch {
+      /* ignore */
+    }
+  });
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.documentElement.classList.contains('loader-skip'));
+  await page.waitForFunction(
+    () => {
+      const api = (window as unknown as { __SCENE_TL__?: Record<string, { frames?: () => unknown }> }).__SCENE_TL__?.[
+        '02A'
+      ];
+      return Boolean(api && typeof api.frames === 'function' && document.querySelector('.sheet.is-film-gl'));
+    },
+    null,
+    { timeout: 20_000 },
+  );
+
+  const read = () =>
+    page.evaluate(() => {
+      const api = (
+        window as unknown as {
+          __SCENE_TL__?: Record<string, { frames: () => Array<{ quad: Array<{ x: number; y: number }> }> }>;
+        }
+      ).__SCENE_TL__?.['02A'];
+      const frames = api?.frames() ?? [];
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      let centre = 0;
+      let best = Infinity;
+      frames.forEach((frame, index) => {
+        const x = frame.quad.reduce((sum, point) => sum + point.x, 0) / 4;
+        const dist = Math.abs(x - width / 2);
+        if (dist < best) {
+          best = dist;
+          centre = index;
+        }
+      });
+      const quad = frames[centre]?.quad ?? [];
+      const xs = quad.map((point) => point.x);
+      const ys = quad.map((point) => point.y);
+      const allX = frames.flatMap((frame) => frame.quad.map((point) => point.x));
+      const root = document.scrollingElement;
+      return {
+        centre,
+        bleedL: Math.min(...allX),
+        bleedR: Math.max(...allX),
+        frameW: Math.max(...xs) - Math.min(...xs),
+        frameH: Math.max(...ys) - Math.min(...ys),
+        width,
+        height,
+        scrollWidth: root?.scrollWidth ?? 0,
+      };
+    });
+
+  const jump = async (progress: number) => {
+    await page.evaluate((value) => {
+      const motion = (
+        window as unknown as {
+          __tcMotion?: {
+            scrollTo: (target: number) => void;
+            ScrollTrigger: { getAll: () => Array<{ trigger?: Element; start: number; end: number }> };
+          };
+        }
+      ).__tcMotion;
+      const trigger = motion?.ScrollTrigger.getAll().find((item) => item.trigger?.hasAttribute('data-sheet-scrub'));
+      if (!trigger || !motion) return;
+      const y = trigger.start + value * Math.max(1, trigger.end - trigger.start);
+      motion.scrollTo(y);
+      window.scrollTo(0, y);
+    }, progress);
+    await page.waitForTimeout(1200);
+  };
+
+  await jump(0.5);
+  const mid = await read();
+  expect(mid.bleedL, JSON.stringify(mid)).toBeLessThanOrEqual(0);
+  expect(mid.bleedR).toBeGreaterThanOrEqual(mid.width);
+  expect(mid.frameH).toBeGreaterThanOrEqual(0.3 * mid.height);
+  expect(mid.frameW).toBeGreaterThanOrEqual(0.52 * mid.width);
+  expect(mid.scrollWidth).toBe(mid.width);
+
+  const down: number[] = [];
+  for (const progress of [0.04, 0.1667, 0.3333, 0.5, 0.6667, 0.8333, 0.96]) {
+    await jump(progress);
+    down.push((await read()).centre);
+  }
+  const up: number[] = [];
+  for (const progress of [0.96, 0.8333, 0.6667, 0.5, 0.3333, 0.1667, 0.04]) {
+    await jump(progress);
+    up.push((await read()).centre);
+  }
+  expect(down, `down ${down.join(',')}`).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  expect(up, `up ${up.join(',')}`).toEqual([6, 5, 4, 3, 2, 1, 0]);
+  const settled = await read();
+  expect(settled.scrollWidth).toBe(settled.width);
+});
+
 async function assertInView(page: import('@playwright/test').Page): Promise<void> {
   const hidden = await page.evaluate(() => {
     const nodes = [...document.querySelectorAll('h1, h2, h3, .runway__frame img, .sheet__label, .teaser__text')];

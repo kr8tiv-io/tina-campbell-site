@@ -34,3 +34,10 @@
 2026-11-20 09:15:24 CST END 016b-scene-gate-06B-ready rc=0
 2026-11-20 09:15:27 CST OPERATOR gate 016b start (auto)
 2026-11-20 09:17:14 CST OPERATOR 016b GATE FAIL (Grok: combined scene gate 06B ready timeout again; headless GPU process ~349% CPU after 435 screenshots; tests 42/0/18, seams 10/10, route 3/3+3/3, one-tab 06B scrub 0/3.04/5.96). Second failure: auto-gate stopped; staging zip built from b445e46 per steer; 017 NOT started
+11:37 016b gate PASS committed 1a5537b
+2026-11-20 11:37:19 CST START 022-scene-filmstrip-02A pid 1001827
+2026-11-20 13:19:31 CST END 022-scene-filmstrip-02A rc=0
+2026-11-21 21:08:11 CST START 022b-filmstrip-02A-phone-size pid 1249428
+2026-11-21 22:25:32 CST END 022b-filmstrip-02A-phone-size rc=0
+2026-11-21 22:26:45 CST OPERATOR gate 022b start (resumed operator)
+2026-11-21 22:41:46 CST OPERATOR 022b GATE PASS (check, build, pages, tests 43/0/21, seams 10/10, route tables 3/3, visual 3/3+3/3, scenes 01A 0.9748 03B 0.9613; checks.json desktop/phone/phone400 pass; phone strip fills width, desktop diff 0%)

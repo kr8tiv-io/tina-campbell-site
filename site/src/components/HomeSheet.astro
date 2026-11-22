@@ -25,34 +25,44 @@ const echo = place === 'out';
   aria-label={echo ? undefined : 'Categories'}
   aria-hidden={echo ? 'true' : undefined}
   inert={echo ? true : undefined}
+  data-scene="02A"
+  data-sheet={echo ? 'echo' : 'live'}
   data-seam-out={echo ? '' : undefined}
   data-out={echo ? '' : undefined}
   data-seam-in={echo ? undefined : ''}
   data-in={echo ? undefined : ''}
 >
   <span class="seam-real__ghost" data-seam-title aria-hidden="true">The contact sheet</span>
-  <ul class="sheet__row" data-seam-media>
-    {
-      echo
-        ? null
-        : items.map((item) => (
-        <li class="sheet__item">
-          <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View" tabindex={echo ? -1 : undefined}>
-            <span class="sheet__frame">
-              <Photo
-                src={item.photo.src}
-                alt={echo ? '' : item.photo.alt}
-                sizes="(max-width: 960px) 34vw, 16vw"
-                class={item.pos}
-              />
-            </span>
-            <span class="sheet__label">
-              {item.label}
-              <span class="sheet__no">No. {item.n}</span>
-            </span>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+  <div class="sheet__media" data-seam-media>
+    <div class="sheet__table" aria-hidden="true">
+      <div class="sheet__pool"></div>
+      <div class="sheet__splotch"></div>
+      <div class="sheet__grain"></div>
+    </div>
+    <ul class="sheet__row">
+      {
+        echo
+          ? null
+          : items.map((item, index) => (
+          <li class="sheet__item" data-texture={item.photo.src.src} data-index={index}>
+            <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View">
+              <span class="sheet__frame">
+                <Photo
+                  src={item.photo.src}
+                  alt={item.photo.alt}
+                  sizes="(max-width: 960px) 34vw, 16vw"
+                  class={item.pos}
+                />
+              </span>
+              <span class="sheet__label">
+                {item.label}
+                <span class="sheet__no">No. {item.n}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <canvas class="sheet__canvas" data-sheet-canvas aria-hidden="true"></canvas>
+  </div>
 </section>
