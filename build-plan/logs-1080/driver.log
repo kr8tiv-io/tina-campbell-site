@@ -54,3 +54,6 @@
 2026-11-22 01:56:46 CST OPERATOR 024 gate progress: seams 10/10, route tables PASS, visual desktop+mobile PASS; scene gate 01A,03B,04B running
 2026-11-22 02:01:41 CST OPERATOR 024 GATE PASS (check, build, pages 1 h1 noindex, tests 44/0/24 incl photo-spread, seams 10/10, route tables PASS, visual desktop+mobile PASS, scenes 01A 0.9748 03B 0.9613 04B 0.9531; photo_audit 92/93 distinct 199 uses, 0 per-page repeats (was 32 dup uses on 9 pages), photo-audit.mjs violations 0). Next: spot check + commit
 2026-11-22 02:03:03 CST OPERATOR 024 spot check PASS (About 1440/390, home 390, runway 1440 14 distinct: 200, 0 x-overflow, 0 broken imgs, 0 page errors); qa frames pruned to scores.json like 022b, untracked webm junk deleted. Committing
+2026-11-22 02:03:14 CST OPERATOR 024 committed+pushed 55f6f82; building staging zip
+2026-11-22 02:03:33 CST OPERATOR staging zip /workspace/tina-staging-zips/tina-staging-20261122-0203-55f6f82.zip (153M, 1128 files, noindex/robots/htaccess checks pass) + UPLOAD-PATHS-20261122-0203-55f6f82.txt; old zips, old UPLOAD-PATHS, site-c0fcb25 deleted. Screenshots in /workspace/tina-review-2026-11-22/. Next: brain note
+2026-11-22 02:06:25 CST OPERATOR brain progress pushed 8926530. 024 DONE; 025 NOT started; staging NOT deployed
