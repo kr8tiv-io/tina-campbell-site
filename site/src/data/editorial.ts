@@ -13,6 +13,8 @@ export interface Frame {
   series: SeriesSlug;
   /** Story the photo actually belongs to. */
   href: SeriesSlug;
+  /** When set, the frame links here instead of the series page. */
+  link?: string;
   position: string;
   /** Extra cover zoom so a baked signature stays out of the frame. */
   crop: number;
@@ -26,8 +28,9 @@ function frame(
   href: SeriesSlug = series,
   crop = 1,
   origin = 'center center',
+  link?: string,
 ): Frame {
-  return { photo: getPhoto(id), series, href, position, crop, origin };
+  return { photo: getPhoto(id), series, href, position, crop, origin, link };
 }
 
 /** CSS variables for object-position plus a scale that keeps a signature out of frame. */
@@ -49,17 +52,19 @@ export function frameStyle(
  * so the pinned column can toggle the index. Crops keep baked signatures off
  * the subject: wide bands from the top or the lower-right, never the full file.
  */
+const fashionWork = '/work/?filter=fashion';
+
 export const fashionColumn: Frame[] = [
   frame('fb_016_signature', 'the-red-gown', 'center 70%', 'the-red-gown', 1.12, '62% 74%'),
   frame('fb_116_signature', 'the-red-gown', 'center 24%', 'the-red-gown', 1.12, 'center 20%'),
-  frame('fb_013_signature', 'the-red-gown', 'center 22%', 'the-red-gown', 1.12, 'center 18%'),
-  frame('fb_046_signature', 'legislature-in-black', 'center 34%'),
-  frame('fb_141_signature', 'legislature-in-black', 'center 28%'),
+  frame('fb_114_signature', 'the-red-gown', 'center 28%'),
   frame('fb_009_fashion', 'red-in-snow', 'center 32%'),
   frame('fb_034_fashion', 'red-in-snow', 'center 36%'),
-  frame('fb_029_runway', 'runway-nights', 'center 42%'),
-  frame('fb_168_city', 'blue-hour', 'center top', 'blue-hour', 1.45, 'center top'),
-  frame('fb_001_city', 'blue-hour', 'center top', 'blue-hour', 1.35, 'center top'),
+  frame('fb_054_fashion', 'the-red-gown', 'center 34%', 'the-red-gown', 1, 'center center', fashionWork),
+  frame('fb_069_fashion', 'the-red-gown', 'center 42%', 'the-red-gown', 1, 'center center', fashionWork),
+  frame('fb_138_fashion', 'red-in-snow', 'center 48%'),
+  frame('fb_011_fashion', 'the-red-gown', 'center 22%', 'the-red-gown', 1, 'center center', fashionWork),
+  frame('fb_024_fashion', 'the-red-gown', 'center 30%', 'the-red-gown', 1, 'center center', fashionWork),
 ];
 
 /**
@@ -68,9 +73,9 @@ export const fashionColumn: Frame[] = [
  * portraits (the truck files carry script across the gown).
  */
 export const fashionStrip: Frame[] = [
-  frame('fb_016_signature', 'the-red-gown', '78% 58%', 'the-red-gown', 1.7, '82% 60%'),
-  frame('fb_009_fashion', 'red-in-snow', 'center 30%', 'red-in-snow'),
-  frame('fb_034_fashion', 'red-in-snow', 'center 34%', 'red-in-snow'),
+  frame('fb_018_fashion', 'the-red-gown', 'center 40%', 'the-red-gown', 1, 'center center', fashionWork),
+  frame('fb_124_fashion', 'the-red-gown', 'center 36%', 'the-red-gown', 1, 'center center', fashionWork),
+  frame('fb_177_fashion', 'the-red-gown', 'center 42%', 'the-red-gown', 1, 'center center', fashionWork),
   frame('fb_136_portrait', 'red-in-snow', 'center 28%', 'red-in-snow'),
 ];
 
@@ -104,38 +109,37 @@ export interface Spread {
   featurePosition: string;
   featureCrop: number;
   featureOrigin: string;
-  pair: [Photo, Photo];
-  pairPosition: [string, string];
-  pairCrop: [number, number];
-  pairOrigin: [string, string];
-  film: Photo;
+  pair: Photo[];
+  pairPosition: string[];
+  pairCrop: number[];
+  pairOrigin: string[];
+  film: Photo | null;
   filmPosition: string;
   filmCrop: number;
   filmOrigin: string;
+  /** Next-series thumb. Null when that cover would repeat a photo or break the runway rule. */
+  nextThumb: Photo | null;
   next: Series;
 }
 
 const spreadPlan: Record<
   SeriesSlug,
-  { cover: ShotPlan; feature: ShotPlan; pair: [ShotPlan, ShotPlan]; film: ShotPlan }
+  { cover: ShotPlan; feature: ShotPlan; pair: ShotPlan[]; film: ShotPlan | null }
 > = {
   'the-red-gown': {
     cover: { id: 'fb_016_signature', position: 'center 90%', crop: 1.9, origin: '58% 92%' },
-    feature: { id: 'fb_116_signature', position: 'center top', crop: 2.05, origin: 'center top' },
-    pair: [
-      { id: 'fb_013_signature', position: 'center top', crop: 1.5, origin: 'center top' },
-      { id: 'fb_016_signature', position: '72% 82%', crop: 1.4, origin: '74% 84%' },
-    ],
-    film: { id: 'fb_016_signature', position: 'center 84%', crop: 1.2, origin: 'center 86%' },
+    feature: { id: 'fb_013_signature', position: 'center top', crop: 1.5, origin: 'center top' },
+    pair: [{ id: 'fb_116_signature', position: 'center top', crop: 2.05, origin: 'center top' }],
+    film: null,
   },
   'legislature-in-black': {
     cover: { id: 'fb_046_signature', position: 'center 32%' },
     feature: { id: 'fb_141_signature', position: 'center 30%' },
     pair: [
       { id: 'ig_profile_03', position: 'center 38%' },
-      { id: 'fb_046_signature', position: 'center top', crop: 1.15, origin: 'center top' },
+      { id: 'fb_033_fashion', position: 'center 34%' },
     ],
-    film: { id: 'fb_046_signature', position: 'center 16%', crop: 1.1, origin: 'center top' },
+    film: null,
   },
   'red-in-snow': {
     cover: { id: 'fb_034_fashion', position: 'center 34%' },
@@ -144,7 +148,7 @@ const spreadPlan: Record<
       { id: 'fb_009_fashion', position: 'center 30%' },
       { id: 'fb_133_fashion', position: 'center 32%' },
     ],
-    film: { id: 'fb_034_fashion', position: 'center 28%' },
+    film: { id: 'fb_042_fashion', position: 'center 30%' },
   },
   'runway-nights': {
     cover: { id: 'fb_029_runway', position: 'center 40%' },
@@ -153,7 +157,7 @@ const spreadPlan: Record<
       { id: 'fb_158_runway', position: 'center top', crop: 1.25, origin: 'center top' },
       { id: 'fb_085_runway', position: 'center top', crop: 1.25, origin: 'center top' },
     ],
-    film: { id: 'fb_029_runway', position: 'center 36%' },
+    film: { id: 'fb_062_runway', position: 'center 36%' },
   },
   'blue-hour': {
     cover: {
@@ -167,10 +171,18 @@ const spreadPlan: Record<
     feature: { id: 'fb_066_city', position: 'center top', crop: 1.65, origin: 'center top' },
     pair: [
       { id: 'fb_001_city', position: 'center top', crop: 1.35, origin: 'center top' },
-      { id: 'fb_066_city', position: 'center top', crop: 1.55, origin: 'center top' },
+      { id: 'fb_577057434409234', position: 'center 42%', crop: 1.15, origin: 'center 40%' },
     ],
-    film: { id: 'fb_001_city', position: 'center 32%', crop: 1.2, origin: 'center 28%' },
+    film: null,
   },
+};
+
+/** Covers that would put a photo on a fourth page, or a runway frame on the wrong page, stay blank. */
+const nextThumbId: Partial<Record<SeriesSlug, string>> = {
+  'the-red-gown': 'fb_046_signature',
+  'legislature-in-black': 'fb_034_fashion',
+  'runway-nights': 'fb_168_city',
+  'blue-hour': 'fb_013_signature',
 };
 
 function shot(plan: ShotPlan): {
@@ -198,9 +210,9 @@ export function spreadFor(slug: SeriesSlug): Spread {
   const next = seriesList[(index + 1) % seriesList.length] ?? seriesList[0];
   const cover = shot(plan.cover);
   const feature = shot(plan.feature);
-  const pair0 = shot(plan.pair[0]);
-  const pair1 = shot(plan.pair[1]);
-  const film = shot(plan.film);
+  const pair = plan.pair.map((item) => shot(item));
+  const film = plan.film ? shot(plan.film) : null;
+  const thumbId = nextThumbId[slug];
   return {
     series,
     cover: cover.photo,
@@ -213,14 +225,15 @@ export function spreadFor(slug: SeriesSlug): Spread {
     featurePosition: feature.position,
     featureCrop: feature.crop,
     featureOrigin: feature.origin,
-    pair: [pair0.photo, pair1.photo],
-    pairPosition: [pair0.position, pair1.position],
-    pairCrop: [pair0.crop, pair1.crop],
-    pairOrigin: [pair0.origin, pair1.origin],
-    film: film.photo,
-    filmPosition: film.position,
-    filmCrop: film.crop,
-    filmOrigin: film.origin,
+    pair: pair.map((item) => item.photo),
+    pairPosition: pair.map((item) => item.position),
+    pairCrop: pair.map((item) => item.crop),
+    pairOrigin: pair.map((item) => item.origin),
+    film: film?.photo ?? null,
+    filmPosition: film?.position ?? 'center center',
+    filmCrop: film?.crop ?? 1,
+    filmOrigin: film?.origin ?? 'center center',
+    nextThumb: thumbId ? getPhoto(thumbId) : null,
     next,
   };
 }
@@ -246,7 +259,7 @@ export const chapters: Chapter[] = [
     frames: [
       chapterFrame('fb_137_portrait', 'center 42%'),
       chapterFrame('fb_154_portrait', '64% 24%', 1.6, '66% 22%'),
-      chapterFrame('fb_120_portrait', '80% 34%', 1.75, '82% 32%'),
+      chapterFrame('fb_127_portrait', 'center 32%'),
     ],
   },
   {
@@ -255,9 +268,9 @@ export const chapters: Chapter[] = [
     text: 'I started out photographing weddings, and I still love a good bridal portrait. Staircases, glass and great light.',
     href: '/work/?filter=bridal',
     frames: [
-      chapterFrame('fb_049_bridal', 'center top', 1.55, 'center top'),
       chapterFrame('fb_056_bridal', 'center top', 1.55, 'center top'),
-      chapterFrame('fb_059_bridal', 'center top', 1.55, 'center top'),
+      chapterFrame('fb_061_bridal', 'center 42%'),
+      chapterFrame('fb_109_bridal', 'center 36%'),
     ],
   },
   {
@@ -266,9 +279,9 @@ export const chapters: Chapter[] = [
     text: 'Engagements, anniversaries or just because. Relaxed, a little glamorous, and very much you two.',
     href: '/work/?filter=couples',
     frames: [
-      chapterFrame('fb_031_couples', 'center top', 1.7, 'center top'),
       chapterFrame('fb_007_couples', 'center 34%'),
-      chapterFrame('fb_065_couples', 'center 32%'),
+      chapterFrame('fb_132_couples', 'center 36%'),
+      chapterFrame('fb_135_couples', 'center 30%'),
     ],
   },
 ];

@@ -1,0 +1,194 @@
+[
+  {
+    "name": "desktop",
+    "slug": "home",
+    "route": "/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "work",
+    "route": "/work/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "fashion",
+    "route": "/fashion-editorial/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "portraits",
+    "route": "/portraits-bridal-couples/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "runway",
+    "route": "/runway/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "about",
+    "route": "/about/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "services",
+    "route": "/services/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "book",
+    "route": "/book/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "series-red-gown",
+    "route": "/series/the-red-gown/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "series-legislature",
+    "route": "/series/legislature-in-black/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "series-snow",
+    "route": "/series/red-in-snow/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "series-runway",
+    "route": "/series/runway-nights/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "series-blue",
+    "route": "/series/blue-hour/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "journal",
+    "route": "/journal/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "journal-locations",
+    "route": "/journal/edmonton-photoshoot-locations/",
+    "status": 200
+  },
+  {
+    "name": "desktop",
+    "slug": "lost",
+    "route": "/this-page-is-not-real/",
+    "status": 404
+  },
+  {
+    "name": "mobile",
+    "slug": "home",
+    "route": "/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "work",
+    "route": "/work/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "fashion",
+    "route": "/fashion-editorial/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "portraits",
+    "route": "/portraits-bridal-couples/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "runway",
+    "route": "/runway/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "about",
+    "route": "/about/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "services",
+    "route": "/services/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "book",
+    "route": "/book/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "series-red-gown",
+    "route": "/series/the-red-gown/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "series-legislature",
+    "route": "/series/legislature-in-black/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "series-snow",
+    "route": "/series/red-in-snow/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "series-runway",
+    "route": "/series/runway-nights/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "series-blue",
+    "route": "/series/blue-hour/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "journal",
+    "route": "/journal/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "journal-locations",
+    "route": "/journal/edmonton-photoshoot-locations/",
+    "status": 200
+  },
+  {
+    "name": "mobile",
+    "slug": "lost",
+    "route": "/this-page-is-not-real/",
+    "status": 404
+  }
+]

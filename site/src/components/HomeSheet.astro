@@ -44,7 +44,7 @@ const echo = place === 'out';
         echo
           ? null
           : items.map((item, index) => (
-          <li class="sheet__item" data-texture={item.photo.src.src} data-index={index}>
+          <li class="sheet__item" data-texture={item.photo.src.src} data-index={index} data-strip-frame={item.label}>
             <a class="sheet__link" href={`/work/?filter=${item.filter}`} data-cursor="View">
               <span class="sheet__frame">
                 <Photo

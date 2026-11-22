@@ -58,9 +58,10 @@ function initRunwayProgress(signal: AbortSignal): () => void {
     const max = viewport.scrollWidth - viewport.clientWidth;
     if (max <= 1) return;
     const items = [...viewport.querySelectorAll<HTMLElement>('.runway__item')];
-    // Item 0 is the truck. A mobile-only clone sits before it so the left peek is a photo.
+    // A clone, when present, sits before the first frame so the left peek is a photo.
+    const clone = items.find((el) => el.hasAttribute('data-clone'));
     const item = items.find((el) => !el.hasAttribute('data-clone'));
-    if (!item) return;
+    if (!clone || !item) return;
     const left = item.offsetLeft - (viewport.clientWidth - item.offsetWidth) / 2;
     if (viewport.scrollLeft < 2) viewport.scrollLeft = Math.max(0, left);
   };

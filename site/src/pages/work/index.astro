@@ -10,7 +10,6 @@ import '../../styles/seams.css';
 const tiles = workTiles();
 const count = tiles.length;
 const hero = tiles[0].photo;
-const echo = tiles.slice(0, 3);
 const og = await getImage({
   src: hero.src,
   width: 1200,
@@ -128,20 +127,7 @@ const jsonLd = {
           </div>
           <div class="work-echo" data-seam-in data-in aria-hidden="true">
             <span class="seam-real__ghost" data-seam-title>Work</span>
-            <div class="work-echo__row">
-              {
-                echo.map((tile) => (
-                  <div class="work-echo__cell">
-                    <Photo
-                      src={tile.photo.src}
-                      alt=""
-                      sizes="34vw"
-                      widths={[480, 800, 1200]}
-                    />
-                  </div>
-                ))
-              }
-            </div>
+            <div class="work-echo__row"></div>
           </div>
         </div>
       </div>

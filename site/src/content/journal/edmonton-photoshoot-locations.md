@@ -3,7 +3,7 @@ title: Where I like to shoot in Edmonton
 description: A practical guide to the Legislature, Walterdale, High Level Bridge, and the river valley, from an Edmonton photographer who shoots them often.
 date: 2026-11-16
 updated: 2026-11-16
-hero: fb_168_city
+hero: fb_107_landscape
 tags:
   - locations
   - edmonton

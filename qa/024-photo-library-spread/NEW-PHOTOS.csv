@@ -1,0 +1,24 @@
+id,index,fbid,pixels,kind,placement,notes
+fb_171_bts,171,477002674212609,1080x1127,bts,"/about/ hero","Already on disk. Rechecked full frame. No new encode."
+fb_125_bts,125,253103339935878,1080x779,bts,"/about/ BTS row","Already the letterbox crop on disk. Kept the existing file. Canon strap is the camera, not a mark."
+fb_054_fashion,54,516065896972953,1080x1390,fashion,"/fashion-editorial/ split, links to /work/?filter=fashion","Hat label is clothing. No mark."
+fb_069_fashion,69,528469115732631,1440x1586,fashion,"/fashion-editorial/ split, links to /work/?filter=fashion","Street sign is the location. No mark."
+fb_091_fashion,91,300051341907744,1068x1068,fashion,/book/ backdrop,Clean.
+fb_138_fashion,138,173282654584614,1080x1080,fashion,"/fashion-editorial/ split (red-in-snow highlight). Not repeated on the series page.",Clean.
+fb_177_fashion,177,420909866690659,1080x1390,fashion,/fashion-editorial/ pull,Clean.
+fb_179_fashion,179,451540116758865,993x993,fashion,/book/ strip,"Book strip is about 30vw, under the 40vw short-side rule. No Lanczos."
+fb_148_fashion,148,223314099581469,540x1080,fashion,/work/ small tile,"Left half of a two-up, JPEG q92. Natural crop, not a mark crop. role small so the slot stays under 25vw. No Lanczos."
+fb_026_portrait,26,407178054528405,1080x1182,portrait,/book/ strip,Clean.
+fb_127_portrait,127,507153447864198,1150x1560,portrait,Portraits chapter,Clean.
+fb_139_portrait,139,537969198318058,1043x1043,portrait,/services/ content-day card,"Cafe banner is the room. No mark."
+fb_134_portrait,134,256452282934317,1080x1080,portrait,/about/ BTS study tile,Black and white fine art study. Clean.
+fb_140_portrait,140,500683041844572,768x960,portrait,/work/ small tile,"768px short side. role small, under 25vw. Film-strip portrait frame stayed fb_048 (the magazine is the prop). No Lanczos."
+fb_061_bridal,61,129049819007898,1763x1602,bridal,"Home film strip Bridal frame and the Bridal chapter","Replaces fb_059_bridal on the strip. fb_059 keeps a script and stays in the library for /work/ only."
+fb_135_couples,135,129049965674550,900x1350,couples,Couples chapter,Chosen over the near-duplicate unused frame. Clean.
+fb_132_couples,132,136277961618417,1080x1351,couples,Couples chapter,Chosen over the near-duplicate unused frame. Clean.
+fb_062_runway,62,516062280306648,1079x1597,runway,"/runway/ and /series/runway-nights/ film",Clean.
+fb_041_runway,41,516065863639623,931x1567,runway,"Home film strip Runway frame and /runway/","Replaces fb_064_runway on the strip. fb_064 carries a WCFW plate and stays on /runway/ only. Short side 931 on a 16vw frame."
+fb_169_runway,169,516065783639631,863x1596,runway,/runway/,Short side 863 on a 22vw frame. No Lanczos.
+fb_076_runway,76,516452413600968,1078x1534,runway,/runway/ backstage,Clean.
+fb_097_runway,97,516452560267620,1078x1565,runway,/runway/ backstage,Clean.
+fb_098_runway,98,516452470267629,1080x1262,runway,/runway/ backstage,Clean.

@@ -242,6 +242,10 @@ html.about-motion .about-hero__rule {
   object-fit: cover;
 }
 
+.about-tile--bts .photo img {
+  object-position: center 42%;
+}
+
 .about-tile--shoot .photo img {
   object-position: 78% 42%;
 }
@@ -251,6 +255,10 @@ html.about-motion .about-hero__rule {
   height: 125%;
   object-position: 86% 22%;
   margin-left: -42%;
+}
+
+.about-tile--study .photo img {
+  object-position: center center;
 }
 
 .about-tile--set .photo img {
@@ -304,9 +312,15 @@ html.about-motion .about-hero__rule {
 }
 
 .about-card--walt .photo img {
-  object-position: 68% 12%;
-  transform: scale(1.42);
-  transform-origin: 72% 8%;
+  object-position: center 42%;
+}
+
+.about-card--peak .photo img {
+  object-position: center 40%;
+}
+
+.about-card--sun .photo img {
+  object-position: center 45%;
 }
 
 .about-card--high .photo img {
@@ -315,9 +329,7 @@ html.about-motion .about-hero__rule {
 }
 
 .about-card--river .photo img {
-  object-position: 42% 8%;
-  transform: scale(1.5);
-  transform-origin: 40% 12%;
+  object-position: center 38%;
 }
 
 .about-areas {

@@ -428,7 +428,7 @@ html.is-seam-motion .work-echo {
   display: block;
   z-index: 6;
   pointer-events: none;
-  background: #0c0c0f;
+  background: transparent;
 }
 
 .work-echo__row {

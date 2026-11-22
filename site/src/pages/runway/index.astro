@@ -6,33 +6,22 @@ import { getPhoto } from '../../data/photos';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/runway.css';
 
-// Dark stage plates (fb_012 magenta, fb_029 black venue) hold the opening view
-// and the centre through the clip gesture. Mall daylight starts after that.
+// Fourteen distinct frames. The curved strip pads by wrapping the texture index.
 const order = [
   'fb_012_runway',
   'fb_029_runway',
-  'fb_012_runway',
-  'fb_029_runway',
-  'fb_012_runway',
-  'fb_029_runway',
-  'fb_012_runway',
-  'fb_029_runway',
-  'fb_012_runway',
-  'fb_029_runway',
-  'fb_012_runway',
-  'fb_029_runway',
-  'fb_012_runway',
-  'fb_029_runway',
   'fb_037_runway',
-  'fb_158_runway',
+  'fb_060_runway',
   'fb_064_runway',
   'fb_085_runway',
-  'fb_060_runway',
   'fb_105_runway',
-  'fb_029_runway',
-  'fb_012_runway',
-  'fb_037_runway',
   'fb_158_runway',
+  'fb_062_runway',
+  'fb_041_runway',
+  'fb_169_runway',
+  'fb_076_runway',
+  'fb_097_runway',
+  'fb_098_runway',
 ];
 
 const frames = order.map((id) => getPhoto(id));

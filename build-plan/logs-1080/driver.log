@@ -45,3 +45,12 @@
 2026-11-21 23:38:16 CST END 023-about-hero-editorial-split rc=0
 2026-11-21 23:38:30 CST OPERATOR gate 023 start
 2026-11-21 23:55:04 CST OPERATOR 023 GATE PASS (check, build, pages 1 h1 noindex, tests 43/0/21, seams 10/10, route tables PASS, visual desktop+mobile PASS, scenes 01A 0.9748 03B 0.9613 04B 0.9531; About top: Alberta cut-outs not rendered (0 layer imgs), ink panel + fb_171_bts Tina, alt 'Tina Campbell behind the camera', no x-overflow 1440/390/400)
+2026-11-21 23:55:47 CST START 024-photo-library-spread pid 1390768
+2026-11-22 00:14:52 CST OPERATOR 024 run 1 lost: box rebooted ~00:03 CST (driver/grok pids gone, only file reads done, no code changes). Env restored (npm ci, playwright chromium, build OK). Relaunching 024 once.
+2026-11-22 00:14:52 CST START 024-photo-library-spread pid 11799
+2026-11-22 01:30:22 CST END 024-photo-library-spread rc=0
+2026-11-22 01:38:54 CST OPERATOR gate 024 start
+2026-11-22 01:48:05 CST OPERATOR 024 gate resumed by new operator: check/build/pages PASS, playwright 44/0/24; seam stage running (pid 69832)
+2026-11-22 01:56:46 CST OPERATOR 024 gate progress: seams 10/10, route tables PASS, visual desktop+mobile PASS; scene gate 01A,03B,04B running
+2026-11-22 02:01:41 CST OPERATOR 024 GATE PASS (check, build, pages 1 h1 noindex, tests 44/0/24 incl photo-spread, seams 10/10, route tables PASS, visual desktop+mobile PASS, scenes 01A 0.9748 03B 0.9613 04B 0.9531; photo_audit 92/93 distinct 199 uses, 0 per-page repeats (was 32 dup uses on 9 pages), photo-audit.mjs violations 0). Next: spot check + commit
+2026-11-22 02:03:03 CST OPERATOR 024 spot check PASS (About 1440/390, home 390, runway 1440 14 distinct: 200, 0 x-overflow, 0 broken imgs, 0 page errors); qa frames pruned to scores.json like 022b, untracked webm junk deleted. Committing

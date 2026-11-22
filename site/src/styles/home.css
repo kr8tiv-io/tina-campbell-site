@@ -612,14 +612,11 @@ html.is-gate-03B .runway__still {
 }
 
 .sheet__frame .photo img.cat-portrait {
-  object-position: 74% 38%;
-  transform: scale(1.5);
-  transform-origin: 74% 38%;
+  object-position: center 22%;
 }
 
 .sheet__frame .photo img.cat-bridal {
-  object-position: 95% center;
-  transform: none;
+  object-position: center 40%;
 }
 
 .sheet__frame .photo img.cat-couples {
@@ -627,7 +624,7 @@ html.is-gate-03B .runway__still {
 }
 
 .sheet__frame .photo img.cat-city {
-  object-position: center 16%;
+  object-position: center 45%;
 }
 
 .sheet__label {
@@ -1170,15 +1167,6 @@ html.is-gate-03B .runway__still {
     transform: scale(1.045);
   }
 
-  .sheet__link:hover .sheet__frame img.cat-portrait {
-    transform: scale(1.56);
-    transform-origin: 74% 38%;
-  }
-
-  .sheet__link:hover .sheet__frame img.cat-bridal {
-    transform: scale(1.82);
-    transform-origin: 96% 52%;
-  }
 }
 
 /* 02A film gate. The flat row is the no-JS sheet. Motion swaps in the curve. */

@@ -93,6 +93,8 @@ function focusFor(bias: number): string {
 }
 
 function roleFor(photo: Photo, index: number): TileRole {
+  // 540px and 768px frames stay in the small tile, under 25vw.
+  if (photo.id === 'fb_148_fashion' || photo.id === 'fb_140_portrait') return 'small';
   if (photo.orientation === 'landscape') return index % 2 === 0 ? 'land' : 'wide';
   const cycle: TileRole[] = ['port', 'tall', 'small', 'port', 'small'];
   return cycle[index % cycle.length];

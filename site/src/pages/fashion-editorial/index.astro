@@ -105,7 +105,7 @@ const jsonLd = {
               fashionColumn.map((frame, index) => (
                 <a
                   class="fe-shot"
-                  href={`/series/${frame.href}/`}
+                  href={frame.link ?? `/series/${frame.href}/`}
                   data-series={frame.series}
                   data-cursor="View"
                   style={frameStyle(frame.position, frame.crop, frame.origin)}
@@ -134,7 +134,7 @@ const jsonLd = {
         {
           fashionStrip.map((frame) => (
             <li>
-              <a class="shot" href={`/series/${frame.href}/`} data-cursor="View" data-unmask style={frameStyle(frame.position, frame.crop, frame.origin)}>
+              <a class="shot" href={frame.link ?? `/series/${frame.href}/`} data-cursor="View" data-unmask style={frameStyle(frame.position, frame.crop, frame.origin)}>
                 <Photo
                   src={frame.photo.src}
                   alt={frame.photo.alt}

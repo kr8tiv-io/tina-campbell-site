@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
 import { frameStyle, metaLine, spreadFor, titleLines } from '../../data/editorial';
-import { photosInSeries, seriesCredits, seriesList, type SeriesSlug } from '../../data/photos';
+import { seriesCredits, seriesList, type SeriesSlug } from '../../data/photos';
 import { defaultSiteUrl } from '../../data/site';
 import '../../styles/editorial.css';
 
@@ -28,9 +28,12 @@ const og = await getImage({
 });
 const origin = Astro.site ?? new URL(defaultSiteUrl);
 const pageUrl = new URL(`/series/${series.slug}/`, origin).href;
-const galleryPhotos = [spread.cover, spread.feature, spread.pair[0], spread.pair[1], spread.film];
-const pool = photosInSeries(slug);
-const prints = [spread.cover, ...pool.filter((photo) => photo.id !== spread.cover.id)];
+const galleryPhotos = [
+  spread.cover,
+  spread.feature,
+  ...spread.pair,
+  ...(spread.film ? [spread.film] : []),
+];
 
 const jsonLd = [
   {
@@ -89,21 +92,7 @@ const jsonLd = [
           flipId={series.slug}
         />
       </div>
-      <ol class="print-stack">
-        {
-          prints.map((photo, index) => (
-            <li class="print" data-print={index}>
-              <Photo
-                src={photo.src}
-                alt={photo.alt}
-                sizes="(max-width: 960px) 64vw, 34vw"
-                widths={[480, 800, 1200]}
-                priority={index === 0}
-              />
-            </li>
-          ))
-        }
-      </ol>
+      <ol class="print-stack"></ol>
       <div class="cover__shade" aria-hidden="true"></div>
       <div class="cover__copy">
         <h1 id="series-title" data-series-title>
@@ -152,27 +141,39 @@ const jsonLd = [
       }
     </ul>
 
-    <figure class="filmwide">
-      <div class="filmwide__frame" data-unmask style={frameStyle(spread.filmPosition, spread.filmCrop, spread.filmOrigin)}>
-        <Photo
-          src={spread.film.src}
-          alt={spread.film.alt}
-          sizes="100vw"
-          widths={[800, 1200, 1600, 2000]}
-        />
-      </div>
-    </figure>
+    {
+      spread.film && (
+        <figure class="filmwide">
+          <div class="filmwide__frame" data-unmask style={frameStyle(spread.filmPosition, spread.filmCrop, spread.filmOrigin)}>
+            <Photo
+              src={spread.film.src}
+              alt={spread.film.alt}
+              sizes="100vw"
+              widths={[800, 1200, 1600, 2000]}
+            />
+          </div>
+        </figure>
+      )
+    }
 
     <a class="next" href={`/series/${next.slug}/`} data-cursor="View">
       <h2>Next series:<br />{next.title}</h2>
-      <span class="next__thumb" style={frameStyle(nextSpread.coverPosition, nextSpread.coverScale, nextSpread.coverOrigin, nextSpread.coverCropMobile, nextSpread.coverOriginMobile)}>
-        <Photo
-          src={nextSpread.cover.src}
-          alt=""
-          sizes="150px"
-          widths={[320, 480]}
-          flipId={next.slug}
-        />
+      <span
+        class="next__thumb"
+        data-flip-id={spread.nextThumb ? undefined : next.slug}
+        style={spread.nextThumb ? frameStyle(nextSpread.coverPosition, nextSpread.coverScale, nextSpread.coverOrigin, nextSpread.coverCropMobile, nextSpread.coverOriginMobile) : undefined}
+      >
+        {
+          spread.nextThumb && (
+            <Photo
+              src={spread.nextThumb.src}
+              alt=""
+              sizes="150px"
+              widths={[320, 480]}
+              flipId={next.slug}
+            />
+          )
+        }
       </span>
       <span class="next__arrow" aria-hidden="true">
         <svg viewBox="0 0 104 28" fill="none">

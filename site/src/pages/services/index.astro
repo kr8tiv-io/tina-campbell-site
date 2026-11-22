@@ -40,12 +40,13 @@ const rows = [
     title: 'Runway and events',
     line: 'Fashion shows, launches and events, delivered fast.',
     photo: getPhoto('fb_012_runway'),
+    service: 'runway',
   },
   {
     num: '06',
     title: 'Content days for businesses',
     line: 'A day of images for salons, studios and boutiques.',
-    photo: getPhoto('fb_120_portrait'),
+    photo: getPhoto('fb_139_portrait'),
   },
 ];
 const faqs = [
@@ -102,7 +103,7 @@ const jsonLd = {
       <div>
         {
           rows.map((row) => (
-            <article class="svc-row" data-svc-row>
+            <article class="svc-row" data-svc-row data-service={row.service}>
               <p class="svc-row__num">{row.num}</p>
               <div>
                 <h2>{row.title}</h2>

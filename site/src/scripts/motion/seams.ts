@@ -151,6 +151,24 @@ function fillSheetEcho(): void {
   });
 }
 
+/**
+ * The work echo is the incoming three-up for seam 04B-05C. The pictures are
+ * cloned here so /work/ HTML still contains each library photo once.
+ */
+function fillWorkEcho(): void {
+  const row = document.querySelector<HTMLElement>('.work-echo__row');
+  if (!row || row.childElementCount > 0) return;
+  const tiles = document.querySelectorAll<HTMLElement>('.work-live .tile');
+  [...tiles].slice(0, 3).forEach((tile) => {
+    const picture = tile.querySelector('picture');
+    if (!picture) return;
+    const cell = document.createElement('div');
+    cell.className = 'work-echo__cell';
+    cell.append(picture.cloneNode(true));
+    row.append(cell);
+  });
+}
+
 /** Masks, ink, flood and the loupe are decorative. They are never headings or copy. */
 function ensurePairLayers(seam: HTMLElement): void {
   const stage = seam.querySelector('[data-stage]');
@@ -899,6 +917,7 @@ export function initSeams(root: ParentNode = document): () => void {
     if (cancelled) return;
     if (pairs.length) document.documentElement.classList.add('is-seam-motion');
     fillSheetEcho();
+    fillWorkEcho();
     pairs.forEach((seam) => ensurePairLayers(seam));
     const built = [...harness, ...pairs]
       .map((seam) => mountSeam(seam, root))
