@@ -1,0 +1,16 @@
+I'll rebuild the About hero as an Editorial Split and keep the locked motion gates green. First I'm reading the plan, the current About page, and the 06B split so the new hero matches that grammar.The candidate sheet and the prompt disagree about which frame is Tina. I'll open both raw files and check the corners for marks before I pick the hero.The raw files check out: #171 is Tina by the glass table, with clean corners, and #125 is the letterboxed alternate. I'll add both, then rebuild the hero as an ink panel, crimson seam, and full-height photo.The split is reading correctly. The desktop crop is cutting off Tina's head because the parallax overscan pulls the photo up, so I'm reframing it and checking again.Motion gates passed. Next is a production build and the Playwright suite, on a fresh port so they don't hit the preview already running on 4321.Auto-compacting conversation (82% full)...
+Conversation compacted.
+The about hero is already built and the gates passed. I'll confirm those results against the files, then write the report.Gate logs match the shots. I'll write the report from those results.The About hero is an editorial split, and the regression gates passed. The report is `qa/023-about-hero-editorial-split/REPORT.md`.
+
+The left ink panel holds the eyebrow, the one h1 "Tina Campbell", the existing two-line intro, and Book a shoot. The right half is `fb_171_bts` (Tina behind the camera), full height, with a crimson seam. Under that, `data-about-band` shows the 09B poster only. The old cut-out files stay in the repo and are no longer rendered. On load the photo opens from the seam and the type rises 12 px. The crimson rule draws with that entrance. Scroll moves the photo 6 percent upward so the face stays in frame. Reduced motion is a still.
+
+It matches the editorial-split grammar (ink, live type, crimson seam, photograph). The 06B reference is a colour gown in a narrower column. This hero fills the whole right half, which is what this prompt asks for. Side-by-side: `qa/023-about-hero-editorial-split/side-by-side-06B.jpg`.
+
+Production build is 20 pages, no motion-lab routes, one h1, noindex. Playwright on port 4399: 43 passed, 21 skipped, 0 failed. Nothing was committed.
+
+Suggested commit message: `feat(about): editorial split hero with a real behind-the-camera photo`
+
+GATE 023-about-hero-editorial-split: PASS
+01A worst SSIM 0.9748 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)

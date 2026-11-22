@@ -41,3 +41,7 @@
 2026-11-21 22:25:32 CST END 022b-filmstrip-02A-phone-size rc=0
 2026-11-21 22:26:45 CST OPERATOR gate 022b start (resumed operator)
 2026-11-21 22:41:46 CST OPERATOR 022b GATE PASS (check, build, pages, tests 43/0/21, seams 10/10, route tables 3/3, visual 3/3+3/3, scenes 01A 0.9748 03B 0.9613; checks.json desktop/phone/phone400 pass; phone strip fills width, desktop diff 0%)
+2026-11-21 22:42:12 CST START 023-about-hero-editorial-split pid 1336205
+2026-11-21 23:38:16 CST END 023-about-hero-editorial-split rc=0
+2026-11-21 23:38:30 CST OPERATOR gate 023 start
+2026-11-21 23:55:04 CST OPERATOR 023 GATE PASS (check, build, pages 1 h1 noindex, tests 43/0/21, seams 10/10, route tables PASS, visual desktop+mobile PASS, scenes 01A 0.9748 03B 0.9613 04B 0.9531; About top: Alberta cut-outs not rendered (0 layer imgs), ink panel + fb_171_bts Tina, alt 'Tina Campbell behind the camera', no x-overflow 1440/390/400)

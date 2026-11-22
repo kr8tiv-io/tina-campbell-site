@@ -436,6 +436,12 @@ const records: PhotoRecord[] = [
     alt: 'Model in a black dress and heels seated on concrete steps.',
   },
   {
+    file: 'fb_125_bts.jpg',
+    category: 'portraits',
+    series: null,
+    alt: 'Behind the scenes in the studio, a photographer holding a camera beside a seated woman, black and white.',
+  },
+  {
     file: 'fb_133_fashion.jpg',
     category: 'fashion-editorial',
     series: 'red-in-snow',
@@ -499,6 +505,12 @@ const records: PhotoRecord[] = [
     series: 'blue-hour',
     alt: 'Edmonton skyline at pink dusk, seen from across the river valley.',
     location: 'Edmonton',
+  },
+  {
+    file: 'fb_171_bts.jpg',
+    category: 'portraits',
+    series: null,
+    alt: 'Tina Campbell behind the camera',
   },
   {
     file: 'fb_577057434409234.jpg',

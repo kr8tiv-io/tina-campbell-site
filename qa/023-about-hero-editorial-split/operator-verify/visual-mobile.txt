@@ -1,0 +1,4 @@
+PASS 01A-02A worst step 9 dark 0.52 vs gold 0.50, len 3.2vh vs pin 2.2
+PASS 02A-03B worst step 6 dark 0.67 vs gold 0.66, len 3.2vh vs pin 2.2
+PASS 04B-05C worst step 7 dark 0.23 vs gold 0.19, len 3.2vh vs pin 2.2
+VERDICT: PASS

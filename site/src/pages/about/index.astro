@@ -3,15 +3,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
 import { getPhoto } from '../../data/photos';
 import { bookHref, bookLabel } from '../../data/site';
-import sky from '../../assets/about-layers/sky.webp';
-import arch from '../../assets/about-layers/arch.webp';
-import figure from '../../assets/about-layers/figure.webp';
 import '../../styles/about.css';
 
 const title = 'About Tina | Tina Campbell Photography, Edmonton';
 const description =
   'Meet Tina Campbell, an Edmonton photographer for fashion, editorial, portraits, bridal and runway.';
 
+const hero = getPhoto('fb_171_bts');
 const portrait = getPhoto('fb_021_portrait');
 const shoots = [
   { photo: getPhoto('ig_profile_05'), className: 'about-tile--shoot' },
@@ -27,38 +25,54 @@ const places = [
 ];
 ---
 
-<BaseLayout title={title} description={description} imageAlt="Edmonton skyline at dusk">
+<BaseLayout title={title} description={description} imageAlt="Tina Campbell behind the camera">
+  <script is:inline slot="head">
+    (function () {
+      try {
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('about-motion');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <main id="content" class="about">
-    <section class="about-hero" data-about-hero aria-label="Tina Campbell">
-      <div class="about-hero__stage">
-        <div class="about-layer about-layer--sky" data-layer="sky">
-          <img
-            class="about-sky__img"
-            src={sky.src}
-            width={sky.width}
-            height={sky.height}
-            alt="Edmonton skyline at dusk over the river valley"
-          />
-        </div>
-        <img
-          class="about-layer about-layer--arch"
-          data-layer="arch"
-          src={arch.src}
-          width={arch.width}
-          height={arch.height}
-          alt="Walterdale Bridge arch"
-        />
-        <div class="about-hero__fade" aria-hidden="true"></div>
-        <h1 class="about-hero__title" data-layer="title">Tina Campbell</h1>
-        <img
-          class="about-layer about-layer--figure"
-          data-layer="figure"
-          src={figure.src}
-          width={figure.width}
-          height={figure.height}
-          alt="A photographer at work, seen from behind with a camera to her eye"
-        />
+    <section class="about-hero" data-about-hero aria-labelledby="about-hero-title">
+      <div class="about-hero__panel">
+        <p class="about-hero__kicker" data-about-rise>About</p>
+        <h1 id="about-hero-title" class="about-hero__title" data-about-rise>
+          Tina<br />Campbell
+        </h1>
+        <p class="about-hero__intro">
+          <span data-about-rise>I shoot everything.</span>
+          <span data-about-rise>Fashion is the one I'd do for free.</span>
+        </p>
+        <a class="btn about-hero__book" data-about-rise href={bookHref}>{bookLabel}</a>
       </div>
+      <div class="about-hero__rule" data-about-rule aria-hidden="true"></div>
+      <figure class="about-hero__photo">
+        <div class="about-hero__clip" data-about-clip>
+          <div class="about-hero__drift" data-about-drift>
+            <Photo
+              src={hero.src}
+              alt={hero.alt}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              widths={[480, 800, 1080]}
+              priority
+            />
+          </div>
+        </div>
+      </figure>
+    </section>
+
+    <section class="about-band" data-about-band>
+      <img
+        src="/media/scenes/09B/09B-end.webp"
+        alt=""
+        width="1920"
+        height="1080"
+        decoding="async"
+        loading="lazy"
+      />
     </section>
 
     <hr class="about-rule" />
@@ -71,7 +85,6 @@ const places = [
             alt={portrait.alt}
             sizes="(max-width: 900px) 100vw, 370px"
             widths={[480, 800, 1200]}
-            priority
           />
         </div>
       </figure>
