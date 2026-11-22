@@ -1,0 +1,2 @@
+01A PASS worst=0.9774 (frame 95) mean=0.9794 bad=0/145 []
+VERDICT: PASS

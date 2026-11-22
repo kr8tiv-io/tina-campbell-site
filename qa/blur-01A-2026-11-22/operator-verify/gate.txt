@@ -1,0 +1,10 @@
+check PASS
+build PASS
+pages PASS (1 h1, noindex, no lab)
+playwright rc=0  24 skipped  44 passed (8.2m) 
+seams PASS 10/10
+route tables PASS
+visual desktop PASS
+visual mobile PASS
+scenes PASS: 01A PASS worst=0.9774 (frame 95) mean=0.9794 bad=0/145 [];
+GATE blur-01A-2026-11-22: PASS

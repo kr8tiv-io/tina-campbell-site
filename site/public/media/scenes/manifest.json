@@ -15,7 +15,7 @@
    "sources": {
     "av1_1080": "/media/scenes/01A/01A-1080.webm",
     "h264_1080": "/media/scenes/01A/01A-1080.mp4",
-    "h264_720": "/media/scenes/01A/01A-720.mp4"
+    "h264_720": "/media/scenes/01A/01A-1080.mp4"
    },
    "poster": {
     "webp": "/media/scenes/01A/01A-poster.webp",
@@ -26,9 +26,9 @@
     "jpg": "/media/scenes/01A/01A-end.jpg"
    },
    "bytes": {
-    "1080.webm": 772293,
-    "1080.mp4": 2412745,
-    "720.mp4": 840776,
+    "1080.webm": 1893802,
+    "1080.mp4": 4704807,
+    "720.mp4": 1950122,
     "poster.webp": 54868,
     "end.webp": 135980
    },
