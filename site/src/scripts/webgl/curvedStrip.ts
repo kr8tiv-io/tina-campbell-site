@@ -142,6 +142,8 @@ export interface MountOptions {
   darkRun?: boolean;
   /** Centre frame index at progress 0. Runway stays on STRIP.focusIndex. */
   focusIndex?: number;
+  /** Frames travelled from the focus at progress 1. Omitted runs to the last frame. Gate lead and tail frames sit outside it. */
+  span?: number;
   /** About this many frames across the width. Runway keeps centreVH sizing. */
   visible?: number;
   /** Samples per frame along the ribbon. Runway stays 16. */
@@ -535,7 +537,9 @@ export function mountCurvedStrip(
   let flicker = 1;
   const focusIndex = options.focusIndex ?? STRIP.focusIndex;
   let focus = Math.min(Math.max(0, focusIndex), Math.max(0, count - 1));
-  let span = Math.max(1, count - 1 - focus);
+  const spanOf = (): number =>
+    Math.max(1, Math.min(options.span ?? Number.POSITIVE_INFINITY, count - 1 - focus));
+  let span = spanOf();
   let pitchPx = 260;
   let frameH = 400;
   let midY = 0;
@@ -559,7 +563,7 @@ export function mountCurvedStrip(
     if (width < 2 || height < 2) return;
     const metrics = stripMetrics(window.innerWidth, window.innerHeight, height, count);
     focus = Math.min(Math.max(0, focusIndex), Math.max(0, count - 1));
-    span = Math.max(1, count - 1 - focus);
+    span = spanOf();
     frameH = metrics.frameH;
     pitchPx = metrics.pitchPx;
     if (gate && options.visible && options.visible > 1) {

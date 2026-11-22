@@ -61,6 +61,13 @@ function urlsOf(section: HTMLElement): string[] {
   );
 }
 
+/** Unlinked real photos for the ribbon past the first and last category. */
+function fillOf(section: HTMLElement, side: 'lead' | 'tail'): string[] {
+  return [...section.querySelectorAll<HTMLElement>(`[data-strip-fill="${side}"]`)]
+    .map((item) => item.dataset.fillTexture || '')
+    .filter((url) => url.length > 0);
+}
+
 function centreOf(quad: ProjectedFrame['quad']): { x: number; y: number } {
   const x = quad.reduce((sum, point) => sum + point.x, 0) / quad.length;
   const y = quad.reduce((sum, point) => sum + point.y, 0) / quad.length;
@@ -179,19 +186,32 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
     markReady();
     return;
   }
-  const frames = urls.map((url, index) => ({
-    url,
-    aspect: mod.STRIP.photoAspect,
-    // fb_109 carries a script mark on the left of the window. Anchor the cover to the right.
-    focusX: index === 3 ? 0.95 : undefined,
-  }));
+  // The film is finite, so at the first and last category the side frames would be empty base.
+  // Lead and tail frames fill them. They sit outside the scrub, which still runs category 0 to the last.
+  const lead = fillOf(live, 'lead');
+  const tail = fillOf(live, 'tail');
+  const plain = (url: string) => ({ url, aspect: mod.STRIP.photoAspect, focusX: undefined });
+  const frames = [
+    ...lead.map(plain),
+    ...urls.map((url, index) => ({
+      url,
+      aspect: mod.STRIP.photoAspect,
+      // fb_109 carries a script mark on the left of the window. Anchor the cover to the right.
+      focusX: index === 3 ? 0.95 : undefined,
+    })),
+    ...tail.map(plain),
+  ];
+  const first = lead.length;
+  const categories = (all: ProjectedFrame[]): ProjectedFrame[] =>
+    all.slice(first, first + urls.length).map((frame, index) => ({ ...frame, index }));
   const phone = phoneLayout();
   const shared = phone
     ? {
         grade: 'gate' as const,
         tilt: PHONE.tilt,
         darkRun: false,
-        focusIndex: 0,
+        focusIndex: first,
+        span: urls.length - 1,
         visible: PHONE.visible,
         segments: PHONE.segments,
         centreScale: PHONE.centreScale,
@@ -204,7 +224,8 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
         grade: 'gate' as const,
         tilt: -7,
         darkRun: false,
-        focusIndex: 0,
+        focusIndex: first,
+        span: urls.length - 1,
         visible: 7,
         segments: 16,
         centreScale: 1.08,
@@ -223,7 +244,7 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
     const media = live.querySelector<HTMLElement>('.sheet__media');
     if (!media) return;
     const origin = media.getBoundingClientRect();
-    const samples = strip.frames();
+    const samples = categories(strip.frames());
     const narrow = phoneLayout();
     const viewW = window.innerWidth;
     const viewH = window.innerHeight;
@@ -351,7 +372,7 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
         });
       },
       frames(): ProjectedFrame[] {
-        return strips[0]?.frames() ?? [];
+        return categories(strips[0]?.frames() ?? []);
       },
     };
     const bag = (window.__SCENE_TL__ ?? {}) as unknown as Record<string, FilmApi>;

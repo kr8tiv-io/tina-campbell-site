@@ -3,7 +3,7 @@
  *
  * Counts one library photo per <img> (picture <source> tags are skipped),
  * plus a style="...url(...)" or <video poster> when that attribute names a
- * library file. Meta tags and JSON-LD do not count.
+ * library file, and a 02A ribbon fill frame (data-strip-fill). Meta tags and JSON-LD do not count.
  *
  * Usage: node scripts/photo-audit.mjs <dist> <photos-dir>
  */
@@ -68,6 +68,8 @@ function interesting(name, attrs) {
   if (name === 'source') return false;
   if (name === 'img') return true;
   if (name === 'video' && /\bposter\s*=/.test(attrs)) return true;
+  // 02A ribbon lead and tail frames are drawn from a data attribute, so they count like an <img>.
+  if (/\bdata-strip-fill\s*=/.test(attrs)) return true;
   if (/\bstyle\s*=\s*"[^"]*url\(/i.test(attrs)) return true;
   return false;
 }

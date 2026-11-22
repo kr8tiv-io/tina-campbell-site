@@ -10,13 +10,21 @@ interface Item {
   pos: string;
 }
 
+/** A plain frame on the ribbon before the first or after the last category. Texture only, no link. */
+interface Fill {
+  side: 'lead' | 'tail';
+  src: string;
+}
+
 interface Props {
   items: Item[];
+  /** Live band only. Real photos for the unlinked frames that fill the ribbon past each end. */
+  fill?: Fill[];
   /** `in` is the live band. `out` is the inert echo the next seam leaves behind. */
   place: 'in' | 'out';
 }
 
-const { items, place } = Astro.props;
+const { items, place, fill = [] } = Astro.props;
 const echo = place === 'out';
 ---
 
@@ -63,6 +71,15 @@ const echo = place === 'out';
         ))
       }
     </ul>
+    {
+      !echo && fill.length > 0 && (
+        <div class="sheet__fill" hidden aria-hidden="true">
+          {fill.map((frame) => (
+            <span data-strip-fill={frame.side} data-fill-texture={frame.src} />
+          ))}
+        </div>
+      )
+    }
     <canvas class="sheet__canvas" data-sheet-canvas aria-hidden="true"></canvas>
   </div>
 </section>

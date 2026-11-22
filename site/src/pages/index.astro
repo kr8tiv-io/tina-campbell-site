@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeSheet from '../components/HomeSheet.astro';
 import Photo from '../components/Photo.astro';
@@ -23,6 +24,26 @@ const categories = [
   { label: 'Edmonton', filter: 'edmonton', photo: getPhoto('fb_066_city'), n: '06', pos: 'cat-city' },
   { label: 'Landscape', filter: 'edmonton', photo: getPhoto('fb_000_landscape'), n: '07', pos: 'cat-landscape' },
 ];
+/**
+ * 02A ribbon past each end: at the first and last category the side frames are real photos, not empty film.
+ * Each is used once on this page, watermark-free at the strip crop, and kept off the other home sections.
+ */
+const fillIds: Array<['lead' | 'tail', string]> = [
+  ['lead', 'fb_123_fashion'],
+  ['lead', 'fb_042_fashion'],
+  ['lead', 'fb_137_portrait'],
+  ['lead', 'fb_127_portrait'],
+  ['tail', 'fb_001_city'],
+  ['tail', 'fb_132_couples'],
+  ['tail', 'fb_135_couples'],
+  ['tail', 'fb_140_portrait'],
+];
+const fill = await Promise.all(
+  fillIds.map(async ([side, id]) => ({
+    side,
+    src: (await getImage({ src: getPhoto(id).src, width: 480, format: 'webp' })).src,
+  })),
+);
 const teaser = getPhoto('fb_016_signature');
 const skyline = getPhoto('fb_577057434409234');
 
@@ -95,7 +116,7 @@ const description =
               </div>
             </div>
           </section>
-          <HomeSheet items={categories} place="in" />
+          <HomeSheet items={categories} place="in" fill={fill} />
         </div>
       </div>
     </div>
