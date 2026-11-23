@@ -180,6 +180,9 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
   if (flags.dead()) return;
 
   const echo = document.querySelector<HTMLElement>('[data-sheet="echo"]');
+  echo?.querySelectorAll<HTMLElement>('.sheet__label').forEach((label) => {
+    label.style.visibility = 'hidden';
+  });
   const urls = urlsOf(live).filter((url) => url.length > 0);
   if (urls.length === 0) {
     mountCss(live);
@@ -237,6 +240,27 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
   const proxy = { p: 0 };
   let progress = 0;
   let trigger: ScrollTrigger | null = null;
+  let bridge: ScrollTrigger | null = null;
+
+  const snapLabel = (label: HTMLElement, dpr: number): void => {
+    const align = (value: number): number => Math.round(value * dpr) / dpr;
+    const err = (value: number): number => Math.abs(value * dpr - Math.round(value * dpr));
+    // Two passes. One CSS pixel of leftover is 3 device pixels at DPR 3, past the 0.02 gate.
+    for (let pass = 0; pass < 2; pass += 1) {
+      const rect = label.getBoundingClientRect();
+      if (rect.width < 1 || rect.height < 1) return;
+      if (err(rect.left) <= 0.01 && err(rect.top) <= 0.01) return;
+      const computed = getComputedStyle(label);
+      const left = Number.parseFloat(computed.left);
+      const top = Number.parseFloat(computed.top);
+      if (!Number.isFinite(left) || !Number.isFinite(top)) return;
+      label.style.right = 'auto';
+      label.style.marginLeft = '0px';
+      label.style.marginRight = '0px';
+      label.style.left = `${left + align(rect.left) - rect.left}px`;
+      label.style.top = `${top + align(rect.top) - rect.top}px`;
+    }
+  };
 
   const placeLabels = (): void => {
     const strip = strips[0];
@@ -248,6 +272,8 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
     const narrow = phoneLayout();
     const viewW = window.innerWidth;
     const viewH = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    const px = (value: number): number => Math.round(value * dpr) / dpr;
     const shown: Array<{
       item: HTMLElement;
       link: HTMLElement;
@@ -257,25 +283,45 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
       rawTop: number;
       rawBottom: number;
     }> = [];
+    const hideLabel = (label: HTMLElement | null): void => {
+      if (!label) return;
+      label.style.visibility = 'hidden';
+    };
     live.querySelectorAll<HTMLElement>('.sheet__item').forEach((item) => {
       const index = Number(item.dataset.index || 0);
       const sample = samples[index];
       const link = item.querySelector<HTMLElement>('.sheet__link');
       const frame = item.querySelector<HTMLElement>('.sheet__frame');
       const label = item.querySelector<HTMLElement>('.sheet__label');
-      if (!sample || !link) return;
+      if (!sample || !link) {
+        hideLabel(label);
+        return;
+      }
       const xs = sample.quad.map((point) => point.x);
       const ys = sample.quad.map((point) => point.y);
       const rawLeft = Math.min(...xs);
       const rawRight = Math.max(...xs);
       const rawTop = Math.min(...ys);
       const rawBottom = Math.max(...ys);
+      // A quad that has not landed yet sits at 0,0 and piles every caption.
+      if (rawRight - rawLeft < 8) {
+        hideLabel(label);
+        return;
+      }
       if (!narrow) {
         item.classList.remove('is-offstage');
-        link.style.left = `${rawLeft - origin.left}px`;
-        link.style.top = `${rawTop - origin.top}px`;
-        link.style.width = `${Math.max(8, rawRight - rawLeft)}px`;
-        link.style.height = `${Math.max(8, rawBottom - rawTop)}px`;
+        if (label) {
+          label.classList.remove('is-offstage');
+          label.style.display = '';
+          label.style.visibility = 'visible';
+        }
+        const viewLeft = px(rawLeft);
+        const viewTop = px(rawTop);
+        link.style.left = `${viewLeft - origin.left}px`;
+        link.style.top = `${viewTop - origin.top}px`;
+        link.style.width = `${Math.max(8, px(rawRight) - viewLeft)}px`;
+        link.style.height = `${Math.max(8, px(rawBottom) - viewTop)}px`;
+        if (label) snapLabel(label, dpr);
         return;
       }
       const visLeft = Math.max(0, rawLeft);
@@ -287,6 +333,7 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
         if (label) {
           label.classList.add('is-offstage');
           label.style.display = 'none';
+          label.style.visibility = 'hidden';
         }
         link.style.left = '0px';
         link.style.top = '0px';
@@ -298,49 +345,88 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
       if (label) {
         label.classList.remove('is-offstage');
         label.style.display = '';
+        label.style.visibility = 'visible';
       }
-      link.style.left = `${visLeft - origin.left}px`;
-      link.style.top = `${rawTop - origin.top}px`;
-      link.style.width = `${visW}px`;
+      const viewLeft = px(visLeft);
+      const viewTop = px(rawTop);
+      link.style.left = `${viewLeft - origin.left}px`;
+      link.style.top = `${viewTop - origin.top}px`;
+      link.style.width = `${Math.max(8, px(visRight) - viewLeft)}px`;
       link.style.height = 'auto';
-      if (frame) frame.style.height = `${Math.max(8, rawBottom - rawTop)}px`;
-      shown.push({ item, link, label, visLeft, visRight, rawTop, rawBottom });
+      if (frame) frame.style.height = `${Math.max(8, px(rawBottom) - viewTop)}px`;
+      shown.push({ item, link, label, visLeft: viewLeft, visRight: px(visRight), rawTop: viewTop, rawBottom: px(rawBottom) });
     });
-    if (!narrow || shown.length === 0) return;
-    const rowTop = Math.max(...shown.map((entry) => entry.rawBottom)) + 4;
-    const slots = shown.map((entry) => {
-      const label = entry.label;
-      let want = 72;
-      if (label) {
-        label.style.position = 'absolute';
-        label.style.width = 'auto';
-        label.style.right = 'auto';
-        label.style.whiteSpace = 'nowrap';
-        want = Math.max(label.scrollWidth, 48) + 4;
+    if (narrow && shown.length > 0) {
+      const rowTop = Math.max(...shown.map((entry) => entry.rawBottom)) + 4;
+      const slots = shown.map((entry) => {
+        const label = entry.label;
+        let want = 72;
+        if (label) {
+          label.style.position = 'absolute';
+          label.style.width = 'auto';
+          label.style.right = 'auto';
+          label.style.whiteSpace = 'nowrap';
+          want = Math.max(label.scrollWidth, 48) + 4;
+        }
+        const centre = (entry.visLeft + entry.visRight) / 2;
+        return { entry, want, centre, left: centre - want / 2 };
+      });
+      slots.sort((a, b) => a.centre - b.centre);
+      const pad = 4;
+      for (let i = 0; i < slots.length; i += 1) {
+        const minLeft = i === 0 ? pad : slots[i - 1].left + slots[i - 1].want + 8;
+        slots[i].left = Math.max(slots[i].left, minLeft);
       }
-      const centre = (entry.visLeft + entry.visRight) / 2;
-      return { entry, want, centre, left: centre - want / 2 };
-    });
-    slots.sort((a, b) => a.centre - b.centre);
-    const pad = 4;
-    for (let i = 0; i < slots.length; i += 1) {
-      const minLeft = i === 0 ? pad : slots[i - 1].left + slots[i - 1].want + 8;
-      slots[i].left = Math.max(slots[i].left, minLeft);
+      const tail = slots[slots.length - 1];
+      const overflow = tail.left + tail.want - (viewW - pad);
+      if (overflow > 0) {
+        slots.forEach((slot) => {
+          slot.left -= overflow;
+        });
+      }
+      slots.forEach((slot) => {
+        const label = slot.entry.label;
+        if (!label) return;
+        const snappedLeft = px(slot.left);
+        const snappedTop = px(rowTop);
+        label.style.left = `${snappedLeft - slot.entry.visLeft}px`;
+        label.style.top = `${snappedTop - slot.entry.rawTop}px`;
+        label.style.width = `${px(slot.want)}px`;
+        snapLabel(label, dpr);
+      });
+      const poolTop = Math.max(50, (rowTop / viewH) * 100 - 14);
+      live.style.setProperty('--pool-top', `${poolTop.toFixed(2)}%`);
     }
-    const tail = slots[slots.length - 1];
-    const overflow = tail.left + tail.want - (viewW - pad);
-    if (overflow > 0) slots.forEach((slot) => {
-      slot.left -= overflow;
+    if (!echo) return;
+    live.querySelectorAll<HTMLElement>('.sheet__item').forEach((item) => {
+      const echoItem = echo.querySelector<HTMLElement>(`.sheet__item[data-index="${item.dataset.index ?? ''}"]`);
+      if (!echoItem) return;
+      const liveLink = item.querySelector<HTMLElement>('.sheet__link');
+      const echoLink = echoItem.querySelector<HTMLElement>('.sheet__link');
+      if (liveLink && echoLink) {
+        echoLink.style.left = liveLink.style.left;
+        echoLink.style.top = liveLink.style.top;
+        echoLink.style.width = liveLink.style.width;
+        echoLink.style.height = liveLink.style.height;
+      }
+      const liveFrame = item.querySelector<HTMLElement>('.sheet__frame');
+      const echoFrame = echoItem.querySelector<HTMLElement>('.sheet__frame');
+      if (liveFrame && echoFrame) echoFrame.style.height = liveFrame.style.height;
+      const liveLabel = item.querySelector<HTMLElement>('.sheet__label');
+      const echoLabel = echoItem.querySelector<HTMLElement>('.sheet__label');
+      if (liveLabel && echoLabel) {
+        echoLabel.style.left = liveLabel.style.left;
+        echoLabel.style.top = liveLabel.style.top;
+        echoLabel.style.right = liveLabel.style.right;
+        echoLabel.style.width = liveLabel.style.width;
+        echoLabel.style.marginLeft = liveLabel.style.marginLeft;
+        echoLabel.style.marginRight = liveLabel.style.marginRight;
+        echoLabel.style.display = liveLabel.style.display;
+        echoLabel.style.visibility = liveLabel.style.visibility || 'hidden';
+        echoLabel.classList.toggle('is-offstage', liveLabel.classList.contains('is-offstage'));
+      }
+      echoItem.classList.toggle('is-offstage', item.classList.contains('is-offstage'));
     });
-    slots.forEach((slot) => {
-      const label = slot.entry.label;
-      if (!label) return;
-      label.style.left = `${slot.left - slot.entry.visLeft}px`;
-      label.style.top = `${rowTop - slot.entry.rawTop}px`;
-      label.style.width = `${slot.want}px`;
-    });
-    const poolTop = Math.max(50, (rowTop / viewH) * 100 - 14);
-    live.style.setProperty('--pool-top', `${poolTop.toFixed(2)}%`);
   };
 
   const apply = (value: number, velocity = 0): void => {
@@ -456,6 +542,18 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
       scrub.className = 'sheet-scrub';
       scrub.dataset.sheetScrub = '';
       pair.after(scrub);
+      // isActive is false at progress 0 and 1. The snapped last frame sits on
+      // that pixel, which is also the bridge start, so the hold includes it
+      // and drops only once the 02A-03B track has reached the top.
+      const syncHold = (): void => {
+        const scrubHold = Boolean(trigger && trigger.isActive && trigger.progress > 0.02);
+        let bridgeHold = false;
+        if (bridge) {
+          const scroll = bridge.scroll();
+          bridgeHold = scroll >= bridge.start - 1 && scroll < bridge.end;
+        }
+        document.documentElement.classList.toggle('is-sheet-hold', scrubHold || bridgeHold);
+      };
       trigger = ScrollTrigger.create({
         trigger: scrub,
         start: 'top bottom',
@@ -473,22 +571,40 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
           // near the last frame snapped back to frame 5. Nearest frame on both ways.
           ...(phone ? { directional: false } : {}),
         },
-        onToggle: (self) => {
-          if (!self.isActive) document.documentElement.classList.remove('is-sheet-hold');
+        onToggle: () => {
+          syncHold();
         },
         onUpdate: (self) => {
-          document.documentElement.classList.toggle('is-sheet-hold', self.progress > 0.02 && self.progress < 0.995);
+          syncHold();
           const lenis = Math.min(1, Math.abs(window.__tcScrollVelocity || 0) / 90);
           const scrolled = Math.min(1, Math.abs(self.getVelocity()) / 1600);
           apply(self.progress, Math.max(lenis, scrolled));
         },
       });
+      const nextTrack = document.querySelector<HTMLElement>('[data-seam-pair="02A-03B"] [data-track]');
+      if (nextTrack) {
+        bridge = ScrollTrigger.create({
+          trigger: scrub,
+          start: 'bottom bottom',
+          endTrigger: nextTrack,
+          end: 'top top',
+          refreshPriority: 1,
+          onToggle: () => {
+            syncHold();
+          },
+          onUpdate: () => {
+            syncHold();
+          },
+        });
+      }
       // The spacer lands after the load refresh. Sort by page position, then
       // remeasure, or 02A-03B keeps a start short by this element's height.
       ScrollTrigger.sort();
       ScrollTrigger.refresh();
+      syncHold();
       flags.stops.push(() => {
         trigger?.kill();
+        bridge?.kill();
         scrub.remove();
         document.documentElement.classList.remove('is-sheet-hold');
       });

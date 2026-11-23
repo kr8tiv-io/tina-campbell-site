@@ -109,8 +109,19 @@
   max-width: none;
   margin: 0;
   object-fit: cover;
-  object-position: 50% 50%;
   background: #0b4f9c;
+}
+
+/* Source head is y 120/1080. Shift the cover down only enough to clear the header. 0 on a 16:9 frame. */
+.hero__still img,
+.hero__zoom video[data-scene-video] {
+  object-position: var(--hero-x, 50%) max(0px, calc(var(--header-h) + 8px - 0.1111 * max(100svh, 56.25vw)));
+  background: #0c0c0f;
+}
+
+html.is-scene-gate .hero__still img,
+html.is-scene-gate .hero__zoom video[data-scene-video] {
+  object-position: 50% 50%;
 }
 
 .hero__still img {
@@ -119,7 +130,6 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: 50% 50%;
 }
 
 /* Chrome drops an LCP image that covers the whole viewport. A return visit
@@ -197,7 +207,7 @@ html.hero-poster-inset .hero__still img {
 .hero__scroll {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: max(0.75rem, 12px);
   letter-spacing: 0.06em;
   line-height: 1.3;
   color: var(--paper);
@@ -865,10 +875,8 @@ html.is-gate-03B .runway__still {
     opacity: 0.06;
   }
 
-  .hero__still,
-  .hero__still img,
-  .hero__zoom video[data-scene-video] {
-    object-position: 68% 50%;
+  .hero {
+    --hero-x: 68%;
   }
 
   .hero__title {
@@ -1296,14 +1304,17 @@ html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__label {
   top: 46%;
   bottom: auto;
   margin: 0;
-  padding: 0 0.2rem;
-  background: transparent;
+  margin-inline: auto;
+  padding: 0.28rem 0.5rem;
+  width: max-content;
+  max-width: 100%;
+  background: rgba(12, 12, 15, 0.66);
   color: #f0f3f4;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.08em;
-  line-height: 1.25;
+  line-height: 1.35;
   text-align: center;
   text-transform: none;
   text-shadow: 0 1px 10px rgba(12, 12, 15, 0.85);
@@ -1313,10 +1324,11 @@ html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__label {
 .sheet.is-film-gl .sheet__no,
 html.is-seam-motion .seam-real__stage .sheet.is-film-gl .sheet__no {
   display: block;
-  margin-top: 0.2rem;
+  margin-top: 0.25rem;
   color: #f0f3f4;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.14em;
+  line-height: 1.35;
 }
 
 .sheet.is-film-gl .sheet__link:focus-visible {
@@ -1461,11 +1473,14 @@ html.is-gate-02A .sheet__pool {
     display: block;
     margin: 0;
     padding: 0;
+    width: auto;
+    max-width: none;
+    background: transparent;
     font-family: var(--mono);
     font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.03em;
-    line-height: 1.15;
+    line-height: 1.35;
     text-align: center;
     text-transform: none;
     white-space: nowrap;
@@ -1478,6 +1493,7 @@ html.is-gate-02A .sheet__pool {
     margin-top: 0.15rem;
     font-size: 12px;
     letter-spacing: 0.08em;
+    line-height: 1.35;
   }
 
   .sheet.is-film-gl .sheet__label.is-offstage,

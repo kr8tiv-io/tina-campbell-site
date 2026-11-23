@@ -433,10 +433,57 @@ function mountSeam(seam: HTMLElement, root: ParentNode): Mounted | null {
     const inCopy = split(titleOf(inS));
     applySet(flood, { yPercent: 100, background: 'linear-gradient(180deg,#4a0d1a 0%,#b3261e 40%,#1a0a12 100%)' });
     applySet(inS, { autoAlpha: 0, yPercent: 16, filter: 'blur(10px)' });
-    tl.to(flood, { yPercent: 0, duration: 0.55, ease: 'power2.in' }, 0);
-    tl.to(outS, { autoAlpha: 0, yPercent: -10, duration: 0.4 }, 0.15);
+    const easeIn = gsap.parseEase('power2.in');
+    const easeCine = gsap.parseEase('cine');
+    // Page only. The tween list stays the harness table (seam_route_check). The
+    // render holds the echo opaque and clips it to the flood edge, drift included,
+    // so the strip is not faded to ink before the wash covers it.
+    const paintClip = (): void => {
+      if (liveHarness || !(flood instanceof HTMLElement)) return;
+      const time = tl.time();
+      const along = Math.min(1, Math.max(0, time / 0.55));
+      const floodEdge = 1 - easeIn(along);
+      let drift = 0;
+      if (time >= 0.55) drift = 1;
+      else if (time > 0.15) drift = easeCine((time - 0.15) / 0.4);
+      const localEdge = floodEdge + drift * 0.1;
+      const inset = Math.min(100, Math.max(0, (1 - localEdge) * 100));
+      outS.style.clipPath = `inset(0% 0% ${inset.toFixed(3)}% 0%)`;
+      // The followspot underneath is dark. Once the wash is full and starts
+      // thinning, a 6% lift keeps a 16:9 frame from falling under the ink line.
+      flood.style.filter = time >= 0.55 && time < 1.05 ? 'brightness(1.06)' : '';
+    };
+    tl.to(
+      flood,
+      {
+        yPercent: 0,
+        duration: 0.55,
+        ease: 'power2.in',
+        onUpdate: () => {
+          paintClip();
+        },
+      },
+      0,
+    );
+    tl.to(
+      outS,
+      {
+        autoAlpha: 0,
+        yPercent: -10,
+        duration: 0.4,
+        onUpdate(this: gsap.core.Tween) {
+          if (liveHarness) return;
+          if (tl.time() < 0.549 && this.progress() < 1) {
+            outS.style.opacity = '1';
+            outS.style.visibility = 'visible';
+          }
+          paintClip();
+        },
+      },
+      0.15,
+    );
     tl.to(inS, { autoAlpha: 1, yPercent: 0, filter: 'blur(0px)', duration: 0.7 }, 0.4);
-    tl.to(flood, { autoAlpha: 0, duration: 0.5 }, 0.55);
+    tl.to(flood, { autoAlpha: 0, duration: 0.5, onUpdate: () => { paintClip(); } }, 0.55);
     if (inCopy) {
       applySet(inCopy.chars, { yPercent: 110 });
       tl.to(inCopy.chars, { yPercent: 0, stagger: 0.03, duration: 0.5 }, 0.55);

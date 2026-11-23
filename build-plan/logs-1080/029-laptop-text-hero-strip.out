@@ -1,0 +1,42 @@
+I'll start by reading the scene plan, motion lock, and the four source files this fix is allowed to touch, then capture the current laptop failures before changing anything.The current production build is what the laptop tests have to fail against, so I’m building that first and drafting the spec while it runs.The baseline tests are running against the current build. I'll change the strip, hero, and seam code while those failures are recorded.The pre-change strip test fails where expected: the hold drops at y=2707 and the screen goes black. I'll grab the before screenshots from that same build while the other viewports finish.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The source edits are in place and the pre-change preview is still up. I'll check the before screenshots, then rebuild and run the gates.Before shots are saved. I'll stop the old preview, confirm the source edits, then rebuild and run the gates.The before strip-mid frame is still the hero, because the old page never held the strip on screen. I'll recapture that, then tighten label snapping and rebuild.Font preloads match the built CSS, with one file per face. Next I’ll run the laptop tests against that production build.The laptop run finished. I'll read the failures before changing anything.The 1920 frame at the end of the wipe is the dark runway under a thinning red wash, 0.294 bright. A 6% lift on that wash, and a tighter device-pixel snap on the phone labels, should clear both failures.Auto-compacting conversation (81% full)...
+Conversation compacted.
+Gates passed. Next I will rebuild the production site, run the full Playwright suite, capture the after shots, and write the report.The motion-lab preview is down. Rebuilding the production site without the motion lab.After shots are in. The full Playwright suite is running against the same production preview while I check the frames.The 1920 and phone hero shots are different film frames, so a raw pixel count overstates the crop change. I will measure the best alignment shift, then keep watching the suite.The suite finished with one failure. I am reading that error before I write the report.The mobile portraits failure passed on an immediate retry, so I am confirming with a second full suite run and writing the report around the results already in hand.Laptop 1536x720 at DPR 1.25 is fixed: strip labels sit on device pixels with an ink chip, the hero head clears the header, the live strip stays up until the echo pins, and the flood wipes that strip into the runway.
+
+The hold stays on from the scrub spacer through the pin start, then drops on the same frame the echo is fully opaque. On the real 02A-03B page the echo is clipped to the flood edge over 0..0.55, with a 6% brightness lift while that wash thins, so the frame never falls to bare ink. The seam harness timeline is unchanged. Font preloads match the built CSS hashes. Report: `qa/029-laptop-text-hero-strip/REPORT.md`.
+
+Gates: scene 01A 0.9774, 03B 0.9613, 04B 0.9531; seams 10/10 at 1.0000; routes 3/3; route visual 3/3 desktop and mobile. Production Playwright confirmation: 70 passed, 114 skipped, 0 failed. Not committed.
+
+GATE 029-laptop-text-hero-strip: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+
+A leftover pre-change test run just finished. I am checking that it matches the failures already recorded in the report.That job is the pre-change baseline, and it matches the report. Strip and hand-off failed on all ten cases (`EXIT:1` in `/tmp/laptop-before.txt`), including the black spacer at 1536x720 (y=2707) and the flood at pin progress 0.18 (bright fraction 0.275). The later production run is the one that passed.
+
+GATE 029-laptop-text-hero-strip: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+
+The preview on port 4321 stopped on purpose after the suite finished. Nothing is listening on 4321 or 4821 now.
+
+GATE 029-laptop-text-hero-strip: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+
+That monitor was watching the first laptop run, the one that failed twice and is already fixed. The 1920×1080 hand-off was at bright fraction 0.294 at pin progress 0.50, and the 390×844 label sat at left 158.65625. The flood brightness lift and the two-pass device-pixel snap went in after that. The confirmation suite then finished at 70 passed, 114 skipped, 0 failed.
+
+GATE 029-laptop-text-hero-strip: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+
+The hand-off probe preview stopped on purpose (exit 143). No Astro preview is still running, and the laptop fix result is unchanged.
+
+GATE 029-laptop-text-hero-strip: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
