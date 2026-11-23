@@ -463,6 +463,8 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
         scrub: 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        // Above the seam pins (default 0) so a later refresh measures this spacer first.
+        refreshPriority: 1,
         snap: {
           snapTo: 1 / STEPS,
           duration: 0.35,
@@ -481,6 +483,10 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
           apply(self.progress, Math.max(lenis, scrolled));
         },
       });
+      // The spacer lands after the load refresh. Sort by page position, then
+      // remeasure, or 02A-03B keeps a start short by this element's height.
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
       flags.stops.push(() => {
         trigger?.kill();
         scrub.remove();

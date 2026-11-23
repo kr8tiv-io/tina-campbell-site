@@ -1,0 +1,19 @@
+The film-strip spacer mounts late and leaves the 02A–03B seam pin measured without it, so the echo sheet fades while the live strip is still held. I'll read the motion contract and the current mount path, then add a regression that fails before the refresh fix.The spacer is inserted after the load-time ScrollTrigger refresh, so the 02A–03B pin keeps a stale start. I'll add the regression test first and run it against the current build so the failure is on record.Both viewports fail on the stale pin: the 02A–03B stage is fixed while the sheet hold is still on. Scroll height does not move, because the spacer is already in flow. The cached trigger starts are what are short. I'll refresh those after the spacer mounts.The 02A–03B seam was pinning early because the film-strip spacer mounted after the load-time ScrollTrigger measure. The pin start stayed short by the spacer height (1350 px at 1440×900), so the stage was fixed while the sheet hold was still on and the echo sheet faded underneath it.
+
+After the spacer is inserted, `home-filmstrip.ts` now sorts and refreshes every trigger. The scrub trigger uses `refreshPriority: 1` so later refreshes measure it before the seam pins. Start, end, scrub, snap, and the spacer heights are unchanged. `seams.ts` was not edited.
+
+Before the fix the new spec failed on both viewports:
+
+```
+Error: forward hold while 02A-03B stage is fixed at y=2936
+Error: forward hold while 02A-03B stage is fixed at y=2723
+```
+
+After the fix it passes. Scroll height was already stable (the spacer is in normal flow). The stale data was the cached trigger start.
+
+Seams 10/10, routes 3/3, route visual 3/3 desktop and mobile. Playwright 46 passed, 26 skipped, 0 failed. Report: `qa/027-home-post-strip-refresh/REPORT.md`.
+
+GATE 027-home-post-strip-refresh: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
