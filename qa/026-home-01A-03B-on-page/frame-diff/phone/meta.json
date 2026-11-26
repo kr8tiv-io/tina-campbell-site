@@ -1,0 +1,51 @@
+[
+  {
+    "file": "/tmp/ga-026/diff/phone/t0.00.jpg",
+    "t": 0.0033,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.mp4"
+  },
+  {
+    "file": "/tmp/ga-026/diff/phone/t1.00.jpg",
+    "t": 1,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.mp4"
+  },
+  {
+    "file": "/tmp/ga-026/diff/phone/t2.00.jpg",
+    "t": 2,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.mp4"
+  },
+  {
+    "file": "/tmp/ga-026/diff/phone/t3.00.jpg",
+    "t": 3,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.mp4"
+  },
+  {
+    "file": "/tmp/ga-026/diff/phone/t4.00.jpg",
+    "t": 4,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.mp4"
+  },
+  {
+    "file": "/tmp/ga-026/diff/phone/t5.00.jpg",
+    "t": 5,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.mp4"
+  },
+  {
+    "file": "/tmp/ga-026/diff/phone/t5.85.jpg",
+    "t": 5.85,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.mp4"
+  }
+]

@@ -1,0 +1,78 @@
+{
+  "dir": "/tmp/ga-026/diff/desktop",
+  "pairs": [
+    {
+      "pair": "t0.00.jpg->t1.00.jpg",
+      "luma": 3.614,
+      "rgb": 3.985
+    },
+    {
+      "pair": "t1.00.jpg->t2.00.jpg",
+      "luma": 6.485,
+      "rgb": 7.327
+    },
+    {
+      "pair": "t2.00.jpg->t3.00.jpg",
+      "luma": 3.234,
+      "rgb": 3.722
+    },
+    {
+      "pair": "t3.00.jpg->t4.00.jpg",
+      "luma": 2.627,
+      "rgb": 3.163
+    },
+    {
+      "pair": "t4.00.jpg->t5.00.jpg",
+      "luma": 2.887,
+      "rgb": 3.439
+    },
+    {
+      "pair": "t5.00.jpg->t5.85.jpg",
+      "luma": 2.428,
+      "rgb": 2.785
+    }
+  ],
+  "window_6s_luma_mean": 3.546,
+  "window_6s_rgb_mean": 4.07,
+  "loop_luma_mean": 2.647,
+  "loop_rgb_mean": 3.129
+}
+{
+  "dir": "/tmp/ga-026/diff/phone",
+  "pairs": [
+    {
+      "pair": "t0.00.jpg->t1.00.jpg",
+      "luma": 4.984,
+      "rgb": 5.439
+    },
+    {
+      "pair": "t1.00.jpg->t2.00.jpg",
+      "luma": 5.182,
+      "rgb": 5.601
+    },
+    {
+      "pair": "t2.00.jpg->t3.00.jpg",
+      "luma": 3.98,
+      "rgb": 4.285
+    },
+    {
+      "pair": "t3.00.jpg->t4.00.jpg",
+      "luma": 2.896,
+      "rgb": 3.205
+    },
+    {
+      "pair": "t4.00.jpg->t5.00.jpg",
+      "luma": 3.13,
+      "rgb": 3.399
+    },
+    {
+      "pair": "t5.00.jpg->t5.85.jpg",
+      "luma": 2.883,
+      "rgb": 3.158
+    }
+  ],
+  "window_6s_luma_mean": 3.842,
+  "window_6s_rgb_mean": 4.181,
+  "loop_luma_mean": 2.97,
+  "loop_rgb_mean": 3.254
+}

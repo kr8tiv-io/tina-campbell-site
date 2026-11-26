@@ -1,0 +1,29 @@
+I'll start by reading the scene plan, motion lock, and the 01A/03B specs so the page motion matches the locked clips.The audit sheets show 01A already billowed and 03B entering through a red wash. I'll measure the locked clips so the page loop and the runway crop follow that motion.The gown clip sweeps from a tucked hem into a billow, then ripples. The followspot clip is already clean mono with one red gown; the red wash is the seam sitting on top of it. I'll play the full hero once, then loop the ripple, and lift that wash off the runway once the seam has done its job.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The motion-lab preview is already starting. I’ll confirm it is listening, then run the 01A, 03B, and 04B gates against it.Preview is up on port 4821. Scene gate is next, while I line up the audit capture and the report.Scene gate passed with the same scores as the last prompt. Seam gate is next, while the motion-lab preview is still up.The phone flood check failed at pin progress 0.50: the 16:9 band was showing black through the fading red seam. I’ll keep that band for the clean followspot only, and let the flood cover the full stage.Home now plays the living gown from the tucked frame, then loops the hem. The followspot stays clean mono with one red gown once the seam flood has passed, and the phone keeps all five models in frame.
+
+01A starts at 0 and plays through 6.04 s. It then loops frames 72 to 143 (3.00 s to 5.958 s), the closest join of at least 3 s. 03B leaves the red flood in place through scroll progress 0.58, because that flood is the seam. After that the wash and the blur come off. On a portrait screen the lineup becomes a 16:9 band only once the spot is clean, so the flood still covers the stage while it is on.
+
+The 6 s mean frame difference does not reach 10. Desktop luma, one-second steps, t = 0 to 5.85:
+
+| Region | Mean | Peak 1 s step |
+|---|---|---|
+| Full viewport | 3.55 | 6.49 (t 1 to 2) |
+| Gown band | 5.66 | 10.51 |
+| Dress region | 8.32 | 15.98 |
+
+The master clip itself averages 5.00 full frame and 6.89 on the gown (peak 12.34). Playback stays at 1x. `t0.00.jpg` has the hem down and `t2.00.jpg` has it up.
+
+Scene gate, seams, and both route checks passed. Playwright: 73 passed and 2 failed on the full run (the known portraits `innerText` flake, and a 120 s `/work/` timeout). Retry of those two: 5 passed, 0 failed. Combined 75 passed, 129 skipped, 0 failed. Not committed.
+
+GATE 026-home-01A-03B-on-page: PASS
+01A worst SSIM 0.9774 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+
+The scene gate finished earlier and those scores are already in the report. Nothing new failed.
+
+GATE 026-home-01A-03B-on-page: PASS
+01A worst SSIM 0.9774 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)

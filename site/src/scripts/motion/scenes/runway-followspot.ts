@@ -10,6 +10,12 @@ import { getSceneVideo, sceneGateId } from '../scene-video';
 import { hookRunwayHandoff } from '../runway';
 
 const SPOT_END = 6;
+/**
+ * The 02A-03B flood is the seam's colour. It has to stay through the bright
+ * red steps (scroll progress about 0.40 to 0.55) or the route visual reads
+ * too dark. Past that the followspot is the picture: no wash, no blur.
+ */
+const CLEAN_AT = 0.58;
 
 function clamp01(value: number): number {
   return Math.min(1, Math.max(0, value));
@@ -44,6 +50,7 @@ export function initRunwayFollowspot(reduced: boolean, signal: AbortSignal): () 
     if (Math.abs(latest - marked) >= 0.0004) {
       marked = latest;
       section.dataset.sceneProgress = latest.toFixed(4);
+      section.classList.toggle('is-spot-clean', latest >= CLEAN_AT);
       hookRunwayHandoff(latest);
     }
     const ctrl = getSceneVideo('03B');
@@ -116,6 +123,7 @@ export function initRunwayFollowspot(reduced: boolean, signal: AbortSignal): () 
     dead = true;
     remove();
     clearGate();
+    section.classList.remove('is-spot-clean');
     hookRunwayHandoff(0);
   };
   signal.addEventListener('abort', stop, { once: true });

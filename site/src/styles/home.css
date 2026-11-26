@@ -438,9 +438,71 @@ html.hero-poster-inset .hero__still img {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 38%;
-  background: linear-gradient(to top, rgba(12, 12, 15, 0.78), rgba(12, 12, 15, 0));
+  height: 18%;
+  background: linear-gradient(to top, rgba(12, 12, 15, 0.5), rgba(12, 12, 15, 0));
   pointer-events: none;
+}
+
+/* Past the seam flood the followspot is the clip: sharp, no red wash. */
+[data-seam-pair='02A-03B'] .seam-real__stage:has(.runway--stage.is-spot-clean) > .flood-layer {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  filter: none !important;
+}
+
+.runway--stage.is-spot-clean {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+}
+
+/* Portrait frames crop a 16:9 lineup down to two figures. Once the seam
+   flood has handed off, a 16:9 band keeps the line. During the flood the
+   media stays full-bleed so the red field covers the stage. 50% 46% holds
+   the heads if the box is a hair short. Reduced motion has no flood, so
+   the still uses the band immediately. */
+@media (max-aspect-ratio: 1/1) {
+  html:not(.is-scene-gate) .runway--stage.is-spot-clean .runway__still,
+  html:not(.is-scene-gate) .runway--stage.is-spot-clean .runway__stage video[data-scene-video] {
+    inset: auto;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    transform: translateY(-50%);
+    object-fit: cover;
+    object-position: 50% 46%;
+  }
+
+  html:not(.is-scene-gate) .runway--stage.is-spot-clean .runway__still img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 46%;
+  }
+}
+
+@media (max-aspect-ratio: 1/1) and (prefers-reduced-motion: reduce) {
+  html:not(.is-scene-gate) .runway__still,
+  html:not(.is-scene-gate) .runway__stage video[data-scene-video] {
+    inset: auto;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    transform: translateY(-50%);
+    object-fit: cover;
+    object-position: 50% 46%;
+  }
+
+  html:not(.is-scene-gate) .runway__still img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 46%;
+  }
 }
 
 .runway--stage .runway__copy {

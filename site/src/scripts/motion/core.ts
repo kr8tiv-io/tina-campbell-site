@@ -4,6 +4,7 @@ import { initCursor } from './cursor';
 import { endLoader, playLoader } from './loader';
 import { initHome, syncHeroCopy } from './home';
 import { initHomeFilmstrip } from './scenes/home-filmstrip';
+import { initLivingGown } from './scenes/living-gown';
 import { initRunway } from './runway';
 import { initEditorialThread } from './scenes/editorial-thread';
 import { initPrintStack } from './scenes/print-stack';
@@ -238,6 +239,7 @@ async function initMotion(): Promise<void> {
   const releaseSeams = initSeams(document);
   const releaseInk = initWorkInk(reduced, abort.signal);
   const releaseVideos = initSceneVideos(abort.signal);
+  const releaseGown = initLivingGown(reduced, abort.signal);
   const releaseThread = initEditorialThread(reduced, abort.signal);
   const releasePrints = initPrintStack(reduced, abort.signal);
   const releaseLight = initWorkLightTable(reduced, abort.signal);
@@ -248,6 +250,7 @@ async function initMotion(): Promise<void> {
     releaseLight();
     releasePrints();
     releaseThread();
+    releaseGown();
     releaseVideos();
     releaseInk();
     releaseSeams();

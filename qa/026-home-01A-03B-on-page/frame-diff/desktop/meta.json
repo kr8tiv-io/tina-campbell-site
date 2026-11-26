@@ -1,0 +1,51 @@
+[
+  {
+    "file": "/tmp/ga-026/diff/desktop/t0.00.jpg",
+    "t": 0.038,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.webm"
+  },
+  {
+    "file": "/tmp/ga-026/diff/desktop/t1.00.jpg",
+    "t": 1,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.webm"
+  },
+  {
+    "file": "/tmp/ga-026/diff/desktop/t2.00.jpg",
+    "t": 2,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.webm"
+  },
+  {
+    "file": "/tmp/ga-026/diff/desktop/t3.00.jpg",
+    "t": 3,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.webm"
+  },
+  {
+    "file": "/tmp/ga-026/diff/desktop/t4.00.jpg",
+    "t": 4,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.webm"
+  },
+  {
+    "file": "/tmp/ga-026/diff/desktop/t5.00.jpg",
+    "t": 5,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.webm"
+  },
+  {
+    "file": "/tmp/ga-026/diff/desktop/t5.85.jpg",
+    "t": 5.85,
+    "phase": "intro",
+    "w": 1920,
+    "src": "01A-1080.webm"
+  }
+]

@@ -97,3 +97,16 @@
 2026-11-26 01:55:48 CST SUPERVISOR waiting for running driver pid 611956
 2026-11-26 02:45:31 CST END 025-work-04B-05C-on-page rc=0
 2026-11-26 02:45:43 CST SUPERVISOR 025-work-04B-05C-on-page grok run finished (started earlier)
+2026-11-26 03:15:23 CST SUPERVISOR 025-work-04B-05C-on-page PASS committed+pushed 6fe4450
+2026-11-26 03:16:34 CST SUPERVISOR brain pushed for 025-work-04B-05C-on-page
+2026-11-26 03:16:34 CST SUPERVISOR launching 026-home-01A-03B-on-page
+2026-11-26 03:16:34 CST START 026-home-01A-03B-on-page pid 764367
+2026-11-26 04:21:05 CST END 026-home-01A-03B-on-page rc=1
+2026-11-26 04:21:05 CST SUPERVISOR 026-home-01A-03B-on-page grok rc=1
+2026-11-26 08:17:51 CST OPERATOR 026 grok died at 04:21 on a Grok auth 401 during its own compaction (partial edits); gate fails laptop.spec flood hand-off x3 on that partial tree. Auth works again (08:2x test call OK). Matt 08:15: yes to slower phone strip (prompt 031 written, appended after 021) and yes to staging update after the queue. Supervisor v2 will park the partial 026 work and rerun 026 cleanly once v1 exits
+2026-11-26 08:22:37 CST SUPERVISOR parked partial 026-home-01A-03B-on-page work in /workspace/tina-review-2026-11-25/partial-026-home-01A-03B-on-page-0822 (patch + untracked), tree reset to HEAD
+2026-11-26 08:22:37 CST SUPERVISOR launching 026-home-01A-03B-on-page
+2026-11-26 08:22:37 CST START 026-home-01A-03B-on-page pid 835046
+2026-11-26 09:45:23 CST END 026-home-01A-03B-on-page rc=0
+2026-11-26 09:45:23 CST SUPERVISOR 026-home-01A-03B-on-page grok rc=0
+2026-11-26 10:19:01 CST SUPERVISOR 026-home-01A-03B-on-page operator gate FAIL try 1: playwright rc=1  1 failed  129 skipped  74 passed (21.8m) ;GATE 026-home-01A-03B-on-page: FAIL;
