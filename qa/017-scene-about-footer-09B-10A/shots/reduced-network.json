@@ -1,0 +1,26 @@
+{
+  "reduced": [
+    {
+      "t": 1795714382761,
+      "url": "/media/scenes/manifest.json",
+      "type": "fetch"
+    },
+    {
+      "t": 1795714392769,
+      "url": "/media/scenes/09B/09B-end.webp",
+      "type": "image"
+    }
+  ],
+  "vids": [
+    {
+      "id": "09B",
+      "src": "",
+      "sources": 0
+    },
+    {
+      "id": "10A",
+      "src": "",
+      "sources": 0
+    }
+  ]
+}

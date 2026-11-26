@@ -464,12 +464,151 @@ a.site-header__cta.btn:hover {
   padding: 4.5rem 0 1.75rem;
 }
 
+.site-footer:has(.drift) {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.drift {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #0c0c0f;
+  color: var(--paper);
+}
+
+.drift__media,
+.drift__shade {
+  position: absolute;
+  inset: 0;
+}
+
+.drift__still,
+.drift__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  background: #0c0c0f center / cover no-repeat;
+}
+
+.drift__media video {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.drift__media video.is-playing {
+  opacity: 1;
+}
+
+.drift__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.drift__shade {
+  z-index: 2;
+  background: linear-gradient(to top, rgba(12, 12, 15, 0.82) 0%, rgba(12, 12, 15, 0.28) 28%, rgba(12, 12, 15, 0) 52%);
+  pointer-events: none;
+}
+
+.drift__copy {
+  position: relative;
+  z-index: 3;
+  width: min(100%, var(--max));
+  margin: 0 auto;
+  padding: clamp(2rem, 6vh, 4rem) var(--page-pad);
+}
+
+.drift__kicker {
+  margin: 0 0 0.7rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.drift__copy h2 {
+  margin: 0;
+  max-width: 11ch;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.8rem, 5.4vw, 5rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+
+.drift__copy p {
+  max-width: 34rem;
+  margin: 0.9rem 0 1.15rem;
+  color: var(--paper);
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift__media video,
+  .band__bg video[data-scene-video] {
+    display: none;
+  }
+}
+
+html.is-gate-10A .drift__still,
+html.is-gate-10A .drift__shade,
+html.is-gate-10A .drift__copy,
+html.is-gate-10A .site-footer__inner,
+html.is-gate-10A .book,
+html.is-gate-10A .book__bg {
+  display: none !important;
+}
+
+html.is-gate-10A .drift,
+html.is-gate-10A .drift__media,
+html.is-gate-10A .site-footer {
+  transform: none !important;
+  filter: none !important;
+  overflow: visible !important;
+}
+
+html.is-gate-10A video[data-scene-video='10A'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 80 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  background: #0c0c0f !important;
+}
+
 .site-footer__inner {
   max-width: var(--max);
   margin: 0 auto;
   padding: 0 var(--page-pad);
   display: grid;
   gap: 2rem;
+}
+
+.site-footer:has(.drift) .site-footer__inner {
+  padding-top: 4.5rem;
+  border-top: 1px solid var(--rule);
 }
 
 .site-footer__top {

@@ -9,7 +9,7 @@ import { gsap } from './runtime';
  * Reduced motion leaves the still, the rule, and the type where they are.
  */
 export function initAbout(reduced: boolean, _fine: boolean, signal: AbortSignal): () => void {
-  const root = document.querySelector<HTMLElement>('[data-about-hero]');
+  const root = document.querySelector<HTMLElement>('[data-about-split]');
   if (!root) return () => {};
 
   if (reduced) {

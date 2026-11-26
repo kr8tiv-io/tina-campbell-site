@@ -1,12 +1,49 @@
 ---
-import { bookHref, facebookUrl, footerTagline, instagramUrl, isCurrent, nav, siteName } from '../data/site';
+import { bookHref, bookLabel, facebookUrl, footerTagline, instagramUrl, isCurrent, nav, siteName } from '../data/site';
 
 const path = Astro.url.pathname;
 const year = new Date().getFullYear();
 const logo = '/brand/tcphoto-logo-white.png';
+// Home already carries this band. Every other page, including /book/, gets it here.
+const showDrift = path !== '/';
 ---
 
 <footer class="site-footer">
+  {
+    showDrift && (
+      <section class="drift" data-drift aria-labelledby="drift-heading">
+        <div class="drift__media">
+          <div
+            class="drift__still"
+            data-scene-still="10A"
+            data-scene-poster="/media/scenes/10A/10A-poster.webp"
+            data-scene-end="/media/scenes/10A/10A-end.webp"
+          />
+          <video
+            data-scene-video="10A"
+            data-scene-mode="loop"
+            data-scene-lazy="1"
+            muted
+            playsinline
+            preload="none"
+            aria-hidden="true"
+          />
+          <noscript>
+            <img src="/media/scenes/10A/10A-poster.webp" alt="" width="1920" height="1080" />
+          </noscript>
+        </div>
+        <div class="drift__shade" data-scene-overlay aria-hidden="true" />
+        <div class="drift__copy" data-scene-copy>
+          <p class="drift__kicker">Edmonton</p>
+          <h2 id="drift-heading">Let's make something bold.</h2>
+          <p>Portraits, fashion, bridal and events in Edmonton, St. Albert and Fort Saskatchewan.</p>
+          <a class="btn" href={bookHref}>
+            {bookLabel}
+          </a>
+        </div>
+      </section>
+    )
+  }
   <div class="site-footer__inner">
     <div class="site-footer__top">
       <a class="logo" href="/" aria-label="Tina Campbell Photography, home">

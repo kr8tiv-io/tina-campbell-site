@@ -36,7 +36,8 @@ const places = [
     })();
   </script>
   <main id="content" class="about">
-    <section class="about-hero" data-about-hero aria-labelledby="about-hero-title">
+    <div data-about-hero>
+    <section class="about-hero" data-about-split aria-labelledby="about-hero-title">
       <div class="about-hero__panel">
         <p class="about-hero__kicker" data-about-rise>About</p>
         <h1 id="about-hero-title" class="about-hero__title" data-about-rise>
@@ -64,16 +65,34 @@ const places = [
       </figure>
     </section>
 
-    <section class="about-band" data-about-band>
-      <img
-        src="/media/scenes/09B/09B-end.webp"
-        alt=""
-        width="1920"
-        height="1080"
-        decoding="async"
-        loading="lazy"
-      />
+    <section class="about-band" data-about-band aria-label="Walterdale Bridge at blue hour">
+      <picture class="about-band__still">
+        <source
+          srcset="/media/scenes/09B/09B-end.webp"
+          type="image/webp"
+          media="(prefers-reduced-motion: reduce)"
+        />
+        <img
+          src="/media/scenes/09B/09B-poster.webp"
+          alt=""
+          width="1920"
+          height="1080"
+          decoding="async"
+          loading="lazy"
+          data-scene-still="09B"
+        />
+      </picture>
+      <video
+        data-scene-video="09B"
+        data-scene-mode="scrub"
+        data-scene-margin="100% 0px"
+        muted
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      ></video>
     </section>
+    </div>
 
     <hr class="about-rule" />
 

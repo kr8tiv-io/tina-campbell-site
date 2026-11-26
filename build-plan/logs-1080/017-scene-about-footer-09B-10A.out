@@ -1,0 +1,31 @@
+I'll start by reading the scene plan, motion lock, and the 09B/10A specs so the about scrub and footer loop match the locked clips.The about page already has the editorial split, with 09B as the full-bleed band under it. I’ll scrub that clip on scroll and put 10A in the contact band as a lazy, paused-offscreen loop.Typecheck passed. Next I’ll build with the motion lab on and start the preview the gates use.Auto-compacting conversation (82% full)...
+Conversation compacted.
+The motion-lab build is in place. Next I start the preview and run the scene gates.Port 4821 is free and the lab build is ready. Starting the preview, then the scene gate.Preview is up. Scene gate is next; it compares every frame, so it will take a while.The gate is running. I'll review the gate CSS and the capture script so a failure can be fixed as soon as scores land.The preview is up on port 4821 and the scene gate is comparing all 145 frames for 01A, 03B, 04B, 06B, 09B, and 10A. I will read the scores as soon as that run finishes and fix anything that fails before the seam gates and screenshots.
+
+Scene gate passed, including 09B at 0.9319 and 10A at 0.9526. Seam gates are next.Scene gate is a pass on all six scenes. The seam gate is running against the same preview, and the route checks come after that.
+
+The screenshot script is ready. Seam gate is still comparing the ten harness pairs, and the route checks start as soon as that verdict lands.
+
+Seam gate is 10/10 and the route check is 3/3. Route visuals are next, desktop then mobile.Seam harness and route geometry both passed. Desktop and mobile route visuals are running now. Screenshots and the on-page capture wait until Chrome is free.
+
+Scrub and loop both reveal the video once it has data, so the still is only the stand-in. I am waiting on the desktop, mobile, and reduced-motion shots before the on-page capture.
+
+The first screenshot pass failed because Playwright could not be imported from `/tmp`. It is running again with the package path set.
+
+The pin started at the top of the viewport because `--header-h` is a `clamp()` and `parseFloat` never saw a pixel length. The band is already `100svh` minus the header, so the next section showed through underneath. I am measuring the real header height instead.The about band now fills the viewport under the header, and the middle of the pin sits at 3.04 seconds, in the light wave. The scene gate is running again on that build.
+
+The second scene gate is still running. The earlier notice was the screenshot job finishing, not the gate.
+
+The on-page sheets are in. Production build and the Playwright suite are running on port 4831, and the report waits on that result.
+
+09B scrubs on the full-bleed band under the About editorial split, and 10A loops full-bleed in the home contact band and in the footer on every other page. The footer video stays unloaded until that band is within one viewport. Seam 09B-10A stays unwired because the portrait split, the behind-the-scenes row, and the places block sit between the two scenes. The report is `qa/017-scene-about-footer-09B-10A/REPORT.md`.
+
+Scene gate, seam gate (10/10), route check (3/3), and route visual (3/3 desktop and mobile) all passed. Production Playwright: 75 passed, 129 skipped, 0 failed. The motion chunk grew by about 0.55 kB gzip.
+
+GATE 017-scene-about-footer-09B-10A: PASS
+01A worst SSIM 0.9774 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+06B worst SSIM 0.9816 (frame 5)
+09B worst SSIM 0.9319 (frame 1)
+10A worst SSIM 0.9526 (frame 73)

@@ -110,3 +110,13 @@
 2026-11-26 09:45:23 CST END 026-home-01A-03B-on-page rc=0
 2026-11-26 09:45:23 CST SUPERVISOR 026-home-01A-03B-on-page grok rc=0
 2026-11-26 10:19:01 CST SUPERVISOR 026-home-01A-03B-on-page operator gate FAIL try 1: playwright rc=1  1 failed  129 skipped  74 passed (21.8m) ;GATE 026-home-01A-03B-on-page: FAIL;
+2026-11-26 10:55:49 CST SUPERVISOR 026-home-01A-03B-on-page PASS committed+pushed 5c06b5f
+2026-11-26 10:57:15 CST SUPERVISOR brain pushed for 026-home-01A-03B-on-page
+2026-11-26 10:57:15 CST SUPERVISOR launching 017-scene-about-footer-09B-10A
+2026-11-26 10:57:15 CST START 017-scene-about-footer-09B-10A pid 1152713
+2026-11-26 12:06:37 CST END 017-scene-about-footer-09B-10A rc=0
+2026-11-26 12:06:37 CST SUPERVISOR 017-scene-about-footer-09B-10A grok rc=0
+2026-11-26 13:04:16 CST SUPERVISOR 017-scene-about-footer-09B-10A operator gate FAIL try 1: playwright rc=1  3 failed  129 skipped  72 passed (26.2m) ;GATE 017-scene-about-footer-09B-10A: FAIL;
+2026-11-26 13:44:40 CST SUPERVISOR 017-scene-about-footer-09B-10A operator gate FAIL try 2: playwright rc=1  11 failed  129 skipped  64 passed (26.7m) ;GATE 017-scene-about-footer-09B-10A: FAIL;
+2026-11-26 13:44:40 CST SUPERVISOR STOP: 017-scene-about-footer-09B-10A failed the gate twice. Tree left uncommitted for review.
+2026-11-26 15:56:12 CST SUPERVISOR 017-scene-about-footer-09B-10A operator gate PASS try 3 (manual rerun after two box flakes: Chromium D-Bus abort / WebGL loss; no code change)

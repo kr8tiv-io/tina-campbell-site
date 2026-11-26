@@ -14,6 +14,8 @@ import { initWorkLightTable } from './scenes/work-lighttable';
 import { initWork } from './work';
 import { initEditorial } from './editorial';
 import { initAbout } from './about';
+import { initAboutLights } from './scenes/about-lights';
+import { initFooterDrift } from './scenes/footer-drift';
 import { initPages } from './pages';
 import { initSeams } from './seams';
 import { initSceneVideos } from './scene-video';
@@ -244,8 +246,12 @@ async function initMotion(): Promise<void> {
   const releasePrints = initPrintStack(reduced, abort.signal);
   const releaseLight = initWorkLightTable(reduced, abort.signal);
   const releaseFollow = initRunwayFollowspot(reduced, abort.signal);
+  const releaseLights = initAboutLights(reduced, abort.signal);
+  const releaseDrift = initFooterDrift(reduced, abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releaseDrift();
+    releaseLights();
     releaseFollow();
     releaseLight();
     releasePrints();

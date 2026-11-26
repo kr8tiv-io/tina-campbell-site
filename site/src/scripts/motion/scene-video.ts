@@ -113,12 +113,37 @@ function installGateStyles(): void {
   gateStyle = style;
 }
 
+function stillOf(video: HTMLVideoElement): HTMLElement | null {
+  return video.parentElement?.querySelector<HTMLElement>('[data-scene-still]') ?? null;
+}
+
+function paintStill(still: HTMLElement, src: string): void {
+  if (still instanceof HTMLImageElement) {
+    if (still.currentSrc.includes(src) || still.getAttribute('src') === src) return;
+    still.src = src;
+    return;
+  }
+  if (still.style.backgroundImage.includes(src)) return;
+  still.style.backgroundImage = `url("${src}")`;
+}
+
 function showEndStill(video: HTMLVideoElement, entry: SceneEntry): void {
-  const parent = video.parentElement;
-  const img = parent?.querySelector<HTMLImageElement>('[data-scene-still], img');
-  if (!img) return;
-  const end = entry.end.webp;
-  if (!img.currentSrc.includes(end) && img.getAttribute('src') !== end) img.src = end;
+  const still = stillOf(video);
+  if (!still) return;
+  // A picture source already selects the end frame for reduced motion.
+  if (still instanceof HTMLImageElement && still.closest('picture')?.querySelector('source[media*="reduced-motion"]')) {
+    return;
+  }
+  paintStill(still, entry.end.webp);
+}
+
+/** Poster (or the end still) once the band is close. No request before that. */
+function revealStill(video: HTMLVideoElement): void {
+  const still = stillOf(video);
+  if (!still) return;
+  const src = prefersReduced() ? still.dataset.sceneEnd : still.dataset.scenePoster;
+  if (!src) return;
+  paintStill(still, src);
 }
 
 const idleKicks = new WeakMap<HTMLVideoElement, () => void>();
@@ -252,6 +277,11 @@ function createScrubber(video: HTMLVideoElement): (progress: number) => void {
   };
 }
 
+function onScreen(video: HTMLVideoElement): boolean {
+  const box = video.getBoundingClientRect();
+  return box.bottom > 0 && box.top < window.innerHeight;
+}
+
 function bindLoop(video: HTMLVideoElement, signal: AbortSignal, eager: boolean, prepare: () => void): void {
   video.loop = true;
   const arm = (): void => {
@@ -261,6 +291,9 @@ function bindLoop(video: HTMLVideoElement, signal: AbortSignal, eager: boolean, 
       /* autoplay can wait for a gesture; the poster stays up */
     });
   };
+  // Footer 10A: sources may already be attached because the band is within
+  // one viewport. Playback still waits until the picture is actually on screen.
+  const lazy = video.dataset.sceneLazy === '1';
   const io = new IntersectionObserver(
     (entries) => {
       const on = entries.some((entry) => entry.isIntersecting);
@@ -270,14 +303,15 @@ function bindLoop(video: HTMLVideoElement, signal: AbortSignal, eager: boolean, 
       }
       arm();
     },
-    { threshold: 0.12 },
+    { threshold: lazy ? 0.01 : 0.12 },
   );
   const start = (): void => {
     if (signal.aborted) return;
     io.observe(video);
-    if (video.getBoundingClientRect().bottom > 0 && video.getBoundingClientRect().top < window.innerHeight) arm();
+    if (onScreen(video)) arm();
+    else if (lazy) prepare();
   };
-  if (eager) start();
+  if (eager || lazy) start();
   else whenIdle(start);
   signal.addEventListener('abort', () => io.disconnect());
 }
@@ -436,7 +470,7 @@ function mountOne(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) load();
       },
-      { rootMargin: '30% 0px', threshold: 0 },
+      { rootMargin: video.dataset.sceneMargin || '30% 0px', threshold: 0 },
     );
     whenIdle(() => {
       if (!signal.aborted) observer?.observe(video);
@@ -467,19 +501,48 @@ export function initSceneVideos(signal: AbortSignal): () => void {
   if (gate) installGateStyles();
   let dead = false;
   const mounted: SceneController[] = [];
-  const finish = (manifest: Manifest | null): void => {
+  const watchers: IntersectionObserver[] = [];
+
+  const mountVideo = (video: HTMLVideoElement, manifest: Manifest | null): void => {
     if (dead || signal.aborted) return;
-    for (const video of videos) {
-      const id = video.dataset.sceneVideo;
-      if (!id || controllers.has(id)) continue;
-      const entry = manifest?.scenes?.[id] ?? fallbackEntry(id, video);
-      mounted.push(mountOne(video, id, entry, gate, signal));
-    }
+    const id = video.dataset.sceneVideo;
+    if (!id || controllers.has(id)) return;
+    const entry = manifest?.scenes?.[id] ?? fallbackEntry(id, video);
+    mounted.push(mountOne(video, id, entry, gate, signal));
   };
-  void loadManifest().then(finish);
+
+  const mountAll = (list: HTMLVideoElement[]): void => {
+    if (list.length === 0 || dead || signal.aborted) return;
+    void loadManifest().then((manifest) => {
+      if (dead || signal.aborted) return;
+      for (const video of list) mountVideo(video, manifest);
+    });
+  };
+
+  // data-scene-lazy waits until the element is within one viewport, and does
+  // not fetch the manifest on a page whose only scene is that band.
+  const lazy = gate ? [] : videos.filter((video) => video.dataset.sceneLazy === '1');
+  const now = gate ? videos : videos.filter((video) => video.dataset.sceneLazy !== '1');
+  mountAll(now);
+
+  for (const video of lazy) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        io.disconnect();
+        revealStill(video);
+        whenIdle(() => mountAll([video]));
+      },
+      { rootMargin: '100% 0px', threshold: 0 },
+    );
+    watchers.push(io);
+    io.observe(video);
+  }
+
   const destroy = (): void => {
     if (dead) return;
     dead = true;
+    watchers.splice(0).forEach((io) => io.disconnect());
     mounted.splice(0).forEach((ctrl) => ctrl.destroy());
     for (const video of videos) {
       const id = video.dataset.sceneVideo;

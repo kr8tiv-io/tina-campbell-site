@@ -19,7 +19,7 @@ export function initPages(reduced: boolean, signal: AbortSignal): () => void {
 }
 
 function initAbout(reduced: boolean): () => void {
-  const root = document.querySelector<HTMLElement>('[data-about-hero]');
+  const root = document.querySelector<HTMLElement>('[data-about-split]');
   if (!root || reduced) return () => {};
   const far = root.querySelector('[data-layer="far"]');
   const mid = root.querySelector('[data-layer="mid"]');

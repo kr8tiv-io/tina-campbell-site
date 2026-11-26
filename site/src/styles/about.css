@@ -106,15 +106,82 @@
 }
 
 .about-band {
+  position: relative;
+  height: calc(100svh - var(--header-h));
+  background: #0c0c0f;
+  overflow: hidden;
+}
+
+.about-band__still,
+.about-band video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  object-fit: cover;
+  object-position: 50% 50%;
   background: #0c0c0f;
 }
 
-.about-band img {
+.about-band__still img {
   display: block;
   width: 100%;
-  height: 70svh;
+  height: 100%;
+  max-width: none;
   object-fit: cover;
-  object-position: center 58%;
+  object-position: 50% 50%;
+}
+
+.about-band video {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.about-band video.is-playing {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-band {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .about-band video {
+    display: none;
+  }
+}
+
+html.is-gate-09B .about-band,
+html.is-gate-09B .about-band__still {
+  transform: none !important;
+  filter: none !important;
+  overflow: visible !important;
+}
+
+html.is-gate-09B .about-band__still {
+  display: none !important;
+}
+
+html.is-gate-09B video[data-scene-video='09B'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 80 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  background: #0c0c0f !important;
 }
 
 html.about-motion .about-hero__clip {
@@ -399,8 +466,9 @@ html.about-motion .about-hero__rule {
     min-width: 0;
   }
 
-  .about-band img {
-    height: 52svh;
+  html:not(.is-scene-gate) .about-band {
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 
   html.about-motion .about-hero__rule {
