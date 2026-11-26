@@ -1,0 +1,9 @@
+{
+  "cls": "js loader-skip has-cursor",
+  "sources": 0,
+  "preload": "none",
+  "display": "none",
+  "still": "block",
+  "bg": "url(\"http://127.0.0.1:4821/media/scenes/04B/04B-end.webp\")",
+  "tl": false
+}

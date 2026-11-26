@@ -137,7 +137,7 @@ export function initWork(reduced: boolean, fine: boolean, signal: AbortSignal): 
   const hasPrints = Boolean(root.querySelector('[data-light-print]'));
   const record = new URLSearchParams(window.location.search).has('record');
   if (!hasPrints) intro();
-  else if (reduced || record || !window.matchMedia('(min-width: 801px)').matches) {
+  else if (reduced || record) {
     document.documentElement.classList.remove('work-intro');
   }
 

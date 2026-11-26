@@ -65,6 +65,23 @@ export function playLoader(reduced: boolean, onDone: () => void): void {
   const loader = document.getElementById('loader');
   const mark = document.getElementById('loader-mark');
   if (running) return;
+  const splashUntil = Number(root.dataset.workSplash || 0);
+  if (splashUntil && !reduced && !seen && !played) {
+    played = true;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, '1');
+    } catch {
+      /* private mode still ends the splash on this load */
+    }
+    delete root.dataset.workSplash;
+    onDone();
+    window.setTimeout(() => {
+      root.classList.remove('work-splash', 'loader-play');
+      root.classList.add('loader-skip');
+      document.getElementById('loader')?.remove();
+    }, Math.max(0, splashUntil - Date.now()));
+    return;
+  }
   if (reduced || seen || played || !loader || !mark) {
     root.classList.remove('loader-play');
     root.classList.add('loader-skip');

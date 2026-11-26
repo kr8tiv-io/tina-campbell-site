@@ -41,7 +41,7 @@ const jsonLd = {
         try { fine = matchMedia('(hover: hover) and (pointer: fine)').matches; } catch (e) {}
         var record = false;
         try { record = new URLSearchParams(location.search).has('record'); } catch (e) {}
-        if (!reduce && fine && window.innerWidth > 800 && !record) {
+        if (!reduce && !record) {
           document.documentElement.classList.add('work-intro');
           setTimeout(function () {
             document.documentElement.classList.remove('work-intro');
@@ -118,6 +118,11 @@ const jsonLd = {
                         </>
                       )}
                     </a>
+                    {index === 1 && (
+                      <button type="button" class="tile__series" data-view-series data-scene-overlay hidden>
+                        View series
+                      </button>
+                    )}
                     <p class="tile__cap">{tile.caption}</p>
                   </li>
                 ))

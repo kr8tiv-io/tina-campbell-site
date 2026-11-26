@@ -90,3 +90,10 @@
 2026-11-25 23:56:58 CST END 030-phone-strip-labels-toolbar rc=1
 2026-11-26 00:00:52 CST OPERATOR 030 grok exited rc=1 (its own 600 s background-wait cap killed its full playwright run; no REPORT). Changes: home-filmstrip.ts +108/-23, home.css, new phone-toolbar.spec.ts. Running operator-gate
 2026-11-26 00:28:13 CST OPERATOR 030 gate run 1 INVALID: playwright reused another project's preview on :4321 (kr8tiv evolve card, not ours, left alone) so every test hit the wrong site. Gate and _CONTEXT now use PLAYWRIGHT_PORT=4831. Grok driver now --background-wait-timeout 5400. Re-gating 030
+2026-11-26 01:10:32 CST OPERATOR 030 GATE PASS (playwright 75/0/129 on :4831, phone-toolbar 5/5, laptop.spec all, seams 10/10, routes 3/3, visual d+m PASS, 01A 0.9774 03B 0.9613 04B 0.9531). Phone labels 256 px clear of a 120 px toolbar at 393x852 (was 112-124). Committed+pushed 991b24e. Staging zips /workspace/tina-staging-zips/tina-staging-20261126-0110-991b24e.zip (full, 157M) and -CHANGED.zip (22 files, 371 KB: 20 html + BaseLayout C15Jlo19.js + index Ch6jf3LN.css). NOT deployed (needs Matt's yes + backup)
+2026-11-26 01:10:32 CST OPERATOR 028 confirm: NOT needed. Its two requirements are covered on 991b24e: laptop.spec 'strip stays held until the echo pins, with real input' + 'flood hand-off keeps the frame lit' PASS at 1536x720@1.25, 1920x1080 and 390x844; echo labels distinct (laptop.spec labels apart, phone-toolbar echo x). 028 stays an unrun draft, superseded by 029+030
+2026-11-26 01:10:32 CST OPERATOR launching 025-work-04B-05C-on-page
+2026-11-26 01:10:32 CST START 025-work-04B-05C-on-page pid 611956
+2026-11-26 01:55:48 CST SUPERVISOR waiting for running driver pid 611956
+2026-11-26 02:45:31 CST END 025-work-04B-05C-on-page rc=0
+2026-11-26 02:45:43 CST SUPERVISOR 025-work-04B-05C-on-page grok run finished (started earlier)

@@ -36,3 +36,9 @@ column, and the 05C columns must show prints in the air at 1.2 s. Say honestly w
 
 ## Commit message
 fix(scene-04B-05C): ink drop at full size on a mono grid, real light-table fall, phone versions
+
+## Operator note (26 Nov, before launch)
+Branch is now at 991b24e (030 phone labels). 04B scene_gate already reads 0.9531 on this tree (operator gate 26 Nov), so the
+016b regression note above is historical: keep it >= 0.95. The home film strip, hero and 02A-03B hand-off are out of scope;
+`laptop.spec.ts` and `phone-toolbar.spec.ts` must keep passing. Run Playwright with `PLAYWRIGHT_PORT=4831` (port 4321 belongs
+to another project). Text stays real HTML, Noir and Crimson tokens only.

@@ -163,6 +163,7 @@ export function workTiles(): WorkTile[] {
 }
 
 export function sizesFor(role: TileRole): string {
+  if (role === 'lead-b') return '(max-width: 800px) 50vw, 46vw';
   if (role === 'wide' || role === 'lead-h') return '(max-width: 800px) 100vw, 40vw';
   if (role === 'land' || role === 'lead-a') return '(max-width: 800px) 100vw, 34vw';
   if (role === 'small') return '(max-width: 800px) 50vw, 24vw';

@@ -86,7 +86,8 @@ const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph 
     <style is:inline>
       html { background: #0c0c0f; }
       .loader { display: none; }
-      html.loader-play .loader { display: block; }
+      html.loader-play .loader,
+      html.work-splash .loader { display: block; }
       html.loader-play .site-reveal { opacity: 0; }
     </style>
     <script is:inline>
@@ -97,8 +98,22 @@ const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph 
         try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
         var seen = false;
         try { seen = sessionStorage.getItem('tc-loader') === '1'; } catch (e) { seen = true; }
-        if (reduce || seen) root.classList.add('loader-skip');
-        else root.classList.add('loader-play');
+        var onWork = false;
+        try { onWork = /\/work\/?$/.test(location.pathname); } catch (e) {}
+        var record = false;
+        try { record = location.search.indexOf('record=1') !== -1; } catch (e) {}
+        var internal = false;
+        try { internal = sessionStorage.getItem('tc-site') === '1'; } catch (e) {}
+        var same = false;
+        try {
+          if (document.referrer) same = new URL(document.referrer).origin === location.origin;
+        } catch (e) {}
+        if (reduce || seen || record || (onWork && (internal || same))) root.classList.add('loader-skip');
+        else if (onWork) {
+          root.classList.add('work-splash');
+          root.dataset.workSplash = String(Date.now() + 800);
+        } else root.classList.add('loader-play');
+        try { sessionStorage.setItem('tc-site', '1'); } catch (e) {}
       })();
     </script>
     <title>{title}</title>
