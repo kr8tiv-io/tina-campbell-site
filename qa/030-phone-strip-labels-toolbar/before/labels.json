@@ -1,0 +1,1660 @@
+{
+  "1536x720": {
+    "progress": {
+      "0": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 604,
+            "top": 340,
+            "right": 699.56,
+            "bottom": 385.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 872,
+            "top": 324,
+            "right": 941.05,
+            "bottom": 369.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 1111.2,
+            "top": 298.41,
+            "right": 1206.77,
+            "bottom": 343.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 1294.41,
+            "top": 279.2,
+            "right": 1363.45,
+            "bottom": 324.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 1438.41,
+            "top": 264,
+            "right": 1516.3,
+            "bottom": 309.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 1556.8,
+            "top": 252,
+            "right": 1643.53,
+            "bottom": 297.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 1656.8,
+            "top": 236,
+            "right": 1752.36,
+            "bottom": 281.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 604,
+            "top": 3724,
+            "right": 699.56,
+            "bottom": 3769.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 872,
+            "top": 3708,
+            "right": 941.05,
+            "bottom": 3753.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 1111.2,
+            "top": 3682.41,
+            "right": 1206.77,
+            "bottom": 3727.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 1294.41,
+            "top": 3663.2,
+            "right": 1363.45,
+            "bottom": 3708.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 1438.41,
+            "top": 3648,
+            "right": 1516.3,
+            "bottom": 3693.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 1556.8,
+            "top": 3636,
+            "right": 1643.53,
+            "bottom": 3681.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 1656.8,
+            "top": 3620,
+            "right": 1752.36,
+            "bottom": 3665.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 720,
+          "innerWidth": 1536,
+          "vv": 720,
+          "sheetH": "720px",
+          "sheetPos": "fixed",
+          "svh": "720px",
+          "hold": true,
+          "y": 0
+        }
+      },
+      "1": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -232.8,
+            "top": 600,
+            "right": -137.23,
+            "bottom": 645.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -147.19,
+            "top": 553.59,
+            "right": -78.14,
+            "bottom": 598.92,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -51.2,
+            "top": 478.41,
+            "right": 44.36,
+            "bottom": 523.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 61.59,
+            "top": 404.8,
+            "right": 130.64,
+            "bottom": 450.13,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 198.41,
+            "top": 327.19,
+            "right": 276.3,
+            "bottom": 372.52,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 374.41,
+            "top": 240.8,
+            "right": 461.14,
+            "bottom": 286.13,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 604,
+            "top": 198.41,
+            "right": 699.56,
+            "bottom": 243.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -232.8,
+            "top": 3984,
+            "right": -137.23,
+            "bottom": 4029.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -147.19,
+            "top": 3937.59,
+            "right": -78.14,
+            "bottom": 3982.92,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -51.2,
+            "top": 3862.41,
+            "right": 44.36,
+            "bottom": 3907.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 61.59,
+            "top": 3788.8,
+            "right": 130.64,
+            "bottom": 3834.13,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 198.41,
+            "top": 3711.19,
+            "right": 276.3,
+            "bottom": 3756.52,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 374.41,
+            "top": 3624.8,
+            "right": 461.14,
+            "bottom": 3670.13,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 604,
+            "top": 3582.41,
+            "right": 699.56,
+            "bottom": 3627.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 720,
+          "innerWidth": 1536,
+          "vv": 720,
+          "sheetH": "720px",
+          "sheetPos": "fixed",
+          "svh": "720px",
+          "hold": true,
+          "y": 0
+        }
+      },
+      "0.5": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 61.59,
+            "top": 486.41,
+            "right": 157.16,
+            "bottom": 531.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 198.39,
+            "top": 418.41,
+            "right": 267.44,
+            "bottom": 463.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 374.41,
+            "top": 317.59,
+            "right": 469.97,
+            "bottom": 362.92,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 604,
+            "top": 258.41,
+            "right": 673.05,
+            "bottom": 303.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 872,
+            "top": 232.8,
+            "right": 949.89,
+            "bottom": 278.13,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 1111.2,
+            "top": 221.59,
+            "right": 1197.94,
+            "bottom": 266.92,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 1294.41,
+            "top": 219.2,
+            "right": 1389.97,
+            "bottom": 264.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 61.59,
+            "top": 3870.41,
+            "right": 157.16,
+            "bottom": 3915.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 198.39,
+            "top": 3802.41,
+            "right": 267.44,
+            "bottom": 3847.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 374.41,
+            "top": 3701.59,
+            "right": 469.97,
+            "bottom": 3746.92,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 604,
+            "top": 3642.41,
+            "right": 673.05,
+            "bottom": 3687.73,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 872,
+            "top": 3616.8,
+            "right": 949.89,
+            "bottom": 3662.13,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 1111.2,
+            "top": 3605.59,
+            "right": 1197.94,
+            "bottom": 3650.92,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 1294.41,
+            "top": 3603.2,
+            "right": 1389.97,
+            "bottom": 3648.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 720,
+          "innerWidth": 1536,
+          "vv": 720,
+          "sheetH": "720px",
+          "sheetPos": "fixed",
+          "svh": "720px",
+          "hold": true,
+          "y": 0
+        }
+      }
+    },
+    "handoff": {
+      "pin": {
+        "ok": true,
+        "y": 3859.2,
+        "start": 3384,
+        "end": 4968
+      },
+      "labels": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -232.8,
+            "top": -1675,
+            "right": -137.23,
+            "bottom": -1629.67,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -147.2,
+            "top": -1721.41,
+            "right": -78.16,
+            "bottom": -1676.08,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -51.19,
+            "top": -1796.59,
+            "right": 44.38,
+            "bottom": -1751.26,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 61.59,
+            "top": -1870.2,
+            "right": 130.64,
+            "bottom": -1824.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 198.41,
+            "top": -1947.8,
+            "right": 276.3,
+            "bottom": -1902.47,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 374.41,
+            "top": -2034.2,
+            "right": 461.14,
+            "bottom": -1988.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 604,
+            "top": -2076.59,
+            "right": 699.56,
+            "bottom": -2031.26,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -232.8,
+            "top": 530.29,
+            "right": -137.23,
+            "bottom": 575.62,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -147.2,
+            "top": 483.87,
+            "right": -78.16,
+            "bottom": 529.2,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -51.19,
+            "top": 408.69,
+            "right": 44.38,
+            "bottom": 454.01,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 61.59,
+            "top": 335.08,
+            "right": 130.64,
+            "bottom": 380.4,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 198.41,
+            "top": 257.48,
+            "right": 276.3,
+            "bottom": 302.81,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 374.41,
+            "top": 171.08,
+            "right": 461.14,
+            "bottom": 216.4,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 604,
+            "top": 128.7,
+            "right": 699.56,
+            "bottom": 174.03,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 720,
+          "innerWidth": 1536,
+          "vv": 720,
+          "sheetH": "720px",
+          "sheetPos": "absolute",
+          "svh": "720px",
+          "hold": false,
+          "y": 3859
+        }
+      }
+    }
+  },
+  "1920x1080": {
+    "progress": {
+      "0": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 718,
+            "top": 511,
+            "right": 813.56,
+            "bottom": 556.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 1112,
+            "top": 486,
+            "right": 1181.05,
+            "bottom": 531.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 1450,
+            "top": 452,
+            "right": 1545.56,
+            "bottom": 497.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 1698,
+            "top": 427,
+            "right": 1767.05,
+            "bottom": 472.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 1890,
+            "top": 408,
+            "right": 1967.89,
+            "bottom": 453.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 2045,
+            "top": 384,
+            "right": 2131.73,
+            "bottom": 429.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 2173,
+            "top": 370,
+            "right": 2268.56,
+            "bottom": 415.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 718,
+            "top": 5587,
+            "right": 813.56,
+            "bottom": 5632.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 1112,
+            "top": 5562,
+            "right": 1181.05,
+            "bottom": 5607.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 1450,
+            "top": 5528,
+            "right": 1545.56,
+            "bottom": 5573.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 1698,
+            "top": 5503,
+            "right": 1767.05,
+            "bottom": 5548.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 1890,
+            "top": 5484,
+            "right": 1967.89,
+            "bottom": 5529.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 2045,
+            "top": 5460,
+            "right": 2131.73,
+            "bottom": 5505.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 2173,
+            "top": 5446,
+            "right": 2268.56,
+            "bottom": 5491.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 1080,
+          "innerWidth": 1920,
+          "vv": 1080,
+          "sheetH": "1080px",
+          "sheetPos": "fixed",
+          "svh": "1080px",
+          "hold": true,
+          "y": 0
+        }
+      },
+      "1": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -404,
+            "top": 888,
+            "right": -308.44,
+            "bottom": 933.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -292,
+            "top": 847,
+            "right": -222.95,
+            "bottom": 892.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -164,
+            "top": 723,
+            "right": -68.44,
+            "bottom": 768.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": -18,
+            "top": 602,
+            "right": 51.05,
+            "bottom": 647.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 162,
+            "top": 475,
+            "right": 239.89,
+            "bottom": 520.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 397,
+            "top": 340,
+            "right": 483.73,
+            "bottom": 385.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 718,
+            "top": 295,
+            "right": 813.56,
+            "bottom": 340.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -404,
+            "top": 5964,
+            "right": -308.44,
+            "bottom": 6009.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -292,
+            "top": 5923,
+            "right": -222.95,
+            "bottom": 5968.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -164,
+            "top": 5799,
+            "right": -68.44,
+            "bottom": 5844.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": -18,
+            "top": 5678,
+            "right": 51.05,
+            "bottom": 5723.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 162,
+            "top": 5551,
+            "right": 239.89,
+            "bottom": 5596.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 397,
+            "top": 5416,
+            "right": 483.73,
+            "bottom": 5461.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 718,
+            "top": 5371,
+            "right": 813.56,
+            "bottom": 5416.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 1080,
+          "innerWidth": 1920,
+          "vv": 1080,
+          "sheetH": "1080px",
+          "sheetPos": "fixed",
+          "svh": "1080px",
+          "hold": true,
+          "y": 0
+        }
+      },
+      "0.5": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -18,
+            "top": 745,
+            "right": 77.56,
+            "bottom": 790.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 162,
+            "top": 636,
+            "right": 231.05,
+            "bottom": 681.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 397,
+            "top": 464,
+            "right": 492.56,
+            "bottom": 509.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 718,
+            "top": 368,
+            "right": 787.05,
+            "bottom": 413.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 1112,
+            "top": 325,
+            "right": 1189.89,
+            "bottom": 370.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 1450,
+            "top": 328,
+            "right": 1536.73,
+            "bottom": 373.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 1698,
+            "top": 354,
+            "right": 1793.56,
+            "bottom": 399.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -18,
+            "top": 5821,
+            "right": 77.56,
+            "bottom": 5866.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 162,
+            "top": 5712,
+            "right": 231.05,
+            "bottom": 5757.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 397,
+            "top": 5540,
+            "right": 492.56,
+            "bottom": 5585.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 718,
+            "top": 5444,
+            "right": 787.05,
+            "bottom": 5489.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 1112,
+            "top": 5401,
+            "right": 1189.89,
+            "bottom": 5446.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 1450,
+            "top": 5404,
+            "right": 1536.73,
+            "bottom": 5449.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 1698,
+            "top": 5430,
+            "right": 1793.56,
+            "bottom": 5475.33,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 1080,
+          "innerWidth": 1920,
+          "vv": 1080,
+          "sheetH": "1080px",
+          "sheetPos": "fixed",
+          "svh": "1080px",
+          "hold": true,
+          "y": 0
+        }
+      }
+    },
+    "handoff": {
+      "pin": {
+        "ok": true,
+        "y": 5788.8,
+        "start": 5076,
+        "end": 7452
+      },
+      "labels": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -404,
+            "top": -2525.2,
+            "right": -308.44,
+            "bottom": -2479.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -292,
+            "top": -2565.2,
+            "right": -222.95,
+            "bottom": -2519.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -164,
+            "top": -2690.2,
+            "right": -68.44,
+            "bottom": -2644.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": -18,
+            "top": -2811.2,
+            "right": 51.05,
+            "bottom": -2765.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 162,
+            "top": -2938.2,
+            "right": 239.89,
+            "bottom": -2892.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 397,
+            "top": -3073.2,
+            "right": 483.73,
+            "bottom": -3027.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 718,
+            "top": -3117.2,
+            "right": 813.56,
+            "bottom": -3071.87,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": -404,
+            "top": 783.2,
+            "right": -308.44,
+            "bottom": 828.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": -292,
+            "top": 743.2,
+            "right": -222.95,
+            "bottom": 788.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": -164,
+            "top": 618.2,
+            "right": -68.44,
+            "bottom": 663.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": -18,
+            "top": 497.2,
+            "right": 51.05,
+            "bottom": 542.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 162,
+            "top": 370.2,
+            "right": 239.89,
+            "bottom": 415.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 397,
+            "top": 235.2,
+            "right": 483.73,
+            "bottom": 280.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 718,
+            "top": 191.2,
+            "right": 813.56,
+            "bottom": 236.53,
+            "font": "13px",
+            "noFont": "11px",
+            "bg": "rgba(12, 12, 15, 0.66)"
+          }
+        ],
+        "info": {
+          "innerHeight": 1080,
+          "innerWidth": 1920,
+          "vv": 1080,
+          "sheetH": "1080px",
+          "sheetPos": "absolute",
+          "svh": "1080px",
+          "hold": false,
+          "y": 5789
+        }
+      }
+    }
+  },
+  "390x844": {
+    "progress": {
+      "0": {
+        "live": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 158.67,
+            "top": 647.67,
+            "right": 230.67,
+            "bottom": 682.44,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 321,
+            "top": 647.67,
+            "right": 374,
+            "bottom": 682.44,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Signature",
+            "no": "No. 01",
+            "left": 158.67,
+            "top": 4276.86,
+            "right": 230.67,
+            "bottom": 4311.63,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Runway",
+            "no": "No. 02",
+            "left": 321,
+            "top": 4276.86,
+            "right": 374,
+            "bottom": 4311.63,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "info": {
+          "innerHeight": 844,
+          "innerWidth": 390,
+          "vv": 844,
+          "sheetH": "844px",
+          "sheetPos": "fixed",
+          "svh": "844px",
+          "hold": true,
+          "y": 0
+        }
+      },
+      "1": {
+        "live": [
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 10.67,
+            "top": 647.67,
+            "right": 74.67,
+            "bottom": 682.44,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 158.67,
+            "top": 647.67,
+            "right": 230.67,
+            "bottom": 682.44,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 10.67,
+            "top": 4276.86,
+            "right": 74.67,
+            "bottom": 4311.63,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 158.67,
+            "top": 4276.86,
+            "right": 230.67,
+            "bottom": 4311.63,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "info": {
+          "innerHeight": 844,
+          "innerWidth": 390,
+          "vv": 844,
+          "sheetH": "844px",
+          "sheetPos": "fixed",
+          "svh": "844px",
+          "hold": true,
+          "y": 0
+        }
+      },
+      "0.5": {
+        "live": [
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 6.67,
+            "top": 647.67,
+            "right": 78.67,
+            "bottom": 682.44,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 168.33,
+            "top": 647.67,
+            "right": 221.33,
+            "bottom": 682.44,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 319,
+            "top": 647.67,
+            "right": 376,
+            "bottom": 682.44,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Portraits",
+            "no": "No. 03",
+            "left": 6.67,
+            "top": 4276.86,
+            "right": 78.67,
+            "bottom": 4311.63,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Bridal",
+            "no": "No. 04",
+            "left": 168.33,
+            "top": 4276.86,
+            "right": 221.33,
+            "bottom": 4311.63,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Couples",
+            "no": "No. 05",
+            "left": 319,
+            "top": 4276.86,
+            "right": 376,
+            "bottom": 4311.63,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "info": {
+          "innerHeight": 844,
+          "innerWidth": 390,
+          "vv": 844,
+          "sheetH": "844px",
+          "sheetPos": "fixed",
+          "svh": "844px",
+          "hold": true,
+          "y": 0
+        }
+      }
+    },
+    "handoff": {
+      "pin": {
+        "ok": true,
+        "y": 4186.1,
+        "start": 3629,
+        "end": 5486
+      },
+      "labels": {
+        "live": [
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 10.67,
+            "top": -1681.09,
+            "right": 74.67,
+            "bottom": -1646.33,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 158.67,
+            "top": -1681.09,
+            "right": 230.67,
+            "bottom": -1646.33,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "echo": [
+          {
+            "text": "Edmonton",
+            "no": "No. 06",
+            "left": 10.67,
+            "top": 566.36,
+            "right": 74.67,
+            "bottom": 601.13,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "text": "Landscape",
+            "no": "No. 07",
+            "left": 158.67,
+            "top": 566.36,
+            "right": 230.67,
+            "bottom": 601.13,
+            "font": "12px",
+            "noFont": "12px",
+            "bg": "rgba(0, 0, 0, 0)"
+          }
+        ],
+        "info": {
+          "innerHeight": 844,
+          "innerWidth": 390,
+          "vv": 844,
+          "sheetH": "844px",
+          "sheetPos": "absolute",
+          "svh": "844px",
+          "hold": false,
+          "y": 4186
+        }
+      }
+    }
+  }
+}

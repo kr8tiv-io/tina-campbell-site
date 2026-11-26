@@ -9,6 +9,7 @@ fail=0; note(){ echo "$*" | tee -a "$O/gate.txt"; }
 : > "$O/gate.txt"
 restore_qa(){ git diff --name-only | grep '^qa/' | grep -v scenes-1080 | grep -v "^qa/$ID/" | xargs -r git restore --; }
 unset TC_MOTION_LAB
+export PLAYWRIGHT_PORT="${PLAYWRIGHT_PORT:-4831}"  # 4321 is often taken by other projects on the box (25 Nov: kr8tiv preview hijacked the suite)
 npm --prefix site run check > /tmp/og-check.log 2>&1 && note "check PASS" || { note "check FAIL"; fail=1; }
 npm --prefix site run build > /tmp/og-build.log 2>&1 && note "build PASS" || { note "build FAIL"; fail=1; }
 bad=0; for f in $(find site/dist -name '*.html'); do n=$(grep -o '<h1' "$f" | wc -l); [ "$n" != 1 ] && { note "H1=$n $f"; bad=1; }; grep -q noindex "$f" || { note "NOINDEX missing $f"; bad=1; }; done

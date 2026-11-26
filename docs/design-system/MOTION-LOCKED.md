@@ -86,6 +86,7 @@ Each row is one adjacent-section transition. Prototype HTML is the implementatio
 - Function: `t_02A_03B_C`
 - Markup: `[data-flood]` layer. Flood fill is set in JS to `linear-gradient(180deg, #4a0d1a 0%, #b3261e 40%, #1a0a12 100%)`. Incoming starts `autoAlpha: 0`, `yPercent: 16`, `blur(10px)`. Flood starts `yPercent: 100`.
 - Motion: flood to `yPercent: 0`, duration **0.55**, ease `power2.in`, at t=0. Outgoing `autoAlpha: 0`, `yPercent: -10`, duration **0.4**, at t=**0.15**. Incoming to `autoAlpha: 1`, `yPercent: 0`, `blur(0)`, duration **0.7**, at t=**0.4**. Flood `autoAlpha: 0`, duration **0.5**, at t=**0.55**. Incoming chars duration **0.5**, stagger **0.03**, at t=**0.55**.
+- Page hand-off: echo wiped by the flood edge (Matt, 22 Nov). The harness timeline is unchanged. On the real page the echo stays opaque until the flood covers it, and its bottom edge is clipped to the flood's leading edge over 0..0.55 (`power2.in`, the -10 drift compensated) so the strip does not fade to ink ahead of the wash. While that wash thins onto the followspot it holds a 6% brightness lift, so a 16:9 frame does not drop out.
 - Timeline end about **1.05**.
 
 ### 3. 03B followspot to 04B crimson-ink-drop

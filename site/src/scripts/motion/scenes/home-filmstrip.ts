@@ -34,6 +34,35 @@ function phoneLayout(): boolean {
   return window.innerWidth < 760;
 }
 
+/**
+ * Phone visible box for label y, in viewport pixels.
+ * Chrome iOS shrinks visualViewport while 100vh stays the large viewport, so
+ * innerHeight would park the captions under the toolbar. The band is the
+ * overlap of the on-screen sheet and that visual viewport.
+ * A scrolled-away sheet keeps the same band inside its own box, so the offsets
+ * copied onto the echo stay tied to the frames. A collapsed canvas (the sheet
+ * leaving fixed layout) returns null and the caller keeps the last placement.
+ */
+function phoneVisibleBox(canvas: HTMLCanvasElement | null): { top: number; height: number } | null {
+  const vv = window.visualViewport;
+  const viewTop = vv && vv.height > 1 ? vv.offsetTop || 0 : 0;
+  const viewH = vv && vv.height > 1 ? vv.height : window.innerHeight;
+  if (!canvas || canvas.clientHeight < 2) return null;
+  const canvasH = canvas.clientHeight;
+  const rect = canvas.getBoundingClientRect();
+  // Half a phone is a layout glitch, not the small viewport. Toolbars take
+  // less than this (svh vs the large viewport is still most of the screen).
+  if (canvasH < viewH * 0.55) return null;
+  const overlaps = rect.bottom > viewTop + 24 && rect.top < viewTop + viewH - 24;
+  const headed = rect.top > viewTop - 40 && rect.top < viewTop + 120;
+  if (overlaps && headed) {
+    const top = Math.max(rect.top, viewTop);
+    const height = Math.min(canvasH, viewH - Math.max(0, rect.top - viewTop));
+    if (height > 80) return { top, height };
+  }
+  return { top: rect.top, height: canvasH };
+}
+
 function canWebGL(): boolean {
   try {
     const canvas = document.createElement('canvas');
@@ -271,9 +300,12 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
     const samples = categories(strip.frames());
     const narrow = phoneLayout();
     const viewW = window.innerWidth;
-    const viewH = window.innerHeight;
     const dpr = window.devicePixelRatio || 1;
+    const canvas = live.querySelector<HTMLCanvasElement>('[data-sheet-canvas]');
     const px = (value: number): number => Math.round(value * dpr) / dpr;
+    // Collapsed sheet while it unpins. Keep the echo on the last on-screen tops.
+    const phoneVis = narrow ? phoneVisibleBox(canvas) : null;
+    if (narrow && !phoneVis) return;
     const shown: Array<{
       item: HTMLElement;
       link: HTMLElement;
@@ -373,28 +405,50 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
       });
       slots.sort((a, b) => a.centre - b.centre);
       const pad = 4;
+      const gap = 8;
       for (let i = 0; i < slots.length; i += 1) {
-        const minLeft = i === 0 ? pad : slots[i - 1].left + slots[i - 1].want + 8;
-        slots[i].left = Math.max(slots[i].left, minLeft);
+        const minLeft = i === 0 ? pad : slots[i - 1].left + slots[i - 1].want + gap;
+        const maxLeft = Math.max(pad, viewW - pad - slots[i].want);
+        slots[i].left = Math.min(Math.max(slots[i].left, minLeft), maxLeft);
       }
-      const tail = slots[slots.length - 1];
-      const overflow = tail.left + tail.want - (viewW - pad);
-      if (overflow > 0) {
-        slots.forEach((slot) => {
-          slot.left -= overflow;
-        });
+      for (let i = slots.length - 1; i >= 0; i -= 1) {
+        const maxLeft = Math.max(pad, viewW - pad - slots[i].want);
+        if (slots[i].left > maxLeft) slots[i].left = maxLeft;
+        if (i === 0) break;
+        const prevMax = slots[i].left - gap - slots[i - 1].want;
+        if (slots[i - 1].left > prevMax) slots[i - 1].left = Math.max(pad, prevMax);
       }
       slots.forEach((slot) => {
         const label = slot.entry.label;
         if (!label) return;
-        const snappedLeft = px(slot.left);
-        const snappedTop = px(rowTop);
-        label.style.left = `${snappedLeft - slot.entry.visLeft}px`;
-        label.style.top = `${snappedTop - slot.entry.rawTop}px`;
+        label.style.left = `${px(slot.left) - slot.entry.visLeft}px`;
         label.style.width = `${px(slot.want)}px`;
+      });
+      // Keep the captions in the clear band of the small viewport. Under the
+      // frames when that still fits; otherwise lifted onto the frame.
+      let labelH = 32;
+      slots.forEach((slot) => {
+        const label = slot.entry.label;
+        if (!label) return;
+        labelH = Math.max(labelH, label.offsetHeight);
+      });
+      const vis = phoneVis;
+      if (!vis) return;
+      const bandTop = vis.top + vis.height * 0.18;
+      const bandBottom = vis.top + Math.min(vis.height * 0.7, vis.height - 140);
+      let lifted = rowTop;
+      const limit = bandBottom - labelH;
+      if (lifted > limit) lifted = limit;
+      if (lifted < bandTop) lifted = bandTop;
+      const snappedTop = px(lifted);
+      slots.forEach((slot) => {
+        const label = slot.entry.label;
+        if (!label) return;
+        label.style.top = `${snappedTop - slot.entry.rawTop}px`;
         snapLabel(label, dpr);
       });
-      const poolTop = Math.max(50, (rowTop / viewH) * 100 - 14);
+      const sheetH = canvas && canvas.clientHeight > 1 ? canvas.clientHeight : vis.height;
+      const poolTop = Math.max(50, (rowTop / sheetH) * 100 - 14);
       live.style.setProperty('--pool-top', `${poolTop.toFixed(2)}%`);
     }
     if (!echo) return;
@@ -513,6 +567,18 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
   };
   window.addEventListener('resize', onResize);
   flags.stops.push(() => window.removeEventListener('resize', onResize));
+  const viewport = window.visualViewport;
+  if (viewport) {
+    const onViewport = (): void => {
+      if (!phoneLayout()) return;
+      const root = document.documentElement;
+      if (!root.classList.contains('is-sheet-hold') && !root.classList.contains('is-gate-02A')) return;
+      strips.forEach((strip) => strip.resize());
+      placeLabels();
+    };
+    viewport.addEventListener('resize', onViewport);
+    flags.stops.push(() => viewport.removeEventListener('resize', onViewport));
+  }
 
   const onWheel = (event: WheelEvent): void => {
     const speed = Math.min(1, Math.abs(event.deltaY) / 28);
@@ -552,7 +618,19 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
           const scroll = bridge.scroll();
           bridgeHold = scroll >= bridge.start - 1 && scroll < bridge.end;
         }
-        document.documentElement.classList.toggle('is-sheet-hold', scrubHold || bridgeHold);
+        const root = document.documentElement;
+        const wasHeld = root.classList.contains('is-sheet-hold');
+        const held = scrubHold || bridgeHold;
+        root.classList.toggle('is-sheet-hold', held);
+        // Entering the hold can change the sheet from the stage box to svh.
+        // Leaving it must not remeasure: the live sheet has scrolled away and
+        // a fresh placement would drag the echo labels off the pinned frame.
+        if (!wasHeld && held && phoneLayout()) {
+          window.requestAnimationFrame(() => {
+            strips.forEach((strip) => strip.resize());
+            placeLabels();
+          });
+        }
       };
       trigger = ScrollTrigger.create({
         trigger: scrub,

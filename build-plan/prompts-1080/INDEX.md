@@ -20,6 +20,8 @@ Shared context `_CONTEXT.md` is prepended to each prompt. Plan and evidence: `..
 | 019 | scene-transitions-08B | 08B code | all + 08B order |
 | 020 | mobile-pass | all | all + Lighthouse mobile |
 | 021 | staging-refresh | release check | all |
+| 029 | laptop-text-hero-strip | laptop 1536x720@1.25 labels, hero head, hold-to-echo, flood hand-off (028 folded in) | laptop.spec + all |
+| 030 | phone-strip-labels-toolbar | iPhone 16 / Chrome iOS: strip labels clear of the bottom toolbar (svh hold) | phone-toolbar.spec + laptop diff < 1% + all |
 
 After each PASS the operator commits, pushes the branch and refreshes staging (backup first, noindex kept).
 
@@ -28,3 +30,7 @@ Evidence and ranking: `../gap-audit-2026-11-20/GAP-LIST.md` (sheets `sheet-<ID>.
 `../gap-audit-2026-11-20/PHOTO-PLAN.md`. Run order now: 016/016b re-gate (fresh browser per scene, scene_gate v1.1), then
 022, 023, 024, 025, 026, 017, 018, 019, 020, 021. From 022 on every prompt also gates on an on-page side-by-side sheet made
 with `../gap-audit-2026-11-20/tools/` (gate mode alone let 04B pass while it reads tiny on the page).
+
+## 25 Nov 2026 resume
+Run order: 030 (phone toolbar), 028 confirm (operator check; rerun only if needed), 025, 026, 017, 018, 019, 020, 021.
+Playwright must run with PLAYWRIGHT_PORT=4831 (4321 is used by other projects on the box).
