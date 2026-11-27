@@ -141,6 +141,13 @@ html.loader-play .site-reveal {
   opacity: 0;
 }
 
+/* Phones paint the hero poster under the opaque loader so it can be LCP. */
+@media (max-width: 960px) {
+  html.loader-play .site-reveal {
+    opacity: 1;
+  }
+}
+
 html.scroll-lock,
 html.scroll-lock body {
   overflow: hidden;
@@ -485,6 +492,7 @@ a.site-header__cta.btn:hover {
   inset: 0;
 }
 
+/* 10A on the shared footer. Portrait keeps a 16:9 band at 38% 50% so the arch stays in frame. */
 .drift__still,
 .drift__media video {
   position: absolute;
@@ -555,6 +563,24 @@ a.site-header__cta.btn:hover {
   color: var(--paper);
   font-size: 1.02rem;
   line-height: 1.45;
+}
+
+@media (max-width: 960px) and (max-aspect-ratio: 1/1) {
+  html:not(.is-scene-gate) .drift__still,
+  html:not(.is-scene-gate) .drift__media video,
+  html:not(.is-scene-gate) .drift__media img {
+    inset: auto;
+    top: 42%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    transform: translateY(-50%);
+    object-fit: cover;
+    object-position: 38% 50%;
+    background-position: 38% 50%;
+    background-size: cover;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

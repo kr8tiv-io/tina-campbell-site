@@ -67,7 +67,7 @@ test('home matches layout and motion', async ({ page }, info) => {
 
   const copy = await page.locator('main').evaluate((el) => el.textContent || '');
   expect(copy).not.toContain('\u2014');
-  expect(copy).toContain('No. 001 / Alberta Legislature, Edmonton');
+  expect(copy).toContain('No. 001 / The Red Gown, Edmonton');
   expect(copy).toContain('Fashion, portraits, bridal and runway, shot on location around the city.');
 
   await loadImages(page);

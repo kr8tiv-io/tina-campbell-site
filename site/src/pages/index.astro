@@ -45,13 +45,20 @@ const fill = await Promise.all(
   })),
 );
 const teaser = getPhoto('fb_016_signature');
+const og = await getImage({
+  src: hero.src,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+});
 
 const title = 'Tina Campbell Photography | Fashion and Portrait Photographer in Edmonton';
 const description =
   'Fashion, editorial, runway and portrait photography in Edmonton, Alberta by Tina Campbell. Bold, polished images shot around the city. Book a shoot.';
 ---
 
-<BaseLayout title={title} description={description} imageAlt={hero.alt}>
+<BaseLayout title={title} description={description} image={og.src} imageAlt={hero.alt}>
   <link
     slot="head"
     rel="preload"
@@ -61,9 +68,7 @@ const description =
     fetchpriority="high"
   />
   <script is:inline slot="head">
-    if (document.documentElement.classList.contains('loader-skip')) {
-      document.documentElement.classList.add('hero-poster-inset');
-    }
+    document.documentElement.classList.add('hero-poster-inset');
   </script>
   <main id="content" data-page="home" data-keep-header>
     <div data-seam-pair="01A-02A">
@@ -109,7 +114,7 @@ const description =
             <div class="hero__copy" data-hero-copy data-scene-copy>
               <h1 class="hero__title" data-hero-title><span class="hero__first">Tina</span> <span class="hero__last">Campbell</span></h1>
               <div class="hero__meta">
-                <p class="hero__caption">No. 001 / Alberta Legislature, Edmonton</p>
+                <p class="hero__caption">No. 001 / The Red Gown, Edmonton</p>
                 <span class="hero__rule" aria-hidden="true"></span>
                 <p class="hero__scroll">Scroll</p>
               </div>

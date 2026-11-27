@@ -1,0 +1,17 @@
+{
+  "method": "Chrome DevTools Emulation.setCPUThrottlingRate=4, no network throttle, viewport 390x844 dpr 3, cold load (loader plays)",
+  "url": "http://127.0.0.1:4821/",
+  "fcpMs": 256,
+  "cls": 0,
+  "lcp": [
+    {
+      "t": 256,
+      "size": 328770,
+      "url": "http://127.0.0.1:4821/media/scenes/01A/01A-poster.webp",
+      "tag": "IMG",
+      "className": "",
+      "src": "http://127.0.0.1:4821/media/scenes/01A/01A-poster.webp",
+      "alt": "Model in a red gown on a teal truck, one leg extended, clear blue sky."
+    }
+  ]
+}

@@ -167,10 +167,37 @@ function addStep(tl: gsap.core.Timeline, cards: HTMLElement[], index: number, at
   }
 }
 
+/** Cards reuse the spread frames already on the page, so the HTML lists each photo once. */
+function mountPrints(cover: HTMLElement): HTMLElement[] {
+  const stack = cover.querySelector<HTMLElement>('.print-stack');
+  if (!stack) return [];
+  const existing = [...stack.querySelectorAll<HTMLElement>('.print')];
+  if (existing.length > 0) return existing;
+
+  const root = cover.closest('main') ?? document;
+  root.querySelectorAll<HTMLElement>('[data-print-frame]').forEach((frame) => {
+    const photo = frame.querySelector<HTMLElement>('.photo');
+    if (!photo) return;
+    const clone = photo.cloneNode(true) as HTMLElement;
+    if (clone.hasAttribute('data-flip-id')) clone.removeAttribute('data-flip-id');
+    clone.querySelectorAll<HTMLElement>('[data-flip-id]').forEach((node) => {
+      node.removeAttribute('data-flip-id');
+    });
+    const copy = clone.querySelector('img');
+    if (copy) copy.alt = '';
+    const card = document.createElement('li');
+    card.className = 'print';
+    card.style.setProperty('--print-pos', frame.dataset.printFrame || '50% 50%');
+    card.appendChild(clone);
+    stack.appendChild(card);
+  });
+  return [...stack.querySelectorAll<HTMLElement>('.print')];
+}
+
 export function initPrintStack(reduced: boolean, signal: AbortSignal): () => void {
   const html = document.documentElement;
   const cover = document.querySelector<HTMLElement>('[data-print-stack]');
-  const cards = cover ? [...cover.querySelectorAll<HTMLElement>('.print')] : [];
+  const cards = cover ? mountPrints(cover) : [];
 
   const releaseClass = (): void => {
     html.classList.remove('print-live');

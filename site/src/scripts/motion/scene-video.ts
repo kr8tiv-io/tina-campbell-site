@@ -369,14 +369,18 @@ function bindPlay(video: HTMLVideoElement, signal: AbortSignal): void {
   } else {
     const io = new IntersectionObserver(
       (entries) => {
+        const on = entries.some((entry) => entry.isIntersecting);
+        if (!on) {
+          video.pause();
+          return;
+        }
         if (playedOnce) return;
         if (entries.some((entry) => entry.intersectionRatio >= 0.6)) {
           playedOnce = true;
           forward();
-          io.disconnect();
         }
       },
-      { threshold: [0.6] },
+      { threshold: [0, 0.6] },
     );
     whenIdle(() => {
       if (!signal.aborted) io.observe(video);
@@ -395,9 +399,17 @@ function whenIdle(run: () => void): void {
 function prime(video: HTMLVideoElement): void {
   video.muted = true;
   video.defaultMuted = true;
+  try {
+    video.volume = 0;
+  } catch {
+    /* iOS ignores volume on a muted element */
+  }
+  video.autoplay = false;
   video.playsInline = true;
   video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
   video.setAttribute('muted', '');
+  video.removeAttribute('autoplay');
   if (!video.getAttribute('preload')) video.preload = 'none';
 }
 

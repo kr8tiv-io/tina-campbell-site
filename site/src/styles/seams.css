@@ -265,6 +265,16 @@ html.is-seam-motion [data-seam-pair] .seam-real__stage {
   background: #0c0c0f;
 }
 
+/* iOS 100vh is taller than the visible screen, so a pin can sit under the
+   browser chrome and feel stuck. svh matches the small viewport. vh stays
+   as the fallback above. The 320vh track (and the scrub) is unchanged. */
+@media (max-width: 960px) {
+  html.is-seam-motion [data-seam-pair] .seam-real__stage {
+    height: 100vh;
+    height: 100svh;
+  }
+}
+
 html.is-seam-motion [data-seam-pair] .seam-real__stage > [data-seam-out],
 html.is-seam-motion [data-seam-pair] .seam-real__stage > [data-seam-in] {
   position: absolute;

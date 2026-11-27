@@ -75,6 +75,7 @@ const jsonLd = [
       <div
         class="cover__zoom"
         data-cover-zoom
+        data-print-frame={spread.coverPosition}
         aria-hidden="true"
         style={frameStyle(
           spread.coverPosition,
@@ -92,7 +93,7 @@ const jsonLd = [
           flipId={series.slug}
         />
       </div>
-      <ol class="print-stack"></ol>
+      <ol class="print-stack" aria-hidden="true"></ol>
       <div class="cover__shade" aria-hidden="true"></div>
       <div class="cover__copy">
         <h1 id="series-title" data-series-title>
@@ -114,7 +115,7 @@ const jsonLd = [
         }
         <p class="spread__intro" data-credit>{series.intro}</p>
       </div>
-      <figure class="spread__photo" data-unmask style={frameStyle(spread.featurePosition, spread.featureCrop, spread.featureOrigin)}>
+      <figure class="spread__photo" data-unmask data-print-frame={spread.featurePosition} style={frameStyle(spread.featurePosition, spread.featureCrop, spread.featureOrigin)}>
         <Photo
           src={spread.feature.src}
           alt={spread.feature.alt}
@@ -128,7 +129,7 @@ const jsonLd = [
       {
         spread.pair.map((photo, index) => (
           <li>
-            <figure data-unmask data-unmask-dir={index === 0 ? 'left' : 'right'} style={frameStyle(spread.pairPosition[index], spread.pairCrop[index], spread.pairOrigin[index])}>
+            <figure data-unmask data-print-frame={spread.pairPosition[index]} data-unmask-dir={index === 0 ? 'left' : 'right'} style={frameStyle(spread.pairPosition[index], spread.pairCrop[index], spread.pairOrigin[index])}>
               <Photo
                 src={photo.src}
                 alt={photo.alt}
@@ -144,7 +145,7 @@ const jsonLd = [
     {
       spread.film && (
         <figure class="filmwide">
-          <div class="filmwide__frame" data-unmask style={frameStyle(spread.filmPosition, spread.filmCrop, spread.filmOrigin)}>
+          <div class="filmwide__frame" data-unmask data-print-frame={spread.filmPosition} style={frameStyle(spread.filmPosition, spread.filmCrop, spread.filmOrigin)}>
             <Photo
               src={spread.film.src}
               alt={spread.film.alt}

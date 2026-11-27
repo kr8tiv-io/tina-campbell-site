@@ -94,7 +94,8 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  touch-action: pan-x;
+  /* pan-y keeps a vertical swipe on the strip from trapping the page. */
+  touch-action: pan-x pan-y;
 }
 
 .catwalk__scroller::-webkit-scrollbar {

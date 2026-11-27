@@ -34,3 +34,10 @@ with `../gap-audit-2026-11-20/tools/` (gate mode alone let 04B pass while it rea
 ## 25 Nov 2026 resume
 Run order: 030 (phone toolbar), 028 confirm (operator check; rerun only if needed), 025, 026, 017, 018, 019, 020, 021.
 Playwright must run with PLAYWRIGHT_PORT=4831 (4321 is used by other projects on the box).
+
+## 26 Nov 2026 9:25 PM (UTC-6) unattended queue
+Supervisor v2 (pid 1482565): 018 PASS e9b0bf9, 019 PASS f727ef1, 020 running, then 021 (release check, now full spec), 031
+(phone strip even pace, Matt's yes 26 Nov 8:15 AM). Supervisor v3 (`tools/queue-supervisor3.sh`, V2PID=1482565) waits for v2
+to end with DONE, then runs 032 approved-scope audit (11 Nov approved scope: every section, live text only, Journal SEO basics).
+Staging refresh after the queue passes: backup taken `/workspace/tina-staging-backups/2026-11-26-pre-queue-021/`, upload is
+the operator's hPanel step (Matt said yes). All Playwright on PLAYWRIGHT_PORT=4831.

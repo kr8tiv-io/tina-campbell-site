@@ -608,6 +608,7 @@ html.pbc-motion .chapter:not([data-veil-chapter]) .chapter__shot:not(:first-chil
   margin: 0;
 }
 
+/* 11B. Under 960px the veil is 16:9, so 50% 50% keeps the bride and the veil. */
 .veil__still img,
 .veil__video {
   display: block;
@@ -914,8 +915,9 @@ html.is-gate-11B video[data-scene-video='11B'] {
 
   .pbc h1 {
     font-size: clamp(1.85rem, 8.4vw, 3.1rem);
-    white-space: nowrap;
+    white-space: normal;
     letter-spacing: -0.03em;
+    text-wrap: balance;
   }
 
   .next {
@@ -966,6 +968,7 @@ html.is-gate-11B video[data-scene-video='11B'] {
   height: 100%;
 }
 
+/* 06B. The phone scene is a 16:9 box, so 50% 50% keeps the gown and the thread. */
 .fe-scene__still img,
 .fe-scene__video {
   display: block;
@@ -1060,7 +1063,8 @@ html.is-gate-06B video[data-scene-video='06B'] {
   background: #0c0c0f;
 }
 
-.cover[data-print-stack] .cover__zoom {
+/* Hide the full-bleed cover only once the stack has real cards. No JS keeps the cover photo. */
+.cover[data-print-stack]:has(.print) .cover__zoom {
   visibility: hidden;
 }
 
@@ -1108,6 +1112,7 @@ html.is-gate-06B video[data-scene-video='06B'] {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--print-pos, 50% 50%);
 }
 
 .print:nth-child(1) {

@@ -1,0 +1,47 @@
+I'll start by reading the mobile-pass plan, motion lock, and the current scene/hero code so the phone framing and caption fixes stay inside the locked contract.The prompt still calls out a stale hero caption and a phone title sitting over the photo. I'll read the live hero markup and motion code before changing anything.The phone hero still parks the name over the photo, and the caption still names the legislature. I'll move the title into the dark band, point the hero data at the red gown, and tighten the mobile scene framing.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The 4821 preview is still up. I'll confirm the phone hero visually, then run the scene and seam gates.The phone and tablet heroes put the name and caption in the dark band, above the Book bar. Next I’ll run the scene gate against the preview.The hero framing looks right. I’ll prepare the screenshot pass so it can run as soon as the scene gate finishes.The phone and tablet heroes now place the name and caption in the dark band above the Book bar. The scene gate is partway through on the 4821 preview: 01A, 03B, 04B, and 06B all pass, with the same worst-frame scores as the last lock. 09B, 10A, and 11B are still running. Seam gates, the screenshot grid, Lighthouse, and the production test run follow when that finishes.
+
+The scene gate passed for all seven video scenes, with the same worst-frame scores as the previous lock. Seam gate and the route checks are running against the same preview now. Screenshots, Lighthouse, and the production test suite come next.
+
+Seam checks passed: seam gate 10/10, route check 3/3, and route visual 3/3 on desktop and on mobile. The same preview is now being screenshotted at 1440x900, 390x844, and 768x1024. Lighthouse and the production test suite follow those shots.
+
+The series cover shot on a phone is almost black. I’ll check whether the photo failed to paint or the screenshot was taken too early.Auto-compacting conversation (81% full)...
+Conversation compacted.
+The production preview is still up. I’ll finish the series screenshots, then run the Playwright suite and write the report.Series pages now ship real print cards. I’ll reshoot the covers, then start the production Playwright run.Phone covers land mid-scrub because the trigger start is already past. I’ll check whether the subject is still in frame.The series print cards repeated each photo in the HTML, so the spread audit failed. I’ll build those cards at runtime from the photos already on the page.Phone and tablet scenes stay readable, the subject stays in frame, and a coarse pointer is not trapped by a pin. The home title and caption sit in the locked black band, and the caption is now "No. 001 / The Red Gown, Edmonton" for `fb_013_signature`.
+
+Scene gate 7/7, seam gate 10/10, route check 3/3, and route visual 3/3 on desktop and mobile. Production Playwright: 75 passed, 129 skipped, 0 failed. The report is `qa/020-mobile-pass/REPORT.md`. Shots are in `qa/020-mobile-pass/shots/`.
+
+On a 390px load, in-view scenes request `*-720.mp4`, muted, with `playsinline` and no autoplay. 01A's manifest maps the 720 slot to `01A-1080.mp4`. That file was left as shipped. Series print cards are cloned at runtime from the spread, so each library photo appears once in the HTML.
+
+Lighthouse's own trace at 4x CPU never received a first paint (`qa/020-mobile-pass/lighthouse-mobile.json`, NO_FCP). A Chrome lab run with the same 4x CPU throttle and no network throttle measured LCP at 256 ms on the 01A poster and CLS at 0 (`qa/020-mobile-pass/lab-mobile.json`).
+
+Suggested commit message: `fix(mobile): scene framing, sources and pins for phones and tablets`
+
+GATE 020-mobile-pass: PASS
+01A worst SSIM 0.9774 (frame 95)
+02A code scene, no scene_gate SSIM
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+05C code scene, no scene_gate SSIM
+06B worst SSIM 0.9816 (frame 5)
+07C code scene, no scene_gate SSIM
+08B code scene, no scene_gate SSIM
+09B worst SSIM 0.9319 (frame 1)
+10A worst SSIM 0.9526 (frame 73)
+11B worst SSIM 0.9662 (frame 5)
+
+That background Chrome probe just finished. I’ll check whether it changes the mobile-pass result.That probe was the earlier Lighthouse check. Playwright’s Chrome opened a debug port and then closed. It does not change the mobile pass.
+
+GATE 020-mobile-pass: PASS
+01A worst SSIM 0.9774 (frame 95)
+02A code scene, no scene_gate SSIM
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+05C code scene, no scene_gate SSIM
+06B worst SSIM 0.9816 (frame 5)
+07C code scene, no scene_gate SSIM
+08B code scene, no scene_gate SSIM
+09B worst SSIM 0.9319 (frame 1)
+10A worst SSIM 0.9526 (frame 73)
+11B worst SSIM 0.9662 (frame 5)

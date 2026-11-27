@@ -89,6 +89,9 @@ const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph 
       html.loader-play .loader,
       html.work-splash .loader { display: block; }
       html.loader-play .site-reveal { opacity: 0; }
+      @media (max-width: 960px) {
+        html.loader-play .site-reveal { opacity: 1; }
+      }
     </style>
     <script is:inline>
       (function () {

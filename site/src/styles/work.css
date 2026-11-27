@@ -217,6 +217,7 @@
   margin: 0;
 }
 
+/* 04B. Phone tiles are 3:4. 50% 50% keeps the centre gown of the triptych. */
 .tile__link .tile__ink,
 .tile__ink {
   display: block;

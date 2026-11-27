@@ -1,0 +1,402 @@
+{
+  "overflow": [
+    {
+      "name": "d1440-04B-end",
+      "sw": 1529,
+      "iw": 1440,
+      "y": 1980
+    },
+    {
+      "name": "d1440-05C-end",
+      "sw": 1459,
+      "iw": 1440,
+      "y": 1980
+    }
+  ],
+  "videos": [
+    {
+      "path": "/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "01A",
+          "slot": "720",
+          "current": "http://127.0.0.1:4821/media/scenes/01A/01A-1080.mp4",
+          "sources": [
+            "http://127.0.0.1:4821/media/scenes/01A/01A-1080.mp4"
+          ],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": false
+        },
+        {
+          "id": "03B",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        },
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/work/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "04B",
+          "slot": "720",
+          "current": "http://127.0.0.1:4821/media/scenes/04B/04B-720.mp4",
+          "sources": [
+            "http://127.0.0.1:4821/media/scenes/04B/04B-720.mp4"
+          ],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": false
+        },
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/fashion-editorial/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "06B",
+          "slot": "720",
+          "current": "http://127.0.0.1:4821/media/scenes/06B/06B-720.mp4",
+          "sources": [
+            "http://127.0.0.1:4821/media/scenes/06B/06B-720.mp4"
+          ],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        },
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/portraits-bridal-couples/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "11B",
+          "slot": "720",
+          "current": "http://127.0.0.1:4821/media/scenes/11B/11B-720.mp4",
+          "sources": [
+            "http://127.0.0.1:4821/media/scenes/11B/11B-720.mp4"
+          ],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        },
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/runway/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "720",
+          "current": "http://127.0.0.1:4821/media/scenes/10A/10A-720.mp4",
+          "sources": [
+            "http://127.0.0.1:4821/media/scenes/10A/10A-720.mp4"
+          ],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/about/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "09B",
+          "slot": "720",
+          "current": "http://127.0.0.1:4821/media/scenes/09B/09B-720.mp4",
+          "sources": [
+            "http://127.0.0.1:4821/media/scenes/09B/09B-720.mp4"
+          ],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        },
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/services/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/book/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/journal/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "720",
+          "current": "http://127.0.0.1:4821/media/scenes/10A/10A-720.mp4",
+          "sources": [
+            "http://127.0.0.1:4821/media/scenes/10A/10A-720.mp4"
+          ],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/journal/edmonton-photoshoot-locations/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/journal/model-portfolio-alberta/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/journal/what-to-wear-photoshoot/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/journal/bridal-portraits-edmonton/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/journal/engagement-photos-edmonton/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/series/the-red-gown/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/series/legislature-in-black/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/series/red-in-snow/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/series/runway-nights/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/series/blue-hour/",
+      "status": 200,
+      "vids": [
+        {
+          "id": "10A",
+          "slot": "",
+          "current": "",
+          "sources": [],
+          "muted": true,
+          "playsInline": true,
+          "autoplay": false,
+          "paused": true
+        }
+      ]
+    },
+    {
+      "path": "/this-route-does-not-exist",
+      "status": 404,
+      "vids": []
+    }
+  ],
+  "missing": []
+}

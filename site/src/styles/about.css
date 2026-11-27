@@ -112,6 +112,7 @@
   overflow: hidden;
 }
 
+/* 09B. Phones use a 16:9 band (see the 900px rule). 50% 50% keeps the arch and skyline. */
 .about-band__still,
 .about-band video {
   position: absolute;

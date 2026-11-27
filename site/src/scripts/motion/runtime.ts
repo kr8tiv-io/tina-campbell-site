@@ -29,6 +29,9 @@ export function registerMotion(): void {
     Flip,
   );
   CustomEase.create('cine', '0.22,1,0.36,1');
+  // iOS shows and hides the address bar with a resize. A refresh in the middle
+  // of a pin jumps the scroll and traps the gesture. Width changes still refresh.
+  ScrollTrigger.config({ ignoreMobileResize: true });
   if (typeof window !== 'undefined') window.ScrollTrigger = ScrollTrigger;
 }
 
