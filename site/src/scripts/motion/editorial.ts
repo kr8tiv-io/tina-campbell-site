@@ -301,6 +301,9 @@ function initPortraits(reduced: boolean, fine: boolean, mobile: boolean): void {
       });
     }
     if (!desktop) return;
+    // 11B owns this chapter's scroll. A second pin would stack the stills
+    // over the veil and reparent the video after it starts loading.
+    if (chapter.hasAttribute('data-veil-chapter')) return;
 
     const shots = [...chapter.querySelectorAll<HTMLElement>('.chapter__shot')];
     if (shots.length < 2) return;
@@ -339,7 +342,8 @@ export function initEditorial(reduced: boolean, fine: boolean, _signal: AbortSig
 
   if (page === 'fashion') initFashion(reduced, fine, mobile, splits);
   if (page === 'series') initSeries(reduced, fine, mobile, splits);
-  if (page === 'portraits') initPortraits(reduced, fine, mobile);
+  // Gate seeks 11B. A chapter pin on an ancestor suspends the video fetch.
+  if (page === 'portraits' && sceneGateId() !== '11B') initPortraits(reduced, fine, mobile);
 
   return () => {
     splits.forEach((split) => split.revert());

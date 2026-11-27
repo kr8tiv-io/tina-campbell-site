@@ -476,17 +476,24 @@ html.series-intro [data-series-title] {
 /* Portraits, bridal, couples */
 
 .pbc {
-  padding: calc(var(--header-h) + clamp(1.2rem, 2.6vh, 2rem)) 3vw clamp(3rem, 6vh, 5rem);
+  padding: calc(var(--header-h) + clamp(1.2rem, 2.6vh, 2rem)) 0 clamp(3rem, 6vh, 5rem);
 }
 
 .pbc h1 {
-  margin: 0 0 clamp(1.5rem, 3.2vh, 2.4rem);
+  margin: 0 3vw clamp(1.5rem, 3.2vh, 2.4rem);
   font-family: var(--serif);
   font-weight: 400;
   font-size: 9.5vw;
   line-height: 0.95;
   letter-spacing: 0;
   white-space: nowrap;
+}
+
+.chapter:not([data-veil-chapter]) {
+  /* Padding, not margin. ScrollTrigger's pin writes a pixel width, and a
+     margin on that box sticks out past the viewport. */
+  padding-left: 3vw;
+  padding-right: 3vw;
 }
 
 .chapter + .chapter {
@@ -552,20 +559,158 @@ html.series-intro [data-series-title] {
   text-underline-offset: 0.18em;
 }
 
-html.pbc-motion .chapter__shots {
+html.pbc-motion .chapter:not([data-veil-chapter]) .chapter__shots {
   display: block;
   position: relative;
   aspect-ratio: 4 / 3;
 }
 
-html.pbc-motion .chapter__shot {
+html.pbc-motion .chapter:not([data-veil-chapter]) .chapter__shot {
   position: absolute;
   inset: 0;
   aspect-ratio: auto;
 }
 
-html.pbc-motion .chapter__shot:not(:first-child) {
+html.pbc-motion .chapter:not([data-veil-chapter]) .chapter__shot:not(:first-child) {
   opacity: 0;
+}
+
+/* 11B. Full-bleed veil between the portrait stills and the bridal stills. */
+
+[data-veil-chapter] {
+  display: block;
+}
+
+.chapter__rest {
+  display: grid;
+  grid-template-columns: minmax(0, 49vw) minmax(0, 1fr);
+  column-gap: clamp(16px, 2.2vw, 36px);
+  align-items: center;
+  margin: clamp(1.4rem, 3.2vh, 2.4rem) 3vw 0;
+}
+
+.veil {
+  position: relative;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #0c0c0f;
+  overflow: hidden;
+}
+
+.veil__still,
+.veil__video,
+.veil__shade {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.veil__still img,
+.veil__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.veil__video {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.veil__video.is-playing {
+  opacity: 1;
+}
+
+.veil__shade {
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    rgba(12, 12, 15, 0.78) 0%,
+    rgba(12, 12, 15, 0.42) 16%,
+    rgba(12, 12, 15, 0.06) 40%,
+    transparent 56%
+  );
+  pointer-events: none;
+}
+
+.veil__copy {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(1.1rem, 3vh, 2rem) 3vw clamp(1.3rem, 3.4vh, 2.2rem);
+  pointer-events: none;
+}
+
+.veil__copy h2 {
+  max-width: 8ch;
+}
+
+@media (min-width: 961px) {
+  .veil {
+    height: 100svh;
+    aspect-ratio: auto;
+    z-index: 2;
+  }
+}
+
+@media (max-width: 960px) {
+  .chapter__rest {
+    grid-template-columns: 1fr;
+    row-gap: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .veil {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .veil__video {
+    display: none;
+  }
+}
+
+html.is-gate-11B .veil,
+html.is-gate-11B .veil__still,
+html.is-gate-11B .veil__shade,
+html.is-gate-11B .veil__copy,
+html.is-gate-11B [data-veil-chapter] {
+  transform: none !important;
+  filter: none !important;
+  overflow: visible !important;
+}
+
+html.is-gate-11B .veil__still,
+html.is-gate-11B .veil__shade,
+html.is-gate-11B .veil__copy {
+  display: none !important;
+}
+
+html.is-gate-11B video[data-scene-video='11B'] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 80 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  background: #0c0c0f !important;
 }
 
 @media (min-width: 961px) {

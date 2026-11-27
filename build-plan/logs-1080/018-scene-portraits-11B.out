@@ -1,0 +1,16 @@
+I'll implement the 11B veil wipe on `/portraits-bridal-couples/` and wire it to the existing motion core. First I'm reading the scene spec, motion lock, and how the earlier scenes are built.The veil scene sits on the bridal chapter, full-bleed between the portrait photos and the bridal stills, and scrubs with that chapter’s scroll. The footer band comes after the chapter, so seam 10A-11B stays unwired and I’ll log that.11B passed the scene gate at a worst SSIM of 0.9662. Next I’ll run the full seven-scene gate and the seam checks.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The layout fix is in and the second screenshot pass finished. I'll inspect those frames, then run the on-page capture and the production checks.Desktop frames are full-bleed: the veil starts on the first bride, sweeps at the middle, and ends on the second bride. The jeans sliver is gone. Next I’ll check mobile and reduced-motion, then run the on-page capture.The capture sheet is in. I’ll read each column against the clip, then start the production build.The production build finished at 20 pages. I’ll confirm motion-lab is absent, then start the Playwright suite.The portraits page overflows by 43px on desktop, which is 3vw at 1440. I’ll find that edge and fix it while the suite keeps running.The pinned portrait chapters are 1440px wide and also have a 3vw margin, so they stick out by 43px. I’ll inset them with padding so the pin stays inside the viewport.The desktop portraits test passed. I’ll write the report while the rest of the suite runs.11B is the full-bleed veil on `/portraits-bridal-couples/`, scrubbed by the bridal chapter. The veil drifts, sweeps hard around 3.0 s to 5.5 s, and brightens to the second bride. The chapter title uses core SplitText. Seam 10A-11B stays on the harness: the footer follows the chapter, and that is logged in `build-plan/OPEN-QUESTIONS.md`.
+
+Desktop pins the veil at `100svh`. The phone keeps a full-width 16:9 strip so both brides stay in frame. Scene gate, seams (10/10), route checks (3/3), and production Playwright (75 passed, 129 skipped, 0 failed) all passed. Report: `qa/018-scene-portraits-11B/REPORT.md`.
+
+Suggested commit: `feat(scene-11B): portraits chapter veil wipe scrubbed video`
+
+GATE 018-scene-portraits-11B: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+06B worst SSIM 0.9816
+09B worst SSIM 0.9319
+10A worst SSIM 0.9526
+11B worst SSIM 0.9662

@@ -1,0 +1,208 @@
+{
+  "desktop-1440": {
+    "span": {
+      "start": 1844.140625,
+      "end": 3374.140625,
+      "pin": true,
+      "headerH": 112,
+      "top": 1844.140625,
+      "height": 900
+    },
+    "states": {
+      "scroll0": {
+        "scroll": 0,
+        "progress": "0.0000",
+        "currentTime": 0,
+        "duration": null,
+        "src": "",
+        "ready": 0,
+        "box": {
+          "w": 1440,
+          "h": 900,
+          "top": 1844
+        }
+      },
+      "start": {
+        "scroll": 1844,
+        "progress": "0.0000",
+        "currentTime": 0,
+        "duration": 6.084,
+        "src": "http://127.0.0.1:4821/media/scenes/11B/11B-1080.webm",
+        "ready": 4,
+        "box": {
+          "w": 1440,
+          "h": 900,
+          "top": 0
+        }
+      },
+      "middle": {
+        "scroll": 2609,
+        "progress": "0.5000",
+        "currentTime": 3.042,
+        "duration": 6.084,
+        "src": "http://127.0.0.1:4821/media/scenes/11B/11B-1080.webm",
+        "ready": 4,
+        "box": {
+          "w": 1440,
+          "h": 900,
+          "top": 0
+        }
+      },
+      "end": {
+        "scroll": 3374,
+        "progress": "1.0000",
+        "currentTime": 6.063166,
+        "duration": 6.084,
+        "src": "http://127.0.0.1:4821/media/scenes/11B/11B-1080.webm",
+        "ready": 4,
+        "box": {
+          "w": 1440,
+          "h": 900,
+          "top": 0
+        }
+      }
+    },
+    "requests": [
+      {
+        "t": 1795733418297,
+        "url": "/media/scenes/11B/11B-poster.webp",
+        "ms": 31
+      },
+      {
+        "t": 1795733423756,
+        "url": "/media/scenes/11B/11B-1080.webm",
+        "ms": 5490
+      },
+      {
+        "t": 1795733424716,
+        "url": "/media/scenes/11B/11B-1080.webm",
+        "ms": 6450
+      },
+      {
+        "t": 1795733424719,
+        "url": "/media/scenes/11B/11B-1080.webm",
+        "ms": 6453
+      },
+      {
+        "t": 1795733424723,
+        "url": "/media/scenes/11B/11B-1080.webm",
+        "ms": 6457
+      },
+      {
+        "t": 1795733425644,
+        "url": "/media/scenes/11B/11B-1080.webm",
+        "ms": 7378
+      }
+    ],
+    "idleMs": 2690
+  },
+  "mobile-390": {
+    "span": {
+      "start": 558.490625,
+      "end": 1368.290625,
+      "pin": false,
+      "headerH": 80,
+      "top": 1275.890625,
+      "height": 219
+    },
+    "states": {
+      "scroll0": {
+        "scroll": 0,
+        "progress": "0.0000",
+        "currentTime": 0,
+        "duration": 6.041667,
+        "src": "http://127.0.0.1:4821/media/scenes/11B/11B-720.mp4",
+        "ready": 4,
+        "box": {
+          "w": 390,
+          "h": 219,
+          "top": 1276
+        }
+      },
+      "start": {
+        "scroll": 558,
+        "progress": "0.0000",
+        "currentTime": 0,
+        "duration": 6.041667,
+        "src": "http://127.0.0.1:4821/media/scenes/11B/11B-720.mp4",
+        "ready": 4,
+        "box": {
+          "w": 390,
+          "h": 219,
+          "top": 718
+        }
+      },
+      "middle": {
+        "scroll": 963,
+        "progress": "0.4994",
+        "currentTime": 3.017108,
+        "duration": 6.041667,
+        "src": "http://127.0.0.1:4821/media/scenes/11B/11B-720.mp4",
+        "ready": 4,
+        "box": {
+          "w": 390,
+          "h": 219,
+          "top": 313
+        }
+      },
+      "end": {
+        "scroll": 1368,
+        "progress": "0.9988",
+        "currentTime": 6.020833,
+        "duration": 6.041667,
+        "src": "http://127.0.0.1:4821/media/scenes/11B/11B-720.mp4",
+        "ready": 4,
+        "box": {
+          "w": 390,
+          "h": 219,
+          "top": -92
+        }
+      }
+    },
+    "requests": [
+      {
+        "t": 1795733426694,
+        "url": "/media/scenes/11B/11B-poster.webp",
+        "ms": 25
+      },
+      {
+        "t": 1795733428958,
+        "url": "/media/scenes/11B/11B-720.mp4",
+        "ms": 2289
+      },
+      {
+        "t": 1795733433166,
+        "url": "/media/scenes/11B/11B-720.mp4",
+        "ms": 6497
+      },
+      {
+        "t": 1795733433207,
+        "url": "/media/scenes/11B/11B-720.mp4",
+        "ms": 6538
+      },
+      {
+        "t": 1795733433211,
+        "url": "/media/scenes/11B/11B-720.mp4",
+        "ms": 6542
+      },
+      {
+        "t": 1795733434162,
+        "url": "/media/scenes/11B/11B-720.mp4",
+        "ms": 7493
+      }
+    ],
+    "idleMs": 2665
+  },
+  "reduced": {
+    "state": {
+      "src": "",
+      "sources": 0,
+      "still": "http://127.0.0.1:4821/media/scenes/11B/11B-end.webp",
+      "title": "Bridal"
+    },
+    "requests": [
+      "/media/scenes/11B/11B-poster.webp",
+      "/media/scenes/11B/11B-end.webp"
+    ]
+  }
+}

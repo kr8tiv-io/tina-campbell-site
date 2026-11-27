@@ -40,31 +40,83 @@ const jsonLd = {
   <main id="content" class="pbc" data-page="portraits">
     <h1>Portraits, Bridal and Couples</h1>
     {
-      chapters.map((chapter) => (
-        <article class="chapter" data-chapter aria-labelledby={`ch-${chapter.number}`}>
-          <div class="chapter__media">
-            <p class="chapter__kicker">Ch. {chapter.number}</p>
-            <div class="chapter__shots" data-shots>
-              {chapter.frames.map((frame, index) => (
-                <figure class="chapter__shot" style={frameStyle(frame.position, frame.crop, frame.origin)}>
-                  <Photo
-                    src={frame.photo.src}
-                    alt={index === 0 ? frame.photo.alt : ''}
-                    sizes="(max-width: 960px) 92vw, 48vw"
-                    widths={[480, 800, 1200, 1600]}
-                    priority={chapter.number === '01' && index === 0}
+      chapters.map((chapter) => {
+        const shots = (
+          <div class="chapter__shots" data-shots>
+            {chapter.frames.map((frame, index) => (
+              <figure class="chapter__shot" style={frameStyle(frame.position, frame.crop, frame.origin)}>
+                <Photo
+                  src={frame.photo.src}
+                  alt={index === 0 ? frame.photo.alt : ''}
+                  sizes="(max-width: 960px) 92vw, 48vw"
+                  widths={[480, 800, 1200, 1600]}
+                  priority={chapter.number === '01' && index === 0}
+                />
+              </figure>
+            ))}
+          </div>
+        );
+        if (chapter.number === '02') {
+          return (
+            <article class="chapter chapter--veil" data-chapter data-veil-chapter aria-labelledby="ch-02">
+              <div class="veil" data-veil>
+                <picture class="veil__still">
+                  <source
+                    srcset="/media/scenes/11B/11B-end.webp"
+                    type="image/webp"
+                    media="(prefers-reduced-motion: reduce)"
                   />
-                </figure>
-              ))}
+                  <img
+                    src="/media/scenes/11B/11B-poster.webp"
+                    alt=""
+                    width="1920"
+                    height="1080"
+                    decoding="async"
+                    loading="lazy"
+                    data-scene-still="11B"
+                  />
+                </picture>
+                <video
+                  class="veil__video"
+                  data-scene-video="11B"
+                  data-scene-mode="scrub"
+                  data-scene-margin="100% 0px"
+                  muted
+                  playsinline
+                  preload="none"
+                  poster="/media/scenes/11B/11B-poster.webp"
+                  aria-hidden="true"
+                ></video>
+                <div class="veil__shade" data-scene-overlay aria-hidden="true" />
+                <div class="veil__copy" data-scene-copy>
+                  <p class="chapter__kicker">Ch. 02</p>
+                  <h2 id="ch-02">{chapter.title}</h2>
+                </div>
+              </div>
+              <div class="chapter__rest">
+                <div class="chapter__media">{shots}</div>
+                <div class="chapter__copy">
+                  <p>{chapter.text}</p>
+                  <a class="chapter__link" href={chapter.href}>See the gallery</a>
+                </div>
+              </div>
+            </article>
+          );
+        }
+        return (
+          <article class="chapter" data-chapter aria-labelledby={`ch-${chapter.number}`}>
+            <div class="chapter__media">
+              <p class="chapter__kicker">Ch. {chapter.number}</p>
+              {shots}
             </div>
-          </div>
-          <div class="chapter__copy">
-            <h2 id={`ch-${chapter.number}`}>{chapter.title}</h2>
-            <p>{chapter.text}</p>
-            <a class="chapter__link" href={chapter.href}>See the gallery</a>
-          </div>
-        </article>
-      ))
+            <div class="chapter__copy">
+              <h2 id={`ch-${chapter.number}`}>{chapter.title}</h2>
+              <p>{chapter.text}</p>
+              <a class="chapter__link" href={chapter.href}>See the gallery</a>
+            </div>
+          </article>
+        );
+      })
     }
   </main>
 </BaseLayout>

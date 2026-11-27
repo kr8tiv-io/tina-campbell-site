@@ -16,6 +16,7 @@ import { initEditorial } from './editorial';
 import { initAbout } from './about';
 import { initAboutLights } from './scenes/about-lights';
 import { initFooterDrift } from './scenes/footer-drift';
+import { initPortraitsVeil } from './scenes/portraits-veil';
 import { initPages } from './pages';
 import { initSeams } from './seams';
 import { initSceneVideos } from './scene-video';
@@ -248,8 +249,10 @@ async function initMotion(): Promise<void> {
   const releaseFollow = initRunwayFollowspot(reduced, abort.signal);
   const releaseLights = initAboutLights(reduced, abort.signal);
   const releaseDrift = initFooterDrift(reduced, abort.signal);
+  const releaseVeil = initPortraitsVeil(reduced, abort.signal);
   const previous = cleanup;
   cleanup = () => {
+    releaseVeil();
     releaseDrift();
     releaseLights();
     releaseFollow();
