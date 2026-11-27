@@ -6,9 +6,10 @@ import { getPhoto } from '../data/photos';
 const frame = getPhoto('fb_000_landscape');
 const title = 'Page not found | Tina Campbell Photography, Edmonton';
 const description = 'This page wandered off the runway.';
+// Astro writes this document to /404.html. trailingSlash would canonicalise /404/, which is not a file.
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} canonicalPath="/404.html">
   <main id="content" class="lost">
     <div class="lost__stage">
       <div class="lost__sprocket" aria-hidden="true"></div>

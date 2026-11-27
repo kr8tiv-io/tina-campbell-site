@@ -26,11 +26,13 @@ interface Props {
   image?: string;
   imageAlt?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Override when the built file path differs from Astro.url.pathname. */
+  canonicalPath?: string;
 }
 
-const { title, description, image, imageAlt = 'Tina Campbell Photography', jsonLd } = Astro.props;
+const { title, description, image, imageAlt = 'Tina Campbell Photography', jsonLd, canonicalPath } = Astro.props;
 const origin = Astro.site ?? new URL(defaultSiteUrl);
-const canonical = new URL(Astro.url.pathname, origin);
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, origin);
 const generated = await getImage({
   src: ogSource,
   width: 1200,

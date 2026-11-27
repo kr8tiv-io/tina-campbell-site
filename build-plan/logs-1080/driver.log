@@ -142,3 +142,10 @@
 2026-11-26 21:25:41 CST SUPERVISOR v3 waiting for supervisor v2 pid 1482565 to finish
 2026-11-27 00:44:57 CST END 020-mobile-pass rc=0
 2026-11-27 00:44:57 CST SUPERVISOR 020-mobile-pass grok rc=0
+2026-11-27 06:57:27 CST SUPERVISOR 020-mobile-pass PASS committed+pushed 3434e23
+2026-11-27 06:57:27 CST SUPERVISOR brain checkpoint FAILED for 020-mobile-pass (see /tmp/sup-brain-tests.log); queue continues
+2026-11-27 06:57:27 CST SUPERVISOR launching 021-staging-refresh
+2026-11-27 06:57:27 CST START 021-staging-refresh pid 2028072
+2026-11-27 07:50:12 CST END 021-staging-refresh rc=0
+2026-11-27 07:50:12 CST SUPERVISOR 021-staging-refresh grok rc=0
+2026-11-27 08:39:14 CST SUPERVISOR 021-staging-refresh operator gate FAIL try 1: playwright rc=1  1 failed  129 skipped  74 passed (19.8m) ;GATE 021-staging-refresh: FAIL;

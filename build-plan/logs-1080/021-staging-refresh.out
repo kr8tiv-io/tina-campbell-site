@@ -1,0 +1,22 @@
+I'll run the staging release check on a production build and fix only what fails. First I'll read the scene plan, the staging-zip checks, and the current site state.The check is a release gate, not a redesign. I'll replicate the staging-zip rules and inspect how noindex, robots, and routes are produced.The production build is running. I'll add the release audit script so checks 1–6 can run as soon as `site/dist` is ready.The production checks passed after one fix: the 404 page canonical now points at `/404.html`, which is the file Astro actually writes. Scene gate is running on the motion-lab preview. `01A` passed with a worst SSIM of 0.9774. The seam and route gates are next, then the production Playwright run.The preview cleanup grabbed the wrong process ID. I'll check what is still running and stop only the preview I started.Playwright rewrote older QA screenshots while it ran. I'll put those files back from the commit and leave the 404 fix in place.The production build is staging-safe. Every check passed after one fix: the 404 canonical now points at `/404.html`, the file Astro actually writes. Commit `3434e23654e16ea4d20a875ff78c5ea00fc5cb4f` does not include that fix, so a rebuild of that commit alone would put the broken `/404/` canonical back. The report is `qa/021-staging-refresh/RELEASE.md`.
+
+| Check | Result |
+|---|---|
+| Noindex, `Disallow: /`, `X-Robots-Tag` | PASS |
+| No `motion-lab`; sitemap 19 routes; RSS 5 posts | PASS |
+| One `h1`, unique title and description | PASS |
+| Link crawl, `/book/` on every page | PASS |
+| Scene poster, end still, and listed sources | PASS |
+| First-view weight | PASS. Heaviest is `/work/` at 1.44 MiB |
+| Scene, seam, route, and Playwright gates | PASS. 75 passed, 129 skipped, 0 failed |
+
+This prompt adds no JavaScript. The only route whose markup changed is `/404.html`. Screenshots are in `qa/021-staging-refresh/shots/`.
+
+GATE 021-staging-refresh: PASS
+01A worst SSIM 0.9774 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
+06B worst SSIM 0.9816 (frame 5)
+09B worst SSIM 0.9319 (frame 1)
+10A worst SSIM 0.9526 (frame 73)
+11B worst SSIM 0.9662 (frame 5)

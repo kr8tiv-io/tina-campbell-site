@@ -1,0 +1,324 @@
+{
+  "checks": {
+    "1_noindex": {
+      "verdict": "PASS",
+      "html_pages": 20,
+      "missing_noindex": [],
+      "robots_disallow": true,
+      "htaccess_robots_tag": true
+    },
+    "2_routes": {
+      "verdict": "PASS",
+      "motion_lab_hits": [],
+      "sitemap_files": [
+        "sitemap-0.xml",
+        "sitemap-index.xml"
+      ],
+      "sitemap_count": 19,
+      "sitemap_index": [
+        "/sitemap-0.xml"
+      ],
+      "sitemap_index_missing": [],
+      "sitemap_extra": [],
+      "sitemap_missing": [],
+      "sitemap_not_built": [],
+      "rss_count": 5,
+      "rss_extra": [],
+      "rss_missing": [],
+      "built_routes": [
+        "/",
+        "/about/",
+        "/book/",
+        "/fashion-editorial/",
+        "/journal/",
+        "/journal/bridal-portraits-edmonton/",
+        "/journal/edmonton-photoshoot-locations/",
+        "/journal/engagement-photos-edmonton/",
+        "/journal/model-portfolio-alberta/",
+        "/journal/what-to-wear-photoshoot/",
+        "/portraits-bridal-couples/",
+        "/runway/",
+        "/series/blue-hour/",
+        "/series/legislature-in-black/",
+        "/series/red-in-snow/",
+        "/series/runway-nights/",
+        "/series/the-red-gown/",
+        "/services/",
+        "/work/"
+      ]
+    },
+    "3_headings": {
+      "verdict": "PASS",
+      "h1_bad": [],
+      "title_missing": [],
+      "description_missing": [],
+      "duplicate_titles": {},
+      "duplicate_descriptions": {}
+    },
+    "4_links": {
+      "verdict": "PASS",
+      "broken_count": 0,
+      "broken": [],
+      "book_missing": [],
+      "js_fetches": [
+        "/api/book.php",
+        "/media/scenes/manifest.json"
+      ]
+    },
+    "5_scene_media": {
+      "verdict": "PASS",
+      "problems": [],
+      "notes": [
+        "01A h264_720 is listed as /media/scenes/01A/01A-1080.mp4 (manifest alias, not edited)."
+      ]
+    },
+    "6_weight": {
+      "verdict": "PASS",
+      "limit_bytes": 2621440,
+      "definition": "First view = gzip-9 HTML + gzip-9 linked CSS + gzip-9 of each linked script and its static ESM imports + font files (preload and CSS) + one image per non-lazy picture (AVIF, else WebP, else img; srcset candidate for a 1440px slot) + video posters + CSS images. Lazy images and scene video files are excluded. Dynamic import() chunks (Three.js on runway, work and the home film strip) are not in this total. Shared CSS/JS counted on every route that links them.",
+      "flagged": [],
+      "rows": [
+        {
+          "route": "/",
+          "html_bytes": 58211,
+          "html_gzip": 19078,
+          "css_gzip": 20347,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 379433,
+          "image_count": 11,
+          "first_view": 1182930,
+          "over": false
+        },
+        {
+          "route": "/404.html",
+          "html_bytes": 37112,
+          "html_gzip": 14761,
+          "css_gzip": 12564,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 162890,
+          "image_count": 4,
+          "first_view": 954287,
+          "over": false
+        },
+        {
+          "route": "/about/",
+          "html_bytes": 46999,
+          "html_gzip": 17234,
+          "css_gzip": 14648,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 175111,
+          "image_count": 5,
+          "first_view": 971065,
+          "over": false
+        },
+        {
+          "route": "/book/",
+          "html_bytes": 41532,
+          "html_gzip": 15993,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 173414,
+          "image_count": 5,
+          "first_view": 968669,
+          "over": false
+        },
+        {
+          "route": "/fashion-editorial/",
+          "html_bytes": 54006,
+          "html_gzip": 18247,
+          "css_gzip": 16377,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 286623,
+          "image_count": 6,
+          "first_view": 1085319,
+          "over": false
+        },
+        {
+          "route": "/journal/",
+          "html_bytes": 41697,
+          "html_gzip": 15960,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 277934,
+          "image_count": 5,
+          "first_view": 1073156,
+          "over": false
+        },
+        {
+          "route": "/journal/bridal-portraits-edmonton/",
+          "html_bytes": 47076,
+          "html_gzip": 18772,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 206208,
+          "image_count": 5,
+          "first_view": 1004242,
+          "over": false
+        },
+        {
+          "route": "/journal/edmonton-photoshoot-locations/",
+          "html_bytes": 46951,
+          "html_gzip": 18820,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 277934,
+          "image_count": 5,
+          "first_view": 1076016,
+          "over": false
+        },
+        {
+          "route": "/journal/engagement-photos-edmonton/",
+          "html_bytes": 46785,
+          "html_gzip": 18747,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 199741,
+          "image_count": 5,
+          "first_view": 997750,
+          "over": false
+        },
+        {
+          "route": "/journal/model-portfolio-alberta/",
+          "html_bytes": 47458,
+          "html_gzip": 18954,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 217517,
+          "image_count": 5,
+          "first_view": 1015733,
+          "over": false
+        },
+        {
+          "route": "/journal/what-to-wear-photoshoot/",
+          "html_bytes": 47256,
+          "html_gzip": 19037,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 361373,
+          "image_count": 5,
+          "first_view": 1159672,
+          "over": false
+        },
+        {
+          "route": "/portraits-bridal-couples/",
+          "html_bytes": 47467,
+          "html_gzip": 16987,
+          "css_gzip": 16377,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 341856,
+          "image_count": 6,
+          "first_view": 1139292,
+          "over": false
+        },
+        {
+          "route": "/runway/",
+          "html_bytes": 56115,
+          "html_gzip": 18789,
+          "css_gzip": 12564,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 436233,
+          "image_count": 18,
+          "first_view": 1231658,
+          "over": false
+        },
+        {
+          "route": "/series/blue-hour/",
+          "html_bytes": 43662,
+          "html_gzip": 16566,
+          "css_gzip": 16377,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 162890,
+          "image_count": 4,
+          "first_view": 959905,
+          "over": false
+        },
+        {
+          "route": "/series/legislature-in-black/",
+          "html_bytes": 43471,
+          "html_gzip": 16411,
+          "css_gzip": 16377,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 162890,
+          "image_count": 4,
+          "first_view": 959750,
+          "over": false
+        },
+        {
+          "route": "/series/red-in-snow/",
+          "html_bytes": 43157,
+          "html_gzip": 16319,
+          "css_gzip": 16377,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 162890,
+          "image_count": 4,
+          "first_view": 959658,
+          "over": false
+        },
+        {
+          "route": "/series/runway-nights/",
+          "html_bytes": 43315,
+          "html_gzip": 16359,
+          "css_gzip": 16377,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 162890,
+          "image_count": 4,
+          "first_view": 959698,
+          "over": false
+        },
+        {
+          "route": "/series/the-red-gown/",
+          "html_bytes": 42645,
+          "html_gzip": 16293,
+          "css_gzip": 16377,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 162890,
+          "image_count": 4,
+          "first_view": 959632,
+          "over": false
+        },
+        {
+          "route": "/services/",
+          "html_bytes": 46329,
+          "html_gzip": 17352,
+          "css_gzip": 15190,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 188909,
+          "image_count": 5,
+          "first_view": 985523,
+          "over": false
+        },
+        {
+          "route": "/work/",
+          "html_bytes": 140093,
+          "html_gzip": 29375,
+          "css_gzip": 16842,
+          "js_gzip": 101952,
+          "font_bytes": 662120,
+          "image_bytes": 695647,
+          "image_count": 9,
+          "first_view": 1505936,
+          "over": false
+        }
+      ]
+    }
+  }
+}
