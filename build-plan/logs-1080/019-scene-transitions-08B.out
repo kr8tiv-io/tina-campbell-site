@@ -1,0 +1,71 @@
+I'll start by reading the scene plan, motion lock, and the 08B spec so the ink-flood transition matches the locked clip.The ink flood is a route transition, not a video scene. I'll add one persisted overlay and a single GSAP timeline: plume rise, hold, then a radial reveal.Preview is up. I'll check the timeline order and capture the flood at rise, hold, and reveal before running the gates.The seek hid the ink because GSAP suppresses callbacks on `pause()`, and a paused timeline never settles. I'll drive the mask from rendered values so a seek still shows the flood.Auto-compacting conversation (81% full)...
+Conversation compacted.
+The ink overlay is built into the latest dist, but it has not been checked in the browser. I will start the preview and confirm the rise, hold, and radial reveal actually paint.The timeline order is right, but the sheet never enters the viewport. The CSS park transform is stacking with GSAP `yPercent`, so the flood stays below the fold. I'll confirm that in the frames and then fix it.The rise runs, but the sheet stays below the fold because the CSS park transform stacks on GSAP’s `yPercent`. I’ll separate those transforms, keep the ink above the view-transition snapshot, and move focus after the swap.The ink flood now rises, holds solid, and opens with a radial reveal. Focus lands on the new heading. The seven video scene gates are running against that build.The flood is in place: the plume rises over the page, holds black, then thins from the centre onto the next cover. Keyboard, back, and reduced-motion swaps move focus to the new heading. The seven video scene gates are still running.The ink flood is in the build: the plume rises, holds black, then opens from the centre onto the next page. Focus moves to the new heading, including after keyboard, back, and reduced-motion swaps. The seven video scene gates are still running.
+
+01A still passes, worst SSIM 0.9774, same as the last prompt. The other six scene gates are still running.
+
+03B still passes, worst SSIM 0.9613, same as the last prompt. Four scene gates are left.
+
+04B still passes, worst SSIM 0.9531. Three scene gates are left.
+
+06B still passes, worst SSIM 0.9816. Three scene gates are left.
+
+09B still passes, worst SSIM 0.9319. 10A and 11B are still running.
+
+10A still passes, worst SSIM 0.9526. 11B is the last scene gate.
+
+All seven video scene gates passed, with the same worst SSIM scores as the last prompt. Seam and route checks are running next.
+
+Seam 01A-02A is a perfect match. The rest of the seam checks are still running.
+
+Seam 02A-03B also matches. The remaining seam checks are still running.
+
+Seam 03B-04B matches. Still running through the rest.
+
+The seam checks are still matching. I’ll take the route shots and the page-size capture once that set finishes.
+
+Seams are 10/10, and both route checks are 3/3 on desktop and mobile. I’m capturing the page screenshots next.
+
+The page-size sheet is in. Desktop runs the full-bleed flood; the audit’s phone row stays on the open menu because it clicks the hidden desktop link. Production tests are running on port 4831.
+
+The screenshot watcher closed after the shots were saved. Production Playwright is still running.
+
+The ink flood is the route change. A full-bleed plume rises over the current page, holds black, then thins from the centre onto the next page in about 1.2 seconds. Keyboard, back, forward, and reduced motion all land with focus on the new heading. Reduced motion and `?record=1` swap instantly.
+
+The seven video gates still match the last prompt. Seams are 10/10. Route checks are 3/3 on desktop and mobile. Production Playwright is 75 passed, 129 skipped, 0 failed. The client chunk grew by about 0.75 KB gzip. The report is `qa/019-scene-transitions-08B/REPORT.md`. Suggested commit: `feat(scene-08B): ink flood page transition`.
+
+On the page, the desktop flood is full-bleed. The edge is the ink-plume SVG, and the opening is a soft circle. The clip’s smoke and its generated end plate are not on the site. The audit’s phone row stays on the open menu, because it clicks the hidden desktop Work link. The visible menu link does run the flood.
+
+GATE 019-scene-transitions-08B: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+06B worst SSIM 0.9816
+08B no scene-gate SSIM (code scene); order rise, hold, radial reveal
+09B worst SSIM 0.9319
+10A worst SSIM 0.9526
+11B worst SSIM 0.9662
+
+The production watcher closed cleanly. Playwright finished with 75 passed, 129 skipped, and 0 failed. The gate result stands.
+
+GATE 019-scene-transitions-08B: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+06B worst SSIM 0.9816
+08B no scene-gate SSIM (code scene); order rise, hold, radial reveal
+09B worst SSIM 0.9319
+10A worst SSIM 0.9526
+11B worst SSIM 0.9662
+
+The production watcher confirmed the same result: the build completed, and Playwright finished with 75 passed, 129 skipped, and 0 failed.
+
+GATE 019-scene-transitions-08B: PASS
+01A worst SSIM 0.9774
+03B worst SSIM 0.9613
+04B worst SSIM 0.9531
+06B worst SSIM 0.9816
+08B no scene-gate SSIM (code scene); order rise, hold, radial reveal
+09B worst SSIM 0.9319
+10A worst SSIM 0.9526
+11B worst SSIM 0.9662

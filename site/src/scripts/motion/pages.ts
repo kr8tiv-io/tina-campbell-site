@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { isRecordMode } from './runtime';
 
 function finePointer(): boolean {
   return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -217,4 +218,214 @@ function initJournal(reduced: boolean): () => void {
     );
   });
   return () => {};
+}
+
+/**
+ * Scene 08B ink flood. Route changes only.
+ * Rise: plume sheet yPercent 100 to 0, 0.6s, power2.inOut.
+ * Hold: covered, while the next document swaps underneath.
+ * Reveal: radial mask thins from the centre over the next cover.
+ * Wall time about 1.2s. The 6s clip is the shape reference, not the duration.
+ * Reduced motion and record mode swap with no mask.
+ */
+const RISE = 0.6;
+const HOLD = 0.12;
+const REVEAL = 0.48;
+const REVEAL_AT = RISE + HOLD;
+
+type Prep = Event & {
+  loader: () => Promise<void>;
+  signal: AbortSignal;
+};
+
+declare global {
+  interface Window {
+    __SCENE_TL__?: Record<string, gsap.core.Timeline>;
+  }
+}
+
+function reducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function holdScroll(locked: boolean): void {
+  document.documentElement.classList.toggle('ink-flood-hold', locked);
+  window.__tcMotion?.holdScroll?.(locked);
+}
+
+function focusHeading(): void {
+  const heading = document.querySelector('main h1');
+  if (!(heading instanceof HTMLElement)) return;
+  if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+  heading.focus({ preventScroll: true });
+}
+
+let focusGen = 0;
+
+/** View transitions drop focus set inside the swap callback. Retry once the new page is live. */
+function focusHeadingSoon(): void {
+  const gen = ++focusGen;
+  const run = (): void => {
+    if (gen !== focusGen) return;
+    focusHeading();
+  };
+  run();
+  requestAnimationFrame(run);
+  window.setTimeout(run, 40);
+}
+
+export function bindInkFlood(): void {
+  const root = document.querySelector<HTMLElement>('[data-ink-flood]');
+  const sheet = root?.querySelector<HTMLElement>('[data-ink-sheet]');
+  if (!root || !sheet) return;
+
+  // Drop the CSS park transform before GSAP writes yPercent, same turn, so they do not add.
+  sheet.classList.add('is-armed');
+
+  const tl = gsap.timeline({ paused: true });
+  tl.addLabel('rise', 0);
+  tl.fromTo(
+    sheet,
+    { yPercent: 100 },
+    { yPercent: 0, duration: RISE, ease: 'power2.inOut', force3D: true, immediateRender: true },
+    0,
+  );
+  tl.addLabel('hold', RISE);
+  // Empty hold so the covered frame reads before the swap. Not a second mask tween.
+  tl.to({ hold: 0 }, { hold: 1, duration: HOLD, ease: 'none' }, RISE);
+  tl.addLabel('reveal', REVEAL_AT);
+  tl.fromTo(
+    root,
+    { '--ink-clear': '-24%', '--ink-edge': '-12%' },
+    {
+      '--ink-clear': '160%',
+      '--ink-edge': '210%',
+      duration: REVEAL,
+      ease: 'power2.inOut',
+      immediateRender: false,
+    },
+    REVEAL_AT,
+  );
+  tl.addLabel('end', RISE + HOLD + REVEAL);
+
+  let playing = false;
+  let navGen = 0;
+  let pendingReveal = false;
+  let pendingInstant = false;
+  let armFocus = false;
+  let releaseHold: (() => void) | null = null;
+
+  const syncVis = (): void => {
+    const moving = tl.time() > 0.004;
+    root.classList.toggle('is-on', playing || moving);
+  };
+
+  tl.eventCallback('onUpdate', () => {
+    syncVis();
+    if (releaseHold && tl.time() >= REVEAL_AT - 0.0001) {
+      tl.pause(REVEAL_AT);
+      const done = releaseHold;
+      releaseHold = null;
+      done();
+    }
+  });
+
+  tl.eventCallback('onComplete', () => {
+    if (!playing) return;
+    playing = false;
+    holdScroll(false);
+    tl.pause(0);
+    syncVis();
+  });
+
+  window.__SCENE_TL__ = window.__SCENE_TL__ || {};
+  window.__SCENE_TL__['08B'] = tl;
+
+  const blockScroll = (event: Event): void => {
+    if (!root.classList.contains('is-on')) return;
+    event.preventDefault();
+  };
+  root.addEventListener('wheel', blockScroll, { passive: false });
+  root.addEventListener('touchmove', blockScroll, { passive: false });
+
+  const waitHold = (signal: AbortSignal): Promise<void> =>
+    new Promise((resolve) => {
+      if (signal.aborted) {
+        resolve();
+        return;
+      }
+      const finish = (): void => resolve();
+      releaseHold = finish;
+      signal.addEventListener(
+        'abort',
+        () => {
+          if (releaseHold === finish) releaseHold = null;
+          resolve();
+        },
+        { once: true },
+      );
+    });
+
+  document.addEventListener('astro:before-preparation', (event) => {
+    const prep = event as Prep;
+    if (typeof prep.loader !== 'function') return;
+    if (reducedMotion() || isRecordMode()) {
+      pendingInstant = true;
+      armFocus = true;
+      return;
+    }
+    const original = prep.loader;
+    const signal = prep.signal;
+    prep.loader = async () => {
+      const gen = ++navGen;
+      const fetched = original();
+      playing = true;
+      holdScroll(true);
+      tl.pause(0);
+      syncVis();
+      const covered = waitHold(signal);
+      tl.play(0);
+      try {
+        await Promise.all([covered, fetched]);
+      } catch {
+        /* aborted fetch rejects; the signal check below drops the swap hook */
+      }
+      if (signal.aborted || gen !== navGen) {
+        pendingReveal = false;
+        if (gen === navGen) {
+          playing = false;
+          armFocus = false;
+          holdScroll(false);
+          tl.pause(0);
+          syncVis();
+        }
+        return;
+      }
+      pendingReveal = true;
+      armFocus = true;
+    };
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    if (pendingReveal) {
+      pendingReveal = false;
+      focusHeading();
+      tl.play();
+      return;
+    }
+    if (pendingInstant) {
+      pendingInstant = false;
+      playing = false;
+      holdScroll(false);
+      tl.pause(0);
+      syncVis();
+      focusHeading();
+    }
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    if (!armFocus) return;
+    armFocus = false;
+    focusHeadingSoon();
+  });
 }

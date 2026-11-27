@@ -17,7 +17,7 @@ import { initAbout } from './about';
 import { initAboutLights } from './scenes/about-lights';
 import { initFooterDrift } from './scenes/footer-drift';
 import { initPortraitsVeil } from './scenes/portraits-veil';
-import { initPages } from './pages';
+import { bindInkFlood, initPages } from './pages';
 import { initSeams } from './seams';
 import { initSceneVideos } from './scene-video';
 import { gsap, isRecordMode, ScrollTrigger, SplitText } from './runtime';
@@ -28,6 +28,7 @@ declare global {
       gsap: typeof gsap;
       ScrollTrigger: typeof ScrollTrigger;
       scrollTo: (y: number) => void;
+      holdScroll?: (locked: boolean) => void;
     };
   }
 }
@@ -38,10 +39,17 @@ export function scrollToY(y: number, immediate = false): void {
   ScrollTrigger.update();
 }
 
+function holdScroll(locked: boolean): void {
+  if (!lenis) return;
+  if (locked) lenis.stop();
+  else lenis.start();
+}
+
 window.__tcMotion = {
   gsap,
   ScrollTrigger,
   scrollTo: (y: number) => scrollToY(y, true),
+  holdScroll,
 };
 
 const REDUCED = '(prefers-reduced-motion: reduce)';
@@ -93,6 +101,7 @@ function setupLenis(reduced: boolean, fine: boolean): void {
     autoRaf: false,
     anchors: true,
   });
+  if (document.documentElement.classList.contains('ink-flood-hold')) lenis.stop();
   lenis.on('scroll', (instance) => {
     ScrollTrigger.update();
     syncHeroCopy(instance.scroll);
@@ -286,6 +295,7 @@ function boot(): void {
 export function bindMotion(): void {
   if (bound) return;
   bound = true;
+  bindInkFlood();
   document.addEventListener('astro:before-swap', () => {
     active = false;
     endLoader();

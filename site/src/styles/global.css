@@ -941,6 +941,75 @@ html.has-cursor .btn {
   padding: 1.25rem 1.5rem 1.5rem;
 }
 
+/* 08B ink flood. Sheet is 152vh tall, shifted up 50vh, then translateY(100%)
+   parks it 2vh below the fold. yPercent 0 covers the frame; the wave sits above it. */
+.ink-flood {
+  /* Negative stops stay solid black. A 0%/0% pair antialiases a hole. */
+  --ink-clear: -24%;
+  --ink-edge: -12%;
+  position: fixed;
+  inset: 0;
+  z-index: 96;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--ink-clear), #000 var(--ink-edge));
+  mask-image: radial-gradient(circle at 50% 50%, transparent var(--ink-clear), #000 var(--ink-edge));
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.ink-flood.is-on {
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.ink-flood__sheet {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 152%;
+  top: -50%;
+  /* Park below the fold before GSAP. .is-armed drops this so yPercent does not stack on it. */
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+.ink-flood__sheet.is-armed {
+  transform: none;
+}
+
+.ink-flood__wave {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 32.895%;
+  max-width: none;
+  object-fit: fill;
+  display: block;
+}
+
+.ink-flood__solid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(32.895% - 2px);
+  bottom: 0;
+  background: #0c0c0f;
+}
+
+/* The ink layer is the transition. A root or persist-group crossfade would cover it. */
+::view-transition-old(*),
+::view-transition-new(*),
+::view-transition-group(*) {
+  animation: none !important;
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  mix-blend-mode: normal !important;
+}
+
 .lost h1 {
   margin: 0;
   max-width: 12ch;

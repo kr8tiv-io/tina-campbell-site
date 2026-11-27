@@ -148,6 +148,12 @@ const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph 
       <slot />
       <Footer />
     </div>
+    <div class="ink-flood" data-ink-flood data-scene-overlay transition:persist="ink-flood" aria-hidden="true">
+      <div class="ink-flood__sheet" data-ink-sheet>
+        <img class="ink-flood__wave" src="/masks/ink-plume.svg" alt="" width="1440" height="810" decoding="async" />
+        <div class="ink-flood__solid"></div>
+      </div>
+    </div>
     <script>
       import { bindMotion } from '../scripts/motion/core';
       bindMotion();
