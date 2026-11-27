@@ -1554,8 +1554,11 @@ html.is-gate-02A .sheet__pool {
 }
 
 @media (max-width: 759px) {
+  /* 250svh of spacer, then the scrub continues to 20% before the 02A-03B pin.
+     Together that is 330svh: six even steps of about 0.55 screens. Desktop stays 150vh. */
   .sheet-scrub {
-    height: 110vh;
+    height: 250vh;
+    height: 250svh;
   }
 
   .sheet.is-film-gl,

@@ -149,3 +149,9 @@
 2026-11-27 07:50:12 CST END 021-staging-refresh rc=0
 2026-11-27 07:50:12 CST SUPERVISOR 021-staging-refresh grok rc=0
 2026-11-27 08:39:14 CST SUPERVISOR 021-staging-refresh operator gate FAIL try 1: playwright rc=1  1 failed  129 skipped  74 passed (19.8m) ;GATE 021-staging-refresh: FAIL;
+2026-11-27 09:14:40 CST SUPERVISOR 021-staging-refresh PASS committed+pushed 7b0b09c
+2026-11-27 09:14:40 CST SUPERVISOR brain checkpoint FAILED for 021-staging-refresh (see /tmp/sup-brain-tests.log); queue continues
+2026-11-27 09:14:40 CST SUPERVISOR launching 031-phone-strip-even-pace
+2026-11-27 09:14:40 CST START 031-phone-strip-even-pace pid 2161570
+2026-11-27 11:24:19 CST END 031-phone-strip-even-pace rc=0
+2026-11-27 11:24:19 CST SUPERVISOR 031-phone-strip-even-pace grok rc=0

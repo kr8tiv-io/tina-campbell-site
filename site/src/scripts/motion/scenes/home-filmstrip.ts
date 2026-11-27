@@ -608,9 +608,10 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
       scrub.className = 'sheet-scrub';
       scrub.dataset.sheetScrub = '';
       pair.after(scrub);
-      // isActive is false at progress 0 and 1. The snapped last frame sits on
-      // that pixel, which is also the bridge start, so the hold includes it
-      // and drops only once the 02A-03B track has reached the top.
+      // isActive is false at progress 0 and 1. Desktop ends on the spacer's
+      // bottom, which is also the bridge start, so the hold includes that
+      // pixel and drops only once the 02A-03B track has reached the top.
+      // Phone runs the same bridge; its scrub end is earlier than the pin.
       const syncHold = (): void => {
         const scrubHold = Boolean(trigger && trigger.isActive && trigger.progress > 0.02);
         let bridgeHold = false;
@@ -632,10 +633,17 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
           });
         }
       };
+      const nextTrack = document.querySelector<HTMLElement>('[data-seam-pair="02A-03B"] [data-track]');
+      // Phone only. Spacer is 250svh. The trigger then runs on until the next
+      // track is 20% from the top, so the six steps share 330svh and Landscape
+      // is not parked for a full screen before the echo pins. Desktop is the
+      // spacer alone: start top bottom, end bottom bottom, 150vh.
+      const phoneSpan = Boolean(phone && nextTrack);
       trigger = ScrollTrigger.create({
         trigger: scrub,
         start: 'top bottom',
-        end: 'bottom bottom',
+        end: phoneSpan ? 'top 20%' : 'bottom bottom',
+        ...(phoneSpan ? { endTrigger: nextTrack } : {}),
         scrub: 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true,
@@ -645,9 +653,14 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
           snapTo: 1 / STEPS,
           duration: 0.35,
           ease: 'power3.out',
-          // Phone only. The default follows scroll direction, so a short upward move
-          // near the last frame snapped back to frame 5. Nearest frame on both ways.
-          ...(phone ? { directional: false } : {}),
+          // Phone only. The echo is on screen during this longer scrub, and the
+          // default 0.1s delay starts the ease while a hold check is still reading
+          // the live sheet and the echo. Wait until the scroll has actually
+          // stopped, then ease onto the frame. A continuous drag is not pulled back.
+          // Desktop keeps the default delay. Nearest frame on both ways: the default
+          // follows scroll direction, so a short upward move near the last frame
+          // snapped back to frame 5.
+          ...(phone ? { directional: false, delay: 0.7 } : {}),
         },
         onToggle: () => {
           syncHold();
@@ -659,7 +672,6 @@ async function mountGl(live: HTMLElement, flags: MountFlags): Promise<void> {
           apply(self.progress, Math.max(lenis, scrolled));
         },
       });
-      const nextTrack = document.querySelector<HTMLElement>('[data-seam-pair="02A-03B"] [data-track]');
       if (nextTrack) {
         bridge = ScrollTrigger.create({
           trigger: scrub,

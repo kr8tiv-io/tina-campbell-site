@@ -1,0 +1,8 @@
+01A PASS worst=0.9774 (frame 95) mean=0.9794 bad=0/145 []
+03B PASS worst=0.9613 (frame 83) mean=0.9693 bad=0/145 []
+04B PASS worst=0.9531 (frame 1) mean=0.9597 bad=0/145 []
+06B PASS worst=0.9816 (frame 5) mean=0.9906 bad=0/145 []
+09B PASS worst=0.9319 (frame 1) mean=0.9411 bad=0/145 []
+10A PASS worst=0.9526 (frame 73) mean=0.9727 bad=0/145 []
+11B PASS worst=0.9662 (frame 5) mean=0.9772 bad=0/145 []
+VERDICT: PASS

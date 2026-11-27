@@ -1,0 +1,41 @@
+I'll start by reading the motion lock, the phone-strip spec, and the current scrub implementation so the pace change stays phone-only.The scrub is a spacer after the 01A–02A seam. I'll map how that spacer, the hold, and the category snap interact before changing phone pace.The preview is up. I'll sample the phone strip every 40px and record desktop snap positions before changing anything.The strip is fully on screen only as the hold starts, then the six steps share about 930px and Landscape sits for another viewport. I'll stretch the phone scrub and cut that final hold, and keep the desktop path as it is.The phone scrub is now 3.3 screens, split evenly, and Landscape holds for under half a screen. Desktop snap positions match the previous build. Next I’ll lock that in a test.Auto-compacting conversation (80% full)...
+Conversation compacted.
+The phone scrub change is already in place. I'll re-run the pace tests with the longer flicker search, then finish the remaining specs, gates, and the report.The pace test never started: the command ran outside `site`, so Playwright did not see the `test` command. I'll run it from `site`.Phone pace passed, including the 1440 frame compare. Next I’ll measure the after step table and run the specs that must stay green.The phone hold test failed: echo labels drift 6.7px from the live strip. I’ll trace when those labels are copied so the longer scrub does not move them.The longer phone scrub leaves the strip mid-snap while the echo is on screen. The hold check reads the live labels and the echo a frame apart, so they drift by about 7px. I’ll keep the scroll distances and finish the phone snap before that check. Desktop snap stays 0.35s.Auto-compacting conversation (82% full)...
+Conversation compacted.
+The production Playwright run is still going. I'll check its log and the portraits page failure before writing the report.The suite is at test 22 of 228, with one failure on the portraits page. I'll check whether that comes from this phone-strip change while the run continues.The phone film strip now gives each category the same scroll on screens under 760px wide. Desktop scrub is unchanged. Shared scene and seam gates passed. The production Playwright run is still going (228 tests).
+
+One case already failed: desktop `editorial.spec.ts` portraits, looking for "Staircases, glass and great light." That sentence is in the page. Chapter copy starts at `autoAlpha: 0` until its ScrollTrigger plays, so `main.innerText` can miss it. Prompts 026 and 029 recorded the same flake, and a retry passed. This change does not touch that page. I will retry it if it is the only failure, then write `qa/031-phone-strip-even-pace/REPORT.md`.
+
+A related Playwright run just exited with a failure. I'll read that result and check whether the full production suite is still going.The failed run that just finished is the earlier related-spec pass on port 4815, from before the phone snap delay. It failed one case: the 390×844 strip-hold check, where the echo labels were still moving when the test read them. That case was re-run after the delay change and passed.
+
+The production suite on port 4831 is the one that counts. It is still running, about 35 of 228 tests in. Desktop laptop hold checks through 1920×1080 have passed. The only failure so far is the known portraits `innerText` flake, which does not come from this phone-strip change. I will write the report when that suite exits.
+
+That re-run exited with a failure. I'll check whether it is the old snap attempt or a new break, and where the production suite stands.The port 4817 failure is the earlier snap attempt, the one with the short ease. The current production suite has already moved past that case.
+
+On this build, the 390×844 strip-hold test passed, and the flood check after it passed too. The phone pace test is running now, test 40 of 228. The only failure still on the board is the portraits page flake from the start of the run.
+
+The suite hit a second failure, in the work-page hover ripple recording. I'll read that error and see whether this phone-strip change caused it.The second failure is the work-page hover recording, and it is the same timeout prompt 026 already logged. The test spent its 120 seconds waiting for `loader-skip` on `/work/` and never reached the ripple. The work grid test just before it passed. This page does not use the phone film strip.
+
+`phone-pace` finished all six cases in this run with no failure, including both phone sizes, reduced motion, and the three desktop frame checks. The suite is on the mobile project now, about 65 of 228.
+
+The production suite finished with a failure. I'll read the summary and every failed test before deciding whether a retry is enough.The first production Playwright run finished at 79 passed, 147 skipped, and 2 failed. Both failures are flakes that earlier prompts already logged, and neither one uses the phone film strip.
+
+- Portraits missed "Staircases, glass and great light." in `main.innerText` because that chapter copy stays hidden until its scroll trigger plays.
+- The work-page hover recording timed out waiting for `loader-skip` before the hover started.
+
+A retry of those two tests passed in 21.5 seconds. Phone pace, the toolbar, laptop hold (including 390×844), post-strip, home, and home-lock had no failures. A confirmation run of all 228 tests is going now so the report can record a clean 0-failed result.
+
+The confirmation suite exited cleanly. I'll read the pass count, then write the report.The phone film strip now gives each of the seven categories the same share of the pinned scroll. Desktop scrub length, snap, and geometry are unchanged.
+
+On screens under 760 px the spacer is 250svh, and the scrub continues until the 02A-03B track is 20% from the top, so the six steps share about 330svh. The first step starts within 0.35 screens of the strip being held, and Landscape holds for under 0.6 screens before the hand-off. Phone snap keeps the 0.35s ease and waits 0.7s after scrolling stops, so the echo labels are still when the hold check reads them.
+
+At 390×844 the progress steps are 464, 468, 464, 464, 464, 464 px (about 0.55 screens). Still lead is 180 px. Final hold is 400 px. At 393×852 the steps are 472 then five at 468 px, still lead 176 px, final hold 404 px. Desktop category scroll positions match 991b24e exactly. Reduced motion stays at scroll height 5327 with no scrub and no pin.
+
+Scene, seam, and route gates passed. The first production Playwright run had two known flakes (portraits `innerText`, work hover timeout). Both passed on retry. The confirmation run was 81 passed, 147 skipped, 0 failed.
+
+`qa/031-phone-strip-even-pace/REPORT.md` has the before and after step table. Not committed.
+
+GATE 031-phone-strip-even-pace: PASS
+01A worst SSIM 0.9774 (frame 95)
+03B worst SSIM 0.9613 (frame 83)
+04B worst SSIM 0.9531 (frame 1)
